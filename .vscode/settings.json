@@ -3,7 +3,7 @@
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "window.zoomLevel": 0,
+  "window.zoomLevel": 1,
   "eslint.format.enable": true, // This is super important
   "editor.suggestSelection": "first",
   "editor.fontLigatures": true,
