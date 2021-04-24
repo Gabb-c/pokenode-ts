@@ -14,8 +14,7 @@
   },
   "workbench.startupEditor": "newUntitledFile",
   "eslint.run": "onSave", // This is super important
-  "eslint.alwaysShowStatus": true,
-  "editor.formatOnSave": true, // This is super important
+  "eslint.alwaysShowStatus": true, // This is super important
   "eslint.codeAction.showDocumentation": {
     "enable": true
   },

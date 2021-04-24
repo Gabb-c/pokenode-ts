@@ -7,4 +7,4 @@ code --install-extension eg2.vscode-npm-script &&
 code --install-extension mikestead.dotenv &&
 code --install-extension ms-vscode.cpptools &&
 code --install-extension redhat.vscode-yaml &&
-code --install-extension xabikos.JavaScriptSnippets &&
+code --install-extension xabikos.JavaScriptSnippets
