@@ -1,7 +1,7 @@
 {
-  "name": "node-ts-setup",
+  "name": "pokenode",
   "version": "1.0.0",
-  "description": "",
+  "description": "The PokeAPI Node wrapper build in TypeScript",
   "main": "index.js",
   "scripts": {
     "build": "babel src --extensions .js,.ts --out-dir dist --copy-files --no-copy-ignored",
@@ -48,6 +48,7 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "express": "^4.17.1"
   }
 }

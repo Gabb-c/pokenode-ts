@@ -1,9 +1,5 @@
-import express from 'express';
+import * as Pokenode from './apis';
+import * as constants from './constants';
 
-const app = express();
-
-app.use('/', (request, response) => {
-  response.json({ message: 'Hello World !' });
-});
-
-app.listen(3333);
+export default Pokenode;
+export const Constants = constants;
