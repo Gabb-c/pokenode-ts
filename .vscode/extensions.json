@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "christian-kohler.path-intellisense",
+    "codezombiech.gitignore",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "EditorConfig.EditorConfig",
+    "mikestead.dotenv",
+    "ms-vscode.cpptools",
+    "redhat.vscode-yaml",
+    "xabikos.JavaScriptSnippets"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "name": "node-ts-setup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src --extensions .js,.ts --out-dir dist --copy-files --no-copy-ignored",
+    "dev": "ts-node-dev -r --respawn --transpile-only --ignore-watch node_modules src/server.ts",
+    "start": "node dist/server.js",
+    "tsc": "tsc --skipLibCheck",
+    "lint": "eslint src --ext js,ts",
+    "lint:fix": "eslint src --ext js,ts --fix",
+    "format": "prettier 'src/**/*.[jt]s?(x)' --write",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test": "jest --passWithNoTests",
+    "prepare": "husky install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.13.16",
+    "@babel/node": "^7.13.13",
+    "@babel/preset-env": "^7.13.15",
+    "@babel/preset-typescript": "^7.13.0",
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "@types/express": "^4.17.11",
+    "@types/typescript": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.5.5",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

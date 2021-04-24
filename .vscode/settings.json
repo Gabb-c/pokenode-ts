@@ -1,0 +1,44 @@
+{
+  "files.autoSave": "off",
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "window.zoomLevel": 0,
+  "eslint.format.enable": true, // This is super important
+  "editor.suggestSelection": "first",
+  "editor.fontLigatures": true,
+  "editor.semanticHighlighting.enabled": false,
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": { // This is super important
+    "source.fixAll.eslint": true
+  },
+  "workbench.startupEditor": "newUntitledFile",
+  "eslint.run": "onSave", // This is super important
+  "eslint.alwaysShowStatus": true,
+  "editor.formatOnSave": true, // This is super important
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  },
+  "typescript.tsserver.log": "verbose",
+  "javascript.suggest.autoImports": true,
+  "typescript.suggest.autoImports": true,
+  "screencastMode.onlyKeyboardShortcuts": true,
+  "breadcrumbs.enabled": true,
+  "editor.parameterHints.enabled": false,
+  "eslint.packageManager": "yarn", // If you're working with npm, just change this to "eslint.packageManager": "npm"
+  "files.associations": {
+    ".sequelizerc": "javascript",
+    ".stylelintrc": "json",
+    ".prettierrc": "json",
+    "*.tsx": "typescriptreact"
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/node_modules/**": true
+  },
+  "emmet.showSuggestionsAsSnippets": true,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  }
+}
