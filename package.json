@@ -30,7 +30,7 @@
     "@types/express": "^4.17.11",
     "@types/typescript": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/parser": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^7.25.0",
     "eslint-config-airbnb-base": "^14.2.1",
