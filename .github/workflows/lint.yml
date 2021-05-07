@@ -28,8 +28,5 @@ jobs:
       - name: Install Dependencies
         run: yarn --frozen-lockfile
 
-      - name: Audit Dependencies
-        run: yarn audit
-
       - name: Lint
         run: yarn lint

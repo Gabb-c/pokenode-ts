@@ -23,8 +23,5 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
 
-      - name: Audit Dependencies
-        run: yarn audit
-
       - name: Type check
         run: yarn types
