@@ -1,34 +1,26 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "lib": [
-      "ES6"
-    ],
-    "module": "CommonJS",
+    "target": "ESNext",
     "allowJs": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "removeComments": true,
-    "noEmit": true,
-    "strict": false,
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/@types"
-    ],
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
     "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "rootDir": "./src",
+    "outDir": "./dist"
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
     "node_modules",
-    "**/__tests__/**/*.[jt]s?(x)",
-    "**/?(*.)+(spec|test).[tj]s?(x)",
+    "dist",
+    "**/*.spec.ts",
+    "**/*.test.ts"
   ]
 }

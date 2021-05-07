@@ -5,9 +5,9 @@
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
     "EditorConfig.EditorConfig",
-    "mikestead.dotenv",
-    "ms-vscode.cpptools",
+    "ms-vscode.vscode-typescript-next",
     "redhat.vscode-yaml",
+    "VisualStudioExptTeam.vscodeintellicode",
     "xabikos.JavaScriptSnippets"
-  ]
+  ],
 }
