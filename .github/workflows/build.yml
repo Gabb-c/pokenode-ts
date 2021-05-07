@@ -28,7 +28,4 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Build
-        run: yarn build
-
-      - name: Types
-      - run: yarn types
+        run: yarn build && yarn types
