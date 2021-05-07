@@ -29,3 +29,6 @@ jobs:
 
       - name: Build
         run: yarn build
+
+      - name: Types
+      - run: yarn types
