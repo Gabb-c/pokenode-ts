@@ -7,3 +7,5 @@ export * from './Game';
 export * from './Item';
 export * from './Location';
 export * from './Machine';
+export * from './Moves';
+export * from './Pokemon';
