@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 
-import { Name } from '../Common/name';
-import { NamedAPIResource } from '../Common/resource';
+import { Name, NamedAPIResource } from '../Common';
 
 export interface Berry {
   id: number;
