@@ -6,3 +6,4 @@ export * from './Evolution';
 export * from './Game';
 export * from './Item';
 export * from './Location';
+export * from './Machine';
