@@ -1,6 +1,5 @@
 node_modules/
 dist/
 coverage/
-.cache/
 .github/
 .vscode/
