@@ -6,3 +6,4 @@ export * from './growth-rates';
 export * from './nature';
 export * from './pokeathlon-stat';
 export * from './stats';
+export * from './type';
