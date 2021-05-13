@@ -43,13 +43,13 @@ export interface Pokemon {
   /** A link to a list of location areas, as well as encounter details pertaining to specific versions */
   location_area_encounters: string;
   /** A list of moves along with learn methods and level details pertaining to specific version groups */
-  moves: PokemonMove;
+  moves: PokemonMove[];
   /** A set of sprites used to depict this Pokémon in the game.
    * A visual representation of the various sprites can be found at [PokeAPI/sprites](https://github.com/PokeAPI/sprites#sprites)
    */
   sprites: PokemonSprites;
   /** The species this Pokémon belongs to */
-  species: NamedAPIResource[];
+  species: NamedAPIResource;
   /** A list of base stat values for this Pokémon */
   stats: PokemonStat[];
   /** A list of details showing types this Pokémon has */
@@ -69,7 +69,7 @@ export interface PokemonAbility {
 }
 
 /**
- * Pokémon type
+ * Details showing types the given Pokémon has
  */
 export interface PokemonType {
   /** The order the Pokémon's types are listed in */
@@ -125,7 +125,7 @@ export interface PokemonMoveVersion {
  */
 export interface PokemonStat {
   /** The stat the Pokémon has */
-  pokemon_stat: NamedAPIResource;
+  stat: NamedAPIResource;
   /** The effort points (EV) the Pokémon has in the stat */
   effort: number;
   /** The base value of the stat */
@@ -154,8 +154,10 @@ export interface PokemonSprites {
   back_shiny_female: string;
 }
 
-/** Pokémon location areas where Pokémon can be found */
-export interface PokemonAreaEncounter {
+/**
+ * Pokémon location areas where Pokémon can be found
+ */
+export interface LocationAreaEncounter {
   /** The location area the referenced Pokémon can be encountered in */
   location_area: NamedAPIResource;
   /** A list of versions and encounters with the referenced Pokémon that might happen */
@@ -254,6 +256,8 @@ export interface PokemonShape {
   awesome_names: AwesomeName[];
   /** The name of this resource listed in different languages */
   names: Name[];
+  /** A list of the Pokémon species that have this shape */
+  pokemon_species: NamedAPIResource[];
 }
 
 /**
