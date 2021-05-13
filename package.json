@@ -19,7 +19,7 @@
     "prepare": "husky install"
   },
   "keywords": [],
-  "author": "",
+  "author": "Gabb-c",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.13.16",
@@ -29,7 +29,6 @@
     "@babel/preset-typescript": "^7.13.0",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
-    "@types/express": "^4.17.11",
     "@types/jest": "^26.0.23",
     "@types/typescript": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
@@ -53,6 +52,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "express": "^4.17.1"
+    "http-status-codes": "^2.1.4",
+    "lodash": "^4.17.21"
   }
 }
