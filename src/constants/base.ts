@@ -2,5 +2,4 @@
 
 export enum BaseURL {
   REST = 'https://pokeapi.co/api/v2',
-  GraphQl = 'https://beta.pokeapi.co/graphql/v1beta',
 }

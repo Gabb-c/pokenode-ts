@@ -1,1 +1,2 @@
-export * from './apiUrls';
+export * from './base';
+export * from './endpoints';

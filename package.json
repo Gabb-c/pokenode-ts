@@ -6,8 +6,6 @@
   "types": "@types/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node-dev -r --respawn --transpile-only --ignore-watch node_modules src/index.ts",
-    "start": "node dist/index.js",
     "types": "dts-bundle --removeSource --name pokenode --main ./dist --out ./@types/index.d.ts --baseDir ./dist",
     "docs": "docsify serve ./docs",
     "lint": "eslint src --ext js,ts",
@@ -19,7 +17,10 @@
     "prepare": "husky install"
   },
   "keywords": [],
-  "author": "Gabb-c",
+  "author": {
+    "name": "Gabb-c",
+    "url": "https://github.com/Gabb-c"
+  },
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.13.16",
