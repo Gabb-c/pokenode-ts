@@ -14,7 +14,7 @@
     "format": "prettier 'src/**/*.[jt]s?(x)' --write",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test": "jest --passWithNoTests",
+    "test": "jest --verbose --colors --expand",
     "prepare": "husky install"
   },
   "keywords": [],
