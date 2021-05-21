@@ -17,10 +17,16 @@
     "test": "jest --verbose --colors --expand",
     "prepare": "husky install"
   },
-  "keywords": [],
+  "keywords": [
+    "pokeapi, pokenode"
+  ],
   "author": {
     "name": "Gabb-c",
     "url": "https://github.com/Gabb-c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gabb-c/pokenode"
   },
   "license": "MIT",
   "devDependencies": {
