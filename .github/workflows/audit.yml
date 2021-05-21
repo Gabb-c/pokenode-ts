@@ -1,4 +1,4 @@
-name: Build
+name: Audit Dependencies
 
 on:
   pull_request:
@@ -27,5 +27,5 @@ jobs:
       - name: Install Dependencies
         run: yarn --frozen-lockfile
 
-      - name: Build
-        run: yarn build:ci
+      - name: Audit Dependencies
+        run: yarn audit

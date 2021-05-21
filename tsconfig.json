@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ESNext",
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
+    "declaration": false,
     "esModuleInterop": true,
-    "module": "ES6",
+    "module": "ESNext",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
