@@ -6,7 +6,7 @@
   "types": "@types/index.d.ts",
   "scripts": {
     "build": "tsc --diagnostics --pretty",
-    "types": "dts-bundle-generator -o ./dist/@types/index.d.ts ./src/index.ts --project ./tsconfig.json",
+    "types": "dts-bundle-generator -o ./dist/@types/index.d.ts ./src/index.ts --project ./tsconfig.json --umd-module-name pokenode",
     "build:ci": "yarn build && yarn types",
     "docs": "docsify serve ./docs",
     "lint": "eslint src --ext js,ts",
