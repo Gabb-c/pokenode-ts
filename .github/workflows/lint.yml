@@ -9,7 +9,6 @@ on:
 
 jobs:
   code:
-    name: Lint code
     runs-on: ubuntu-latest
 
     strategy:
