@@ -1,12 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from '../models';
 import client from '../config/axios';
 import { Endpoints } from '../constants/endpoints';
 
 export class ContestClient {
-  private api = client;
+  private api: AxiosInstance = client;
 
   /**
    * Get a Contest Type by it's name

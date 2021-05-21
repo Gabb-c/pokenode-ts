@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { Effect, FlavorText, NamedAPIResource } from '../Common';
 
 /**

@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { Effect, Name, NamedAPIResource, VerboseEffect } from '../Common';
 
 /**

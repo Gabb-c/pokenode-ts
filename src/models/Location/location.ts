@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { GenerationGameIndex, Name, NamedAPIResource } from '../Common';
 import { EncounterMethodRate, PokemonEncounter } from './encounter';
 

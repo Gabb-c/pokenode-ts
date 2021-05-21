@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { Description, NamedAPIResource } from '../Common';
 
 export interface GrowthRateExperienceLevel {

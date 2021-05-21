@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { Name, NamedAPIResource } from '../Common';
 
 /** Berries are small fruits that can provide HP and status condition restoration,

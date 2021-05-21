@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { APIResource, Name, NamedAPIResource } from '../Common';
 
 /**

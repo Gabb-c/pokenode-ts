@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { NamedAPIResource } from '../Common';
 import { EvolutionDetail } from './evolution';
 

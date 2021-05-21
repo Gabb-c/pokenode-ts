@@ -1,12 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from '../models';
 import client from '../config/axios';
 import { Endpoints } from '../constants/endpoints';
 
 export class BerryClient {
-  private api = client;
+  private api: AxiosInstance = client;
 
   /**
    * Get a Berry by it's name

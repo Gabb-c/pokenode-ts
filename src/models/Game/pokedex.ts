@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { Description, Name, NamedAPIResource } from '../Common';
 import { PokemonEntry } from './pokemon-entry';
 

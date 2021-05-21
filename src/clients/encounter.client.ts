@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import {
   EncounterCondition,
   EncounterConditionValue,
@@ -11,7 +11,7 @@ import client from '../config/axios';
 import { Endpoints } from '../constants/endpoints';
 
 export class EncounterClient {
-  private api = client;
+  private api: AxiosInstance = client;
 
   /**
    * Get an Encounter Method by it's name
