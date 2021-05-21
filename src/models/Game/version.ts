@@ -1,7 +1,9 @@
 import { Name, NamedAPIResource } from '../Common';
 
 /**
- * Versions of the games, e.g., Red, Blue or Yellow
+ * ## Version
+ * Versions of the games, e.g., Red, Blue or Yellow,
+ * Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Core_series) for greater details.
  */
 export interface Version {
   /** The identifier for this resource */

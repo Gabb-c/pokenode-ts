@@ -1,6 +1,7 @@
 import { Effect, FlavorText, NamedAPIResource } from '../Common';
 
 /**
+ * ## Contest Type
  * Contest types are categories judges used to weigh a Pokémon's condition in Pokémon contests.
  * Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Contest_condition) for greater detail
  */

@@ -22,10 +22,11 @@ export interface EvolutionDetail {
 }
 
 /**
+ * ## Evolution Chain
  * Evolution chains are essentially family trees.
  * They start with the lowest stage within a family and detail
  * evolution conditions for each as well as Pokémon they can evolve
- * into up through the hierarchy
+ * into up through the hierarchy. Check out [Bulbapedia](https://github.com/Gabb-c/pokenode)
  */
 export interface EvolutionChain {
   /** The identifier for this resource */
