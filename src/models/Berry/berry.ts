@@ -1,6 +1,7 @@
 import { Name, NamedAPIResource } from '../Common';
 
-/** Berries are small fruits that can provide HP and status condition restoration,
+/**
+ * Berries are small fruits that can provide HP and status condition restoration,
  * stat enhancement, and even damage negation when eaten by Pokémon.
  * Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Berry) for greater detail
  */
