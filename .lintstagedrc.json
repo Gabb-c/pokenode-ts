@@ -1,6 +1,6 @@
 {
   "src/**/*.{js,ts,tsx}": [
-    "eslint --ext js,ts,tsx --fix",
-    "prettier 'src/**/*.[jt]s?(x)' --write"
+    "yarn lint:fix",
+    "yarn format"
   ]
 }
