@@ -1,5 +1,5 @@
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from '../models';
-import { BerryClient } from '../clients/berry.client';
+import { BerryClient } from '../clients';
 
 describe('Test Berry Client', () => {
   let client: BerryClient;
