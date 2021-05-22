@@ -15,7 +15,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test": "jest --verbose --colors --expand",
-    "prepare": "husky install"
+    "prepare": "is-ci || husky install"
   },
   "keywords": [
     "pokeapi, pokenode"
