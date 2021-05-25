@@ -3,7 +3,7 @@
 import { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from '../models';
 import client from '../config/axios';
-import { Endpoints } from '../constants/endpoints';
+import { Endpoints } from '../constants';
 
 export class BerryClient {
   private api: AxiosInstance = client;
