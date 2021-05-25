@@ -1,9 +1,11 @@
 import { Effect, Name, NamedAPIResource, VerboseEffect } from '../Common';
 
 /**
+ * ## Ability
  * Abilities provide passive effects for Pokémon in battle or in the overworld.
  * Pokémon have multiple possible abilities but can have only one ability at a time.
- * Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Ability) for greater detail */
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Ability) for greater detail.
+ */
 export interface Ability {
   /** The identifier for this resource */
   id: number;

@@ -1,8 +1,9 @@
 import { Name, NamedAPIResource } from '../Common';
 
 /**
+ * ## Nature
  * Natures influence how a Pokémon's stats grow.
- * See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Nature) for greater detail
+ * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Nature) for greater detail
  */
 export interface Nature {
   /** The identifier for this resource */

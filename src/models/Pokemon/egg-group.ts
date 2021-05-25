@@ -1,9 +1,10 @@
 import { Name, NamedAPIResource } from '../Common';
 
 /**
+ * ## Egg Group
  * Egg Groups are categories which determine which Pokémon are able to interbreed.
  * Pokémon may belong to either one or two Egg Groups.
- * Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Egg_Group) for greater detail
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Egg_Group) for greater details.
  */
 export interface EggGroup {
   /** The identifier for this resource */
