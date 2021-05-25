@@ -6,7 +6,7 @@ import { PokemonEntry } from './pokemon-entry';
  * A Pokédex is a handheld electronic encyclopedia device;
  * one which is capable of recording and retaining information of the various Pokémon in a given region
  * with the exception of the national dex and some smaller dexes related to portions of a region.
- * See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9dex) for greater detail
+ * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9dex) for greater detail
  */
 export interface Pokedex {
   /** The identifier for this resource */

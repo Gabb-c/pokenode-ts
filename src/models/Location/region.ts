@@ -1,9 +1,11 @@
 import { Name, NamedAPIResource } from '../Common';
 
 /**
+ * ## Region
  * A region is an organized area of the Pokémon world.
  * Most often, the main difference between regions is
- * the species of Pokémon that can be encountered within them
+ * the species of Pokémon that can be encountered within them.
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Region) for greater details.
  */
 export interface Region {
   /** The identifier for this resource */

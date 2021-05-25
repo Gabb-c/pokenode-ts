@@ -3,7 +3,7 @@ import { Name, NamedAPIResource } from '../Common';
 /**
  * ## Version
  * Versions of the games, e.g., Red, Blue or Yellow,
- * Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Core_series) for greater details.
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Core_series) for greater details.
  */
 export interface Version {
   /** The identifier for this resource */
@@ -17,6 +17,7 @@ export interface Version {
 }
 
 /**
+ * ## Version Group
  * Version groups categorize highly similar versions of the games
  */
 export interface VersionGroup {

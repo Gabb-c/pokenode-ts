@@ -2,8 +2,10 @@ import { GenerationGameIndex, Name, NamedAPIResource } from '../Common';
 import { EncounterMethodRate, PokemonEncounter } from './encounter';
 
 /**
+ * ## Location
  * Locations that can be visited within the games.
- * Locations make up sizable portions of regions, like cities or routes
+ * Locations make up sizable portions of regions, like cities or routes.
+ * - Check the [List of Locations](https://bulbapedia.bulbagarden.net/wiki/List_of_locations_by_name)
  */
 export interface Location {
   /** The identifier for this resource */
@@ -21,8 +23,10 @@ export interface Location {
 }
 
 /**
+ * ## Location Area
  * Location areas are sections of areas, such as floors in a building or cave.
- * Each area has its own set of possible Pokémon encounters
+ * Each area has its own set of possible Pokémon encounters.
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Area) for more details.
  */
 export interface LocationArea {
   /** The identifier for this resource */
