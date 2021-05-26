@@ -1,4 +1,5 @@
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from '../models';
+import { Berries, BerryFirmnesses, BerryFlavors } from '../constants';
 import { BerryClient } from '../clients';
 
 describe('Test Berry Client', () => {
@@ -11,10 +12,10 @@ describe('Test Berry Client', () => {
   it('Check if it returns a berry passig a name', async () => {
     const data = await client.getBerryByName('cheri').then((response: Berry) => response);
 
-    expect(data.name).toBe('cheri');
+    expect(data.id).toBe(Berries.CHERI);
   });
   it('Check if it returns a berry passing an ID', async () => {
-    const data = await client.getBerryById(1).then((response: Berry) => response);
+    const data = await client.getBerryById(Berries.CHERI).then((response: Berry) => response);
 
     expect(data.name).toBe('cheri');
   });
@@ -32,7 +33,9 @@ describe('Test Berry Client', () => {
     expect(data.name).toBe('very-soft');
   });
   it('Check if it returns a berry firmness passing an ID', async () => {
-    const data = await client.getBerryFirmnessById(1).then((response: BerryFirmness) => response);
+    const data = await client
+      .getBerryFirmnessById(BerryFirmnesses.VERY_SOFT)
+      .then((response: BerryFirmness) => response);
 
     expect(data.name).toBe('very-soft');
   });
@@ -49,10 +52,12 @@ describe('Test Berry Client', () => {
       .getBerryFlavorByName('spicy')
       .then((response: BerryFlavor) => response);
 
-    expect(data.name).toBe('spicy');
+    expect(data.id).toBe(BerryFlavors.SPICY);
   });
   it('Check if it returns a berry flavor passing an ID', async () => {
-    const data = await client.getBerryFlavorById(1).then((response: BerryFlavor) => response);
+    const data = await client
+      .getBerryFlavorById(BerryFlavors.SPICY)
+      .then((response: BerryFlavor) => response);
 
     expect(data.name).toBe('spicy');
   });

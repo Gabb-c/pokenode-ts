@@ -1,4 +1,5 @@
 import { Generation, NamedAPIResourceList, Pokedex, Version, VersionGroup } from '../models';
+import { Generations, Pokedexes, Versions, VersionGroups } from '../constants';
 import { GameClient } from '../clients';
 
 describe('Test Game Client', () => {
@@ -13,14 +14,16 @@ describe('Test Game Client', () => {
       .getGenerationByName('generation-i')
       .then((response: Generation) => response);
 
-    expect(data.name).toBe('generation-i');
+    expect(data.id).toBe(Generations.GENERATION_I);
   });
   it('Check if it returns a generation passing an ID', async () => {
-    const data = await client.getGenerationById(1).then((response: Generation) => response);
+    const data = await client
+      .getGenerationById(Generations.GENERATION_I)
+      .then((response: Generation) => response);
 
     expect(data.name).toBe('generation-i');
   });
-  it('Check if it returns a list of berries', async () => {
+  it('Check if it returns a list of generations', async () => {
     const data = await client.listGenerations().then((response: NamedAPIResourceList) => response);
 
     expect(data.results.length).toBeGreaterThan(0);
@@ -29,10 +32,12 @@ describe('Test Game Client', () => {
   it('Check if it returns a pokedex passig a name', async () => {
     const data = await client.getPokedexByName('national').then((response: Pokedex) => response);
 
-    expect(data.name).toBe('national');
+    expect(data.id).toBe(Pokedexes.NATIONAL);
   });
   it('Check if it returns a pokedex passing an ID', async () => {
-    const data = await client.getPokedexById(1).then((response: Pokedex) => response);
+    const data = await client
+      .getPokedexById(Pokedexes.NATIONAL)
+      .then((response: Pokedex) => response);
 
     expect(data.name).toBe('national');
   });
@@ -45,10 +50,10 @@ describe('Test Game Client', () => {
   it('Check if it returns a version passig a name', async () => {
     const data = await client.getVersionByName('red').then((response: Version) => response);
 
-    expect(data.name).toBe('red');
+    expect(data.id).toBe(Versions.RED);
   });
   it('Check if it returns a version passing an ID', async () => {
-    const data = await client.getVersionById(1).then((response: Version) => response);
+    const data = await client.getVersionById(Versions.RED).then((response: Version) => response);
 
     expect(data.name).toBe('red');
   });
@@ -63,10 +68,12 @@ describe('Test Game Client', () => {
       .getVersionGroupByName('red-blue')
       .then((response: VersionGroup) => response);
 
-    expect(data.name).toBe('red-blue');
+    expect(data.id).toBe(VersionGroups.RED_BLUE);
   });
   it('Check if it returns a version group passing an ID', async () => {
-    const data = await client.getVersionGroupById(1).then((response: VersionGroup) => response);
+    const data = await client
+      .getVersionGroupById(VersionGroups.RED_BLUE)
+      .then((response: VersionGroup) => response);
 
     expect(data.name).toBe('red-blue');
   });

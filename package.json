@@ -1,7 +1,7 @@
 {
   "name": "pokenode",
   "version": "1.0.0",
-  "description": "The PokeAPI Node wrapper build in TypeScript",
+  "description": "The PokéAPI Node.js wrapper build in TypeScript",
   "main": "dist/index.js",
   "types": "@types/index.d.ts",
   "scripts": {
@@ -12,13 +12,14 @@
     "lint": "eslint src --ext js,ts",
     "lint:fix": "eslint src --ext js,ts --fix",
     "format": "prettier 'src/**/*.[jt]s?(x)' --write",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watch --verbose --colors --expand --maxWorkers=25%",
     "test:coverage": "jest --coverage",
-    "test": "jest --verbose --colors --expand",
+    "test:dev": "jest --verbose --colors --expand --maxWorkers=50% --detectOpenHandles --errorOnDeprecated",
+    "test:ci": "jest --ci --runInBand",
     "prepare": "is-ci || husky install"
   },
   "keywords": [
-    "pokeapi, pokenode"
+    "pokeapi, PokéAPI, pokenode, Pokenode, pokemon"
   ],
   "author": {
     "name": "Gabb-c",

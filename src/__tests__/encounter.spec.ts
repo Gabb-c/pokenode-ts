@@ -5,6 +5,7 @@ import {
   NamedAPIResourceList,
 } from '../models';
 import { EncounterClient } from '../clients';
+import { EncounterMethods, EncounterConditions, EncounterConditionValues } from '../constants';
 
 describe('Test Encounter Client', () => {
   let client: EncounterClient;
@@ -18,11 +19,11 @@ describe('Test Encounter Client', () => {
       .getEncounterMethodByName('walk')
       .then((response: EncounterMethod) => response);
 
-    expect(data.name).toBe('walk');
+    expect(data.id).toBe(EncounterMethods.WALK);
   });
   it('Check if it returns an encounter method passig an id', async () => {
     const data = await client
-      .getEncounterMethodById(1)
+      .getEncounterMethodById(EncounterMethods.WALK)
       .then((response: EncounterMethod) => response);
 
     expect(data.name).toBe('walk');
@@ -40,11 +41,11 @@ describe('Test Encounter Client', () => {
       .getEncounterConditionByName('swarm')
       .then((response: EncounterCondition) => response);
 
-    expect(data.name).toBe('swarm');
+    expect(data.id).toBe(EncounterConditions.SWARM);
   });
   it('Check if it returns an encounter condition passig an id', async () => {
     const data = await client
-      .getEncounterConditionById(1)
+      .getEncounterConditionById(EncounterConditions.SWARM)
       .then((response: EncounterCondition) => response);
 
     expect(data.name).toBe('swarm');
@@ -62,11 +63,11 @@ describe('Test Encounter Client', () => {
       .getEncounterConditionValueByName('swarm-yes')
       .then((response: EncounterConditionValue) => response);
 
-    expect(data.name).toBe('swarm-yes');
+    expect(data.id).toBe(EncounterConditionValues.SWARM_YES);
   });
   it('Check if it returns an encounter condition values passig an id', async () => {
     const data = await client
-      .getEncounterConditionValueById(1)
+      .getEncounterConditionValueById(EncounterConditionValues.SWARM_YES)
       .then((response: EncounterConditionValue) => response);
 
     expect(data.name).toBe('swarm-yes');

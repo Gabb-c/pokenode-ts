@@ -1,5 +1,6 @@
 import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from '../models';
 import { ContestClient } from '../clients';
+import { ContestTypes } from '../constants';
 
 describe('Test Contest Client', () => {
   let client: ContestClient;
@@ -13,10 +14,12 @@ describe('Test Contest Client', () => {
       .getContestTypeByName('cool')
       .then((response: ContestType) => response);
 
-    expect(data.name).toBe('cool');
+    expect(data.id).toBe(ContestTypes.COOL);
   });
   it('Check if it returns a contest type passing an ID', async () => {
-    const data = await client.getContestTypeById(1).then((response: ContestType) => response);
+    const data = await client
+      .getContestTypeById(ContestTypes.COOL)
+      .then((response: ContestType) => response);
 
     expect(data.name).toBe('cool');
   });
@@ -38,7 +41,7 @@ describe('Test Contest Client', () => {
 
     expect(data.results.length).toBeGreaterThan(0);
   });
-  // Berry Flavor
+  // Super Contest Effect
   it('Check if it returns a super contest effect passing an ID', async () => {
     const data = await client
       .getSuperContestEffectById(1)
