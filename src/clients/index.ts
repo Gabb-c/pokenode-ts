@@ -6,3 +6,4 @@ export * from './game.client';
 export * from './item.client';
 export * from './location.client';
 export * from './machine.client';
+export * from './move.client';

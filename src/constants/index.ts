@@ -6,4 +6,5 @@ export * from './encounters';
 export * from './evolutions';
 export * from './games';
 export * from './locations';
+export * from './moves';
 export * as Constants from '.';
