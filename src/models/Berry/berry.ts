@@ -1,10 +1,11 @@
-/* eslint-disable camelcase */
-
 import { Name, NamedAPIResource } from '../Common';
 
-/** Berries are small fruits that can provide HP and status condition restoration,
+/**
+ * ## Berry
+ * Berries are small fruits that can provide HP and status condition restoration,
  * stat enhancement, and even damage negation when eaten by Pokémon.
- * Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Berry) for greater detail
+ *
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Berry) for greater detail
  */
 export interface Berry {
   /** The identifier for this resource */
@@ -44,8 +45,39 @@ export interface BerryFlavorMap {
 }
 
 /**
+ * ## Berry Flavor
+ * Flavors determine whether a Pokémon will benefit or suffer from eating a berry based on their nature.
+ *
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Flavor) for greater detail.
+ */
+export interface BerryFlavor {
+  /** The identifier for this resource */
+  id: number;
+  /** The name for this resource */
+  name: string;
+  /** A list of the berries with this flavor */
+  berries: FlavorBerryMap[];
+  /** The contest type that correlates with this berry flavor */
+  contest_type: NamedAPIResource;
+  /** The name of this resource listed in different languages */
+  names: Name[];
+}
+
+/**
+ * Berry with the given flavor
+ */
+export interface FlavorBerryMap {
+  /** How powerful the referenced flavor is for this berry */
+  potency: number;
+  /** The berry with the referenced flavor */
+  berry: NamedAPIResource;
+}
+
+/**
+ * ## Berry Firmness
  * Berries can be soft, very soft, hard, super hard or very hard.
- * Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Category:Berries_by_firmness) for greater detail
+ *
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Category:Berries_by_firmness) for greater detail
  */
 export interface BerryFirmness {
   /** The identifier for this resource */

@@ -1,11 +1,19 @@
-/* eslint-disable camelcase */
-
 import { Name, NamedAPIResource } from '../Common';
 
 /**
+ * ## Pal Park Area
  * Areas used for grouping Pokémon encounters in Pal Park.
  * They're like habitats that are specific to Pal Park.
- * See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pal_Park) for greater details
+ * Pal Park is divided into five separate areas:
+ * ---
+ * - [Field](https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_Pal_Park_location#Field)
+ * - [Forest](https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_Pal_Park_location#Forest)
+ * - [Mountain](https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_Pal_Park_location#Mountain)
+ * - [Pond](https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_Pal_Park_location#Pound)
+ * - [Sea](https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_Pal_Park_location#Sea)
+ * - [Trivia](https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_Pal_Park_location#Trivia)
+ * ---
+ * Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pal_Park) for greater details.
  */
 export interface PalParkArea {
   /** The identifier for this resource */

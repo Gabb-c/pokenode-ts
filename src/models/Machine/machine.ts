@@ -1,12 +1,12 @@
-/* eslint-disable camelcase */
-
 import { NamedAPIResource } from '../Common';
 
 /**
+ * ## Machine
  * Machines are the representation of items that teach moves to Pokémon.
  * They vary from version to version, so it is not certain that one specific
  * [TM (Technical Machine)](https://bulbapedia.bulbagarden.net/wiki/TM) or
- * [HM (Hidden Machine)](https://bulbapedia.bulbagarden.net/wiki/HM) corresponds to a single Machine */
+ * [HM (Hidden Machine)](https://bulbapedia.bulbagarden.net/wiki/HM) corresponds to a single Machine.
+ */
 export interface Machine {
   /** The identifier for this resource */
   id: number;

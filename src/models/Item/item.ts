@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import {
   APIResource,
   Description,
@@ -41,6 +39,7 @@ export interface ItemHolderPokemonVersionDetail {
 }
 
 /**
+ * ## Item Attribute
  * Item attributes define particular aspects of items, e.g. "usable in battle" or "consumable"
  */
 export interface ItemAttribute {
@@ -57,6 +56,7 @@ export interface ItemAttribute {
 }
 
 /**
+ * ## Item Category
  * Item categories determine where items will be placed in the players bag
  */
 export interface ItemCategory {
@@ -73,6 +73,7 @@ export interface ItemCategory {
 }
 
 /**
+ * ## Item Fling Effect
  * The various effects of the move "Fling" when used with different items
  */
 export interface ItemFlingEffect {
@@ -87,6 +88,7 @@ export interface ItemFlingEffect {
 }
 
 /**
+ * ## Item Pocket
  * Pockets within the players bag used for storing items by category
  */
 export interface ItemPocket {
@@ -101,8 +103,10 @@ export interface ItemPocket {
 }
 
 /**
+ * ## Item
  * An item is an object in the games which the player can pick up, keep in their bag, and use in some manner.
- * They have various uses, including healing, powering up, helping catch Pokémon, or to access a new area
+ * They have various uses, including healing, powering up, helping catch Pokémon, or to access a new area.
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Item)
  */
 export interface Item {
   /** The identifier for this resource */

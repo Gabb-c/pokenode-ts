@@ -1,11 +1,10 @@
-/* eslint-disable camelcase */
-
 import { Name, NamedAPIResource } from '../Common';
 
 /**
+ * ## Pokeathlon Stat
  * Pokeathlon Stats are different attributes of a Pokémon's performance in Pokéathlons.
  * In Pokéathlons, competitions happen on different courses; one for each of the different Pokéathlon stats.
- * See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9athlon) for greater detail
+ * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9athlon) for greater details.
  */
 export interface PokeathlonStat {
   /** The identifier for this resource */

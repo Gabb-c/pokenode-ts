@@ -1,10 +1,10 @@
-/* eslint-disable camelcase */
-
 import { Name, NamedAPIResource } from '../Common';
 
 /**
+ * ## Generation
  * A generation is a grouping of the Pokémon games that separates them based on the Pokémon they include.
- * In each generation, a new set of Pokémon, Moves, Abilities and Types that did not exist in the previous generation are released
+ * In each generation, a new set of Pokémon, Moves, Abilities and Types that did not exist in the previous generation are released.
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Generation) for greater details.
  */
 export interface Generation {
   /** The identifier for this resource */

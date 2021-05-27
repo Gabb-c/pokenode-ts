@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import {
   APIResource,
   Description,
@@ -11,11 +9,12 @@ import {
 } from '../Common';
 
 /**
+ * ## Pokemon
  * Pokémon are the creatures that inhabit the world of the Pokémon games.
  * They can be caught using Pokéballs and trained by battling with other Pokémon.
  * Each Pokémon belongs to a specific species but may take on a variant
  * which makes it differ from other Pokémon of the same species, such as base stats, available abilities and typings.
- * See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_(species)) for greater detail.
+ * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_(species)) for greater detail.
  */
 export interface Pokemon {
   /** The identifier for this resource */
@@ -132,7 +131,8 @@ export interface PokemonStat {
   base_stat: number;
 }
 
-/** A set of sprites used to depict this Pokémon in the game.
+/**
+ * A set of sprites used to depict this Pokémon in the game.
  * A visual representation of the various sprites can be found at [PokeAPI/sprites](https://github.com/PokeAPI/sprites#sprites)
  */
 export interface PokemonSprites {
@@ -155,6 +155,7 @@ export interface PokemonSprites {
 }
 
 /**
+ * ## Location Area Encounter
  * Pokémon location areas where Pokémon can be found
  */
 export interface LocationAreaEncounter {
@@ -165,6 +166,7 @@ export interface LocationAreaEncounter {
 }
 
 /**
+ * ## Pokemon Colors
  * Colors used for sorting Pokémon in a Pokédex.
  * The color listed in the Pokédex is usually the color most apparent or covering each Pokémon's body.
  * No orange category exists; Pokémon that are primarily orange are listed as red or brown.
@@ -180,7 +182,9 @@ export interface PokemonColor {
   pokemon_species: NamedAPIResource[];
 }
 
-/** Some Pokémon may appear in one of multiple, visually different forms.
+/**
+ * ## Pokemon Form
+ * Some Pokémon may appear in one of multiple, visually different forms.
  * These differences are purely cosmetic. For variations within a Pokémon species,
  * which do differ in more than just visuals, the 'Pokémon' entity is used to represent such a variety.
  */
@@ -230,6 +234,7 @@ export interface PokemonFormSprites {
 }
 
 /**
+ * ## Pokemon Habitat
  * Habitats are generally different terrain Pokémon can be found in
  * but can also be areas designated for rare or legendary Pokémon
  */
@@ -245,6 +250,7 @@ export interface PokemonHabitat {
 }
 
 /**
+ * ## Pokemon Shape
  * Shapes used for sorting Pokémon in a Pokédex
  */
 export interface PokemonShape {
@@ -271,6 +277,7 @@ export interface AwesomeName {
 }
 
 /**
+ * ## Pokemon Species
  * A Pokémon Species forms the basis for at least one Pokémon.
  * Attributes of a Pokémon species are shared across all varieties of Pokémon within the species.
  * A good example is Wormadam; Wormadam is the species which can be found in three different varieties,

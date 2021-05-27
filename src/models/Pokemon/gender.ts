@@ -1,11 +1,10 @@
-/* eslint-disable camelcase */
-
 import { NamedAPIResource } from '../Common';
 
 /**
+ * ## Gender
  * Genders were introduced in Generation II for the purposes of breeding Pokémon
  * but can also result in visual differences or even different evolutionary lines.
- * Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Gender) for greater detail
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Gender) for greater details.
  */
 export interface Gender {
   /** The identifier for this resource */

@@ -1,10 +1,9 @@
-/* eslint-disable camelcase */
-
 import { Effect, FlavorText, NamedAPIResource } from '../Common';
 
 /**
+ * ## Contest Type
  * Contest types are categories judges used to weigh a Pokémon's condition in Pokémon contests.
- * Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Contest_condition) for greater detail
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Contest_condition) for greater detail
  */
 export interface ContestType {
   /** The identifier for this resource */
@@ -30,6 +29,7 @@ export interface ContestName {
 }
 
 /**
+ * ## Contest Effect
  * Contest effects refer to the effects of moves when used in contests
  */
 export interface ContestEffect {
@@ -46,7 +46,14 @@ export interface ContestEffect {
 }
 
 /**
- * Super contest effects refer to the effects of moves when used in super contests
+ * ## Super Contest Effect
+ * Super contest effects refer to the effects of moves when used in super contests.
+ * A Pokémon Super Contest is an expanded format of the [Pokémon Contests](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Contest)
+ * for the Generation IV games,
+ * specifically in [Diamond, Pearl](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Diamond_and_Pearl_Versions),
+ * and [Platinum](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Platinum_Version).
+ * In it, Pokémon are rated on their appearance and performance, rather than strength.
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Super_Contest)
  */
 export interface SuperContestEffect {
   /** The identifier for this resource */

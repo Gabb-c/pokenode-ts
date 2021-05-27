@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { Encounter } from './encounter';
 import { NamedAPIResource } from './resource';
 

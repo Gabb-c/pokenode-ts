@@ -21,6 +21,7 @@
   "rules": {
     "prettier/prettier": "error",
     "no-use-before-define": "off",
+    "camelcase": "off",
     "no-shadow": "off",
     "import/no-unresolved": 0,
     "import/extensions": "off",

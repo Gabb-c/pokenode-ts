@@ -1,7 +1,7 @@
 {
   "name": "pokenode",
   "version": "1.0.0",
-  "description": "The PokeAPI Node wrapper build in TypeScript",
+  "description": "The PokéAPI Node.js wrapper with built-in types.",
   "main": "dist/index.js",
   "types": "@types/index.d.ts",
   "scripts": {
@@ -12,15 +12,22 @@
     "lint": "eslint src --ext js,ts",
     "lint:fix": "eslint src --ext js,ts --fix",
     "format": "prettier 'src/**/*.[jt]s?(x)' --write",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watch --verbose --colors --expand --maxWorkers=25%",
     "test:coverage": "jest --coverage",
-    "test": "jest --passWithNoTests",
-    "prepare": "husky install"
+    "test:dev": "jest --verbose --colors --expand --maxWorkers=50% --detectOpenHandles --errorOnDeprecated",
+    "test:ci": "jest --ci --runInBand",
+    "prepare": "is-ci || husky install"
   },
-  "keywords": [],
+  "keywords": [
+    "pokeapi, PokéAPI, pokenode, Pokenode, pokemon"
+  ],
   "author": {
     "name": "Gabb-c",
     "url": "https://github.com/Gabb-c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gabb-c/pokenode"
   },
   "license": "MIT",
   "devDependencies": {
@@ -50,7 +57,8 @@
     "prettier": "^2.3.0",
     "ts-jest": "^26.5.6",
     "ts-node-dev": "^1.1.6",
-    "typescript": "^4.3.2"
+    "tslib": "^2.2.0",
+    "typescript": "^4.2.4"
   },
   "dependencies": {
     "axios": "^0.21.1",

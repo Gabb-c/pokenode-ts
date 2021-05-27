@@ -1,9 +1,9 @@
-/* eslint-disable camelcase */
-
 import { NamedAPIResource } from '../Common';
 import { EvolutionDetail } from './evolution';
 
-/** Contains evolution details for a Pokémon in the chain.
+/**
+ * ## Chain Link
+ * Contains evolution details for a Pokémon in the chain.
  * Each link references the next Pokémon in the natural evolution order
  */
 export interface ChainLink {

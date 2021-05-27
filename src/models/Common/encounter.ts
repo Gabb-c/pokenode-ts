@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { NamedAPIResource } from './resource';
 
 /** Information of a pokemon encounter */
