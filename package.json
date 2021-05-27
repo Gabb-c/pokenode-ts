@@ -1,7 +1,7 @@
 {
   "name": "pokenode",
   "version": "1.0.0",
-  "description": "The PokéAPI Node.js wrapper build in TypeScript",
+  "description": "The PokéAPI Node.js wrapper with built-in types.",
   "main": "dist/index.js",
   "types": "@types/index.d.ts",
   "scripts": {
