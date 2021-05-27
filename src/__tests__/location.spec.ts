@@ -56,8 +56,8 @@ describe('Test Location Client', () => {
   });
   it('Check if it returns a pal park area passing an ID', async () => {
     const data = await client
-      .getLocationAreaById(PalParkAreas.FOREST)
-      .then((response: LocationArea) => response);
+      .getPalParkAreaById(PalParkAreas.FOREST)
+      .then((response: PalParkArea) => response);
 
     expect(data.name).toBe('forest');
   });

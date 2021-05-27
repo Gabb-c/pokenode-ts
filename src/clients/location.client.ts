@@ -103,11 +103,11 @@ export class LocationClient {
    * @param id The Pal Park Area ID
    * @returns A Pal Park Area
    */
-  public getPalParkAreaById(id: number): Promise<LocationArea> {
-    return new Promise<LocationArea>((resolve, reject) => {
+  public getPalParkAreaById(id: number): Promise<PalParkArea> {
+    return new Promise<PalParkArea>((resolve, reject) => {
       this.api
         .get(`${Endpoints.PalParkArea}/${id}`)
-        .then((response: AxiosResponse<LocationArea>) => {
+        .then((response: AxiosResponse<PalParkArea>) => {
           resolve(response.data);
         })
         .catch((error: AxiosError<string>) => {
