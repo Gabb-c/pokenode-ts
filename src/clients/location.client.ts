@@ -1,12 +1,70 @@
 /* eslint-disable import/prefer-default-export */
 
-import { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { DestinationObjectOptions, Logger, LoggerOptions } from 'pino';
+import { IAxiosCacheAdapterOptions, setup } from 'axios-cache-adapter';
 import { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from '../models';
-import client from '../config/axios';
-import { Endpoints } from '../constants';
+import { BaseURL, Endpoints } from '../constants';
+import {
+  createLogger,
+  handleRequest,
+  handleRequestError,
+  handleResponse,
+  handleResponseError,
+} from '../config/logger';
 
+/**
+ * ### Location Client
+ *
+ * Client used to access the Location Endpoints:
+ *  - Locations
+ *  - Location Areas
+ *  - Pal Park Areas
+ *  - Regions
+ * ---
+ * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#locations-section)
+ */
 export class LocationClient {
-  private api: AxiosInstance = client;
+  private api: AxiosInstance;
+
+  private logger: Logger;
+
+  /**
+   * @param logOptions Options for the logger.
+   * @param logDestination Options for the logs destination.
+   * @param cacheOptions Options for the axios-cache.
+   */
+  constructor(
+    logOptions?: LoggerOptions,
+    logDestination?: DestinationObjectOptions,
+    cacheOptions?: IAxiosCacheAdapterOptions
+  ) {
+    this.api = setup({
+      baseURL: BaseURL.REST,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: cacheOptions,
+    });
+
+    this.logger = createLogger(
+      {
+        enabled: !(logOptions?.enabled === undefined || logOptions.enabled === false),
+        ...logOptions,
+      },
+      logDestination
+    );
+
+    this.api.interceptors.request.use(
+      (config: AxiosRequestConfig) => handleRequest(config, this.logger),
+      (error: AxiosError<string>) => handleRequestError(error, this.logger)
+    );
+
+    this.api.interceptors.response.use(
+      (response: AxiosResponse) => handleResponse(response, this.logger),
+      (error: AxiosError<string>) => handleResponseError(error, this.logger)
+    );
+  }
 
   /**
    * Get a Location by it's name

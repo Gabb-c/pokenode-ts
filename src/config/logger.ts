@@ -2,7 +2,7 @@
 
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import pino, { LoggerOptions, Logger, DestinationStream, DestinationObjectOptions } from 'pino';
+import pino, { LoggerOptions, Logger, DestinationObjectOptions } from 'pino';
 
 export const createLogger = (
   options: LoggerOptions,

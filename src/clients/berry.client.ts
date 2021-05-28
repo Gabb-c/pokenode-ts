@@ -13,11 +13,26 @@ import {
   handleResponseError,
 } from '../config/logger';
 
+/**
+ * ### Berry Client
+ *
+ * Client used to access the Berry Endpoints:
+ *  - Berries
+ *  - Berry Firmnesses
+ *  - Berry Flavors
+ * ---
+ * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#berries-section)
+ */
 export class BerryClient {
   private api: AxiosInstance;
 
   private logger: Logger;
 
+  /**
+   * @param logOptions Options for the logger.
+   * @param logDestination Options for the logs destination.
+   * @param cacheOptions Options for the axios-cache.
+   */
   constructor(
     logOptions?: LoggerOptions,
     logDestination?: DestinationObjectOptions,
@@ -52,7 +67,7 @@ export class BerryClient {
 
   /**
    * Get a Berry by it's name
-   * @param name  The berry name
+   * @param name The berry name
    * @returns A Berry
    */
   public getBerryByName(name: string): Promise<Berry> {

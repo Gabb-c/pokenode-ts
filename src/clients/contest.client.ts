@@ -1,12 +1,70 @@
 /* eslint-disable import/prefer-default-export */
 
-import { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { setup, IAxiosCacheAdapterOptions } from 'axios-cache-adapter';
+import { DestinationObjectOptions, Logger, LoggerOptions } from 'pino';
 import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from '../models';
-import client from '../config/axios';
+import { BaseURL } from '../constants';
 import { Endpoints } from '../constants/endpoints';
+import {
+  createLogger,
+  handleRequest,
+  handleRequestError,
+  handleResponse,
+  handleResponseError,
+} from '../config/logger';
 
+/**
+ * ### Contest Client
+ *
+ * Client used to access the Contest Endpoints:
+ *  - Contest Types
+ *  - Contest Effects
+ *  - Super Contest Effects
+ * ---
+ * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#contests-section)
+ */
 export class ContestClient {
-  private api: AxiosInstance = client;
+  private api: AxiosInstance;
+
+  private logger: Logger;
+
+  /**
+   * @param logOptions Options for the logger.
+   * @param logDestination Options for the logs destination.
+   * @param cacheOptions Options for the axios-cache.
+   */
+  constructor(
+    logOptions?: LoggerOptions,
+    logDestination?: DestinationObjectOptions,
+    cacheOptions?: IAxiosCacheAdapterOptions
+  ) {
+    this.api = setup({
+      baseURL: BaseURL.REST,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: cacheOptions,
+    });
+
+    this.logger = createLogger(
+      {
+        enabled: !(logOptions?.enabled === undefined || logOptions.enabled === false),
+        ...logOptions,
+      },
+      logDestination
+    );
+
+    this.api.interceptors.request.use(
+      (config: AxiosRequestConfig) => handleRequest(config, this.logger),
+      (error: AxiosError<string>) => handleRequestError(error, this.logger)
+    );
+
+    this.api.interceptors.response.use(
+      (response: AxiosResponse) => handleResponse(response, this.logger),
+      (error: AxiosError<string>) => handleResponseError(error, this.logger)
+    );
+  }
 
   /**
    * Get a Contest Type by it's name
