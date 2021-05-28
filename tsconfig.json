@@ -9,6 +9,9 @@
     "esModuleInterop": true,
     "module": "ESNext",
     "moduleResolution": "node",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
     "experimentalDecorators": true,
     "importHelpers": true,
     "emitDecoratorMetadata": true,
