@@ -12,7 +12,8 @@
       "libraries": {
         "importedLibraries": [
           "pino",
-          "axios-cache-adapter"
+          "axios-cache-adapter",
+          "axios"
         ]
       },
       "output": {

@@ -1,18 +1,9 @@
-/* eslint-disable import/prefer-default-export */
-
-import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { setup, IAxiosCacheAdapterOptions } from 'axios-cache-adapter';
-import { DestinationObjectOptions, Logger, LoggerOptions } from 'pino';
+import { AxiosError, AxiosResponse } from 'axios';
+import { IAxiosCacheAdapterOptions } from 'axios-cache-adapter';
+import { DestinationObjectOptions, LoggerOptions } from 'pino';
 import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from '../models';
-import { BaseURL } from '../constants';
-import { Endpoints } from '../constants/endpoints';
-import {
-  createLogger,
-  handleRequest,
-  handleRequestError,
-  handleResponse,
-  handleResponseError,
-} from '../config/logger';
+import { Endpoints } from '../constants';
+import { BaseClient } from '../structures/base';
 
 /**
  * ### Contest Client
@@ -24,11 +15,7 @@ import {
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#contests-section)
  */
-export class ContestClient {
-  private api: AxiosInstance;
-
-  private logger: Logger;
-
+export class ContestClient extends BaseClient {
   /**
    * @param logOptions Options for the logger.
    * @param logDestination Options for the logs destination.
@@ -39,31 +26,7 @@ export class ContestClient {
     logDestination?: DestinationObjectOptions,
     cacheOptions?: IAxiosCacheAdapterOptions
   ) {
-    this.api = setup({
-      baseURL: BaseURL.REST,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: cacheOptions,
-    });
-
-    this.logger = createLogger(
-      {
-        enabled: !(logOptions?.enabled === undefined || logOptions.enabled === false),
-        ...logOptions,
-      },
-      logDestination
-    );
-
-    this.api.interceptors.request.use(
-      (config: AxiosRequestConfig) => handleRequest(config, this.logger),
-      (error: AxiosError<string>) => handleRequestError(error, this.logger)
-    );
-
-    this.api.interceptors.response.use(
-      (response: AxiosResponse) => handleResponse(response, this.logger),
-      (error: AxiosError<string>) => handleResponseError(error, this.logger)
-    );
+    super(logOptions, logDestination, cacheOptions);
   }
 
   /**
@@ -75,12 +38,8 @@ export class ContestClient {
     return new Promise<ContestType>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ContestType}/${name}`)
-        .then((response: AxiosResponse<ContestType>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<ContestType>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -93,12 +52,8 @@ export class ContestClient {
     return new Promise<ContestType>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ContestType}/${id}`)
-        .then((response: AxiosResponse<ContestType>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<ContestType>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -111,12 +66,8 @@ export class ContestClient {
     return new Promise<ContestEffect>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ContestEffect}/${id}`)
-        .then((response: AxiosResponse<ContestEffect>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<ContestEffect>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -129,12 +80,8 @@ export class ContestClient {
     return new Promise<SuperContestEffect>((resolve, reject) => {
       this.api
         .get(`${Endpoints.SuperContestEffect}/${id}`)
-        .then((response: AxiosResponse<SuperContestEffect>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<SuperContestEffect>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -147,13 +94,9 @@ export class ContestClient {
   public listContestTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ContestType}?offset=${offset}&limit=${limit}`)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .get(`${Endpoints.ContestType}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -166,13 +109,9 @@ export class ContestClient {
   public listContestEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ContestEffect}?offset=${offset}&limit=${limit}`)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .get(`${Endpoints.ContestEffect}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -185,13 +124,9 @@ export class ContestClient {
   public listSuperContestEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.SuperContestEffect}?offset=${offset}&limit=${limit}`)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .get(`${Endpoints.SuperContestEffect}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 }

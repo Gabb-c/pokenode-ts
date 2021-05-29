@@ -1,17 +1,9 @@
-/* eslint-disable import/prefer-default-export */
-
-import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { DestinationObjectOptions, Logger, LoggerOptions } from 'pino';
-import { IAxiosCacheAdapterOptions, setup } from 'axios-cache-adapter';
+import { AxiosError, AxiosResponse } from 'axios';
+import { DestinationObjectOptions, LoggerOptions } from 'pino';
+import { IAxiosCacheAdapterOptions } from 'axios-cache-adapter';
 import { Machine, NamedAPIResourceList } from '../models';
-import { BaseURL, Endpoints } from '../constants';
-import {
-  createLogger,
-  handleRequest,
-  handleRequestError,
-  handleResponse,
-  handleResponseError,
-} from '../config/logger';
+import { Endpoints } from '../constants';
+import { BaseClient } from '../structures/base';
 
 /**
  * ### Machine Client
@@ -21,11 +13,7 @@ import {
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#machines-section)
  */
-export class MachineClient {
-  private api: AxiosInstance;
-
-  private logger: Logger;
-
+export class MachineClient extends BaseClient {
   /**
    * @param logOptions Options for the logger.
    * @param logDestination Options for the logs destination.
@@ -36,31 +24,7 @@ export class MachineClient {
     logDestination?: DestinationObjectOptions,
     cacheOptions?: IAxiosCacheAdapterOptions
   ) {
-    this.api = setup({
-      baseURL: BaseURL.REST,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: cacheOptions,
-    });
-
-    this.logger = createLogger(
-      {
-        enabled: !(logOptions?.enabled === undefined || logOptions.enabled === false),
-        ...logOptions,
-      },
-      logDestination
-    );
-
-    this.api.interceptors.request.use(
-      (config: AxiosRequestConfig) => handleRequest(config, this.logger),
-      (error: AxiosError<string>) => handleRequestError(error, this.logger)
-    );
-
-    this.api.interceptors.response.use(
-      (response: AxiosResponse) => handleResponse(response, this.logger),
-      (error: AxiosError<string>) => handleResponseError(error, this.logger)
-    );
+    super(logOptions, logDestination, cacheOptions);
   }
 
   /**
@@ -72,12 +36,8 @@ export class MachineClient {
     return new Promise<Machine>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Machine}/${id}`)
-        .then((response: AxiosResponse<Machine>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<Machine>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -90,13 +50,9 @@ export class MachineClient {
   public listMachines(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Machine}?offset=${offset}&limit=${limit}`)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .get(`${Endpoints.Machine}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 }

@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import pino, { LoggerOptions, Logger, DestinationObjectOptions } from 'pino';
@@ -19,7 +17,7 @@ export const handleRequestError = async (
   error: AxiosError<unknown>,
   logger: Logger
 ): Promise<AxiosError<unknown>> => {
-  logger.error(`STATUS CODE ${error.code} | ${error.message}`);
+  logger.error(`STATUS CODE ${error.code || 'UNKNOWN'} | ${error.message}`);
   logger.flush();
   return Promise.reject(error);
 };
@@ -36,7 +34,7 @@ export const handleResponseError = async (
   error: AxiosError<unknown>,
   logger: Logger
 ): Promise<AxiosError<unknown>> => {
-  logger.error(`STATUS CODE ${error.code} | ${error.message}`);
+  logger.error(`STATUS CODE ${error.code || 'UNKNOWN'} | ${error.message}`);
   logger.flush();
   return Promise.reject(error);
 };

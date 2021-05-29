@@ -1,18 +1,9 @@
-/* eslint-disable import/prefer-default-export */
-
-import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { DestinationObjectOptions, Logger, LoggerOptions } from 'pino';
-import { IAxiosCacheAdapterOptions, setup } from 'axios-cache-adapter';
+import { AxiosError, AxiosResponse } from 'axios';
+import { DestinationObjectOptions, LoggerOptions } from 'pino';
+import { IAxiosCacheAdapterOptions } from 'axios-cache-adapter';
 import { Generation, NamedAPIResourceList, Pokedex, Version, VersionGroup } from '../models';
-import { Endpoints } from '../constants/endpoints';
-import { BaseURL } from '../constants';
-import {
-  createLogger,
-  handleRequest,
-  handleRequestError,
-  handleResponse,
-  handleResponseError,
-} from '../config/logger';
+import { Endpoints } from '../constants';
+import { BaseClient } from '../structures/base';
 
 /**
  * ### Game Client
@@ -25,11 +16,7 @@ import {
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#games-section)
  */
-export class GameClient {
-  private api: AxiosInstance;
-
-  private logger: Logger;
-
+export class GameClient extends BaseClient {
   /**
    * @param logOptions Options for the logger.
    * @param logDestination Options for the logs destination.
@@ -40,31 +27,7 @@ export class GameClient {
     logDestination?: DestinationObjectOptions,
     cacheOptions?: IAxiosCacheAdapterOptions
   ) {
-    this.api = setup({
-      baseURL: BaseURL.REST,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: cacheOptions,
-    });
-
-    this.logger = createLogger(
-      {
-        enabled: !(logOptions?.enabled === undefined || logOptions.enabled === false),
-        ...logOptions,
-      },
-      logDestination
-    );
-
-    this.api.interceptors.request.use(
-      (config: AxiosRequestConfig) => handleRequest(config, this.logger),
-      (error: AxiosError<string>) => handleRequestError(error, this.logger)
-    );
-
-    this.api.interceptors.response.use(
-      (response: AxiosResponse) => handleResponse(response, this.logger),
-      (error: AxiosError<string>) => handleResponseError(error, this.logger)
-    );
+    super(logOptions, logDestination, cacheOptions);
   }
 
   /**
@@ -76,12 +39,8 @@ export class GameClient {
     return new Promise<Generation>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Generation}/${name}`)
-        .then((response: AxiosResponse<Generation>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<Generation>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -94,12 +53,8 @@ export class GameClient {
     return new Promise<Generation>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Generation}/${id}`)
-        .then((response: AxiosResponse<Generation>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<Generation>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -112,12 +67,8 @@ export class GameClient {
     return new Promise<Pokedex>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Pokedex}/${name}`)
-        .then((response: AxiosResponse<Pokedex>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<Pokedex>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -130,12 +81,8 @@ export class GameClient {
     return new Promise<Pokedex>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Pokedex}/${id}`)
-        .then((response: AxiosResponse<Pokedex>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<Pokedex>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -148,12 +95,8 @@ export class GameClient {
     return new Promise<Version>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Version}/${name}`)
-        .then((response: AxiosResponse<Version>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<Version>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -166,12 +109,8 @@ export class GameClient {
     return new Promise<Version>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Version}/${id}`)
-        .then((response: AxiosResponse<Version>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<Version>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -184,12 +123,8 @@ export class GameClient {
     return new Promise<VersionGroup>((resolve, reject) => {
       this.api
         .get(`${Endpoints.VersionGroup}/${name}`)
-        .then((response: AxiosResponse<VersionGroup>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<VersionGroup>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -202,12 +137,8 @@ export class GameClient {
     return new Promise<VersionGroup>((resolve, reject) => {
       this.api
         .get(`${Endpoints.VersionGroup}/${id}`)
-        .then((response: AxiosResponse<VersionGroup>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<VersionGroup>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -220,13 +151,9 @@ export class GameClient {
   public listGenerations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Generation}?offset=${offset}&limit=${limit}`)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .get(`${Endpoints.Generation}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -239,13 +166,9 @@ export class GameClient {
   public listPokedexes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Pokedex}?offset=${offset}&limit=${limit}`)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .get(`${Endpoints.Pokedex}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -258,13 +181,9 @@ export class GameClient {
   public listVersions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Version}?offset=${offset}&limit=${limit}`)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .get(`${Endpoints.Version}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -277,13 +196,9 @@ export class GameClient {
   public listVersionGroups(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.VersionGroup}?offset=${offset}&limit=${limit}`)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .get(`${Endpoints.VersionGroup}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 }

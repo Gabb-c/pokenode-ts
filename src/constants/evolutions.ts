@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 export enum EvolutionTriggers {
   LEVEL_UP = 1,
   TRADE = 2,

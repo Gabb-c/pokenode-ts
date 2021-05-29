@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 export enum MoveAilmtents {
   UNKNOWN = -1,
   NONE = 0,

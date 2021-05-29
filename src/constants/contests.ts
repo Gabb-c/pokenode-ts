@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 export enum ContestTypes {
   COOL = 1,
   BEAUTY = 2,
