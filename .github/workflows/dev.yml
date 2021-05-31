@@ -23,9 +23,6 @@ jobs:
       - name: Lint commits
         uses: wagoid/commitlint-github-action@v3
 
-      - name: Lint
-        run: yarn lint
-
       - name: Set up Node ${{ matrix.node-version }}
         uses: actions/setup-node@v2.1.5
         with:
@@ -36,6 +33,14 @@ jobs:
 
       - name: Audit Dependencies
         run: yarn audit
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Commit formatted files
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore: Fix formatting"
 
       - name: Build
         run: yarn build:ci

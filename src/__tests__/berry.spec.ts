@@ -5,7 +5,7 @@ import { BerryClient } from '../clients';
 describe('test Berry Client', () => {
   let client: BerryClient;
   beforeAll(() => {
-    client = new BerryClient({ enabled: true, prettyPrint: true });
+    client = new BerryClient();
   });
 
   // Berry
