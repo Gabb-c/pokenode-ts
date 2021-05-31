@@ -35,7 +35,7 @@ jobs:
         run: yarn audit
 
       - name: Lint
-        run: yarn lint
+        run: yarn lint:ci
 
       - name: Commit formatted files
         uses: stefanzweifel/git-auto-commit-action@v4
