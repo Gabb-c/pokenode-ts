@@ -1,14 +1,13 @@
-name: Lint
+name: Dev Branches
 
 on:
-  pull_request:
-    branches: [master]
-
   push:
-    branches: [master]
+    branches:
+      - "*"
+      - "!master"
 
 jobs:
-  code:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -16,8 +15,14 @@ jobs:
         node-version: [14.x]
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v2.3.4
+
+      - name: Lint commits
+        uses: wagoid/commitlint-github-action@v3
+
+      - name: Lint
+        run: yarn lint
 
       - name: Set up Node ${{ matrix.node-version }}
         uses: actions/setup-node@v2.1.5
@@ -27,10 +32,11 @@ jobs:
       - name: Install Dependencies
         run: yarn --frozen-lockfile
 
-      - name: Lint
-        run: yarn lint:ci
+      - name: Audit Dependencies
+        run: yarn audit
 
-      - name: Commit formatted files
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "chore: Fix formatting"
+      - name: Build
+        run: yarn build:ci
+
+      - name: Test
+        run: yarn test:ci

@@ -1,80 +1,63 @@
-## Quick Start
+## Instalation
 
-It is recommended to install `docsify-cli` globally, which helps initializing and previewing the website locally.
+Install pokenode using your favorite package manager:
 
-```bash
-npm i docsify-cli -g
-```
-
-## Initialize
-
-If you want to write the documentation in the `./docs` subdirectory, you can use the `init` command.
+> NPM
 
 ```bash
-docsify init ./docs
+npm i pokenode
 ```
 
-## Writing content
-
-After the `init` is complete, you can see the file list in the `./docs` subdirectory.
-
-* `index.html` as the entry file
-* `README.md` as the home page
-* `.nojekyll` prevents GitHub Pages from ignoring files that begin with an underscore
-
-You can easily update the documentation in `./docs/README.md`, of course you can add [more pages](more-pages.md).
-
-## Preview your site
-
-Run the local server with `docsify serve`. You can preview your site in your browser on `http://localhost:3000`.
+> Yarn
 
 ```bash
-docsify serve docs
+yarn add pokenode
 ```
 
-?> For more use cases of `docsify-cli`, head over to the [docsify-cli documentation](https://github.com/docsifyjs/docsify-cli).
+## Usage
 
-## Manual initialization
+Import the main client:
 
-If you don't like `npm` or have trouble installing the tool, you can manually create `index.html`:
+```js
+import { Pokenode } from 'pokenode';
 
-```html
-<!-- index.html -->
+const api = new Pokenode();
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/themes/vue.css" />
-</head>
-<body>
-  <div id="app"></div>
-  <script>
-    window.$docsify = {
-      //...
-    }
-  </script>
-  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
-</body>
-</html>
+const pokemon = await api.pokemon.getPokemonByName('luxray')
+  .then((response) => response)
+  .catch((error) => console.error(error));
+
+console.log(pokemon.name); // will output 'Luxray'
 ```
 
-### Specifying docsify versions
+Or use an especific client:
 
-?> Note that in both of the examples below, docsify URLs will need to be manually updated when a new major version of docsify is released (e.g. `v4.x.x` => `v5.x.x`). Check the docsify website periodically to see if a new major version has been released.
+```js
+import { PokemonClient } from 'pokenode';
 
-Specifying a major version in the URL (`@4`) will allow your site will receive non-breaking enhancements (i.e. "minor" updates) and bug fixes (i.e. "patch" updates) automatically. This is the recommended way to load docsify resources.
+const api = new PokemonClient();
 
-```html
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/themes/vue.css" />
-<script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+const pokemon = await api.getPokemonByName('luxray')
+  .then((response) => response)
+  .catch((error) => console.error(error));
+
+console.log(pokemon.name) // will output 'Luxray'
 ```
 
-If you prefer to lock docsify to a specific version, specify the full version after the `@` symbol in the URL. This is the safest way to ensure your site will look and behave the same way regardless of any changes made to future versions of docsify.
+## Using Constants
 
-```html
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4.11.4/themes/vue.css">
-<script src="//cdn.jsdelivr.net/npm/docsify@4.11.4"></script>
+Pokenode has some useful abbreviations for some endpoints if you don't want to use raw strings or search for the ID's ;)
+
+```js
+import { Constants } from 'pokenode';
+
+console.log(Constants.Berries.ASPEAR); // will output 5, the Aspear Berry ID
+```
+
+Or
+
+```js
+import { Berries } from 'pokenode';
+
+console.log(Berries.ASPEAR); // will output 5, the Aspear Berry ID
 ```
