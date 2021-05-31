@@ -26,6 +26,9 @@ jobs:
   install:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2.3.4
+
       - name: Set up Node ${{ matrix.node-version }}
         uses: actions/setup-node@v2.1.5
         with:
@@ -40,6 +43,9 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2.3.4
+
       - name: Lint
         run: yarn lint:ci
 
@@ -51,6 +57,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2.3.4
+
       - name: Build
         run: yarn build:ci
 
