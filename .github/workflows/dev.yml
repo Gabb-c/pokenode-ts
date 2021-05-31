@@ -43,10 +43,6 @@ jobs:
           commit_message: "chore: Fix formatting"
 
       - name: Build
-      - uses: actions/cache@v2.1.6
-        id: restore-build
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         run: yarn build:ci
 
       - name: Test
