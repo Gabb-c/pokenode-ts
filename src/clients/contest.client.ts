@@ -34,7 +34,7 @@ export class ContestClient extends BaseClient {
    * @param name  The contest type name
    * @returns A Contest Type
    */
-  public getContestTypeByName(name: string): Promise<ContestType> {
+  public async getContestTypeByName(name: string): Promise<ContestType> {
     return new Promise<ContestType>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ContestType}/${name}`)
@@ -48,7 +48,7 @@ export class ContestClient extends BaseClient {
    * @param id The Contest Type ID
    * @returns A Contest Type
    */
-  public getContestTypeById(id: number): Promise<ContestType> {
+  public async getContestTypeById(id: number): Promise<ContestType> {
     return new Promise<ContestType>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ContestType}/${id}`)
@@ -62,7 +62,7 @@ export class ContestClient extends BaseClient {
    * @param id The Contest Effect ID
    * @returns Contest Effect
    */
-  public getContestEffectById(id: number): Promise<ContestEffect> {
+  public async getContestEffectById(id: number): Promise<ContestEffect> {
     return new Promise<ContestEffect>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ContestEffect}/${id}`)
@@ -76,7 +76,7 @@ export class ContestClient extends BaseClient {
    * @param id The Super Contest Effect ID
    * @returns Super Contest Effect
    */
-  public getSuperContestEffectById(id: number): Promise<SuperContestEffect> {
+  public async getSuperContestEffectById(id: number): Promise<SuperContestEffect> {
     return new Promise<SuperContestEffect>((resolve, reject) => {
       this.api
         .get(`${Endpoints.SuperContestEffect}/${id}`)
@@ -91,7 +91,7 @@ export class ContestClient extends BaseClient {
    * @param limit How many contest types per page
    * @returns A list of contest types
    */
-  public listContestTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listContestTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ContestType}?offset=${offset || 0}&limit=${limit || 20}`)
@@ -106,7 +106,7 @@ export class ContestClient extends BaseClient {
    * @param limit How many contest effects per page
    * @returns A list of contest effects
    */
-  public listContestEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listContestEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ContestEffect}?offset=${offset || 0}&limit=${limit || 20}`)
@@ -121,7 +121,10 @@ export class ContestClient extends BaseClient {
    * @param limit How many Super Contest Effect per page
    * @returns A list of Super Contest Effect
    */
-  public listSuperContestEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listSuperContestEffects(
+    offset?: number,
+    limit?: number
+  ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.SuperContestEffect}?offset=${offset || 0}&limit=${limit || 20}`)

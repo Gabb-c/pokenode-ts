@@ -33,7 +33,7 @@ export class EvolutionClient extends BaseClient {
    * @param id The Evolution Chain ID
    * @returns An Evolution Chain
    */
-  public getEvolutionChainById(id: number): Promise<EvolutionChain> {
+  public async getEvolutionChainById(id: number): Promise<EvolutionChain> {
     return new Promise<EvolutionChain>((resolve, reject) => {
       this.api
         .get(`${Endpoints.EvolutionChain}/${id}`)
@@ -47,7 +47,7 @@ export class EvolutionClient extends BaseClient {
    * @param id The Evolution Trigger ID
    * @returns An Evolution Trigger
    */
-  public getEvolutionTriggerById(id: number): Promise<EvolutionTrigger> {
+  public async getEvolutionTriggerById(id: number): Promise<EvolutionTrigger> {
     return new Promise<EvolutionTrigger>((resolve, reject) => {
       this.api
         .get(`${Endpoints.EvolutionTrigger}/${id}`)
@@ -63,7 +63,7 @@ export class EvolutionClient extends BaseClient {
    * @param name The Evolution Trigger name
    * @returns An Evolution Trigger
    */
-  public getEvolutionTriggerByName(name: string): Promise<EvolutionTrigger> {
+  public async getEvolutionTriggerByName(name: string): Promise<EvolutionTrigger> {
     return new Promise<EvolutionTrigger>((resolve, reject) => {
       this.api
         .get(`${Endpoints.EvolutionTrigger}/${name}`)
@@ -78,7 +78,7 @@ export class EvolutionClient extends BaseClient {
    * @param limit How many Evolution Chains per page
    * @returns A list of Evolution Chains
    */
-  public listEvolutionChains(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listEvolutionChains(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.EvolutionChain}?offset=${offset || 0}&limit=${limit || 20}`)
@@ -93,7 +93,10 @@ export class EvolutionClient extends BaseClient {
    * @param limit How many Evolution Triggers per page
    * @returns A list of Evolution Triggers
    */
-  public listEvolutionTriggers(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listEvolutionTriggers(
+    offset?: number,
+    limit?: number
+  ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.EvolutionTrigger}?offset=${offset || 0}&limit=${limit || 20}`)

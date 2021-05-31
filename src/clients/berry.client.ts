@@ -29,7 +29,7 @@ export class BerryClient extends BaseClient {
    * @param name The berry name
    * @returns A Berry
    */
-  public getBerryByName(name: string): Promise<Berry> {
+  public async getBerryByName(name: string): Promise<Berry> {
     return new Promise<Berry>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Berry}/${name}`)
@@ -43,7 +43,7 @@ export class BerryClient extends BaseClient {
    * @param id The Berry ID
    * @returns A Berry
    */
-  public getBerryById(id: number): Promise<Berry> {
+  public async getBerryById(id: number): Promise<Berry> {
     return new Promise<Berry>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Berry}/${id}`)
@@ -57,7 +57,7 @@ export class BerryClient extends BaseClient {
    * @param id The Berry ID
    * @returns Berry Firmness
    */
-  public getBerryFirmnessById(id: number): Promise<BerryFirmness> {
+  public async getBerryFirmnessById(id: number): Promise<BerryFirmness> {
     return new Promise<BerryFirmness>((resolve, reject) => {
       this.api
         .get(`${Endpoints.BerryFirmness}/${id}`)
@@ -71,7 +71,7 @@ export class BerryClient extends BaseClient {
    * @param name The Berry name
    * @returns Berry Firmness
    */
-  public getBerryFirmnessByName(name: string): Promise<BerryFirmness> {
+  public async getBerryFirmnessByName(name: string): Promise<BerryFirmness> {
     return new Promise<BerryFirmness>((resolve, reject) => {
       this.api
         .get(`${Endpoints.BerryFirmness}/${name}`)
@@ -86,7 +86,7 @@ export class BerryClient extends BaseClient {
    * @param id The Berry Flavor ID
    * @returns Berry Flavor
    */
-  public getBerryFlavorById(id: number): Promise<BerryFlavor> {
+  public async getBerryFlavorById(id: number): Promise<BerryFlavor> {
     return new Promise<BerryFlavor>((resolve, reject) => {
       this.api
         .get(`${Endpoints.BerryFlavor}/${id}`)
@@ -101,7 +101,7 @@ export class BerryClient extends BaseClient {
    * @param name The Berry Flavor name
    * @returns Berry Flavor
    */
-  public getBerryFlavorByName(name: string): Promise<BerryFlavor> {
+  public async getBerryFlavorByName(name: string): Promise<BerryFlavor> {
     return new Promise<BerryFlavor>((resolve, reject) => {
       this.api
         .get(`${Endpoints.BerryFlavor}/${name}`)

@@ -21,7 +21,7 @@
   "main": "dist/index.js",
   "types": "@types/index.d.ts",
   "scripts": {
-    "build": "tsc --diagnostics --pretty",
+    "build": "rimraf dist && tsc --diagnostics --pretty",
     "types": "dts-bundle-generator --config dts-generator.json",
     "build:ci": "yarn build && yarn types",
     "docs": "docsify serve ./docs",

@@ -35,7 +35,7 @@ export class LocationClient extends BaseClient {
    * @param name The Location name
    * @returns A Location
    */
-  public getLocationByName(name: string): Promise<Location> {
+  public async getLocationByName(name: string): Promise<Location> {
     return new Promise<Location>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Location}/${name}`)
@@ -49,7 +49,7 @@ export class LocationClient extends BaseClient {
    * @param id The Location ID
    * @returns A location
    */
-  public getLocationById(id: number): Promise<Location> {
+  public async getLocationById(id: number): Promise<Location> {
     return new Promise<Location>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Location}/${id}`)
@@ -63,7 +63,7 @@ export class LocationClient extends BaseClient {
    * @param name The Location Area name
    * @returns A Location Area
    */
-  public getLocationAreaByName(name: string): Promise<LocationArea> {
+  public async getLocationAreaByName(name: string): Promise<LocationArea> {
     return new Promise<LocationArea>((resolve, reject) => {
       this.api
         .get(`${Endpoints.LocationArea}/${name}`)
@@ -77,7 +77,7 @@ export class LocationClient extends BaseClient {
    * @param id The Location Area ID
    * @returns A Location Area
    */
-  public getLocationAreaById(id: number): Promise<LocationArea> {
+  public async getLocationAreaById(id: number): Promise<LocationArea> {
     return new Promise<LocationArea>((resolve, reject) => {
       this.api
         .get(`${Endpoints.LocationArea}/${id}`)
@@ -91,7 +91,7 @@ export class LocationClient extends BaseClient {
    * @param name The Pal Park Area name
    * @returns A Pal Park Area
    */
-  public getPalParkAreaByName(name: string): Promise<PalParkArea> {
+  public async getPalParkAreaByName(name: string): Promise<PalParkArea> {
     return new Promise<PalParkArea>((resolve, reject) => {
       this.api
         .get(`${Endpoints.PalParkArea}/${name}`)
@@ -105,7 +105,7 @@ export class LocationClient extends BaseClient {
    * @param id The Pal Park Area ID
    * @returns A Pal Park Area
    */
-  public getPalParkAreaById(id: number): Promise<PalParkArea> {
+  public async getPalParkAreaById(id: number): Promise<PalParkArea> {
     return new Promise<PalParkArea>((resolve, reject) => {
       this.api
         .get(`${Endpoints.PalParkArea}/${id}`)
@@ -119,7 +119,7 @@ export class LocationClient extends BaseClient {
    * @param name The Region name
    * @returns A Region
    */
-  public getRegionByName(name: string): Promise<Region> {
+  public async getRegionByName(name: string): Promise<Region> {
     return new Promise<Region>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Region}/${name}`)
@@ -133,7 +133,7 @@ export class LocationClient extends BaseClient {
    * @param id The Region ID
    * @returns A Region
    */
-  public getRegionById(id: number): Promise<Region> {
+  public async getRegionById(id: number): Promise<Region> {
     return new Promise<Region>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Region}/${id}`)
@@ -148,7 +148,7 @@ export class LocationClient extends BaseClient {
    * @param limit How many Locations per page
    * @returns A list of Locations
    */
-  public listLocations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listLocations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Location}?offset=${offset || 0}&limit=${limit || 20}`)
@@ -163,7 +163,7 @@ export class LocationClient extends BaseClient {
    * @param limit How many Locations per page
    * @returns A list of Location Areas
    */
-  public listLocationAreas(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listLocationAreas(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.LocationArea}?offset=${offset || 0}&limit=${limit || 20}`)
@@ -178,7 +178,7 @@ export class LocationClient extends BaseClient {
    * @param limit How many Pal Park Areas per page
    * @returns A list of Pal Park Areas
    */
-  public listPalParkAreas(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listPalParkAreas(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.PalParkArea}?offset=${offset || 0}&limit=${limit || 20}`)
@@ -193,7 +193,7 @@ export class LocationClient extends BaseClient {
    * @param limit How many Regions per page
    * @returns A list of Regions
    */
-  public listRegions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listRegions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Region}?offset=${offset || 0}&limit=${limit || 20}`)

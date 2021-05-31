@@ -35,7 +35,7 @@ export class GameClient extends BaseClient {
    * @param name The generation name
    * @returns A Generation
    */
-  public getGenerationByName(name: string): Promise<Generation> {
+  public async getGenerationByName(name: string): Promise<Generation> {
     return new Promise<Generation>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Generation}/${name}`)
@@ -49,7 +49,7 @@ export class GameClient extends BaseClient {
    * @param id The generation ID
    * @returns A Generation
    */
-  public getGenerationById(id: number): Promise<Generation> {
+  public async getGenerationById(id: number): Promise<Generation> {
     return new Promise<Generation>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Generation}/${id}`)
@@ -63,7 +63,7 @@ export class GameClient extends BaseClient {
    * @param name The pokedex name
    * @returns A Pokedex
    */
-  public getPokedexByName(name: string): Promise<Pokedex> {
+  public async getPokedexByName(name: string): Promise<Pokedex> {
     return new Promise<Pokedex>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Pokedex}/${name}`)
@@ -77,7 +77,7 @@ export class GameClient extends BaseClient {
    * @param id The pokedex ID
    * @returns A Pokedex
    */
-  public getPokedexById(id: number): Promise<Pokedex> {
+  public async getPokedexById(id: number): Promise<Pokedex> {
     return new Promise<Pokedex>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Pokedex}/${id}`)
@@ -91,7 +91,7 @@ export class GameClient extends BaseClient {
    * @param name The version name
    * @returns A Version
    */
-  public getVersionByName(name: string): Promise<Version> {
+  public async getVersionByName(name: string): Promise<Version> {
     return new Promise<Version>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Version}/${name}`)
@@ -105,7 +105,7 @@ export class GameClient extends BaseClient {
    * @param id The version ID
    * @returns A Version
    */
-  public getVersionById(id: number): Promise<Version> {
+  public async getVersionById(id: number): Promise<Version> {
     return new Promise<Version>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Version}/${id}`)
@@ -119,7 +119,7 @@ export class GameClient extends BaseClient {
    * @param name The version group name
    * @returns A Version Group
    */
-  public getVersionGroupByName(name: string): Promise<VersionGroup> {
+  public async getVersionGroupByName(name: string): Promise<VersionGroup> {
     return new Promise<VersionGroup>((resolve, reject) => {
       this.api
         .get(`${Endpoints.VersionGroup}/${name}`)
@@ -133,7 +133,7 @@ export class GameClient extends BaseClient {
    * @param id The version group ID
    * @returns A Version Group
    */
-  public getVersionGroupById(id: number): Promise<VersionGroup> {
+  public async getVersionGroupById(id: number): Promise<VersionGroup> {
     return new Promise<VersionGroup>((resolve, reject) => {
       this.api
         .get(`${Endpoints.VersionGroup}/${id}`)
@@ -148,7 +148,7 @@ export class GameClient extends BaseClient {
    * @param limit How many Generations per page
    * @returns A list of Generations
    */
-  public listGenerations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listGenerations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Generation}?offset=${offset || 0}&limit=${limit || 20}`)
@@ -163,7 +163,7 @@ export class GameClient extends BaseClient {
    * @param limit How many Pokedexes per page
    * @returns A list of Pokedexes
    */
-  public listPokedexes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listPokedexes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Pokedex}?offset=${offset || 0}&limit=${limit || 20}`)
@@ -178,7 +178,7 @@ export class GameClient extends BaseClient {
    * @param limit How many Versions per page
    * @returns A list of Versions
    */
-  public listVersions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listVersions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Version}?offset=${offset || 0}&limit=${limit || 20}`)
@@ -193,7 +193,7 @@ export class GameClient extends BaseClient {
    * @param limit How many Version Groups per page
    * @returns A list of Version Groups
    */
-  public listVersionGroups(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listVersionGroups(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.VersionGroup}?offset=${offset || 0}&limit=${limit || 20}`)

@@ -43,7 +43,7 @@ export class ItemClient extends BaseClient {
    * @param name The item name
    * @returns An Item
    */
-  public getItemByName(name: string): Promise<Item> {
+  public async getItemByName(name: string): Promise<Item> {
     return new Promise<Item>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Item}/${name}`)
@@ -57,7 +57,7 @@ export class ItemClient extends BaseClient {
    * @param id The item ID
    * @returns An Item
    */
-  public getItemById(id: number): Promise<Item> {
+  public async getItemById(id: number): Promise<Item> {
     return new Promise<Item>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Item}/${id}`)
@@ -71,7 +71,7 @@ export class ItemClient extends BaseClient {
    * @param name The item attribute name
    * @returns An Item Attribute
    */
-  public getItemAttributeByName(name: string): Promise<ItemAttribute> {
+  public async getItemAttributeByName(name: string): Promise<ItemAttribute> {
     return new Promise<ItemAttribute>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemAttribute}/${name}`)
@@ -85,7 +85,7 @@ export class ItemClient extends BaseClient {
    * @param id The item attribute ID
    * @returns An Item Attribute
    */
-  public getItemAttributeById(id: number): Promise<ItemAttribute> {
+  public async getItemAttributeById(id: number): Promise<ItemAttribute> {
     return new Promise<ItemAttribute>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemAttribute}/${id}`)
@@ -99,7 +99,7 @@ export class ItemClient extends BaseClient {
    * @param name The item category name
    * @returns An Item Category
    */
-  public getItemCategoryByName(name: string): Promise<ItemCategory> {
+  public async getItemCategoryByName(name: string): Promise<ItemCategory> {
     return new Promise<ItemCategory>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemCategory}/${name}`)
@@ -113,7 +113,7 @@ export class ItemClient extends BaseClient {
    * @param id The item category ID
    * @returns An Item Category
    */
-  public getItemCategoryById(id: number): Promise<ItemCategory> {
+  public async getItemCategoryById(id: number): Promise<ItemCategory> {
     return new Promise<ItemCategory>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemCategory}/${id}`)
@@ -127,7 +127,7 @@ export class ItemClient extends BaseClient {
    * @param name The item filing effect name
    * @returns An Item Filing Effect
    */
-  public getItemFilingEffectByName(name: string): Promise<ItemFlingEffect> {
+  public async getItemFilingEffectByName(name: string): Promise<ItemFlingEffect> {
     return new Promise<ItemFlingEffect>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemFlingEffect}/${name}`)
@@ -141,7 +141,7 @@ export class ItemClient extends BaseClient {
    * @param id The item filing effect ID
    * @returns An Item Filing Effect
    */
-  public getItemFilingEffectById(id: number): Promise<ItemFlingEffect> {
+  public async getItemFilingEffectById(id: number): Promise<ItemFlingEffect> {
     return new Promise<ItemFlingEffect>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemFlingEffect}/${id}`)
@@ -155,7 +155,7 @@ export class ItemClient extends BaseClient {
    * @param name The item pocket name
    * @returns An Item Pocket
    */
-  public getItemPocketByName(name: string): Promise<ItemPocket> {
+  public async getItemPocketByName(name: string): Promise<ItemPocket> {
     return new Promise<ItemPocket>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemPocket}/${name}`)
@@ -169,7 +169,7 @@ export class ItemClient extends BaseClient {
    * @param id The item pocket ID
    * @returns An Item Pocket
    */
-  public getItemPocketById(id: number): Promise<ItemPocket> {
+  public async getItemPocketById(id: number): Promise<ItemPocket> {
     return new Promise<ItemPocket>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemPocket}/${id}`)
@@ -184,7 +184,7 @@ export class ItemClient extends BaseClient {
    * @param limit How many Items per page
    * @returns A list of Items
    */
-  public listItems(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listItems(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Item}?offset=${offset || 0}&limit=${limit || 20}`)
@@ -199,7 +199,7 @@ export class ItemClient extends BaseClient {
    * @param limit How many Item Attributes per page
    * @returns A list of Item Attributes
    */
-  public listItemAttributes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listItemAttributes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemAttribute}?offset=${offset || 0}&limit=${limit || 20}`)
@@ -216,7 +216,7 @@ export class ItemClient extends BaseClient {
    * @param limit How many Item Categories per page
    * @returns A list of Item Categories
    */
-  public listItemCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listItemCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemCategory}?offset=${offset || 0}&limit=${limit || 20}`)
@@ -233,7 +233,10 @@ export class ItemClient extends BaseClient {
    * @param limit How many Item Filing Effects per page
    * @returns A list of Item Filing Effects
    */
-  public listItemFilingEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listItemFilingEffects(
+    offset?: number,
+    limit?: number
+  ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemFlingEffect}?offset=${offset || 0}&limit=${limit || 20}`)
