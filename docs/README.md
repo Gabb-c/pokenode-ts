@@ -4,7 +4,7 @@
 
 ## What it is
 
-A lightweight Node.js wrapper for the PokéAPI with built-in types.
+A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way to integrate your app with the PokéAPI.
 
 ## Features
 
@@ -28,7 +28,7 @@ console.log(pokemon.name); // will output 'Luxray'
 
 ## Donate
 
-Please consider donating if you think pokenode is helpful to you or that my work is valuable. I am happy if you can help me [buy a cup of coffee](https://github.com/QingWei-Li/donate). :heart:
+Please consider donating if you think pokenode is helpful to you or that my work is valuable. I am happy if you can help me [buy a cup of coffee](). :heart:
 
 ## Community
 

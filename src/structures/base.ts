@@ -33,7 +33,10 @@ export class BaseClient {
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: cacheOptions,
+      cache: {
+        maxAge: cacheOptions ? cacheOptions.maxAge : 0,
+        ...cacheOptions,
+      },
     });
 
     this.logger = createLogger(

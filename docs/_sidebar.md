@@ -1,28 +1,27 @@
 - Getting started
 
   - [Quick Start](getting-started.md)
-  - [Writing more pages](more-pages.md)
-  - [Custom navbar](custom-navbar.md)
-  - [Cover page](cover.md)
+  - [Logging](logs.md)
+  - [Cache](cache.md)
 
-- Customization
+- Clients
 
-  - [Configuration](configuration.md)
-  - [Themes](themes.md)
-  - [List of Plugins](plugins.md)
-  - [Write a Plugin](write-a-plugin.md)
-  - [Markdown configuration](markdown.md)
-  - [Language highlighting](language-highlight.md)
+  - [Berry Client](berry-client.md)
+  - [Contest Client](contest-client.md)
+  - [Encounter Client](encounter-client.md)
+  - [Evolution Client](evolution.md)
+  - [Game Client](game-client.md)
+  - [Item Client](item-client.md)
+  - [Location Client](Location-client.md)
+  - [Machine Client](machine-client.md)
+  - [Move Client](item-client.md)
+  - [Pokemon Client](pokemon-client.md)
+  - [Utility Client](utility-client.md)
 
-- Guide
-
-  - [Deploy](deploy.md)
-  - [Helpers](helpers.md)
-  - [Vue compatibility](vue.md)
-  - [CDN](cdn.md)
-  - [Offline Mode(PWA)](pwa.md)
-  - [Server-Side Rendering(SSR)](ssr.md)
-  - [Embed Files](embed-files.md)
+- About
+  - [Updates](update.md)
+  - [Contributing](deploy.md)
+  - [Issues](helpers.md)
 
 - [Awesome docsify](awesome.md)
 - [Changelog](changelog.md)

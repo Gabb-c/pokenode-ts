@@ -1,4 +1,4 @@
-## Instalation
+## Installation
 
 Install pokenode using your favorite package manager:
 
