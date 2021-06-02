@@ -3,6 +3,7 @@
   - [Quick Start](getting-started.md)
   - [Logging](logs.md)
   - [Cache](cache.md)
+  - [Client Options](options.md)
 
 - Clients
 
@@ -20,8 +21,9 @@
 
 - About
   - [Updates](update.md)
-  - [Contributing](deploy.md)
   - [Issues](helpers.md)
+  - [Contributing](deploy.md)
+  - [Code of Conduct](code-of-conduct.md)
 
 - [Special Thanks](thanks.md)
 - [Changelog](changelog.md)

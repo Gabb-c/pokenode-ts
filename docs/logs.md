@@ -3,18 +3,18 @@
 Every client in Pokenode can display logs from requests and responses thanks to [Pino.js](https://github.com/pinojs/pino), a super fast all natural json logger.
 Clients accept 2 optional arguments for logging:
 
-> [logOptions](https://getpino.io/#/docs/api?id=options)
+> [logOptions](/options?id=logoptions)
 &
-> [logDestination](https://getpino.io/#/docs/api?id=destination)
+> [logDestination](/options?id=logdestination)
 
 ## Basic Logging
 
-To enable basic plain json logs just set the `enabled` option:
+To enable basic plain json logs just pass the `logOptions` with `enabled: true`:
 
 ```js
 import { BerryClient, Constants } from 'pokenode';
 
-const api = new BerryClient({ enabled: true }); // Enable logs
+const api = new BerryClient({ logOptions: { enabled: true } }); // Enable logs
 
 ```
 
@@ -39,7 +39,9 @@ To enable pretty printing:
 ```js
 import { BerryClient } from 'pokenode';
 
-const api = new BerryClient({ enabled: true, prettyPrinting: { levelFirst: true, colorize: true } }); // Enable pretty logs (recommended for development)
+const api = new BerryClient({ logOptions: { enabled: true, prettyPrint: { levelFirst: true, colorize: true } } });
+
+// Enable pretty logs (recommended for development)
 
 ```
 
@@ -125,9 +127,9 @@ To enable async logs:
 ```js
 import { BerryClient, Constants } from 'pokenode';
 
-const api = new BerryClient({ enabled: true }, { sync: false }); // Enable asynchronous logs
+const api = new BerryClient({ logOptions: { enabled: true }, logDestination: { sync: false } }); // Enable asynchronous logs
 ```
 
-## Advanced Configuration
+## More
 
 For more advanced log configuration, check [Pino.js Documentation](https://getpino.io/#/).
