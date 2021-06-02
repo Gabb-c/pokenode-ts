@@ -24,4 +24,4 @@
 * I've added this because . . .
 * Removed this because . . .
 
-* Screenshot, code block, etc... (optional, but helps in understanding the changes)
+* Screenshot, code block, etc... (optional, but helps understanding the changes)
