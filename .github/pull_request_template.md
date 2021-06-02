@@ -3,11 +3,11 @@
 ## Checks and guidelines
 <!-- Mark your checks with 'x' inside the square brackets -->
 
-* [ ] Have you checked that there aren't other open [Pull Requests](../../pulls) for the same update/change?
-* [ ] Linting (`yarn lint:ci`) passed
+* [ ] Have you checked that there aren't other open [Pull Requests](https://github.com/Gabb-c/pokenode/pulls) for the same update/change?
+* [ ] Linting passed `yarn lint:ci`
 * [ ] Integration tests added
-* [ ] Tests (`yarn test:dev`) passed
-* [ ] Build (`yarn build:ci`) passed
+* [ ] Tests passed `yarn test:dev`
+* [ ] Build passed `yarn build:ci`
 
 <!-- You can erase any part of this template if not applicable to your Pull Request. -->
 
