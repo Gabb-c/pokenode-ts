@@ -1,8 +1,8 @@
-## Arguments
-
-Client arguments for `log` and `cache` configuration:
+# Client Options
 
 ## Client Args
+
+Client arguments for `log` and `cache` configuration:
 
 ```ts
 export interface ClientArgs {
@@ -12,7 +12,7 @@ export interface ClientArgs {
 }
 ```
 
-## logOptions
+### logOptions
 
 ```ts
 interface LoggerOptions {
@@ -310,7 +310,7 @@ interface LoggerOptions {
 }
 ```
 
-## logDestination
+### logDestination
 
 ```ts
 interface DestinationObjectOptions {
@@ -321,7 +321,7 @@ interface DestinationObjectOptions {
 }
 ```
 
-## cacheOptions
+### cacheOptions
 
 ```ts
 export interface IAxiosCacheAdapterOptions {

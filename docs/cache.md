@@ -1,3 +1,5 @@
+# Cache
+
 ## What is it
 
 With `Axios-cache` you can store request results to prevent unneeded network requests.

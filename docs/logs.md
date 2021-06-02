@@ -1,3 +1,5 @@
+# Logging
+
 ## Logs
 
 Every client in Pokenode can display logs from requests and responses thanks to [Pino.js](https://github.com/pinojs/pino), a super fast all natural json logger.

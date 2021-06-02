@@ -1,6 +1,18 @@
+# Berry Client
+
 ## Usage
 
-Berries are small fruits that can provide HP and status condition restoration, stat enhancement, and even damage negation when eaten by Pokémon. Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Berry) for greater detail.
+The Berry Client provide methods to access the [Berry Endpoinds](https://pokeapi.co/docs/v2#berries-section):
+
+- `getBerryByName`(name: `string`) => [Berry](/berry-typings?id=Berry)
+- `getBerryByID`(id: `number`) => [Berry](/berry-typings?id=Berry)
+- `getBerryFirmnessByName`(name: `string`) => [Berry Firmness](/berry-typings?id=berry-firmness)
+- `getBerryFirmnessById`(id: `number`) => [Berry Firmness](/berry-typings?id=berry-firmness)
+- `getBerryFlavorByName`(name: `string`) => [BerryFlavor](/berry-typings?id=berry-flavor)
+- `getBerryFlavorById`(id: `number`) => [BerryFlavor](/berry-typings?id=berry-flavor)
+- `listBerries`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource)
+- `listBerryFirmness`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource)
+- `listBerryFlavors`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource)
 
 ```js
 import { BerryClient, Berries } from 'pokenode'; // import the BerryClient (Berries enum is fully optional)
