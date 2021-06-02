@@ -23,5 +23,5 @@
   - [Contributing](deploy.md)
   - [Issues](helpers.md)
 
-- [Awesome docsify](awesome.md)
+- [Special Thanks](thanks.md)
 - [Changelog](changelog.md)

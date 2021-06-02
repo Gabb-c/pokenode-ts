@@ -1,9 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { IAxiosCacheAdapterOptions } from 'axios-cache-adapter';
-import { DestinationObjectOptions, LoggerOptions } from 'pino';
 import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from '../models';
 import { Endpoints } from '../constants';
-import { BaseClient } from '../structures/base';
+import { BaseClient, ClientArgs } from '../structures/base';
 
 /**
  * ### Contest Client
@@ -17,16 +15,10 @@ import { BaseClient } from '../structures/base';
  */
 export class ContestClient extends BaseClient {
   /**
-   * @param logOptions Options for the logger.
-   * @param logDestination Options for the logs destination.
-   * @param cacheOptions Options for the axios-cache.
+   * @argument clientOptions Options for the client.
    */
-  constructor(
-    logOptions?: LoggerOptions,
-    logDestination?: DestinationObjectOptions,
-    cacheOptions?: IAxiosCacheAdapterOptions
-  ) {
-    super(logOptions, logDestination, cacheOptions);
+  constructor(clientOptions?: ClientArgs) {
+    super(clientOptions);
   }
 
   /**

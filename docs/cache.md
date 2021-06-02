@@ -1,6 +1,6 @@
 ## What is it
 
-With Axios-cache you can store request results to prevent unneeded network requests.
+With `Axios-cache` you can store request results to prevent unneeded network requests.
 
 ## Basic Usage
 

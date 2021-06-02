@@ -1,6 +1,4 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { DestinationObjectOptions, LoggerOptions } from 'pino';
-import { IAxiosCacheAdapterOptions } from 'axios-cache-adapter';
 import {
   Ability,
   Characteristic,
@@ -21,7 +19,7 @@ import {
   Type,
 } from '../models';
 import { Endpoints } from '../constants';
-import { BaseClient } from '../structures/base';
+import { BaseClient, ClientArgs } from '../structures/base';
 
 /**
  * ### Pokemon Client
@@ -48,16 +46,10 @@ import { BaseClient } from '../structures/base';
  */
 export class PokemonClient extends BaseClient {
   /**
-   * @param logOptions Options for the logger.
-   * @param logDestination Options for the logs destination.
-   * @param cacheOptions Options for the axios-cache.
+   * @argument clientOptions Options for the client.
    */
-  constructor(
-    logOptions?: LoggerOptions,
-    logDestination?: DestinationObjectOptions,
-    cacheOptions?: IAxiosCacheAdapterOptions
-  ) {
-    super(logOptions, logDestination, cacheOptions);
+  constructor(clientOptions?: ClientArgs) {
+    super(clientOptions);
   }
 
   /**

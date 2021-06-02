@@ -1,9 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { DestinationObjectOptions, LoggerOptions } from 'pino';
-import { IAxiosCacheAdapterOptions } from 'axios-cache-adapter';
 import { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from '../models';
 import { Endpoints } from '../constants';
-import { BaseClient } from '../structures/base';
+import { BaseClient, ClientArgs } from '../structures/base';
 
 /**
  * ### Location Client
@@ -18,16 +16,10 @@ import { BaseClient } from '../structures/base';
  */
 export class LocationClient extends BaseClient {
   /**
-   * @param logOptions Options for the logger.
-   * @param logDestination Options for the logs destination.
-   * @param cacheOptions Options for the axios-cache.
+   * @argument clientOptions Options for the client.
    */
-  constructor(
-    logOptions?: LoggerOptions,
-    logDestination?: DestinationObjectOptions,
-    cacheOptions?: IAxiosCacheAdapterOptions
-  ) {
-    super(logOptions, logDestination, cacheOptions);
+  constructor(clientOptions?: ClientArgs) {
+    super(clientOptions);
   }
 
   /**

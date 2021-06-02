@@ -1,6 +1,4 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { DestinationObjectOptions, LoggerOptions } from 'pino';
-import { IAxiosCacheAdapterOptions } from 'axios-cache-adapter';
 import {
   Item,
   ItemAttribute,
@@ -10,7 +8,7 @@ import {
   NamedAPIResourceList,
 } from '../models';
 import { Endpoints } from '../constants/endpoints';
-import { BaseClient } from '../structures/base';
+import { BaseClient, ClientArgs } from '../structures/base';
 
 /**
  * ### Item Client
@@ -26,16 +24,10 @@ import { BaseClient } from '../structures/base';
  */
 export class ItemClient extends BaseClient {
   /**
-   * @param logOptions Options for the logger.
-   * @param logDestination Options for the logs destination.
-   * @param cacheOptions Options for the axios-cache.
+   * @argument clientOptions Options for the client.
    */
-  constructor(
-    logOptions?: LoggerOptions,
-    logDestination?: DestinationObjectOptions,
-    cacheOptions?: IAxiosCacheAdapterOptions
-  ) {
-    super(logOptions, logDestination, cacheOptions);
+  constructor(clientOptions?: ClientArgs) {
+    super(clientOptions);
   }
 
   /**

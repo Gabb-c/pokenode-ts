@@ -37,7 +37,7 @@ Will output:
 To enable pretty printing:
 
 ```js
-import { BerryClient, Constants } from 'pokenode';
+import { BerryClient } from 'pokenode';
 
 const api = new BerryClient({ enabled: true, prettyPrinting: { levelFirst: true, colorize: true } }); // Enable pretty logs (recommended for development)
 

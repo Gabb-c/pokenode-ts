@@ -1,6 +1,4 @@
-import { DestinationObjectOptions, LoggerOptions } from 'pino';
-import { IAxiosCacheAdapterOptions } from 'axios-cache-adapter';
-import { BaseClient } from '../structures/base';
+import { BaseClient, ClientArgs } from '../structures/base';
 import { BerryClient } from './berry.client';
 import { ContestClient } from './contest.client';
 import { EncounterClient } from './encounter.client';
@@ -51,22 +49,18 @@ export class Pokenode extends BaseClient {
 
   public pokemon: PokemonClient;
 
-  constructor(
-    logOptions?: LoggerOptions,
-    logDestination?: DestinationObjectOptions,
-    cacheOptions?: IAxiosCacheAdapterOptions
-  ) {
-    super(logOptions, logDestination, cacheOptions);
+  constructor(clientOptions?: ClientArgs) {
+    super(clientOptions);
 
-    this.berry = new BerryClient(logOptions, logDestination, cacheOptions);
-    this.contest = new ContestClient(logOptions, logDestination, cacheOptions);
-    this.encounter = new EncounterClient(logOptions, logDestination, cacheOptions);
-    this.evolution = new EvolutionClient(logOptions, logDestination, cacheOptions);
-    this.game = new GameClient(logOptions, logDestination, cacheOptions);
-    this.item = new ItemClient(logOptions, logDestination, cacheOptions);
-    this.location = new LocationClient(logOptions, logDestination, cacheOptions);
-    this.machine = new MachineClient(logOptions, logDestination, cacheOptions);
-    this.move = new MoveClient(logOptions, logDestination, cacheOptions);
-    this.pokemon = new PokemonClient(logOptions, logDestination, cacheOptions);
+    this.berry = new BerryClient(clientOptions);
+    this.contest = new ContestClient(clientOptions);
+    this.encounter = new EncounterClient(clientOptions);
+    this.evolution = new EvolutionClient(clientOptions);
+    this.game = new GameClient(clientOptions);
+    this.item = new ItemClient(clientOptions);
+    this.location = new LocationClient(clientOptions);
+    this.machine = new MachineClient(clientOptions);
+    this.move = new MoveClient(clientOptions);
+    this.pokemon = new PokemonClient(clientOptions);
   }
 }

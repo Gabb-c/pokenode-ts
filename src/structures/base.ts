@@ -11,6 +11,31 @@ import {
 } from '../config/logger';
 
 /**
+ * ## Client Args
+ * Used to pass optional configuration for logging and cache to the clients.
+ */
+export interface ClientArgs {
+  /**
+   * ## Logger Options
+   * Options for the client logger.
+   * @see https://getpino.io/#/docs/api?id=options
+   */
+  logOptions?: LoggerOptions;
+  /**
+   * ## Logger Destination Options
+   * Options for the client logger.
+   * @see https://getpino.io/#/docs/api?id=destination
+   */
+  logDestination?: DestinationObjectOptions;
+  /**
+   * ## Axios Cache Options
+   * Options for cache.
+   * @see https://github.com/RasCarlito/axios-cache-adapter
+   */
+  cacheOptions?: IAxiosCacheAdapterOptions;
+}
+
+/**
  * ### Base Client
  */
 export class BaseClient {
@@ -19,32 +44,29 @@ export class BaseClient {
   protected logger: Logger;
 
   /**
-   * @param logOptions Options for the logger.
-   * @param logDestination Options for the logs destination.
-   * @param cacheOptions Options for the axios-cache.
+   *
    */
-  constructor(
-    logOptions?: LoggerOptions,
-    logDestination?: DestinationObjectOptions,
-    cacheOptions?: IAxiosCacheAdapterOptions
-  ) {
+  constructor(clientOptions?: ClientArgs) {
     this.api = setup({
       baseURL: BaseURL.REST,
       headers: {
         'Content-Type': 'application/json',
       },
       cache: {
-        maxAge: cacheOptions ? cacheOptions.maxAge : 0,
-        ...cacheOptions,
+        maxAge: clientOptions?.cacheOptions ? clientOptions.cacheOptions.maxAge : 0,
+        ...clientOptions?.cacheOptions,
       },
     });
 
     this.logger = createLogger(
       {
-        enabled: !(logOptions?.enabled === undefined || logOptions.enabled === false),
-        ...logOptions,
+        enabled: !(
+          clientOptions?.logOptions?.enabled === undefined ||
+          clientOptions?.logOptions.enabled === false
+        ),
+        ...clientOptions?.logOptions,
       },
-      logDestination
+      clientOptions?.logDestination
     );
 
     this.api.interceptors.request.use(

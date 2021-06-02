@@ -1,9 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { DestinationObjectOptions, LoggerOptions } from 'pino';
-import { IAxiosCacheAdapterOptions } from 'axios-cache-adapter';
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from '../models';
 import { Endpoints } from '../constants';
-import { BaseClient } from '../structures/base';
+import { BaseClient, ClientArgs } from '../structures/base';
 
 /**
  * ### Berry Client
@@ -16,12 +14,8 @@ import { BaseClient } from '../structures/base';
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#berries-section)
  */
 export class BerryClient extends BaseClient {
-  constructor(
-    logOptions?: LoggerOptions,
-    logDestination?: DestinationObjectOptions,
-    cacheOptions?: IAxiosCacheAdapterOptions
-  ) {
-    super(logOptions, logDestination, cacheOptions);
+  constructor(clientOptions?: ClientArgs) {
+    super(clientOptions);
   }
 
   /**
