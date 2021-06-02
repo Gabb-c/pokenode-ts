@@ -31,7 +31,7 @@ import {
 } from '../constants';
 import { PokemonClient } from '../clients';
 
-describe('test Berry Client', () => {
+describe('test Pokemon Client', () => {
   let client: PokemonClient;
   beforeAll(() => {
     client = new PokemonClient();

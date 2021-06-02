@@ -1,7 +1,7 @@
 import { Machine, NamedAPIResourceList } from '../models';
 import { MachineClient } from '../clients';
 
-describe('test Berry Client', () => {
+describe('test Machine Client', () => {
   let client: MachineClient;
   beforeAll(() => {
     client = new MachineClient();
@@ -13,7 +13,7 @@ describe('test Berry Client', () => {
 
     expect(data.id).toBe(1);
   });
-  it('check if it returns a list of berries', async () => {
+  it('check if it returns a list of machines', async () => {
     const data = await client.listMachines().then((response: NamedAPIResourceList) => response);
 
     expect(data.results.length).toBeGreaterThan(0);

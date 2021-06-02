@@ -1,7 +1,7 @@
 import { Item, ItemAttribute, NamedAPIResourceList } from '../models';
 import { ItemClient } from '../clients';
 
-describe('test Berry Client', () => {
+describe('test Item Client', () => {
   let client: ItemClient;
   beforeAll(() => {
     client = new ItemClient();
