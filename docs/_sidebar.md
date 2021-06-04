@@ -10,7 +10,7 @@
   - [Berry](berry-client.md)
   - [Contest](contest-client.md)
   - [Encounter](encounter-client.md)
-  - [Evolution](evolution.md)
+  - [Evolution](evolution-client.md)
   - [Game](game-client.md)
   - [Item](item-client.md)
   - [Location](Location-client.md)
