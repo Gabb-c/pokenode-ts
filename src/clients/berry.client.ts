@@ -125,7 +125,7 @@ export class BerryClient extends BaseClient {
    * @param limit How many berry firmnesses per page
    * @returns A list of berry firmnesses
    */
-  public listBerryFirmness(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public listBerryFirmnesses(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.BerryFirmness}?offset=${offset || 0}&limit=${limit || 20}`)

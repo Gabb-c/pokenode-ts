@@ -41,7 +41,7 @@ describe('test Berry Client', () => {
   });
   it('check if it returns a list of berry firmnesses', async () => {
     const data = await client
-      .listBerryFirmness()
+      .listBerryFirmnesses()
       .then((response: NamedAPIResourceList) => response);
 
     expect(data.results.length).toBeGreaterThan(0);
