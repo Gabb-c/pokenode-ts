@@ -119,7 +119,7 @@ export class ItemClient extends BaseClient {
    * @param name The item filing effect name
    * @returns An Item Filing Effect
    */
-  public async getItemFilingEffectByName(name: string): Promise<ItemFlingEffect> {
+  public async getItemFlingEffectByName(name: string): Promise<ItemFlingEffect> {
     return new Promise<ItemFlingEffect>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemFlingEffect}/${name}`)
@@ -133,7 +133,7 @@ export class ItemClient extends BaseClient {
    * @param id The item filing effect ID
    * @returns An Item Filing Effect
    */
-  public async getItemFilingEffectById(id: number): Promise<ItemFlingEffect> {
+  public async getItemFlingEffectById(id: number): Promise<ItemFlingEffect> {
     return new Promise<ItemFlingEffect>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemFlingEffect}/${id}`)
@@ -196,9 +196,7 @@ export class ItemClient extends BaseClient {
       this.api
         .get(`${Endpoints.ItemAttribute}?offset=${offset || 0}&limit=${limit || 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -232,6 +230,21 @@ export class ItemClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemFlingEffect}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
+    });
+  }
+
+  /**
+   * List Item Pockets
+   * @param offset The first item that you will get
+   * @param limit How many Item Pockets per page
+   * @returns A list of Item Pockets
+   */
+  public async listItemPockets(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+    return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      this.api
+        .get(`${Endpoints.ItemPocket}?offset=${offset || 0}&limit=${limit || 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });

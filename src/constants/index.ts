@@ -9,3 +9,4 @@ export * from './locations';
 export * from './moves';
 export * from './pokemons';
 export * from './utilities';
+export * from './items';
