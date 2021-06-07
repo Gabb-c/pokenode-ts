@@ -1,9 +1,9 @@
 - Getting started
 
-  - [Quick Start](getting-started.md)
-  - [Logging](logs.md)
-  - [Cache](cache.md)
-  - [Client Options](options.md)
+  - [Quick Start](getting-started/quick-start.md)
+  - [Logging](getting-started/logs.md)
+  - [Cache](getting-started/cache.md)
+  - [Client Options](getting-started/options.md)
 
 - Clients
 
@@ -34,10 +34,8 @@
   - [Common](typings/common-typings)
 
 - About
-  - [Updates](update.md)
-  - [Issues](helpers.md)
-  - [Contributing](deploy.md)
-  - [Code of Conduct](code-of-conduct.md)
+  - [Issues](about/issues.md)
+  - [Contributing](about/contributing.md)
+  - [Code of Conduct](about/code-of-conduct.md)
 
 - [Special Thanks](thanks.md)
-- [Changelog](changelog.md)

@@ -4,15 +4,15 @@
 
 The Berry Client provide methods to access the [Berry Endpoinds](https://pokeapi.co/docs/v2#berries-section):
 
-- `getBerryByName`(name: `string`) => [Berry](/berry-typings?id=Berry)
-- `getBerryByID`(id: `number`) => [Berry](/berry-typings?id=Berry)
-- `getBerryFirmnessByName`(name: `string`) => [BerryFirmness](/berry-typings?id=berry-firmness)
-- `getBerryFirmnessById`(id: `number`) => [BerryFirmness](/berry-typings?id=berry-firmness)
-- `getBerryFlavorByName`(name: `string`) => [BerryFlavor](/berry-typings?id=berry-flavor)
-- `getBerryFlavorById`(id: `number`) => [BerryFlavor](/berry-typings?id=berry-flavor)
-- `listBerries`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource-list)
-- `listBerryFirmness`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource-list)
-- `listBerryFlavors`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource-list)
+- `getBerryByName`(name: `string`) => [Berry](typings/berry-typings?id=Berry)
+- `getBerryByID`(id: `number`) => [Berry](typings/berry-typings?id=Berry)
+- `getBerryFirmnessByName`(name: `string`) => [BerryFirmness](typings/berry-typings?id=berry-firmness)
+- `getBerryFirmnessById`(id: `number`) => [BerryFirmness](typings/berry-typings?id=berry-firmness)
+- `getBerryFlavorByName`(name: `string`) => [BerryFlavor](typings/berry-typings?id=berry-flavor)
+- `getBerryFlavorById`(id: `number`) => [BerryFlavor](typings/berry-typings?id=berry-flavor)
+- `listBerries`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](typings/common-typings?id=named-api-resource-list)
+- `listBerryFirmness`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](typings/common-typings?id=named-api-resource-list)
+- `listBerryFlavors`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](typings/common-typings?id=named-api-resource-list)
 
 ## Example
 

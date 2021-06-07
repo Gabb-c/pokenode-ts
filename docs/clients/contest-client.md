@@ -4,13 +4,13 @@
 
 The Contest Client provide methods to access the [Contest Endpoinds](https://pokeapi.co/docs/v2#contests-section):
 
-- `getContestTypeByName`(name: `string`) => [ContestType](/contest-typings?id=contest-type)
-- `getContestTypeByID`(id: `number`) => [ContestType](/contest-typings?id=contest-type)
-- `getContestEffectById`(name: `string`) => [ContestEffect](/contest-typings?id=contest-effect)
-- `getSuperContestEffectById`(id: `number`) => [SuperContestEffect](/contest-typings?id=super-contest-effect)
-- `listContestTypes`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource-list)
-- `listContestEffects`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource-list)
-- `listSuperContestEffects`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource-list)
+- `getContestTypeByName`(name: `string`) => [ContestType](typings/contest-typings?id=contest-type)
+- `getContestTypeByID`(id: `number`) => [ContestType](typings/contest-typings?id=contest-type)
+- `getContestEffectById`(name: `string`) => [ContestEffect](typings/contest-typings?id=contest-effect)
+- `getSuperContestEffectById`(id: `number`) => [SuperContestEffect](typings/contest-typings?id=super-contest-effect)
+- `listContestTypes`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](typings/common-typings?id=named-api-resource-list)
+- `listContestEffects`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](typings/common-typings?id=named-api-resource-list)
+- `listSuperContestEffects`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](typings/common-typings?id=named-api-resource-list)
 
 ## Example
 

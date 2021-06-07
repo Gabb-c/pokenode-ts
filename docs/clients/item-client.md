@@ -4,21 +4,21 @@
 
 The Item Client provide methods to access the [Item Endpoinds](https://pokeapi.co/docs/v2#items-section):
 
-- `getItemByName`(name: `string`) => [Item](/item-typings?id=item)
-- `getItemByID`(id: `number`) => [Item](/item-typings?id=item)
-- `getItemAttributeByName`(name: `string`) => [ItemAttribute](/item-typings?id=item-attribute)
-- `getItemAttributeById`(id: `number`) => [ItemAttribute](/item-typings?id=item-attribute)
-- `getItemCategoryByName`(name: `string`) => [ItemCategory](/item-typings?id=item-category)
-- `getItemCategoryById`(id: `number`) => [ItemCategory](/item-typings?id=item-category)
-- `getItemFlingEffectByName`(name: `string`) => [ItemFlingEffect](/item-typings?id=item-fling-effect)
-- `getItemFlingEffectById`(id: `number`) => [ItemFlingEffect](/item-typings?id=item-fling-effect)
-- `getItemPocketById`(id: `number`) => [ItemPocket](/item-typings?id=item-pocket)
-- `getItemPocketByName`(name: `string`) => [ItemPocket](/item-typings?id=item-pocket)
-- `listItems`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource-list)
-- `listItemAttributes`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource-list)
-- `listItemCategories`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource-list)
-- `listItemFlingEffects`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource-list)
-- `listItemPockets`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](/common-typings?id=named-api-resource-list)
+- `getItemByName`(name: `string`) => [Item](typings/item-typings?id=item)
+- `getItemByID`(id: `number`) => [Item](typings/item-typings?id=item)
+- `getItemAttributeByName`(name: `string`) => [ItemAttribute](typings/item-typings?id=item-attribute)
+- `getItemAttributeById`(id: `number`) => [ItemAttribute](typings/item-typings?id=item-attribute)
+- `getItemCategoryByName`(name: `string`) => [ItemCategory](typings/item-typings?id=item-category)
+- `getItemCategoryById`(id: `number`) => [ItemCategory](typings/item-typings?id=item-category)
+- `getItemFlingEffectByName`(name: `string`) => [ItemFlingEffect](typings/item-typings?id=item-fling-effect)
+- `getItemFlingEffectById`(id: `number`) => [ItemFlingEffect](typings/item-typings?id=item-fling-effect)
+- `getItemPocketById`(id: `number`) => [ItemPocket](typings/item-typings?id=item-pocket)
+- `getItemPocketByName`(name: `string`) => [ItemPocket](typings/item-typings?id=item-pocket)
+- `listItems`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](typings/common-typings?id=named-api-resource-list)
+- `listItemAttributes`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](typings/common-typings?id=named-api-resource-list)
+- `listItemCategories`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](typings/common-typings?id=named-api-resource-list)
+- `listItemFlingEffects`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](typings/common-typings?id=named-api-resource-list)
+- `listItemPockets`(offset?: `number`, limit?: `number`) => [NamedAPIResourceList](typings/common-typings?id=named-api-resource-list)
 
 ## Example
 
