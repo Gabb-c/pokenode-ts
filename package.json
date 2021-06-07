@@ -32,8 +32,8 @@
     "sort": "sort-package-json package.json",
     "test:watch": "jest --watch --verbose --colors --expand --maxWorkers=25%",
     "test:coverage": "jest --coverage",
-    "test:dev": "jest --verbose --colors --expand --maxWorkers=50% --detectOpenHandles --errorOnDeprecated",
-    "test:ci": "jest --ci --runInBand",
+    "test:dev": "jest --verbose --colors --expand --maxWorkers=50% --detectOpenHandles --errorOnDeprecated --bail",
+    "test:ci": "jest --ci --runInBand --bail",
     "prepare": "is-ci || husky install"
   },
   "dependencies": {
