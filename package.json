@@ -44,7 +44,7 @@
     "@typescript-eslint/parser": "^4.26.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "dts-bundle-generator": "^5.9.0",
-    "eslint": "^7.27.0",
+    "eslint": "^7.28.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^8.3.0",
