@@ -25,7 +25,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Dependencies
-        run: yarn --frozen-lockfile --check-files
+        run: yarn --frozen-lockfile --check-files --silent
 
       - name: Audit Dependencies
         run: yarn audit
