@@ -4,8 +4,8 @@
 
 The Berry Client provide methods to access the [Berry Endpoinds](https://pokeapi.co/docs/v2#berries-section):
 
-- `getBerryByName`(name: `string`) => [Berry](typings/berry-typings?id=Berry)
-- `getBerryByID`(id: `number`) => [Berry](typings/berry-typings?id=Berry)
+- `getBerryByName`(name: `string`) => [Berry](typings/berry-typings?id=berry)
+- `getBerryById`(id: `number`) => [Berry](typings/berry-typings?id=berry)
 - `getBerryFirmnessByName`(name: `string`) => [BerryFirmness](typings/berry-typings?id=berry-firmness)
 - `getBerryFirmnessById`(id: `number`) => [BerryFirmness](typings/berry-typings?id=berry-firmness)
 - `getBerryFlavorByName`(name: `string`) => [BerryFlavor](typings/berry-typings?id=berry-flavor)
