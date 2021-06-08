@@ -23,7 +23,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: "lts"
+          node-version: lts
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1.6.0
