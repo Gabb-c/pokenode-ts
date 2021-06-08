@@ -10,10 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [14.x]
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2.3.4
@@ -23,10 +19,10 @@ jobs:
       - name: Lint commits
         uses: wagoid/commitlint-github-action@v3
 
-      - name: Set up Node ${{ matrix.node-version }}
+      - name: Set up Node
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1.6.0
