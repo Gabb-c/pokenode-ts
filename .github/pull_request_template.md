@@ -18,6 +18,7 @@
 * [ ] Improvement
 * [ ] Breaking change
 * [ ] Documentation update
+* [ ] Security
 
 ## Describe the changes
 
