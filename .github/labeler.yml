@@ -1,0 +1,20 @@
+repo:
+  - ./*
+
+documentation:
+  - docs/**/*
+
+test:
+  - "**/?(*.)+(spec|test).[tj]s?(x)"
+
+clients:
+  - "src/clients/*"
+
+constants:
+  - "src/constants/*"
+
+models:
+  - "src/models/**/*"
+
+github_actions:
+  - ".github/workflows/*"
