@@ -1,43 +1,45 @@
-name: Lint
+name: Master
 
 on:
-  pull_request:
-    branches: [master]
-
   push:
     branches: [master]
 
+  pull_request:
+    branches: [master]
+
 jobs:
-  code:
+  build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [14.x]
-
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v2.3.4
         with:
           fetch-depth: 0
 
       - name: Lint commits
-        uses: wagoid/commitlint-github-action@v2.0.3
+        uses: wagoid/commitlint-github-action@v3
 
-      - name: Set up Node ${{ matrix.node-version }}
+      - name: Set up Node
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: "stable"
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1.6.0
         with:
           install-command: yarn --frozen-lockfile --check-files --silent
 
-      - name: Lint code
+      - name: Lint
         run: yarn lint:ci
 
       - name: Commit formatted files
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v4.11.0
         with:
           commit_message: "chore: Fix formatting"
+
+      - name: Build
+        run: yarn build:ci
+
+      - name: Test
+        run: yarn test:ci
