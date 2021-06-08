@@ -1,3 +1,5 @@
+import { Description, NamedAPIResource } from '../Common';
+
 /**
  * ## Characteristic
  * Characteristics indicate which stat contains a Pokémon's highest IV.
@@ -11,4 +13,8 @@ export interface Characteristic {
   gene_modulo: number;
   /** The possible values of the highest stat that would result in a Pokémon recieving this characteristic when divided by 5 */
   possible_values: number[];
+  /** The highest stat for the referenced characteristic */
+  highest_stat: NamedAPIResource;
+  /** Descriptions for the referenced characteristic */
+  descriptions: Description[];
 }

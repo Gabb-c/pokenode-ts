@@ -225,12 +225,20 @@ export interface PokemonForm {
 export interface PokemonFormSprites {
   /** The default depiction of this Pokémon form from the front in battle */
   front_default: string;
+  /** The female depiction of this Pokémon form from the front in battle */
+  front_female: string | null;
   /** The shiny depiction of this Pokémon form from the front in battle */
   front_shiny: string;
+  /** The shiny female depiction of this Pokémon form from the front in battle */
+  front_shiny_female: string | null;
   /** The default depiction of this Pokémon form from the back in battle */
   back_default: string;
+  /** The female depiction of this Pokémon form from the back in battle */
+  back_female: string | null;
   /** The shiny depiction of this Pokémon form from the back in battle */
   back_shiny: string;
+  /** The shiny female depiction of this Pokémon form from the back in battle */
+  back_shiny_female: string | null;
 }
 
 /**

@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 export enum EncounterMethods {
   WALK = 1,
   OLD_ROD = 2,

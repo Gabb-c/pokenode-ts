@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 export enum EggGroups {
   MONSTER = 1,
   WATER1 = 2,
@@ -141,6 +139,6 @@ export enum Types {
   DRAGON = 16,
   DARK = 17,
   FAIRY = 18,
-  UNKNOWN = 10001,
-  SHADOW = 10002,
+  UNKNOWN = 10_001,
+  SHADOW = 10_002,
 }

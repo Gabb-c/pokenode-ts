@@ -1,6 +1,4 @@
-/* eslint-disable import/prefer-default-export */
-
-import { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import {
   Item,
   ItemAttribute,
@@ -9,27 +7,40 @@ import {
   ItemPocket,
   NamedAPIResourceList,
 } from '../models';
-import client from '../config/axios';
 import { Endpoints } from '../constants/endpoints';
+import { BaseClient, ClientArgs } from '../structures/base';
 
-export class ItemClient {
-  private api: AxiosInstance = client;
+/**
+ * ### Item Client
+ *
+ * Client used to access the Item Endpoints:
+ *  - Item
+ *  - Item Attributes
+ *  - Item Categories
+ *  - Item Filing Effects
+ *  - Item Pockets
+ * ---
+ * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#items-section)
+ */
+export class ItemClient extends BaseClient {
+  /**
+   * @argument clientOptions Options for the client.
+   */
+  constructor(clientOptions?: ClientArgs) {
+    super(clientOptions);
+  }
 
   /**
    * Get an Item by it's name
    * @param name The item name
    * @returns An Item
    */
-  public getItemByName(name: string): Promise<Item> {
+  public async getItemByName(name: string): Promise<Item> {
     return new Promise<Item>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Item}/${name}`)
-        .then((response: AxiosResponse<Item>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<Item>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -38,16 +49,12 @@ export class ItemClient {
    * @param id The item ID
    * @returns An Item
    */
-  public getItemById(id: number): Promise<Item> {
+  public async getItemById(id: number): Promise<Item> {
     return new Promise<Item>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Item}/${id}`)
-        .then((response: AxiosResponse<Item>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<Item>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -56,16 +63,12 @@ export class ItemClient {
    * @param name The item attribute name
    * @returns An Item Attribute
    */
-  public getItemAttributeByName(name: string): Promise<ItemAttribute> {
+  public async getItemAttributeByName(name: string): Promise<ItemAttribute> {
     return new Promise<ItemAttribute>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemAttribute}/${name}`)
-        .then((response: AxiosResponse<ItemAttribute>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<ItemAttribute>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -74,16 +77,12 @@ export class ItemClient {
    * @param id The item attribute ID
    * @returns An Item Attribute
    */
-  public getItemAttributeById(id: number): Promise<ItemAttribute> {
+  public async getItemAttributeById(id: number): Promise<ItemAttribute> {
     return new Promise<ItemAttribute>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemAttribute}/${id}`)
-        .then((response: AxiosResponse<ItemAttribute>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<ItemAttribute>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -92,16 +91,12 @@ export class ItemClient {
    * @param name The item category name
    * @returns An Item Category
    */
-  public getItemCategoryByName(name: string): Promise<ItemCategory> {
+  public async getItemCategoryByName(name: string): Promise<ItemCategory> {
     return new Promise<ItemCategory>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemCategory}/${name}`)
-        .then((response: AxiosResponse<ItemCategory>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<ItemCategory>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -110,16 +105,12 @@ export class ItemClient {
    * @param id The item category ID
    * @returns An Item Category
    */
-  public getItemCategoryById(id: number): Promise<ItemCategory> {
+  public async getItemCategoryById(id: number): Promise<ItemCategory> {
     return new Promise<ItemCategory>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemCategory}/${id}`)
-        .then((response: AxiosResponse<ItemCategory>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<ItemCategory>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -128,16 +119,12 @@ export class ItemClient {
    * @param name The item filing effect name
    * @returns An Item Filing Effect
    */
-  public getItemFilingEffectByName(name: string): Promise<ItemFlingEffect> {
+  public async getItemFlingEffectByName(name: string): Promise<ItemFlingEffect> {
     return new Promise<ItemFlingEffect>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemFlingEffect}/${name}`)
-        .then((response: AxiosResponse<ItemFlingEffect>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<ItemFlingEffect>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -146,16 +133,12 @@ export class ItemClient {
    * @param id The item filing effect ID
    * @returns An Item Filing Effect
    */
-  public getItemFilingEffectById(id: number): Promise<ItemFlingEffect> {
+  public async getItemFlingEffectById(id: number): Promise<ItemFlingEffect> {
     return new Promise<ItemFlingEffect>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemFlingEffect}/${id}`)
-        .then((response: AxiosResponse<ItemFlingEffect>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<ItemFlingEffect>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -164,16 +147,12 @@ export class ItemClient {
    * @param name The item pocket name
    * @returns An Item Pocket
    */
-  public getItemPocketByName(name: string): Promise<ItemPocket> {
+  public async getItemPocketByName(name: string): Promise<ItemPocket> {
     return new Promise<ItemPocket>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemPocket}/${name}`)
-        .then((response: AxiosResponse<ItemPocket>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<ItemPocket>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -182,16 +161,12 @@ export class ItemClient {
    * @param id The item pocket ID
    * @returns An Item Pocket
    */
-  public getItemPocketById(id: number): Promise<ItemPocket> {
+  public async getItemPocketById(id: number): Promise<ItemPocket> {
     return new Promise<ItemPocket>((resolve, reject) => {
       this.api
         .get(`${Endpoints.ItemPocket}/${id}`)
-        .then((response: AxiosResponse<ItemPocket>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .then((response: AxiosResponse<ItemPocket>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -201,16 +176,12 @@ export class ItemClient {
    * @param limit How many Items per page
    * @returns A list of Items
    */
-  public listItems(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listItems(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Item}?offset=${offset}&limit=${limit}`)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .get(`${Endpoints.Item}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -220,16 +191,12 @@ export class ItemClient {
    * @param limit How many Item Attributes per page
    * @returns A list of Item Attributes
    */
-  public listItemAttributes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listItemAttributes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemAttribute}?offset=${offset}&limit=${limit}`)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .get(`${Endpoints.ItemAttribute}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
@@ -239,13 +206,11 @@ export class ItemClient {
    * @param limit How many Item Categories per page
    * @returns A list of Item Categories
    */
-  public listItemCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listItemCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemCategory}?offset=${offset}&limit=${limit}`)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => {
-          resolve(response.data);
-        })
+        .get(`${Endpoints.ItemCategory}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => {
           reject(error);
         });
@@ -258,16 +223,30 @@ export class ItemClient {
    * @param limit How many Item Filing Effects per page
    * @returns A list of Item Filing Effects
    */
-  public listItemFilingEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listItemFilingEffects(
+    offset?: number,
+    limit?: number
+  ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemFlingEffect}?offset=${offset}&limit=${limit}`)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => {
-          resolve(response.data);
-        })
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .get(`${Endpoints.ItemFlingEffect}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
+    });
+  }
+
+  /**
+   * List Item Pockets
+   * @param offset The first item that you will get
+   * @param limit How many Item Pockets per page
+   * @returns A list of Item Pockets
+   */
+  public async listItemPockets(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+    return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      this.api
+        .get(`${Endpoints.ItemPocket}?offset=${offset || 0}&limit=${limit || 20}`)
+        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 }

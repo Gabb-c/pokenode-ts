@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 export enum Regions {
   KANTO = 1,
   JOHTO = 2,

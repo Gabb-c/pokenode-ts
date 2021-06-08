@@ -1,6 +1,8 @@
 dist
 /*.js
+docs
 node_modules
 .github
 .husky
 .vscode
+resources

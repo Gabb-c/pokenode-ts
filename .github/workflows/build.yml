@@ -24,8 +24,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install Dependencies
-        run: yarn --frozen-lockfile
+      - name: Cache dependencies
+        uses: c-hive/gha-yarn-cache@v1
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile --check-files --silent
 
       - name: Build
         run: yarn build:ci

@@ -1,0 +1,30 @@
+{
+  "compilationOptions": {
+    "preferredConfigPath": "./tsconfig.json",
+    "followSymlinks": true
+  },
+  "entries": [
+    {
+      "filePath": "./src/index.ts",
+      "outFile": "./dist/@types/index.d.ts",
+      "failOnClass": false,
+      "noCheck": false,
+      "libraries": {
+        "importedLibraries": [
+          "pino",
+          "axios-cache-adapter",
+          "axios"
+        ]
+      },
+      "output": {
+        "inlineDeclareGlobals": false,
+        "sortNodes": false,
+        "umdModuleName": "pokenode",
+        "inlineDeclareExternals": false,
+        "noBanner": false,
+        "respectPreserveConstEnum": false,
+        "exportReferencedTypes": true
+      }
+    }
+  ]
+}

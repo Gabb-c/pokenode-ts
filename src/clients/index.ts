@@ -8,3 +8,4 @@ export * from './location.client';
 export * from './machine.client';
 export * from './move.client';
 export * from './pokemon.client';
+export * from './main.client';

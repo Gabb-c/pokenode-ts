@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 export enum Generations {
   GENERATION_I = 1,
   GENERATION_II = 2,

@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 export enum Languages {
   JA_HRKT = 1,
   ROOMAJI = 2,
