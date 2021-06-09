@@ -27,7 +27,7 @@ import { ItemClient, ItemCategories } from 'pokenode'; // import the ItemClient 
 
 const api = new BerryClient(); // create a ItemClient
 
-const item = api.getItemCategoryById(ItemCategories.MEDICINE) // using method getItemCategoryById() 
+const item = await api.getItemCategoryById(ItemCategories.MEDICINE) // using method getItemCategoryById() 
   .then((response) => response)
   .catch((error) => console.log(error));
 

@@ -53,7 +53,11 @@ export class BaseClient {
         'Content-Type': 'application/json',
       },
       cache: {
-        maxAge: clientOptions?.cacheOptions ? clientOptions.cacheOptions.maxAge : 0,
+        maxAge: clientOptions?.cacheOptions
+          ? clientOptions.cacheOptions.maxAge
+            ? clientOptions.cacheOptions.maxAge
+            : 15_000
+          : 0,
         ...clientOptions?.cacheOptions,
       },
     });

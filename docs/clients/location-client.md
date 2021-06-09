@@ -24,7 +24,7 @@ import { LocationClient, PalParkAreas } from 'pokenode'; // import the LocationC
 
 const api = new BerryClient(); // create a LocationClient
 
-const area = api.getPalParkAreaById(PalParkAreas.FOREST) // using method getPalParkAreaById() 
+const area = await api.getPalParkAreaById(PalParkAreas.FOREST) // using method getPalParkAreaById() 
   .then((response) => response)
   .catch((error) => console.log(error));
 

@@ -21,7 +21,7 @@ import { BerryClient, Berries } from 'pokenode'; // import the BerryClient (Berr
 
 const api = new BerryClient(); // create a BerryClient
 
-const berry = api.getBerryById(Berries.CHERI) // using method getBerryById() 
+const berry = await api.getBerryById(Berries.CHERI) // using method getBerryById() 
   .then((response) => response)
   .catch((error) => console.log(error));
 

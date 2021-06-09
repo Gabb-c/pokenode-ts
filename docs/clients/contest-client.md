@@ -19,7 +19,7 @@ import { ContestClient, ContestTypes } from 'pokenode'; // import the ContestCli
 
 const api = new ContestClient(); // create a ContestClient
 
-const contest = api.getContestTypeById(ContestTypes.TOUGH) // using method getContestTypeId()
+const contest = await api.getContestTypeById(ContestTypes.TOUGH) // using method getContestTypeId()
   .then((response) => response)
   .catch((error) => console.log(error));
 

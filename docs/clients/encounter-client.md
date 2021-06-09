@@ -21,7 +21,7 @@ import { EncounterClient, EncounterMethods } from 'pokenode'; // import the Enco
 
 const api = new BerryClient(); // create an EncounterClient
 
-const encounter = api.getEncounterMethodById(EncounterMethods.SURF) // using method getEncounterMethodById()
+const encounter = await api.getEncounterMethodById(EncounterMethods.SURF) // using method getEncounterMethodById()
   .then((response) => response)
   .catch((error) => console.log(error));
 

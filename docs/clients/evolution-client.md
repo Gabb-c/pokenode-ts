@@ -17,7 +17,7 @@ import { EvolutionClient, EvolutionTriggers } from 'pokenode'; // import the Evo
 
 const api = new EvolutionClient(); // create an EvolutionClient
 
-const evTrigger = api.getEvolutionTriggerById(EvolutionTriggers.LEVEL_UP) // using method getEvolutionTriggerById()
+const evTrigger = await api.getEvolutionTriggerById(EvolutionTriggers.LEVEL_UP) // using method getEvolutionTriggerById()
   .then((response) => response)
   .catch((error) => console.log(error));
 
