@@ -1,6 +1,5 @@
-# Pokenode
+![facebook_cover_photo_2](https://user-images.githubusercontent.com/65926741/121423372-9040ed80-c946-11eb-92ff-4f3084fc9d85.png)
 
-> The PokéAPI Node.js wrapper made with TypeScript.
 
 ## What it is
 
