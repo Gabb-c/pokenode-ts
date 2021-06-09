@@ -10,7 +10,7 @@ describe('test Utility Client', () => {
 
   // Language
   it('check if it returns a language passig a name', async () => {
-    const data = await client.getLanguageByName('Roomaji').then((response: Language) => response);
+    const data = await client.getLanguageByName('roomaji').then((response: Language) => response);
 
     expect(data.id).toBe(Languages.ROOMAJI);
   });
