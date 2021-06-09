@@ -34,8 +34,6 @@
   - [Common](typings/common-typings)
 
 - About
-  - [Issues](about/issues.md)
+
   - [Contributing](about/contributing.md)
   - [Code of Conduct](about/code-of-conduct.md)
-
-- [Special Thanks](thanks.md)
