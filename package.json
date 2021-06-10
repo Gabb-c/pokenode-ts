@@ -19,7 +19,7 @@
     "url": "https://github.com/Gabb-c"
   },
   "main": "dist/index.js",
-  "types": "@types/index.d.ts",
+  "types": "index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc",
     "types": "dts-bundle-generator --config dts-generator.json",
