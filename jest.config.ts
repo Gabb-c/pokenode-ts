@@ -8,6 +8,9 @@ export default {
     '!**/node_modules/**', //  Exclude all files in node_modules
     '!**/dist/**', //  Exclude all files in dist folder
     '!**/src/models/**', //  Exclude all files in models
+    '!**/src/constants/**',
+    '!**/src/config/**',
+    '**/src/structures/**'
   ],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],

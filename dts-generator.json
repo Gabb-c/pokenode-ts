@@ -6,7 +6,7 @@
   "entries": [
     {
       "filePath": "./src/index.ts",
-      "outFile": "./dist/@types/index.d.ts",
+      "outFile": "./dist/index.d.ts",
       "failOnClass": false,
       "noCheck": false,
       "libraries": {
@@ -19,7 +19,6 @@
       "output": {
         "inlineDeclareGlobals": false,
         "sortNodes": false,
-        "umdModuleName": "pokenode-ts",
         "inlineDeclareExternals": false,
         "noBanner": false,
         "respectPreserveConstEnum": false,
