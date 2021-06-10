@@ -1,3 +1,5 @@
+![logo](docs/_media/facebook_cover_photo_2.png)
+
 ## What it is
 
 A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way to integrate your app with the PokéAPI.
