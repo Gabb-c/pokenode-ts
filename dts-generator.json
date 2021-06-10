@@ -19,7 +19,7 @@
       "output": {
         "inlineDeclareGlobals": false,
         "sortNodes": false,
-        "umdModuleName": "pokenode",
+        "umdModuleName": "pokenode-ts",
         "inlineDeclareExternals": false,
         "noBanner": false,
         "respectPreserveConstEnum": false,

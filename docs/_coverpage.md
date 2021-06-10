@@ -2,7 +2,7 @@
 
 > The PokéAPI Node.js wrapper made with TypeScript
 
-- Simple and lightweight
+- Lightweight
 - Built-in types
 - Axios with auto-cache requests
 - Logging configurations
