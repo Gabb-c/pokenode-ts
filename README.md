@@ -40,7 +40,8 @@ console.log(pokemon.name); // will output 'Luxray'
 
 ## Documentation
 
-Check out our Documentation page!
+Check out our [Documentation page](https://gabb-c.github.io/pokenode-ts/#/)!
+
 ## Insomnia Collection
 
 If you want to test the PokéAPI endpoints, we recommend using [Insomnia](https://insomnia.rest/):
