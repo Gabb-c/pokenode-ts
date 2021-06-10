@@ -23,7 +23,7 @@ The Item Client provide methods to access the [Item Endpoinds](https://pokeapi.c
 ## Example
 
 ```js
-import { ItemClient, ItemCategories } from 'pokenode'; // import the ItemClient (ItemCategories enum is fully optional)
+import { ItemClient, ItemCategories } from 'pokenode-ts'; // import the ItemClient (ItemCategories enum is fully optional)
 
 const api = new BerryClient(); // create a ItemClient
 

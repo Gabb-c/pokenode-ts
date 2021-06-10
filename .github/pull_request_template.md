@@ -3,7 +3,7 @@
 ## Checks and guidelines
 <!-- Mark your checks with 'x' inside the square brackets -->
 
-* [ ] Have you checked that there aren't other open [Pull Requests](https://github.com/Gabb-c/pokenode/pulls) for the same update/change?
+* [ ] Have you checked that there aren't other open [Pull Requests](https://github.com/Gabb-c/pokenode-ts/pulls) for the same update/change?
 * [ ] Linting passed `yarn lint:ci`
 * [ ] Integration tests added
 * [ ] Tests passed `yarn test:dev`

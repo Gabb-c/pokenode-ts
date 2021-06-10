@@ -17,7 +17,7 @@ The Berry Client provide methods to access the [Berry Endpoinds](https://pokeapi
 ## Example
 
 ```js
-import { BerryClient, Berries } from 'pokenode'; // import the BerryClient (Berries enum is fully optional)
+import { BerryClient, Berries } from 'pokenode-ts'; // import the BerryClient (Berries enum is fully optional)
 
 const api = new BerryClient(); // create a BerryClient
 

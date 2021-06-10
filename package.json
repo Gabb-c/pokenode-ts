@@ -1,17 +1,17 @@
 {
-  "name": "pokenode",
+  "name": "pokenode-ts",
   "version": "1.0.0",
   "description": "The PokéAPI Node.js wrapper with built-in types.",
   "keywords": [
-    "pokeapi, PokéAPI, pokenode, Pokenode, pokemon"
+    "pokeapi, PokéAPI, pokenode-ts, Pokenode-ts, pokemon"
   ],
-  "homepage": "https://github.com/Gabb-c/pokenode",
+  "homepage": "https://github.com/Gabb-c/pokenode-ts",
   "bugs": {
-    "url": "https://github.com/Gabb-c/pokenode/issues"
+    "url": "https://github.com/Gabb-c/pokenode-ts/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gabb-c/pokenode"
+    "url": "https://github.com/Gabb-c/pokenode-ts"
   },
   "license": "MIT",
   "author": {
@@ -21,7 +21,7 @@
   "main": "dist/index.js",
   "types": "@types/index.d.ts",
   "scripts": {
-    "build": "rimraf dist && tsc --diagnostics --pretty",
+    "build": "rimraf dist && tsc",
     "types": "dts-bundle-generator --config dts-generator.json",
     "build:ci": "yarn build && yarn types",
     "docs": "docsify serve ./docs",

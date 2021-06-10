@@ -17,7 +17,7 @@ The Encounter Client provide methods to access the [Encounter Endpoinds](https:/
 ## Example
 
 ```js
-import { EncounterClient, EncounterMethods } from 'pokenode'; // import the EncounterClient (EncounterMethods enum is fully optional)
+import { EncounterClient, EncounterMethods } from 'pokenode-ts'; // import the EncounterClient (EncounterMethods enum is fully optional)
 
 const api = new BerryClient(); // create an EncounterClient
 

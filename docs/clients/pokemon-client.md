@@ -54,7 +54,7 @@ The Pokemon Client provide methods to access the [Pokémon Endpoinds](https://po
 ## Example
 
 ```js
-import { PokemonClient, EggGroups } from 'pokenode'; // import the PokemonClient (EggGroups enum is fully optional)
+import { PokemonClient, EggGroups } from 'pokenode-ts'; // import the PokemonClient (EggGroups enum is fully optional)
 
 const api = new PokemonClient(); // create a PokemonClient
 

@@ -17,12 +17,12 @@ import {
   EvolutionTriggers,
   Generations,
 } from '../constants';
-import { Pokenode } from '../clients';
+import { MainClient } from '../clients';
 
-describe('test Pokenode Client', () => {
-  let client: Pokenode;
+describe('test MainClient Client', () => {
+  let client: MainClient;
   beforeAll(() => {
-    client = new Pokenode();
+    client = new MainClient();
   });
 
   // Berry

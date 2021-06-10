@@ -29,9 +29,9 @@ The Move Client provide methods to access the [Move Endpoinds](https://pokeapi.c
 ## Example
 
 ```js
-import { MoveClient, MoveAilments } from 'pokenode'; // import the MachineClient (MoveAilments enum is fully optional)
+import { MoveClient, MoveAilments } from 'pokenode-ts'; // import the MachineClient (MoveAilments enum is fully optional)
 
-const api = new MachineClient(); // create a MoveClient
+const api = new MoveClient(); // create a MoveClient
 
 const move = await api.getMoveAilmentById(MoveAilments.PARALYSIS) // using method getMoveAilmentById()
   .then((response) => response)

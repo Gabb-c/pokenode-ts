@@ -15,7 +15,7 @@ The Contest Client provide methods to access the [Contest Endpoinds](https://pok
 ## Example
 
 ```js
-import { ContestClient, ContestTypes } from 'pokenode'; // import the ContestClient (ContestTypes enum is fully optional)
+import { ContestClient, ContestTypes } from 'pokenode-ts'; // import the ContestClient (ContestTypes enum is fully optional)
 
 const api = new ContestClient(); // create a ContestClient
 

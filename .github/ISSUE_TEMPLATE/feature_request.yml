@@ -1,5 +1,5 @@
 name: Feature Request
-description: Create a feature request for pokenode
+description: Create a feature request for pokenode-ts
 labels: "template: story"
 body:
   - type: markdown

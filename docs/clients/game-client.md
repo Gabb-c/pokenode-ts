@@ -20,7 +20,7 @@ The Game Client provide methods to access the [Game Endpoinds](https://pokeapi.c
 ## Example
 
 ```js
-import { GameClient, Pokedexes } from 'pokenode'; // import the GameClient (Pokedexes enum is fully optional)
+import { GameClient, Pokedexes } from 'pokenode-ts'; // import the GameClient (Pokedexes enum is fully optional)
 
 const api = new GameClient(); // create an GameClient
 

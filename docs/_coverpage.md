@@ -1,4 +1,4 @@
-# Pokenode <small>beta</small>
+# Pokenode-ts <small>1.0.0</small>
 
 > The PokéAPI Node.js wrapper made with TypeScript
 
@@ -7,5 +7,5 @@
 - Axios with auto-cache requests
 - Logging configurations
 
-[GitHub](https://github.com/Gabb-c/pokenode)
+[GitHub](https://github.com/Gabb-c/pokenode-ts)
 [Get Started](#main)

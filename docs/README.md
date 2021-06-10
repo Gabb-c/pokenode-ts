@@ -1,4 +1,4 @@
-# Pokenode
+# Pokenode-ts
 
 > The PokéAPI Node.js wrapper made with TypeScript.
 
@@ -15,7 +15,7 @@ A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way 
 ## Basic Example
 
 ```js
-import { PokemonClient } from 'pokenode';
+import { PokemonClient } from 'pokenode-ts';
 
 const api = new PokemonClient();
 

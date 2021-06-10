@@ -1,3 +1,3 @@
-# pokenode is authored by
+# pokenode-ts is authored by
 
 - Gabb-c

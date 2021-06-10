@@ -1,6 +1,3 @@
-![facebook_cover_photo_2](https://user-images.githubusercontent.com/65926741/121423372-9040ed80-c946-11eb-92ff-4f3084fc9d85.png)
-
-
 ## What it is
 
 A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way to integrate your app with the PokéAPI.
@@ -14,7 +11,7 @@ A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way 
 ## Basic Example
 
 ```js
-import { PokemonClient } from 'pokenode';
+import { PokemonClient } from 'pokenode-ts';
 
 const api = new PokemonClient();
 
@@ -40,7 +37,7 @@ If you want to test the PokéAPI endpoints, we recommend using Insomnia:
 
 ## Donate
 
-Please consider donating if you think pokenode is helpful to you or that my work is valuable :heart:
+Please consider donating if you think pokenode-ts is helpful to you or that my work is valuable :heart:
 
 ## Community
 

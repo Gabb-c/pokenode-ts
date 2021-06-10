@@ -20,7 +20,7 @@ The Location Client provide methods to access the [Location Endpoinds](https://p
 ## Example
 
 ```js
-import { LocationClient, PalParkAreas } from 'pokenode'; // import the LocationClient (PalParkAreas enum is fully optional)
+import { LocationClient, PalParkAreas } from 'pokenode-ts'; // import the LocationClient (PalParkAreas enum is fully optional)
 
 const api = new BerryClient(); // create a LocationClient
 

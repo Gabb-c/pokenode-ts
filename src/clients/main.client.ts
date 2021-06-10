@@ -11,7 +11,7 @@ import { MoveClient } from './move.client';
 import { PokemonClient } from './pokemon.client';
 
 /**
- * ### Pokenode Client
+ * ### Main Client
  *
  * The main client used to access all the PokéAPI Endpoints:
  *  - Berries
@@ -28,7 +28,7 @@ import { PokemonClient } from './pokemon.client';
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2)
  */
-export class Pokenode extends BaseClient {
+export class MainClient extends BaseClient {
   public berry: BerryClient;
 
   public contest: ContestClient;

@@ -10,7 +10,7 @@ The Machine Client provide methods to access the [Machine Endpoinds](https://pok
 ## Example
 
 ```js
-import { MachineClient } from 'pokenode'; // import the MachineClient
+import { MachineClient } from 'pokenode-ts'; // import the MachineClient
 
 const api = new MachineClient(); // create a MachineClient
 

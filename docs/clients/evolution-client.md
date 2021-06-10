@@ -13,7 +13,7 @@ The Evolution Client provide methods to access the [Evolution Endpoinds](https:/
 ## Example
 
 ```js
-import { EvolutionClient, EvolutionTriggers } from 'pokenode'; // import the EvolutionClient (EvolutionTriggers enum is fully optional)
+import { EvolutionClient, EvolutionTriggers } from 'pokenode-ts'; // import the EvolutionClient (EvolutionTriggers enum is fully optional)
 
 const api = new EvolutionClient(); // create an EvolutionClient
 

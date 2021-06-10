@@ -1,5 +1,5 @@
 name: Bug Report
-description: Create a bug report for pokenode
+description: Create a bug report for pokenode-ts
 labels: "template: bug"
 body:
   - type: markdown
@@ -10,7 +10,7 @@ body:
       value: "Please first verify if your issue exists"
   - type: input
     attributes:
-      label: What version of pokenode are you using?
+      label: What version of pokenode-ts are you using?
       description: "For example: 1.0.1"
     validations:
       required: true

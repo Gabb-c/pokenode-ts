@@ -9,7 +9,7 @@ With `Axios-cache` you can store request results to prevent unneeded network req
 To enable cache requests:
 
 ```js
-import { BerryClient, Constants } from 'pokenode';
+import { BerryClient, Constants } from 'pokenode-ts';
 
 const api = new BerryClient( cacheOptions: { maxAge: 5000, exclude: { query: false } } ); // Enable cache with 5 seconds including requests with query parameters.
 
