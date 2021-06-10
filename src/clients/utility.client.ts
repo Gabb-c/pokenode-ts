@@ -18,9 +18,9 @@ export class UtilityClient extends BaseClient {
   }
 
   /**
-   * Get a Berry Firmness by it's ID
-   * @param name The Berry name
-   * @returns Berry Firmness
+   * Get a Language by it's ID
+   * @param id The Language ID
+   * @returns Language
    */
   public async getLanguageById(id: number): Promise<Language> {
     return new Promise<Language>((resolve, reject) => {
@@ -31,6 +31,11 @@ export class UtilityClient extends BaseClient {
     });
   }
 
+  /**
+   * Get a Language by it's name
+   * @param name The Language name
+   * @returns Language
+   */
   public async getLanguageByName(name: string): Promise<Language> {
     return new Promise<Language>((resolve, reject) => {
       this.api
@@ -40,6 +45,11 @@ export class UtilityClient extends BaseClient {
     });
   }
 
+  /**
+   * Get a Resource by it's url
+   * @param url The Resource url
+   * @returns Resource
+   */
   public async getResourceByUrl(url: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       this.api
