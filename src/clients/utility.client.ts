@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { Language, NamedAPIResourceList } from '../models';
 import { Endpoints } from '../constants';
 import { BaseClient, ClientArgs } from '../structures/base';
@@ -50,6 +50,7 @@ export class UtilityClient extends BaseClient {
    * @param url The Resource url
    * @returns Resource
    */
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   public async getResourceByUrl(url: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       this.api
@@ -58,6 +59,7 @@ export class UtilityClient extends BaseClient {
         .catch((error: AxiosError<string>) => reject(error));
     });
   }
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 
   /**
    * List Languages
