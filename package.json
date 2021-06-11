@@ -19,7 +19,7 @@
     "url": "https://github.com/Gabb-c"
   },
   "main": "dist/index.js",
-  "types": "index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc",
     "types": "dts-bundle-generator --config dts-generator.json",
@@ -34,7 +34,8 @@
     "test:coverage": "jest --coverage",
     "test:dev": "jest --verbose --colors --expand --maxWorkers=50% --detectOpenHandles --errorOnDeprecated --bail",
     "test:ci": "jest --ci --runInBand --bail",
-    "prepare": "is-ci || husky install"
+    "prepare": "is-ci || husky install",
+    "prepublishOnly": "yarn build:ci"
   },
   "dependencies": {
     "axios": "^0.21.1",
