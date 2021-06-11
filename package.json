@@ -1,6 +1,6 @@
 {
   "name": "pokenode-ts",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "The PokéAPI Node.js wrapper with built-in types.",
   "keywords": [
     "pokeapi, PokéAPI, pokenode-ts, Pokenode-ts, pokemon"
