@@ -119,19 +119,3 @@ INFO [1622554026120] (26906 on yourpc): [ Request Config ] GET | /berry/1
     "soil_dryness": 15
 }
 ```
-
-## Asynchronous Logging
-
-> "In essence, asynchronous logging enables even faster performance by Pino In Pino's standard mode of operation log messages are directly written to the output stream as the messages are generated with a blocking operation. Asynchronous logging works by buffering log messages and writing them in larger chunks."
-
-To enable async logs:
-
-```js
-import { BerryClient, Constants } from 'pokenode-ts';
-
-const api = new BerryClient({ logOptions: { enabled: true } }); // Enable asynchronous logs
-```
-
-## More
-
-For more advanced log configuration, check [Pino.js Documentation](https://getpino.io/#/).
