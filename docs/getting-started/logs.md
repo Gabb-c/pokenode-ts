@@ -34,7 +34,7 @@ Will output:
 
 > By default, Pino log lines are newline delimited JSON (NDJSON). This is perfect for production usage and long term storage. It's not so great for development environments. Thus, Pino logs can be prettified by using a Pino prettifier module like [pino-pretty](https://github.com/pinojs/pino-pretty).
 
-![pretty](_media/pino-pretty-demo.png)
+![pretty](https://gabb-c.github.io/pokenode-ts/_media/pino-pretty-demo.png)
 
 To enable pretty printing:
 
