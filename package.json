@@ -35,7 +35,7 @@
     "test:dev": "jest --verbose --colors --expand --maxWorkers=50% --detectOpenHandles --errorOnDeprecated --bail",
     "test:ci": "jest --ci --runInBand --bail",
     "prepare": "is-ci || husky install",
-    "prepublishOnly": "yarn build:ci"
+    "prepublish": "yarn build:ci"
   },
   "dependencies": {
     "axios": "^0.21.1",
