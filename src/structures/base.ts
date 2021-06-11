@@ -33,9 +33,9 @@ export interface ClientArgs {
  * ### Base Client
  */
 export class BaseClient {
-  protected api: AxiosInstance;
+  public api: AxiosInstance;
 
-  protected logger: Logger;
+  public logger: Logger;
 
   /**
    *

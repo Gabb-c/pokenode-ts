@@ -7,7 +7,6 @@ Client arguments for `log` and `cache` configuration:
 ```ts
 export interface ClientArgs {
   logOptions?: LoggerOptions;
-  logDestination?: DestinationObjectOptions;
   cacheOptions?: IAxiosCacheAdapterOptions;
 }
 ```
@@ -307,17 +306,6 @@ interface LoggerOptions {
        */
       logMethod?: (args: any[], method: LogFn, level: number) => void;
   };
-}
-```
-
-### logDestination
-
-```ts
-interface DestinationObjectOptions {
-  fd?: string | number;
-  dest?: string;
-  minLength?: number;
-  sync?: boolean;
 }
 ```
 

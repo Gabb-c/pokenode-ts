@@ -1,15 +1,11 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import pino, { LoggerOptions, Logger, DestinationObjectOptions } from 'pino';
+import pino, { LoggerOptions, Logger } from 'pino';
 
 export const createLogger = (options: LoggerOptions): Logger => pino(options);
 
 export const handleRequest = (config: AxiosRequestConfig, logger: Logger): AxiosRequestConfig => {
-  logger.info(
-    `[ Request Config ] ${config.method?.toUpperCase() || ''} | ${config.url || ''} | ${
-      config.cache?.excludeFromCache ? 'Not cached' : 'Cached'
-    }`
-  );
+  logger.info(`[ Request Config ] ${config.method?.toUpperCase() || ''} | ${config.url || ''}`);
   return config;
 };
 

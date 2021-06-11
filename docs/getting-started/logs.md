@@ -129,7 +129,7 @@ To enable async logs:
 ```js
 import { BerryClient, Constants } from 'pokenode-ts';
 
-const api = new BerryClient({ logOptions: { enabled: true }, logDestination: { sync: false } }); // Enable asynchronous logs
+const api = new BerryClient({ logOptions: { enabled: true } }); // Enable asynchronous logs
 ```
 
 ## More

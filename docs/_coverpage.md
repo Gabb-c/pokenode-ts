@@ -1,4 +1,4 @@
-# Pokenode-ts <small>1.0.0</small>
+# Pokenode-ts <small>1.0.9</small>
 
 > The PokéAPI Node.js wrapper made with TypeScript
 
