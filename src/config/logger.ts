@@ -2,10 +2,7 @@ import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import pino, { LoggerOptions, Logger, DestinationObjectOptions } from 'pino';
 
-export const createLogger = (
-  options: LoggerOptions,
-  destination?: DestinationObjectOptions
-): Logger => pino(options, pino.destination(destination));
+export const createLogger = (options: LoggerOptions): Logger => pino(options);
 
 export const handleRequest = (config: AxiosRequestConfig, logger: Logger): AxiosRequestConfig => {
   logger.info(

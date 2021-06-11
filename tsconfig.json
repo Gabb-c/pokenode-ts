@@ -13,7 +13,6 @@
       "./node_modules/@types"
     ],
     "experimentalDecorators": true,
-    "importHelpers": true,
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
     "isolatedModules": true,

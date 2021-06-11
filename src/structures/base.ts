@@ -1,5 +1,5 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { DestinationObjectOptions, Logger, LoggerOptions } from 'pino';
+import { Logger, LoggerOptions } from 'pino';
 import { IAxiosCacheAdapterOptions, setup } from 'axios-cache-adapter';
 import { BaseURL } from '../constants';
 import {
@@ -21,12 +21,6 @@ export interface ClientArgs {
    * @see https://getpino.io/#/docs/api?id=options
    */
   logOptions?: LoggerOptions;
-  /**
-   * ## Logger Destination Options
-   * Options for the client logger.
-   * @see https://getpino.io/#/docs/api?id=destination
-   */
-  logDestination?: DestinationObjectOptions;
   /**
    * ## Axios Cache Options
    * Options for cache.
@@ -62,16 +56,13 @@ export class BaseClient {
       },
     });
 
-    this.logger = createLogger(
-      {
-        enabled: !(
-          clientOptions?.logOptions?.enabled === undefined ||
-          clientOptions?.logOptions.enabled === false
-        ),
-        ...clientOptions?.logOptions,
-      },
-      clientOptions?.logDestination
-    );
+    this.logger = createLogger({
+      enabled: !(
+        clientOptions?.logOptions?.enabled === undefined ||
+        clientOptions?.logOptions.enabled === false
+      ),
+      ...clientOptions?.logOptions,
+    });
 
     this.api.interceptors.request.use(
       (config: AxiosRequestConfig) => handleRequest(config, this.logger),
