@@ -5,7 +5,7 @@
     "skipLibCheck": false,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
+    "declaration": false,
     "esModuleInterop": true,
     "module": "ES6",
     "moduleResolution": "node",
