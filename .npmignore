@@ -1,13 +1,17 @@
 yarn-error.log
+src
 .github
 .huskyrc
+.husky
 .lintstagedrc.json
 .mailmap
 .vscode
 docs
 .editorconfig
 .eslintignore
+.eslintrc.json
 .gitignore
+.gitattributes
 .nvmrc
 .prettierrc.json
 .prettierignore
