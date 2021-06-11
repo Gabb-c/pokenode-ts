@@ -7,7 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": false,
     "esModuleInterop": true,
-    "module": "ES6",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "typeRoots": [
       "./node_modules/@types"
