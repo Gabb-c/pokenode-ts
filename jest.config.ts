@@ -10,7 +10,7 @@ export default {
     '!**/src/models/**', //  Exclude all files in models
     '!**/src/constants/**',
     '!**/src/config/**',
-    '**/src/structures/**'
+    '**/src/structures/**',
   ],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
