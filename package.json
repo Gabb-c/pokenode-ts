@@ -1,6 +1,7 @@
 {
   "name": "pokenode-ts",
   "version": "1.0.12",
+  "private": "false",
   "description": "A lightweight Node.js wrapper for the PokéAPI with built-in types.",
   "keywords": [
     "pokeapi, PokéAPI, pokenode-ts, Pokenode-ts, pokemon"
@@ -21,6 +22,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "reinstall": "rimraf node_modules && yarn install --check-files --silent",
     "build": "rimraf dist && tsc",
     "types": "dts-bundle-generator --config dts-generator.json",
     "build:ci": "yarn build && yarn types",
@@ -35,7 +37,7 @@
     "test:dev": "jest --verbose --colors --expand --maxWorkers=50% --detectOpenHandles --errorOnDeprecated --bail",
     "test:ci": "jest --ci --runInBand --bail",
     "prepare": "is-ci || husky install",
-    "prepublish": "yarn build:ci"
+    "prepublishOnly": "yarn build:ci"
   },
   "dependencies": {
     "@types/pino": "^6.3.8",
