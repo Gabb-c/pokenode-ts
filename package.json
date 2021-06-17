@@ -1,7 +1,8 @@
 {
   "name": "pokenode-ts",
   "version": "1.0.12",
-  "description": "A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way to integrate your app with the PokéAPI.",
+  "private": "false",
+  "description": "A lightweight Node.js wrapper for the PokéAPI with built-in types.",
   "keywords": [
     "pokeapi, PokéAPI, pokenode-ts, Pokenode-ts, pokemon"
   ],
@@ -21,6 +22,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "reinstall": "rimraf node_modules && yarn install --check-files --silent",
     "build": "rimraf dist && tsc",
     "types": "dts-bundle-generator --config dts-generator.json",
     "build:ci": "yarn build && yarn types",
@@ -35,7 +37,7 @@
     "test:dev": "jest --verbose --colors --expand --maxWorkers=50% --detectOpenHandles --errorOnDeprecated --bail",
     "test:ci": "jest --ci --runInBand --bail",
     "prepare": "is-ci || husky install",
-    "prepublish": "yarn build:ci"
+    "prepublishOnly": "yarn build:ci"
   },
   "dependencies": {
     "@types/pino": "^6.3.8",
@@ -49,7 +51,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
-    "@babel/core": "^7.14.5",
+    "@babel/core": "^7.14.6",
     "@babel/node": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
     "@babel/preset-typescript": "^7.14.5",
@@ -62,8 +64,8 @@
     "@semantic-release/npm": "^7.1.3",
     "@semantic-release/release-notes-generator": "^9.0.3",
     "@types/jest": "^26.0.23",
-    "@typescript-eslint/eslint-plugin": "^4.26.1",
-    "@typescript-eslint/parser": "^4.26.1",
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "@typescript-eslint/parser": "^4.27.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "dts-bundle-generator": "^5.9.0",
     "eslint": "^7.28.0",
@@ -82,10 +84,10 @@
     "jest": "^27.0.4",
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.1",
-    "semantic-release": "^17.4.3",
+    "semantic-release": "^17.4.4",
     "sort-package-json": "^1.50.0",
     "ts-jest": "^27.0.3",
     "ts-node-dev": "^1.1.6",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.3"
   }
 }
