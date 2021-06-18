@@ -364,6 +364,8 @@ export interface PokemonForm {
   names: Name[];
   /** The form specific form name of this Pokémon form, or empty if the form does not have a specific name */
   form_names: Name[];
+  /** A list of details showing types this Pokémon has */
+  types: PokemonType[];
 }
 
 /**
