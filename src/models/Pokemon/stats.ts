@@ -9,7 +9,15 @@ export interface Stat {
   /** The identifier for this resource */
   id: number;
   /** The name for this resource */
-  name: string;
+  name:
+    | 'hp'
+    | 'attack'
+    | 'defense'
+    | 'special-attack'
+    | 'special-defense'
+    | 'speed'
+    | 'accuracy'
+    | 'evasion';
   /** ID the games use for this stat */
   game_index: number;
   /** Whether this stat only exists within a battle */
@@ -21,7 +29,7 @@ export interface Stat {
   /** A list of characteristics that are set on a Pokémon when its highest base stat is this stat */
   characteristics: APIResource[];
   /** The class of damage this stat is directly related to */
-  move_damage_class: NamedAPIResource;
+  move_damage_class: NamedAPIResource | null;
   /** The name of this resource listed in different languages */
   names: Name[];
 }
@@ -40,7 +48,7 @@ export interface NatureStatAffectSets {
  */
 export interface MoveStatAffect {
   /** The maximum amount of change to the referenced stat */
-  change: number;
+  change: -1 | -2 | 1 | 2;
   /** The move causing the change */
   move: NamedAPIResource;
 }
