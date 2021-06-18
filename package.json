@@ -22,7 +22,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "reinstall": "rimraf node_modules && yarn install --check-files --silent",
+    "reinstall": "rimraf node_modules yarn.lock && yarn install --check-files --silent",
     "build": "rimraf dist && tsc",
     "types": "dts-bundle-generator --config dts-generator.json",
     "build:ci": "yarn build && yarn types",
