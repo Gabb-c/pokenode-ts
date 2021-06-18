@@ -83,7 +83,7 @@ export interface MoveBattleStyle {
   /** The identifier for this resource. */
   id: number;
   /** The name for this resource. */
-  name: string;
+  name: 'attack' | 'defense' | 'support';
   /** The name of this resource listed in different languages. */
   names: Name[];
 }
@@ -108,15 +108,15 @@ export interface PastMoveStatValues {
   /** The percent value of how likely this move is to be successful. */
   accuracy: number;
   /** The percent value of how likely it is this moves effect will take effect. */
-  effect_chance: number;
+  effect_chance: number | number;
   /** The base power of this move with a value of 0 if it does not have a base power. */
-  power: number;
+  power: number | null;
   /** Power points. The number of times this move can be used. */
-  pp: number;
+  pp: number | null;
   /** The effect of this move listed in different languages. */
   effect_entries: VerboseEffect[];
   /** The elemental type of this move. */
-  type: NamedAPIResource[];
+  type: NamedAPIResource[] | null;
   /** The version group in which these move stat values were in effect. */
   version_group: NamedAPIResource[];
 }
@@ -138,13 +138,13 @@ export interface MoveMetaData {
   /** The category of move this move falls under, e.g. damage or ailment. */
   category: NamedAPIResource;
   /** The minimum number of times this move hits. Null if it always only hits once. */
-  min_hits: number;
+  min_hits: number | null;
   /** The maximum number of times this move hits. Null if it always only hits once. */
-  max_hits: number;
+  max_hits: number | null;
   /** The minimum number of turns this move continues to take effect. Null if it always only lasts one turn. */
-  min_turns: number;
+  min_turns: number | null;
   /** The maximum number of turns this move continues to take effect. Null if it always only lasts one turn. */
-  max_turns: number;
+  max_turns: number | null;
   /** HP drain (if positive) or Recoil damage (if negative), in percent of damage done. */
   drain: number;
   /** The amount of hp gained by the attacking Pokemon, in percent of it's maximum HP. */
@@ -176,9 +176,9 @@ export interface MoveFlavorText {
  */
 export interface ContestComboDetail {
   /** A list of moves to use before this move. */
-  use_before: NamedAPIResource[];
+  use_before: NamedAPIResource[] | null;
   /** A list of moves to use after this move. */
-  use_after: NamedAPIResource[];
+  use_after: NamedAPIResource[] | null;
 }
 
 /**
@@ -206,18 +206,18 @@ export interface Move {
   /** The percent value of how likely this move is to be successful */
   accuracy: number;
   /** The percent value of how likely it is this moves effect will happen */
-  effect_chance: number;
+  effect_chance: number | null;
   /** Power points. The number of times this move can be used */
   pp: number;
   /**
    * A value between -8 and 8. Sets the order in which moves are executed during battle.
    * See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Priority) for greater detail
    */
-  priority: number;
+  priority: -8 | -7 | -6 | -5 | -4 | -3 | -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   /** The base power of this move with a value of 0 if it does not have a base power */
-  power: number;
+  power: number | null;
   /** A detail of normal and super contest combos that require this move */
-  contest_combos: ContestComboSets;
+  contest_combos: ContestComboSets | null;
   /** The type of appeal this move gives a Pokémon when used in a contest */
   contest_types: NamedAPIResource;
   /** The effect the move has when used in a contest */
@@ -248,4 +248,6 @@ export interface Move {
   target: NamedAPIResource;
   /** The elemental type of this move */
   type: NamedAPIResource;
+  /** A list of Pokémons that learned this move */
+  learned_by_pokemon: NamedAPIResource[];
 }
