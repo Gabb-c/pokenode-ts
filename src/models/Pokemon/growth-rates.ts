@@ -19,7 +19,7 @@ export interface GrowthRate {
   /** The identifier for this resource */
   id: number;
   /** The name for this resource */
-  name: string;
+  name: 'slow' | 'medium' | 'fast' | 'medium-slow' | 'slow-then-very-fast' | 'fast-then-very-slow';
   /** The formula used to calculate the rate at which the Pokémon species gains level */
   formula: string;
   /** The descriptions of this characteristic listed in different languages */
