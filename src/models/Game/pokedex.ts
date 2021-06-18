@@ -22,7 +22,7 @@ export interface Pokedex {
   /** A list of Pokémon catalogued in this Pokédex and their indexes */
   pokemon_entries: PokemonEntry[];
   /** The region this Pokédex catalogues Pokémon for */
-  region: NamedAPIResource;
+  region: NamedAPIResource | null;
   /** A list of version groups this Pokédex is relevant to */
   version_groups: NamedAPIResource[];
 }

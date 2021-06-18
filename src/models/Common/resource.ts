@@ -21,7 +21,7 @@ export interface NamedAPIResourceList {
   /** The URL for the previous page in the list */
   previous: string | null;
   /** A list of named API resources */
-  results: NamedAPIResource[];
+  results: NamedAPIResource[] | APIResource[];
 }
 
 /** An URL for another resource in the API */

@@ -116,9 +116,9 @@ export interface Item {
   /** The price of this item in stores */
   cost: number;
   /** The power of the move Fling when used with this item. */
-  fling_power: number;
+  fling_power: number | null;
   /** The effect of the move Fling when used with this item */
-  fling_effect: NamedAPIResource;
+  fling_effect: NamedAPIResource | null;
   /** A list of attributes this item has */
   attributes: NamedAPIResource[];
   /** The category of items this item falls into */
@@ -136,7 +136,7 @@ export interface Item {
   /** A list of Pokémon that might be found in the wild holding this item */
   held_by_pokemon: ItemHolderPokemon[];
   /** An evolution chain this item requires to produce a bay during mating */
-  baby_trigger_for: APIResource;
+  baby_trigger_for: APIResource | null;
   /** A list of the machines related to this item */
   machines: MachineVersionDetail[];
 }

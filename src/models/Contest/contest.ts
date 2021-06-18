@@ -9,7 +9,7 @@ export interface ContestType {
   /** The identifier for this resource */
   id: number;
   /** The name for this resource */
-  name: string;
+  name: 'cool' | 'beauty' | 'cute' | 'smart' | 'tough';
   /** The berry flavor that correlates with this contest type */
   berry_flavor: NamedAPIResource;
   /** The name of this contest type listed in different languages */

@@ -10,7 +10,22 @@ export interface EggGroup {
   /** The identifier for this resource */
   id: number;
   /** The name for this resource */
-  name: string;
+  name:
+    | 'monster'
+    | 'water1'
+    | 'water2'
+    | 'water3'
+    | 'bug'
+    | 'flying'
+    | 'ground'
+    | 'fairy'
+    | 'plant'
+    | 'humanshape'
+    | 'mineral'
+    | 'indeterminate'
+    | 'ditto'
+    | 'dragon'
+    | 'no-eggs';
   /** The name of this resource listed in different languages */
   names: Name[];
   /** A list of all Pokémon species that are members of this egg group */

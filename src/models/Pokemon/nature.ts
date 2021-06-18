@@ -11,13 +11,13 @@ export interface Nature {
   /** The name for this resource */
   name: string;
   /** The stat decreased by 10% in Pokémon with this nature */
-  decreased_stat: NamedAPIResource;
+  decreased_stat: NamedAPIResource | null;
   /** The stat increased by 10% in Pokémon with this nature */
-  increased_stat: NamedAPIResource;
+  increased_stat: NamedAPIResource | null;
   /** The flavor hated by Pokémon with this nature */
-  hates_flavor: NamedAPIResource;
+  hates_flavor: NamedAPIResource | null;
   /** The flavor liked by Pokémon with this nature */
-  likes_flavor: NamedAPIResource;
+  likes_flavor: NamedAPIResource | null;
   /** A list of Pokéathlon stats this nature effects and how much it effects them */
   pokeathlon_stat_changes: NatureStatChange[];
   /** A list of battle styles and how likely a Pokémon with this nature is to use them in the Battle Palace or Battle Tent */
@@ -31,7 +31,7 @@ export interface Nature {
  */
 export interface NatureStatChange {
   /** The amount of change */
-  max_change: number;
+  max_change: -1 | 1 | -2 | 2;
   /** The stat being affected */
   pokeathlon_stat: NamedAPIResource;
 }

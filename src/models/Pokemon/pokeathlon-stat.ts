@@ -10,7 +10,7 @@ export interface PokeathlonStat {
   /** The identifier for this resource */
   id: number;
   /** The name for this resource */
-  name: string;
+  name: 'speed' | 'power' | 'skill' | 'stamina' | 'jump';
   /** The name of this resource listed in different languages */
   names: Name[];
   /** A detail of natures which affect this Pokéathlon stat positively or negatively */
@@ -22,7 +22,7 @@ export interface PokeathlonStat {
  */
 export interface NaturePokeathlonStatAffect {
   /** The maximum amount of change to the referenced Pokéathlon stat. */
-  max_change: number;
+  max_change: -1 | -2 | 1 | 2;
   /** The nature causing the change */
   nature: NamedAPIResource;
 }
