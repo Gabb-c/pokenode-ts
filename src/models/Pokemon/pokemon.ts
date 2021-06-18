@@ -53,6 +53,8 @@ export interface Pokemon {
   stats: PokemonStat[];
   /** A list of details showing types this Pokémon has */
   types: PokemonType[];
+  /** Data describing a Pokemon's types in a previous generation. */
+  past_types: PokemonPastType[];
 }
 
 /**
@@ -75,6 +77,16 @@ export interface PokemonType {
   slot: number;
   /** The type the referenced Pokémon has */
   type: NamedAPIResource;
+}
+
+/**
+ * Data describing a Pokemon's types in a previous generation.
+ */
+export interface PokemonPastType {
+  /** The generation of this Pokémon Type. */
+  generation: NamedAPIResource;
+  /** Types this of this Pokémon in a previos generation. */
+  types: PokemonType[];
 }
 
 /**
@@ -126,7 +138,7 @@ export interface PokemonStat {
   /** The stat the Pokémon has */
   stat: NamedAPIResource;
   /** The effort points (EV) the Pokémon has in the stat */
-  effort: number;
+  effort: 0 | 1 | 2 | 3;
   /** The base value of the stat */
   base_stat: number;
 }
