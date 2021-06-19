@@ -5,6 +5,7 @@
   <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/Gabb-c/pokenode-ts/Master?color=000000&labelColor=480ca8&label=Master&style=for-the-badge">
   <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/Gabb-c/pokenode-ts/CI?color=000000&labelColor=4cc9f0&label=Stable&style=for-the-badge">
   <img alt="GitHub" src="https://img.shields.io/github/license/Gabb-c/pokenode-ts?color=000000&labelColor=ff9e00&style=for-the-badge">
+  <img alt="Codecov" src="https://img.shields.io/codecov/c/github/Gabb-c/pokenode-ts?color=000000&labelColor=f72585&&style=for-the-badge&token=whfY8GNSpS">
 </p>
 
 ## What it is
@@ -13,9 +14,9 @@ A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way 
 
 ## Features
 
-- Bulit-in typings
-- Axios with auto-cache reqests
-- Logging configuration
+- [Bulit-in typings](https://gabb-c.github.io/pokenode-ts/#/typings/berry-typings?id=berries)
+- [Axios with auto-cache reqests](https://gabb-c.github.io/pokenode-ts/#/getting-started/cache)
+- [Logging configuration](https://gabb-c.github.io/pokenode-ts/#/getting-started/logs)
 
 ## Basic Example
 
