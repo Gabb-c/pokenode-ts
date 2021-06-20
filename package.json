@@ -44,7 +44,8 @@
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.7.3",
     "pino": "^6.11.3",
-    "pino-pretty": "^5.0.2"
+    "pino-pretty": "^5.0.2",
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
@@ -88,7 +89,6 @@
     "sort-package-json": "^1.50.0",
     "ts-jest": "^27.0.3",
     "ts-node-dev": "^1.1.6",
-    "tslib": "^2.3.0",
     "typescript": "^4.3.4"
   }
 }

@@ -16,6 +16,7 @@
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "importHelpers": true,
     "rootDir": "./src",
     "outDir": "./dist"
   },
