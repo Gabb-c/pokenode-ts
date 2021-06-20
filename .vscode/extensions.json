@@ -1,13 +1,22 @@
 {
   "recommendations": [
+    "aaron-bond.better-comments",
     "christian-kohler.path-intellisense",
     "codezombiech.gitignore",
+    "CoenraadS.bracket-pair-colorizer",
+    "DavidAnson.vscode-markdownlint",
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
     "EditorConfig.EditorConfig",
+    "miguelsolorio.fluent-icons",
     "ms-vscode.vscode-typescript-next",
+    "naumovs.color-highlight",
+    "PKief.material-icon-theme",
+    "redhat.vscode-commons",
     "redhat.vscode-yaml",
     "VisualStudioExptTeam.vscodeintellicode",
-    "xabikos.JavaScriptSnippets"
+    "wix.vscode-import-cost",
+    "xabikos.JavaScriptSnippets",
+    "yzhang.markdown-all-in-one"
   ],
 }
