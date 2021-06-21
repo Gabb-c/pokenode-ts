@@ -1,11 +1,10 @@
 ![logo](docs/_media/facebook_cover_photo_2.png)
 
 <p align="center">
-  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/Gabb-c/pokenode-ts/Build?color=000000&labelColor=f72585&style=for-the-badge">
-  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/Gabb-c/pokenode-ts/Master?color=000000&labelColor=480ca8&label=Master&style=for-the-badge">
-  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/Gabb-c/pokenode-ts/CI?color=000000&labelColor=4cc9f0&label=Stable&style=for-the-badge">
-  <img alt="GitHub" src="https://img.shields.io/github/license/Gabb-c/pokenode-ts?color=000000&labelColor=ff9e00&style=for-the-badge">
+  <img alt="Build" src="https://img.shields.io/github/workflow/status/Gabb-c/pokenode-ts/Build?color=000000&labelColor=480ca8&style=for-the-badge">
   <img alt="Codecov" src="https://img.shields.io/codecov/c/github/Gabb-c/pokenode-ts?color=000000&labelColor=f72585&&style=for-the-badge&token=whfY8GNSpS">
+  <img alt="NPM" src="https://img.shields.io/npm/v/pokenode-ts?style=for-the-badge&color=000000&labelColor=4cc9f0&label=version">
+  <img alt="License" src="https://img.shields.io/github/license/Gabb-c/pokenode-ts?color=000000&labelColor=ff9e00&style=for-the-badge">
 </p>
 
 ## What it is
