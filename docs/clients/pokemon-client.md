@@ -58,7 +58,8 @@ import { PokemonClient, EggGroups } from 'pokenode-ts'; // import the PokemonCli
 
 const api = new PokemonClient(); // create a PokemonClient
 
-const eggGroup = await api.getEggGroupById(EggGroups.MONSTER) // using method getEggGroupById()
+const eggGroup = await api
+  .getEggGroupById(EggGroups.MONSTER) // using method getEggGroupById()
   .then((response) => response)
   .catch((error) => console.log(error));
 

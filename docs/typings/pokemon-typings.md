@@ -7,7 +7,7 @@ They can be caught using Pokéballs and trained by battling with other Pokémon.
 Each Pokémon belongs to a specific species but may take on a variant
 which makes it differ from other Pokémon of the same species, such as base stats, available abilities and typings.
 
-> Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_(species)) for greater detail.
+> Check out [Bulbapedia](<https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_(species)>) for greater detail.
 
 ```ts
 export interface Pokemon {
@@ -636,21 +636,21 @@ A Pokémon's Nature usually affects the value of two of its stats, ultimately in
 export interface Nature {
   /**The identifier for this resource */
   id: number;
-/** The name for this resource*/
+  /** The name for this resource*/
   name: string;
   /**The stat decreased by 10% in Pokémon with this nature */
   decreased_stat: NamedAPIResource;
-/** The stat increased by 10% in Pokémon with this nature*/
+  /** The stat increased by 10% in Pokémon with this nature*/
   increased_stat: NamedAPIResource;
   /** The flavor hated by Pokémon with this nature */
   hates_flavor: NamedAPIResource;
   /**The flavor liked by Pokémon with this nature */
   likes_flavor: NamedAPIResource;
-/** A list of Pokéathlon stats this nature effects and how much it effects them*/
+  /** A list of Pokéathlon stats this nature effects and how much it effects them*/
   pokeathlon_stat_changes: NatureStatChange[];
   /**A list of battle styles and how likely a Pokémon with this nature is to use them in the Battle Palace or Battle Tent */
   move_battle_style_preferences: MoveBattleStylePreference[];
-/** The name of this resource listed in different languages*/
+  /** The name of this resource listed in different languages*/
   names: Name[];
 }
 ```

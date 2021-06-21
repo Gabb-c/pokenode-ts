@@ -24,7 +24,8 @@ import { PokemonClient } from 'pokenode-ts';
 
 const api = new PokemonClient();
 
-const pokemon = await api.getPokemonByName('luxray')
+const pokemon = await api
+  .getPokemonByName('luxray')
   .then((data) => data)
   .catch((error) => console.log(error));
 
@@ -38,7 +39,8 @@ import { MainClient } from 'pokenode-ts';
 
 const api = new MainClient();
 
-const pokemon = await api.pokemon.getPokemonByName('luxray')
+const pokemon = await api.pokemon
+  .getPokemonByName('luxray')
   .then((response) => response)
   .catch((error) => console.error(error));
 

@@ -1,6 +1,8 @@
 {
   "src/**/*.{js,ts,tsx}": [
-    "yarn lint:fix",
-    "yarn format"
-  ]
+    "eslint src --ext js,ts --fix",
+    "prettier 'src/**/*.[jt]s?(x)' --write",
+    "git add ."
+  ],
+  "**/*.{md,mdx,json}": ["prettier '**/*.{md,mdx,json}' --write", "git add ."]
 }

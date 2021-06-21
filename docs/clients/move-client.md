@@ -33,7 +33,8 @@ import { MoveClient, MoveAilments } from 'pokenode-ts'; // import the MachineCli
 
 const api = new MoveClient(); // create a MoveClient
 
-const move = await api.getMoveAilmentById(MoveAilments.PARALYSIS) // using method getMoveAilmentById()
+const move = await api
+  .getMoveAilmentById(MoveAilments.PARALYSIS) // using method getMoveAilmentById()
   .then((response) => response)
   .catch((error) => console.log(error));
 

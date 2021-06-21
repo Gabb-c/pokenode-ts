@@ -16,7 +16,8 @@ import { UtilityClient } from 'pokenode-ts'; // import the UtilityClient
 
 const api = new UtilityClient(); // create a UtilityClient
 
-const resource = await api.getResourceByUrl('https://pokeapi.co/api/v2/pokemon/luxray') // using method getResourceByUrl() (pokemon endpoint)
+const resource = await api
+  .getResourceByUrl('https://pokeapi.co/api/v2/pokemon/luxray') // using method getResourceByUrl() (pokemon endpoint)
   .then((response: Pokemon) => response)
   .catch((error) => console.log(error));
 
@@ -28,7 +29,8 @@ import { UtilityClient, Languages } from 'pokenode-ts'; // import the UtilityCli
 
 const api = new UtilityClient(); // create a UtilityClient
 
-const lang = await api.getLanguageById(Languages.KO) // using method getLanguageById()
+const lang = await api
+  .getLanguageById(Languages.KO) // using method getLanguageById()
   .then((response) => response)
   .catch((error) => console.log(error));
 

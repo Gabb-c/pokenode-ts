@@ -24,7 +24,8 @@ import { GameClient, Pokedexes } from 'pokenode-ts'; // import the GameClient (P
 
 const api = new GameClient(); // create an GameClient
 
-const pokedex = await api.getPokedexById(Pokedexes.NATIONAL) // using method getPokedexById()
+const pokedex = await api
+  .getPokedexById(Pokedexes.NATIONAL) // using method getPokedexById()
   .then((response) => response)
   .catch((error) => console.log(error));
 

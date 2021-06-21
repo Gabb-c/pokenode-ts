@@ -73,11 +73,11 @@ Pal Park is divided into five separate areas:
 export interface PalParkArea {
   /**The identifier for this resource */
   id: number;
-/** The name for this resource*/
+  /** The name for this resource*/
   name: string;
   /**The name of this resource listed in different languages */
   names: Name[];
-/** A list of Pokémon encountered in thi pal park area along with details*/
+  /** A list of Pokémon encountered in thi pal park area along with details*/
   pokemon_encounters: PalParkEncounterSpecies[];
 }
 ```

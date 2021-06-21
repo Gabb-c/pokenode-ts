@@ -14,7 +14,8 @@ import { MachineClient } from 'pokenode-ts'; // import the MachineClient
 
 const api = new MachineClient(); // create a MachineClient
 
-const machine = await api.getMachineById(1) // using method getMachineById()
+const machine = await api
+  .getMachineById(1) // using method getMachineById()
   .then((response) => response)
   .catch((error) => console.log(error));
 
