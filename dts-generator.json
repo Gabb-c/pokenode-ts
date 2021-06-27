@@ -10,15 +10,8 @@
       "failOnClass": false,
       "noCheck": false,
       "libraries": {
-        "importedLibraries": [
-          "pino",
-          "pino-pretty",
-          "axios-cache-adapter",
-          "axios"
-        ],
-        "allowedTypesLibraries": [
-          "pino"
-        ]
+        "importedLibraries": ["pino", "pino-pretty", "axios-cache-adapter", "axios"],
+        "allowedTypesLibraries": ["pino"]
       },
       "output": {
         "inlineDeclareGlobals": false,

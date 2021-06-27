@@ -20,14 +20,7 @@
     "sourceType": "module",
     "project": "./tsconfig.eslint.json"
   },
-  "plugins": [
-    "@typescript-eslint",
-    "prettier",
-    "jest",
-    "eslint-comments",
-    "promise",
-    "unicorn"
-  ],
+  "plugins": ["@typescript-eslint", "prettier", "jest", "eslint-comments", "promise", "unicorn"],
   "rules": {
     "prettier/prettier": "error",
     "no-use-before-define": "off",
@@ -44,10 +37,7 @@
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": [
-          "**/__tests__/**/*.[jt]s?(x)",
-          "**/?(*.)+(spec|test).[tj]s?(x)"
-        ]
+        "devDependencies": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"]
       }
     ]
   }

@@ -1,10 +1,10 @@
 ![logo](docs/_media/facebook_cover_photo_2.png)
 
 <p align="center">
-  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/Gabb-c/pokenode-ts/Build?color=000000&labelColor=f72585&style=for-the-badge">
-  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/Gabb-c/pokenode-ts/Master?color=000000&labelColor=480ca8&label=Master&style=for-the-badge">
-  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/Gabb-c/pokenode-ts/CI?color=000000&labelColor=4cc9f0&label=Stable&style=for-the-badge">
-  <img alt="GitHub" src="https://img.shields.io/github/license/Gabb-c/pokenode-ts?color=000000&labelColor=ff9e00&style=for-the-badge">
+  <img alt="Build" src="https://img.shields.io/github/workflow/status/Gabb-c/pokenode-ts/Build?color=000000&labelColor=480ca8&style=for-the-badge&logo=nodedotjs&logoColor=white">
+  <img alt="Codecov" src="https://img.shields.io/codecov/c/github/Gabb-c/pokenode-ts?color=000000&labelColor=f72585&&style=for-the-badge&token=whfY8GNSpS&logo=codecov&logoColor=white">
+  <img alt="NPM" src="https://img.shields.io/npm/v/pokenode-ts?style=for-the-badge&color=000000&labelColor=4cc9f0&label=version&logo=github&logoColor=white">
+  <img alt="Snyk" src="https://img.shields.io/snyk/vulnerabilities/github/Gabb-c/pokenode-ts?style=for-the-badge&color=000000&labelColor=70e000&logo=snyk" />
 </p>
 
 ## What it is
@@ -13,9 +13,9 @@ A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way 
 
 ## Features
 
-- Bulit-in typings
-- Axios with auto-cache reqests
-- Logging configuration
+- [Bulit-in typings](https://gabb-c.github.io/pokenode-ts/#/typings/berry-typings?id=berries)
+- [Axios with auto-cache reqests](https://gabb-c.github.io/pokenode-ts/#/getting-started/cache)
+- [Logging configuration](https://gabb-c.github.io/pokenode-ts/#/getting-started/logs)
 
 ## Basic Example
 
@@ -24,7 +24,8 @@ import { PokemonClient } from 'pokenode-ts';
 
 const api = new PokemonClient();
 
-const pokemon = await api.getPokemonByName('luxray')
+const pokemon = await api
+  .getPokemonByName('luxray')
   .then((data) => data)
   .catch((error) => console.log(error));
 
@@ -38,7 +39,8 @@ import { MainClient } from 'pokenode-ts';
 
 const api = new MainClient();
 
-const pokemon = await api.pokemon.getPokemonByName('luxray')
+const pokemon = await api.pokemon
+  .getPokemonByName('luxray')
   .then((response) => response)
   .catch((error) => console.error(error));
 

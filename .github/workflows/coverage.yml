@@ -1,0 +1,35 @@
+name: Coverage
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2.3.4
+
+      - name: Set up Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies (with cache)
+        uses: bahmutov/npm-install@v1.7.7
+        with:
+          install-command: yarn --frozen-lockfile --check-files --silent
+
+      - name: Coverage
+        run: yarn test:coverage
+
+      - name: Upload coverage to Codecov
+        run: bash <(curl -s https://codecov.io/bash)
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

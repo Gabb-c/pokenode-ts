@@ -78,7 +78,7 @@ export interface MoveCategory {
 
 Styles of moves when used in the Battle Palace.
 
-> Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Battle_Frontier_(Generation_III)) for greater detail.
+> Check out [Bulbapedia](<https://bulbapedia.bulbagarden.net/wiki/Battle_Frontier_(Generation_III)>) for greater detail.
 
 ```ts
 export interface MoveBattleStyle {

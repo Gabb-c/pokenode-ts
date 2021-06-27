@@ -38,7 +38,7 @@ An URL for another resource in the API.
 
 ```ts
 export interface APIResource {
-/** The URL of the referenced resource*/
+  /** The URL of the referenced resource*/
   url: string;
 }
 ```
