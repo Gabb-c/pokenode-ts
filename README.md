@@ -21,10 +21,8 @@ A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way 
 
 ```bash
 npm i pokenode-ts
-
 # or
-
-yarn add pokenode-ts
+yarn add pokenode-ts # Recommended
 ```
 
 ## Basic Example
@@ -37,7 +35,7 @@ const api = new PokemonClient();
 const pokemon = await api
   .getPokemonByName('luxray')
   .then((data) => data)
-  .catch((error) => console.log(error));
+  .catch((error) => console.error(error));
 
 console.log(pokemon.name); // will output 'Luxray'
 ```
@@ -51,7 +49,7 @@ const api = new MainClient();
 
 const pokemon = await api.pokemon
   .getPokemonByName('luxray')
-  .then((response) => response)
+  .then((data) => data)
   .catch((error) => console.error(error));
 
 console.log(pokemon.name); // will output 'Luxray'
