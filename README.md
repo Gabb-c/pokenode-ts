@@ -17,6 +17,16 @@ A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way 
 - [Axios with auto-cache reqests](https://gabb-c.github.io/pokenode-ts/#/getting-started/cache)
 - [Logging configuration](https://gabb-c.github.io/pokenode-ts/#/getting-started/logs)
 
+## Installation
+
+```bash
+npm i pokenode-ts
+
+# or
+
+yarn add pokenode-ts
+```
+
 ## Basic Example
 
 ```js
