@@ -58,3 +58,11 @@ If you want to test the PokéAPI endpoints, we recommend using [Insomnia](https:
     <img alt="Insomnia Download" src="https://img.shields.io/badge/Insomnia-5849be?style=for-the-badge&logo=Insomnia&logoColor=white&label=Download&labelColor=black"/>
   </a>
 </div>
+
+## Donate
+
+Please consider donating if you think pokenode-ts is helpful to you or that my work is valuable. I am happy if you can [buy me a coffee ❤️](https://www.buymeacoffee.com/pokenodets)
+
+<a href="https://www.buymeacoffee.com/pokenodets">
+  <img width="545" alt="bmc-button" src="https://user-images.githubusercontent.com/65926741/124142954-14c3ef00-da61-11eb-962c-ca12bbdc92ef.png">
+</a>
