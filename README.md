@@ -80,4 +80,3 @@ Please consider donating if you think pokenode-ts is helpful to you or that my w
 <a href="https://www.buymeacoffee.com/pokenodets">
   <img width="545" alt="bmc-button" src="https://user-images.githubusercontent.com/65926741/124142954-14c3ef00-da61-11eb-962c-ca12bbdc92ef.png">
 </a>
-
