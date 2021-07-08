@@ -3,4 +3,4 @@
 . "$(dirname "$0")/common.sh"
 
 echo "Linting files 📝"
-yarn lint-staged
+yarn lint-staged -d
