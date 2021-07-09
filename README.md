@@ -5,7 +5,9 @@
   <img alt="Codecov" src="https://img.shields.io/codecov/c/github/Gabb-c/pokenode-ts?color=000000&labelColor=f72585&&style=for-the-badge&token=whfY8GNSpS&logo=codecov&logoColor=white">
   <img alt="Snyk" src="https://img.shields.io/snyk/vulnerabilities/github/Gabb-c/pokenode-ts?style=for-the-badge&color=000000&labelColor=70e000&logo=snyk" />
   <img alt="NPM Version" src="https://img.shields.io/npm/v/pokenode-ts?style=for-the-badge&color=000000&labelColor=4cc9f0&label=version&logo=github&logoColor=white">
+  <a href="https://www.npmjs.com/package/pokenode-ts">
   <img alt="NPM Downloads" src="https://img.shields.io/npm/dt/pokenode-ts?style=for-the-badge&color=000000&labelColor=CB3837&logo=npm" />
+  </a>
   <a href="https://open.vscode.dev/Gabb-c/pokenode-ts">
   <img alt="Open in VSCode" src="https://img.shields.io/badge/VisualStudioCode-0078d7.svg?&style=for-the-badge&logo=visual-studio-code&logoColor=white&label=Open%20in&color=000000&labelColor=007acc" />
   </a>
