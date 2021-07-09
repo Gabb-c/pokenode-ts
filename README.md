@@ -6,6 +6,9 @@
   <img alt="Snyk" src="https://img.shields.io/snyk/vulnerabilities/github/Gabb-c/pokenode-ts?style=for-the-badge&color=000000&labelColor=70e000&logo=snyk" />
   <img alt="NPM Version" src="https://img.shields.io/npm/v/pokenode-ts?style=for-the-badge&color=000000&labelColor=4cc9f0&label=version&logo=github&logoColor=white">
   <img alt="NPM Downloads" src="https://img.shields.io/npm/dt/pokenode-ts?style=for-the-badge&color=000000&labelColor=CB3837&logo=npm" />
+  <a href="https://open.vscode.dev/pokenode-ts">
+  <img alt="Open in VSCode" src="https://img.shields.io/badge/VisualStudioCode-0078d7.svg?&style=for-the-badge&logo=visual-studio-code&logoColor=white&label=Open%20in&color=000000&labelColor=007acc" />
+  </a>
 </p>
 
 ## What it is
