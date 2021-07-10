@@ -1,0 +1,105 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.187.0/containers/typescript-node
+{
+  "name": "Pokenode-ts Development Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    // Update 'VARIANT' to pick a Node version: 12, 14, 16
+    "args": {
+      "VARIANT": "16"
+    }
+  },
+
+  // Set *default* container specific settings.json values on container create.
+  "settings": {
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "explorer.compactFolders": false,
+    "eslint.format.enable": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.requireConfig": false,
+    "editor.suggestSelection": "first",
+    "editor.semanticHighlighting.enabled": false,
+    "editor.tabSize": 2,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.fixAll.markdownlint": true
+    },
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "workbench.startupEditor": "newUntitledFile",
+    "eslint.run": "onSave",
+    "markdownlint.run": "onSave",
+    "eslint.alwaysShowStatus": true,
+    "editor.formatOnSave": true,
+    "eslint.codeAction.showDocumentation": {
+      "enable": true
+    },
+    "typescript.tsserver.log": "off",
+    "javascript.suggest.autoImports": true,
+    "typescript.suggest.autoImports": true,
+    "material-icon-theme.activeIconPack": "nest",
+    "screencastMode.onlyKeyboardShortcuts": true,
+    "breadcrumbs.enabled": true,
+    "editor.parameterHints.enabled": false,
+    "eslint.packageManager": "yarn",
+    "files.associations": {
+      ".sequelizerc": "javascript",
+      ".stylelintrc": "json",
+      ".prettierrc": "json",
+      ".eslintrc": "json",
+      ".huskyrc": "shellscript",
+      ".importsortrc": "json",
+      ".releaserc": "json",
+      "*.tsx": "typescriptreact",
+      ".tsbuildinfo": "json"
+    },
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/node_modules/**": true
+    },
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true
+    },
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "workbench.productIconTheme": "fluent-icons",
+    "tabnine.experimentalAutoImports": true,
+    "terminal.integrated.tabs.enabled": true,
+    "material-icon-theme.folders.theme": "specific",
+    "redhat.telemetry.enabled": true,
+    "VSCord.workspaceElapsedTime": true,
+    "prettier.printWidth": 100,
+    "prettier.singleQuote": true,
+    "eslint.probe": ["javascript", "typescript", "html", "markdown", "json"]
+  },
+
+  // Add the IDs of extensions you want installed when the container is created.
+  "extensions": [
+    "christian-kohler.path-intellisense",
+    "codezombiech.gitignore",
+    "CoenraadS.bracket-pair-colorizer",
+    "DavidAnson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "EditorConfig.EditorConfig",
+    "ms-vscode.vscode-typescript-next",
+    "redhat.vscode-commons",
+    "VisualStudioExptTeam.vscodeintellicode",
+    "wix.vscode-import-cost",
+    "xabikos.JavaScriptSnippets",
+    "yzhang.markdown-all-in-one"
+  ],
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [3000, 3001],
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "yarn --check-files --silent",
+
+  // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "node"
+}

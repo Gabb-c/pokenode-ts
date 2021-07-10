@@ -1,5 +1,6 @@
 yarn-error.log
 src
+.devcontainer
 .github
 .huskyrc
 .husky
