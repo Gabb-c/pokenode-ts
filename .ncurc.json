@@ -1,4 +1,4 @@
 {
   "upgrade": true,
-  "interactive": true
+  "packageFile": "./package.json"
 }

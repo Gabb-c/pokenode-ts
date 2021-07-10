@@ -81,7 +81,6 @@ Open Pokenode-ts in your Code, either using the [Remote Repositories extension](
 
 [![Open in VS Code](https://img.shields.io/badge/VisualStudioCode-0078d7.svg?&style=for-the-badge&logo=visual-studio-code&logoColor=white&label=Open%20in&color=000000&labelColor=007acc)](https://open.vscode.dev/Gabb-c/pokenode-ts)
 
-
 ## Donate
 
 Please consider donating if you think pokenode-ts is helpful to you or that my work is valuable. I am happy if you can [buy me a coffee ❤️](https://www.buymeacoffee.com/pokenodets)
