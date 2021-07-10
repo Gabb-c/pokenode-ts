@@ -8,9 +8,6 @@
   <a href="https://www.npmjs.com/package/pokenode-ts">
   <img alt="NPM Downloads" src="https://img.shields.io/npm/dt/pokenode-ts?style=for-the-badge&color=000000&labelColor=CB3837&logo=npm" />
   </a>
-  <a href="https://open.vscode.dev/Gabb-c/pokenode-ts">
-  <img alt="Open in VSCode" src="https://img.shields.io/badge/VisualStudioCode-0078d7.svg?&style=for-the-badge&logo=visual-studio-code&logoColor=white&label=Open%20in&color=000000&labelColor=007acc" />
-  </a>
 </p>
 
 ## What it is
@@ -77,6 +74,13 @@ If you want to test the PokéAPI endpoints, we recommend using [Insomnia](https:
     <img alt="Insomnia Download" src="https://img.shields.io/badge/Insomnia-5849be?style=for-the-badge&logo=Insomnia&logoColor=white&label=Download&labelColor=black"/>
   </a>
 </div>
+
+## Open in VS Code
+
+Open Pokenode-ts in your Code, either using the [Remote Repositories extension](https://code.visualstudio.com/blogs/2021/06/10/remote-repositories), or [cloning in a Dev Container](https://code.visualstudio.com/docs/remote/containers):
+
+[![Open in VS Code](https://img.shields.io/badge/VisualStudioCode-0078d7.svg?&style=for-the-badge&logo=visual-studio-code&logoColor=white&label=Open%20in&color=000000&labelColor=007acc)](https://open.vscode.dev/Gabb-c/pokenode-ts)
+
 
 ## Donate
 
