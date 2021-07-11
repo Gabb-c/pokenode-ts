@@ -4,6 +4,8 @@ tasks:
   - name: Install Dependencies
     init: |
       yarn --check-files --silent
+      yarn lint:lock
+      yarn lint:ci
     command: yarn build:ci
 
 github:
