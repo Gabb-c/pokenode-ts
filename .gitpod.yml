@@ -1,0 +1,41 @@
+image: node:alpine
+# List the start up tasks. You can start them in parallel in multiple terminals. See https://www.gitpod.io/docs/config-start-tasks/
+tasks:
+  - name: Install Dependencies
+    init: |
+      yarn --check-files --silent
+    command: yarn builld:ci
+
+github:
+  prebuilds:
+    # enable for the default branch (defaults to true)
+    master: true
+    # enable for all branches in this repo (defaults to false)
+    branches: false
+    # enable for pull requests coming from this repo (defaults to true)
+    pullRequests: true
+    # enable for pull requests coming from forks (defaults to false)
+    pullRequestsFromForks: false
+    # add a check to pull requests (defaults to true)
+    addCheck: true
+    # add a "Review in Gitpod" button as a comment to pull requests (defaults to false)
+    addComment: true
+    # add a "Review in Gitpod" button to the pull request's description (defaults to false)
+    addBadge: false
+
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint
+    - christian-kohler.path-intellisense
+    - codezombiech.gitignore
+    - CoenraadS.bracket-pair-colorizer
+    - DavidAnson.vscode-markdownlint
+    - dbaeumer.vscode-eslint
+    - eamodio.gitlens
+    - EditorConfig.EditorConfig
+    - ms-vscode.vscode-typescript-next
+    - redhat.vscode-commons
+    - VisualStudioExptTeam.vscodeintellicode
+    - wix.vscode-import-cost
+    - xabikos.JavaScriptSnippets
+    - yzhang.markdown-all-in-one
