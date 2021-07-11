@@ -4,7 +4,7 @@ tasks:
   - name: Install Dependencies
     init: |
       yarn --check-files --silent
-    command: yarn builld:ci
+    command: yarn build:ci
 
 github:
   prebuilds:
