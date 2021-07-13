@@ -1,4 +1,5 @@
 {
   "upgrade": true,
-  "packageFile": "./package.json"
+  "packageFile": "./package.json",
+  "packageManager": "yarn"
 }
