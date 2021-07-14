@@ -91,3 +91,6 @@ Please consider donating if you think pokenode-ts is helpful to you or that my w
 <a href="https://ko-fi.com/pokenodets">
   <img alt="kofi-button" src="https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white">
 </a>
+<a href="https://www.paypal.com/donate?business=8TYDGB7874HT2&no_recurring=0&item_name=development&currency_code=USD">
+  <img alt="paypal-button" src="https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white">
+</a>
