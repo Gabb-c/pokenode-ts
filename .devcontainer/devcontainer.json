@@ -65,9 +65,6 @@
       "**/CVS": true,
       "**/.DS_Store": true
     },
-    "terminal.integrated.defaultProfile.linux": "zsh",
-    "workbench.productIconTheme": "fluent-icons",
-    "tabnine.experimentalAutoImports": true,
     "terminal.integrated.tabs.enabled": true,
     "material-icon-theme.folders.theme": "specific",
     "redhat.telemetry.enabled": true,
