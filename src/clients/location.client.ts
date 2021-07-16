@@ -7,10 +7,10 @@ import { BaseClient, ClientArgs } from '../structures/base';
  * ### Location Client
  *
  * Client used to access the Location Endpoints:
- *  - Locations
- *  - Location Areas
- *  - Pal Park Areas
- *  - Regions
+ *  - [Locations](https://pokeapi.co/docs/v2#locations)
+ *  - [Location Areas](https://pokeapi.co/docs/v2#location-areas)
+ *  - [Pal Park Areas](https://pokeapi.co/docs/v2#pal-park-areas)
+ *  - [Regions](https://pokeapi.co/docs/v2#regions)
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#locations-section)
  */

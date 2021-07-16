@@ -7,7 +7,7 @@ import { BaseClient, ClientArgs } from '../structures/base';
  * ### Machine Client
  *
  * Client used to access the Machine Endpoints:
- *  - Machines
+ *  - [Machines](https://pokeapi.co/docs/v2#machines)
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#machines-section)
  */

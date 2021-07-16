@@ -7,9 +7,9 @@ import { BaseClient, ClientArgs } from '../structures/base';
  * ### Berry Client
  *
  * Client used to access the Berry Endpoints:
- *  - Berries
- *  - Berry Firmnesses
- *  - Berry Flavors
+ *  - [Berries](https://pokeapi.co/docs/v2#berries)
+ *  - [Berry Firmnesses](https://pokeapi.co/docs/v2#berry-firmnesses)
+ *  - [Berry Flavors](https://pokeapi.co/docs/v2#berry-flavors)
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#berries-section)
  */

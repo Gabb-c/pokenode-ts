@@ -14,11 +14,11 @@ import { BaseClient, ClientArgs } from '../structures/base';
  * ### Item Client
  *
  * Client used to access the Item Endpoints:
- *  - Item
- *  - Item Attributes
- *  - Item Categories
- *  - Item Filing Effects
- *  - Item Pockets
+ *  - [Item](https://pokeapi.co/docs/v2#item)
+ *  - [Item Attributes](https://pokeapi.co/docs/v2#item-attributes)
+ *  - [Item Categories](https://pokeapi.co/docs/v2#item-categories)
+ *  - [Item Filing Effects](https://pokeapi.co/docs/v2#item-fling-effects)
+ *  - [Item Pockets](https://pokeapi.co/docs/v2#item-pockets)
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#items-section)
  */
@@ -211,9 +211,7 @@ export class ItemClient extends BaseClient {
       this.api
         .get(`${Endpoints.ItemCategory}?offset=${offset || 0}&limit=${limit || 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 

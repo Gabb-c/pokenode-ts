@@ -14,17 +14,17 @@ import { PokemonClient } from './pokemon.client';
  * ### Main Client
  *
  * The main client used to access all the PokéAPI Endpoints:
- *  - Berries
- *  - Contests
- *  - Encounters
- *  - Evolution
- *  - Games
- *  - Items
- *  - Locations
- *  - Machines
- *  - Moves
- *  - Pokémon
- *  - Utility
+ *  - [Berries](https://pokeapi.co/docs/v2#berries-section)
+ *  - [Contests](https://pokeapi.co/docs/v2#contests-section)
+ *  - [Encounters](https://pokeapi.co/docs/v2#encounters-section)
+ *  - [Evolution](https://pokeapi.co/docs/v2#evolution-section)
+ *  - [Games](https://pokeapi.co/docs/v2#games-section)
+ *  - [Items](https://pokeapi.co/docs/v2#items-section)
+ *  - [Locations](https://pokeapi.co/docs/v2#locations-section)
+ *  - [Machines](https://pokeapi.co/docs/v2#machines-section)
+ *  - [Moves](https://pokeapi.co/docs/v2#moves-section)
+ *  - [Pokémon](https://pokeapi.co/docs/v2#pokemon-section)
+ *  - [Utility](https://pokeapi.co/docs/v2#utility-section)
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2)
  */

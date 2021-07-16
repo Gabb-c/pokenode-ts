@@ -7,9 +7,9 @@ import { BaseClient, ClientArgs } from '../structures/base';
  * ### Contest Client
  *
  * Client used to access the Contest Endpoints:
- *  - Contest Types
- *  - Contest Effects
- *  - Super Contest Effects
+ *  - [Contest Types](https://pokeapi.co/docs/v2#contest-types)
+ *  - [Contest Effects](https://pokeapi.co/docs/v2#contest-effects)
+ *  - [Super Contest Effects](https://pokeapi.co/docs/v2#super-contest-effects)
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#contests-section)
  */

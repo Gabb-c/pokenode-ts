@@ -7,8 +7,8 @@ import { BaseClient, ClientArgs } from '../structures/base';
  * ### Evolution Client
  *
  * Client used to access the Berry Endpoints:
- *  - Evolution Chains
- *  - Evolution Triggers
+ *  - [Evolution Chains](https://pokeapi.co/docs/v2#evolution-chains)
+ *  - [Evolution Triggers](https://pokeapi.co/docs/v2#evolution-triggers)
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#evolution-section)
  */

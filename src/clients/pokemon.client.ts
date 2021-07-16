@@ -25,22 +25,22 @@ import { BaseClient, ClientArgs } from '../structures/base';
  * ### Pokemon Client
  *
  * Client used to access the Pokemon Endpoints:
- *  - Abilities
- *  - Characteristics
- *  - Egg Groups
- *  - Genders
- *  - Growth Rates
- *  - Natures
- *  - Pokeathlon Stats
- *  - Pokemon
- *  - Pokemon Location Areas
- *  - Pokemon Colors
- *  - Pokemon Forms
- *  - Pokemon Habitats
- *  - Pokemon Shapes
- *  - Pokemon Species
- *  - Stats
- *  - Types
+ *  - [Abilities](https://pokeapi.co/docs/v2#abilities)
+ *  - [Characteristics](https://pokeapi.co/docs/v2#characteristics)
+ *  - [Egg Groups](https://pokeapi.co/docs/v2#egg-groups)
+ *  - [Genders](https://pokeapi.co/docs/v2#genders)
+ *  - [Growth Rates](https://pokeapi.co/docs/v2#growth-rates)
+ *  - [Natures](https://pokeapi.co/docs/v2#natures)
+ *  - [Pokeathlon Stats](https://pokeapi.co/docs/v2#pokeathlon-stats)
+ *  - [Pokemon](https://pokeapi.co/docs/v2#pokemon)
+ *  - [Pokemon Location Areas](https://pokeapi.co/docs/v2#pokemon-location-areas)
+ *  - [Pokemon Colors](https://pokeapi.co/docs/v2#pokemon-colors)
+ *  - [Pokemon Forms](https://pokeapi.co/docs/v2#pokemon-forms)
+ *  - [Pokemon Habitats](https://pokeapi.co/docs/v2#pokemon-habitats)
+ *  - [Pokemon Shapes](https://pokeapi.co/docs/v2#pokemon-shapes)
+ *  - [Pokemon Species](https://pokeapi.co/docs/v2#pokemon-species)
+ *  - [Stats](https://pokeapi.co/docs/v2#stats)
+ *  - [Types](https://pokeapi.co/docs/v2#types)
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#pokemon-section)
  */
