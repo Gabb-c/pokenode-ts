@@ -7,10 +7,10 @@ import { BaseClient, ClientArgs } from '../structures/base';
  * ### Game Client
  *
  * Client used to access the Game Endpoints:
- *  - Generations
- *  - Pokedexes
- *  - Versions
- *  - Version Groups
+ *  - [Generations](https://pokeapi.co/docs/v2#generations)
+ *  - [Pokedexes](https://pokeapi.co/docs/v2#pokedexes)
+ *  - [Versions](https://pokeapi.co/docs/v2#version)
+ *  - [Version Groups](https://pokeapi.co/docs/v2#version-groups)
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#games-section)
  */

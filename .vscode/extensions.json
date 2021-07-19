@@ -1,6 +1,5 @@
 {
   "recommendations": [
-    "aaron-bond.better-comments",
     "christian-kohler.path-intellisense",
     "codezombiech.gitignore",
     "CoenraadS.bracket-pair-colorizer",
@@ -8,12 +7,8 @@
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
     "EditorConfig.EditorConfig",
-    "miguelsolorio.fluent-icons",
     "ms-vscode.vscode-typescript-next",
-    "naumovs.color-highlight",
-    "PKief.material-icon-theme",
     "redhat.vscode-commons",
-    "redhat.vscode-yaml",
     "VisualStudioExptTeam.vscodeintellicode",
     "wix.vscode-import-cost",
     "xabikos.JavaScriptSnippets",

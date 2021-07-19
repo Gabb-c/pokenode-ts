@@ -7,7 +7,7 @@ import { BaseClient, ClientArgs } from '../structures/base';
  * ### Utility Client
  *
  * Client used to access the Utility Endpoints:
- *  - Languages
+ *  - [Languages](https://pokeapi.co/docs/v2#utility-section)
  *  - Resources
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#utility-section)

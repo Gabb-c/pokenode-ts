@@ -11,11 +11,10 @@ To enable cache requests:
 ```js
 import { BerryClient, Constants } from 'pokenode-ts';
 
-const api = new BerryClient( cacheOptions: { maxAge: 5000, exclude: { query: false } } ); // Enable cache with 5 seconds including requests with query parameters.
+const api = new BerryClient({ cacheOptions: { maxAge: 5000, exclude: { query: false } } }); // Enable cache with 5 seconds including requests with query parameters.
 
 // First call will cache the response
 // The next calls within 5 seconds will come from the cache
-
 ```
 
 ## Cache options

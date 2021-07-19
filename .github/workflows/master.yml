@@ -18,15 +18,15 @@ jobs:
           fetch-depth: 0
 
       - name: Lint commits
-        uses: wagoid/commitlint-github-action@v3
+        uses: wagoid/commitlint-github-action@v4.0.2
 
       - name: Set up Node
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v2.2.0
         with:
           node-version: 14
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1.7.7
+        uses: bahmutov/npm-install@v1.7.8
         with:
           install-command: yarn --frozen-lockfile --check-files --silent
 

@@ -1,8 +1,10 @@
 yarn-error.log
 src
+.devcontainer
 .github
 .huskyrc
 .husky
+.ncurc.json
 .lintstagedrc.json
 .mailmap
 .vscode

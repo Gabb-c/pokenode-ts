@@ -4,5 +4,6 @@
     "prettier 'src/**/*.[jt]s?(x)' --write",
     "git add ."
   ],
-  "**/*.{md,mdx,json}": ["prettier '**/*.{md,mdx,json}' --write", "git add ."]
+  "**/*.{md,mdx,json}": ["prettier '**/*.{md,mdx,json}' --write", "git add ."],
+  "./yarn.lock": ["lockfile-lint -p ./yarn.lock -a yarn -t yarn -s"]
 }
