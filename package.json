@@ -83,7 +83,7 @@
     "http-status-codes": "^2.1.4",
     "husky": "^7.0.1",
     "jest": "^27.0.6",
-    "lint-staged": "^11.0.1",
+    "lint-staged": "^11.1.0",
     "lockfile-lint": "^4.6.2",
     "lodash": "^4.17.21",
     "prettier": "^2.3.2",
