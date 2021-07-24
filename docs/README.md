@@ -12,34 +12,44 @@ A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way 
 - Axios with auto-cache reqests
 - Logging configuration
 
+## Installation
+
+```bash
+npm i pokenode-ts
+# or
+yarn add pokenode-ts # Recommended
+```
+
 ## Basic Example
+
+Using a client, like [PokemonClient](https://gabb-c.github.io/pokenode-ts/#/clients/pokemon-client):
 
 ```js
 import { PokemonClient } from 'pokenode-ts';
 
-const api = new PokemonClient();
+(async () => {
+  const api = new PokemonClient();
 
-const pokemon = await api
-  .getPokemonByName('luxray')
-  .then((data) => data)
-  .catch((error) => console.log(error));
-
-console.log(pokemon.name); // will output 'Luxray'
+  await api
+    .getPokemonByName('luxray')
+    .then((data) => console.log(data.name)) // will output "Luxray"
+    .catch((error) => console.error(error));
+})();
 ```
 
-Or:
+Or, using the MainClient:
 
 ```js
 import { MainClient } from 'pokenode-ts';
 
-const api = new MainClient();
+(async () => {
+  const api = new MainClient();
 
-const pokemon = await api.pokemon
-  .getPokemonByName('luxray')
-  .then((response) => response)
-  .catch((error) => console.error(error));
-
-console.log(pokemon.name); // will output 'Luxray'
+  await api.pokemon
+    .getPokemonByName('luxray')
+    .then((data) => console.log(data.name)) // will output "Luxray"
+    .catch((error) => console.error(error));
+})();
 ```
 
 ## Documentation
