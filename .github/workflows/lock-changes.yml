@@ -1,4 +1,4 @@
-name: "Pull Request Labeler"
+name: "Lockfile changes"
 on:
   pull_request:
     branches: [master, stable]
@@ -7,10 +7,6 @@ jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
-      - name: Labeler
-        uses: actions/labeler@v3
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Yarn Lock Changes
         uses: Simek/yarn-lock-changes@main
