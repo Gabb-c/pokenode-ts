@@ -2,6 +2,7 @@ yarn-error.log
 src
 .devcontainer
 .github
+.gitpod.yml
 .huskyrc
 .husky
 .ncurc.json
