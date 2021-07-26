@@ -56,6 +56,12 @@ import { MainClient } from 'pokenode-ts';
 
 Check out our Documentation page!
 
+## Leave your feedback
+
+Did you like pokenode-ts? Give us a star ⭐
+Found a problem? Let us know by [creating an issue 🔎📑](https://github.com/Gabb-c/pokenode-ts/issues)
+Want to contribute? [Submit a PR](https://github.com/Gabb-c/pokenode-ts/pulls)
+
 ## Insomnia Collection
 
 If you want to test the PokéAPI endpoints, we recommend using [Insomnia](https://insomnia.rest/):
