@@ -41,7 +41,7 @@
     "prepublishOnly": "yarn build:ci"
   },
   "dependencies": {
-    "@types/pino": "^6.3.9",
+    "@types/pino": "^6.3.10",
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.7.3",
     "pino": "^6.13.0",
