@@ -1956,25 +1956,15 @@
   dependencies:
     "@types/node" "*"
 
-"@types/pino@*":
-  version "6.3.8"
-  resolved "https://registry.yarnpkg.com/@types/pino/-/pino-6.3.8.tgz#ec589318c2798216a0f39882845c5e40b7151b56"
-  integrity sha512-E47CmRy1FNMaCN8r0d8ECQOjXen9O0p6GGsUjLfmawlxRKosZ82WP1oWVKj+ikTkMDHxWzN5BuKmplo44ynrIg==
+"@types/pino@*", "@types/pino@^6.3.10":
+  version "6.3.11"
+  resolved "https://registry.yarnpkg.com/@types/pino/-/pino-6.3.11.tgz#83652799e76b3ad692aaf68f6fbf994e83af5db2"
+  integrity sha512-S7+fLONqSpHeW9d7TApUqO6VN47KYgOXhCNKwGBVLHObq8HhaAYlVqUNdfnvoXjCMiwE5xcPm/5R2ZUh8bgaXQ==
   dependencies:
     "@types/node" "*"
     "@types/pino-pretty" "*"
     "@types/pino-std-serializers" "*"
-    "@types/sonic-boom" "*"
-
-"@types/pino@^6.3.10":
-  version "6.3.10"
-  resolved "https://registry.yarnpkg.com/@types/pino/-/pino-6.3.10.tgz#bbcd4be930b0dc65168d080e6acc211905dca2da"
-  integrity sha512-r2ZOSQmjDGDEus+mif6Aym7cKQdgATv6P09iBwxlh9UdTWHUzHWbr8HxC0fwqYjAicfe2UzP+ahjm1KdbwA4GA==
-  dependencies:
-    "@types/node" "*"
-    "@types/pino-pretty" "*"
-    "@types/pino-std-serializers" "*"
-    "@types/sonic-boom" "*"
+    sonic-boom "^2.1.0"
 
 "@types/prettier@^2.1.5":
   version "2.3.0"
@@ -1985,13 +1975,6 @@
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/@types/retry/-/retry-0.12.0.tgz#2b35eccfcee7d38cd72ad99232fbd58bffb3c84d"
   integrity sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==
-
-"@types/sonic-boom@*":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@types/sonic-boom/-/sonic-boom-0.7.0.tgz#38337036293992a1df65dd3161abddf8fb9b7176"
-  integrity sha512-AfqR0fZMoUXUNwusgXKxcE9DPlHNDHQp6nKYUd4PSRpLobF5CCevSpyTEBcVZreqaWKCnGBr9KI1fHMTttoB7A==
-  dependencies:
-    "@types/node" "*"
 
 "@types/stack-utils@^2.0.0":
   version "2.0.0"
@@ -8218,6 +8201,13 @@ sonic-boom@^1.0.2:
   dependencies:
     atomic-sleep "^1.0.0"
     flatstr "^1.0.12"
+
+sonic-boom@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/sonic-boom/-/sonic-boom-2.1.0.tgz#07b7b181b078aeb5f202019769e4088c70c4f0eb"
+  integrity sha512-x2j9LXx27EDlyZEC32gBM+scNVMdPutU7FIKV2BOTKCnPrp7bY5BsplCMQ4shYYR3IhDSIrEXoqb6GlS+z7KyQ==
+  dependencies:
+    atomic-sleep "^1.0.0"
 
 sort-object-keys@^1.1.3:
   version "1.1.3"
