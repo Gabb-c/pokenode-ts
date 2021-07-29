@@ -41,7 +41,7 @@
     "prepublishOnly": "yarn build:ci"
   },
   "dependencies": {
-    "@types/pino": "^6.3.10",
+    "@types/pino": "^6.3.11",
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.7.3",
     "pino": "^6.13.0",
@@ -64,6 +64,7 @@
     "@semantic-release/release-notes-generator": "^9.0.3",
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.171",
+    "@types/node": "^16.4.6",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "babel-plugin-module-resolver": "^4.1.0",
