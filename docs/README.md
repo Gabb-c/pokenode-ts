@@ -52,10 +52,6 @@ import { MainClient } from 'pokenode-ts';
 })();
 ```
 
-## Documentation
-
-Check out our Documentation page!
-
 ## Leave your feedback
 
 Did you like pokenode-ts? Give us a star ⭐
