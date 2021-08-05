@@ -17,7 +17,7 @@ jobs:
         uses: wagoid/commitlint-github-action@v4.1.1
 
       - name: Set up Node
-        uses: actions/setup-node@v2.3.1
+        uses: actions/setup-node@v2.3.2
         with:
           node-version: 14
 
