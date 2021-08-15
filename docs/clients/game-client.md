@@ -20,13 +20,13 @@ The Game Client provide methods to access the [Game Endpoinds](https://pokeapi.c
 ## Example
 
 ```js
-import { GameClient, Pokedexes } from 'pokenode-ts'; // import the GameClient and the Pokedexes enum
+import { GameClient } from 'pokenode-ts'; // import the GameClient
 
 (async () => {
   const api = new GameClient(); // create a GameClient
 
   await api
-    .getPokedexById(Pokedexes.NATIONAL)
+    .getPokedexByName('national')
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 })();
@@ -35,13 +35,13 @@ import { GameClient, Pokedexes } from 'pokenode-ts'; // import the GameClient an
 Or:
 
 ```js
-import { GameClient } from 'pokenode-ts'; // import the GameClient
+import { GameClient, Pokedexes } from 'pokenode-ts'; // import the GameClient and the Pokedexes enum
 
 (async () => {
   const api = new GameClient(); // create a GameClient
 
   await api
-    .getPokedexByName('national')
+    .getPokedexById(Pokedexes.NATIONAL)
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 })();
