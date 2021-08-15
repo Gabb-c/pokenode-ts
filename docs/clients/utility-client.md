@@ -14,27 +14,27 @@ The Utility Client provide methods to access the [Languages Endpoinds](https://p
 ```ts
 import { UtilityClient } from 'pokenode-ts'; // import the UtilityClient
 
-const api = new UtilityClient(); // create a UtilityClient
+(async () => {
+  const api = new UtilityClient(); // create a UtilityClient
 
-const resource = await api
-  .getResourceByUrl('https://pokeapi.co/api/v2/pokemon/luxray') // using method getResourceByUrl() (pokemon endpoint)
-  .then((response: Pokemon) => response)
-  .catch((error) => console.log(error));
-
-console.log(resource); // The resource will be a Pokemon (Luxray)
+  await api
+    .getResourceByUrl('https://pokeapi.co/api/v2/pokemon/luxray') // using method getResourceByUrl() (pokemon endpoint)
+    .then((response: Pokemon) => console.log(response)) // The resource will be a Pokemon (Luxray)
+    .catch((error) => console.log(error));
+})();
 ```
 
 ```js
 import { UtilityClient, Languages } from 'pokenode-ts'; // import the UtilityClient
 
-const api = new UtilityClient(); // create a UtilityClient
+(async () => {
+  const api = new UtilityClient(); // create a UtilityClient
 
-const lang = await api
-  .getLanguageById(Languages.KO) // using method getLanguageById()
-  .then((response) => response)
-  .catch((error) => console.log(error));
-
-console.log(lang);
+  const lang = await api
+    .getLanguageById(Languages.KO) // using method getLanguageById()
+    .then((response) => response)
+    .catch((error) => console.log(error));
+})();
 ```
 
 Will output:
