@@ -7,6 +7,7 @@
 
 - Clients
 
+  - [Main](clients/main-client.md)
   - [Berry](clients/berry-client.md)
   - [Contest](clients/contest-client.md)
   - [Encounter](clients/encounter-client.md)
