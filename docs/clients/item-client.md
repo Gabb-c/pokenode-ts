@@ -23,16 +23,31 @@ The Item Client provide methods to access the [Item Endpoinds](https://pokeapi.c
 ## Example
 
 ```js
-import { ItemClient, ItemCategories } from 'pokenode-ts'; // import the ItemClient (ItemCategories enum is fully optional)
+import { ItemClient } from 'pokenode-ts'; // import the ItemClient
 
-const api = new BerryClient(); // create a ItemClient
+(async () => {
+  const api = new ItemClient(); // create an ItemClient
 
-const item = await api
-  .getItemCategoryById(ItemCategories.MEDICINE) // using method getItemCategoryById()
-  .then((response) => response)
-  .catch((error) => console.log(error));
+  await api
+    .getItemById(3)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
+```
 
-console.log(item);
+Or:
+
+```js
+import { ItemClient } from 'pokenode-ts'; // import the ItemClient
+
+(async () => {
+  const api = new ItemClient(); // create an ItemClient
+
+  await api
+    .getItemByName('medicine')
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
 ```
 
 Will output:
