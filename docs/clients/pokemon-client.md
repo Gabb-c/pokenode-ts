@@ -56,14 +56,29 @@ The Pokemon Client provide methods to access the [Pokémon Endpoinds](https://po
 ```js
 import { PokemonClient, EggGroups } from 'pokenode-ts'; // import the PokemonClient (EggGroups enum is fully optional)
 
-const api = new PokemonClient(); // create a PokemonClient
+(async () => {
+  const api = new PokemonClient(); // create an PokemonClient
 
-const eggGroup = await api
-  .getEggGroupById(EggGroups.MONSTER) // using method getEggGroupById()
-  .then((response) => response)
-  .catch((error) => console.log(error));
+  await api
+    .getEggGroupById(EggGroups.MONSTER)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
+```
 
-console.log(eggGroup);
+Or:
+
+```js
+import { PokemonClient, EggGroups } from 'pokenode-ts'; // import the PokemonClient
+
+(async () => {
+  const api = new PokemonClient(); // create an PokemonClient
+
+  await api
+    .getEggGroupByName('monster')
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
 ```
 
 Will output:
