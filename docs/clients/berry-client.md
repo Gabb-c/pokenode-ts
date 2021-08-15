@@ -17,16 +17,31 @@ The Berry Client provide methods to access the [Berry Endpoinds](https://pokeapi
 ## Example
 
 ```js
-import { BerryClient, Berries } from 'pokenode-ts'; // import the BerryClient (Berries enum is fully optional)
+import { BerryClient } from 'pokenode-ts'; // import the BerryClient
 
-const api = new BerryClient(); // create a BerryClient
+(async () => {
+  const api = new BerryClient(); // create a BerryClient
 
-const berry = await api
-  .getBerryById(Berries.CHERI) // using method getBerryById()
-  .then((response) => response)
-  .catch((error) => console.log(error));
+  await api
+    .getBerryByName('cheri')
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
+```
 
-console.log(berry);
+Or:
+
+```js
+import { BerryClient, Berries } from 'pokenode-ts'; // import the BerryClient and the Berries enum
+
+(async () => {
+  const api = new BerryClient(); // create a BerryClient
+
+  await api
+    .getBerryById(Berries.CHERI)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
 ```
 
 Will output:

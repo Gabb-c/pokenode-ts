@@ -13,16 +13,31 @@ The Evolution Client provide methods to access the [Evolution Endpoinds](https:/
 ## Example
 
 ```js
-import { EvolutionClient, EvolutionTriggers } from 'pokenode-ts'; // import the EvolutionClient (EvolutionTriggers enum is fully optional)
+import { EvolutionClient } from 'pokenode-ts'; // import the EvolutionClient
 
-const api = new EvolutionClient(); // create an EvolutionClient
+(async () => {
+  const api = new EvolutinClient(); // create a EncounterClient
 
-const evTrigger = await api
-  .getEvolutionTriggerById(EvolutionTriggers.LEVEL_UP) // using method getEvolutionTriggerById()
-  .then((response) => response)
-  .catch((error) => console.log(error));
+  await api
+    .getEvolutionTriggerByName('level-up')
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
+```
 
-console.log(encounter);
+Or:
+
+```js
+import { EvolutionClient, EvolutionTriggers } from 'pokenode-ts'; // import the EvolutionClient and the EvolutionTriggers enum
+
+(async () => {
+  const api = new EvolutinClient(); // create a EncounterClient
+
+  await api
+    .getEvolutionTriggerById(EvolutionTriggers.LEVEL_UP)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
 ```
 
 Will output:

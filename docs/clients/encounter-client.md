@@ -19,14 +19,14 @@ The Encounter Client provide methods to access the [Encounter Endpoinds](https:/
 ```js
 import { EncounterClient, EncounterMethods } from 'pokenode-ts'; // import the EncounterClient (EncounterMethods enum is fully optional)
 
-const api = new BerryClient(); // create an EncounterClient
+(async () => {
+  const api = new EncounterClient(); // create a EncounterClient
 
-const encounter = await api
-  .getEncounterMethodById(EncounterMethods.SURF) // using method getEncounterMethodById()
-  .then((response) => response)
-  .catch((error) => console.log(error));
-
-console.log(encounter);
+  await api
+    .getEncounterMethodById(EncounterMethods.SURF)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
 ```
 
 Will output:
