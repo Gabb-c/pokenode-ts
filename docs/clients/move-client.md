@@ -29,16 +29,29 @@ The Move Client provide methods to access the [Move Endpoinds](https://pokeapi.c
 ## Example
 
 ```js
-import { MoveClient, MoveAilments } from 'pokenode-ts'; // import the MachineClient (MoveAilments enum is fully optional)
+import { MoveClient, MoveAilments } from 'pokenode-ts'; // import the MachineClient and the MoveAilments enum
 
-const api = new MoveClient(); // create a MoveClient
+(async () => {
+  const api = new MoveClient(); // create an MoveClient
 
-const move = await api
-  .getMoveAilmentById(MoveAilments.PARALYSIS) // using method getMoveAilmentById()
-  .then((response) => response)
-  .catch((error) => console.log(error));
+  await api
+    .getMoveAilmentById(MoveAilments.PARALYSIS)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+```
 
-console.log(move);
+Or:
+
+```js
+import { MoveClient } from 'pokenode-ts'; // import the MachineClient
+
+(async () => {
+  const api = new MoveClient(); // create an MoveClient
+
+  await api
+    .getMoveAilmentByName('paralysis')
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
 ```
 
 Will output:
