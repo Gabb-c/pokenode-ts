@@ -20,16 +20,31 @@ The Location Client provide methods to access the [Location Endpoinds](https://p
 ## Example
 
 ```js
-import { LocationClient, PalParkAreas } from 'pokenode-ts'; // import the LocationClient (PalParkAreas enum is fully optional)
+import { LocationClient, PalParkAreas } from 'pokenode-ts'; // import the LocationClient and the PalParkAreas enum
 
-const api = new BerryClient(); // create a LocationClient
+(async () => {
+  const api = new LocationClient(); // create an LocationClient
 
-const area = await api
-  .getPalParkAreaById(PalParkAreas.FOREST) // using method getPalParkAreaById()
-  .then((response) => response)
-  .catch((error) => console.log(error));
+  await api
+    .getPalParkAreaById(PalParkAreas.FOREST)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
+```
 
-console.log(area);
+Or:
+
+```js
+import { LocationClient } from 'pokenode-ts'; // import the LocationClient
+
+(async () => {
+  const api = new LocationClient(); // create an LocationClient
+
+  await api
+    .getPalParkAreaByName('forest')
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
 ```
 
 Will output:
