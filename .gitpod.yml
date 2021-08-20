@@ -1,6 +1,6 @@
 image: gitpod/workspace-full
 tasks:
-  - name: Install Dependencies
+  - name: Install dependencies
     init: |
       yarn --check-files --silent
       yarn lint:lock
