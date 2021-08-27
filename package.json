@@ -4,7 +4,12 @@
   "private": false,
   "description": "A lightweight Node.js wrapper for the PokéAPI with built-in types.",
   "keywords": [
-    "pokeapi, PokéAPI, pokenode-ts, Pokenode-ts, pokemon"
+    "pokeapi",
+    "PokéAPI",
+    "pokenode-ts",
+    "Pokenode-ts",
+    "pokemon",
+    "pokedex"
   ],
   "homepage": "https://gabb-c.github.io/pokenode-ts/#/",
   "bugs": {
