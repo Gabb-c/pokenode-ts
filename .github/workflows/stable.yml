@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install dependencies (with cache)
+      - name: Install dependencies
         uses: bahmutov/npm-install@v1.7.9
         with:
           install-command: yarn --frozen-lockfile --check-files --silent
