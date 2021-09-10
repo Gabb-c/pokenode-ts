@@ -20,19 +20,19 @@ module.exports = {
             emoji: '✨',
           },
           fix: {
-            description: 'A bug fix 🐛',
+            description: 'A bug fix 🔧',
             title: 'Bug Fixes',
-            emoji: '🐛',
+            emoji: '🔧',
           },
           docs: {
-            description: 'Documentation only changes 📚',
+            description: 'Documentation only changes 📝',
             title: 'Documentation',
-            emoji: '📚',
+            emoji: '📝',
           },
           style: {
-            description: 'Changes that do not affect the meaning of the code 💎',
+            description: 'Changes that do not affect the meaning of the code 🎨',
             title: 'Styles',
-            emoji: '💎',
+            emoji: '🎨',
           },
           refactor: {
             description: 'A code change that neither fixes a bug nor adds a feature 📦',
@@ -40,9 +40,9 @@ module.exports = {
             emoji: '📦',
           },
           perf: {
-            description: 'A code change that improves performance 🚀',
+            description: 'A code change that improves performance 📈',
             title: 'Performance Improvements',
-            emoji: '🚀',
+            emoji: '📈',
           },
           test: {
             description: 'Adding missing tests or correcting existing tests 🚨',
@@ -55,19 +55,19 @@ module.exports = {
             emoji: '🛠',
           },
           ci: {
-            description: 'Changes to our CI configuration files and scripts ⚙️',
+            description: 'Changes to our CI configuration files and scripts ✔️',
             title: 'Continuous Integrations',
-            emoji: '⚙️',
+            emoji: '✔️',
           },
           chore: {
-            description: "Other changes that don't modify src or test files ♻️",
+            description: "Other changes that don't modify src or test files 🖇️",
             title: 'Chores',
-            emoji: '♻️',
+            emoji: '🖇️',
           },
           revert: {
-            description: 'Reverts a previous commit 🗑',
+            description: 'Reverts a previous commit ♻️',
             title: 'Reverts',
-            emoji: '🗑',
+            emoji: '♻️',
           },
         },
       },
