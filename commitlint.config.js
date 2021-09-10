@@ -30,7 +30,7 @@ module.exports = {
             emoji: '📚',
           },
           style: {
-            description: 'Changes that do not affect the meaning of the code 💎 (white-space, formatting, missing semi-colons, etc)',
+            description: 'Changes that do not affect the meaning of the code 💎',
             title: 'Styles',
             emoji: '💎',
           },
@@ -50,17 +50,17 @@ module.exports = {
             emoji: '🚨',
           },
           build: {
-            description: 'Changes that affect the build system or external dependencies 🛠 (example scopes: gulp, broccoli, npm)',
+            description: 'Changes that affect the build system or external dependencies 🛠',
             title: 'Builds',
             emoji: '🛠',
           },
           ci: {
-            description: 'Changes to our CI configuration files and scripts ⚙️ (example scopes: Travis, Circle, BrowserStack, SauceLabs)',
+            description: 'Changes to our CI configuration files and scripts ⚙️',
             title: 'Continuous Integrations',
             emoji: '⚙️',
           },
           chore: {
-            description: "Other changes that don't modify src or test files",
+            description: "Other changes that don't modify src or test files ♻️",
             title: 'Chores',
             emoji: '♻️',
           },
