@@ -33,6 +33,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "commit": "git-cz",
     "reinstall": "rimraf node_modules yarn.lock && yarn install --check-files --silent --audit",
     "build": "rimraf dist && tsc",
     "types": "dts-bundle-generator --config dts-generator.json",
@@ -67,6 +68,9 @@
     "@babel/preset-typescript": "^7.15.0",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
+    "@commitlint/cz-commitlint": "^13.1.0",
+    "@commitlint/format": "^13.1.0",
+    "@commitlint/prompt-cli": "^13.1.0",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/git": "^9.0.1",
@@ -78,6 +82,9 @@
     "@typescript-eslint/eslint-plugin": "^4.31.0",
     "@typescript-eslint/parser": "^4.31.0",
     "babel-plugin-module-resolver": "^4.1.0",
+    "commitizen": "^4.2.4",
+    "conventional-changelog-conventionalcommits": "^4.6.1",
+    "cz-conventional-changelog": "3.3.0",
     "dts-bundle-generator": "^5.9.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
@@ -105,5 +112,10 @@
   },
   "engines": {
     "node": ">=14"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
