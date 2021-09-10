@@ -24,12 +24,6 @@
     "name": "Gabb-c",
     "url": "https://github.com/Gabb-c"
   },
-  "maintainers": [
-    {
-      "name": "Gabb-c",
-      "url": "https://github.com/Gabb-c"
-    }
-  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
