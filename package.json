@@ -46,6 +46,11 @@
     "prepare": "is-ci || husky install",
     "prepublishOnly": "yarn build:ci"
   },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "dependencies": {
     "@types/pino": "^6.3.11",
     "axios": "^0.21.4",
@@ -104,10 +109,5 @@
   },
   "engines": {
     "node": ">=14"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }
