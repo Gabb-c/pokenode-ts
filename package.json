@@ -27,7 +27,6 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "commit": "git add . && git-cz",
     "reinstall": "rimraf node_modules yarn.lock && yarn install --check-files --silent --audit",
     "build": "rimraf dist && tsc",
     "types": "dts-bundle-generator --config dts-generator.json",
