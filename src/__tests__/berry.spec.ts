@@ -121,7 +121,7 @@ describe('test Berry Client', () => {
       .getBerryFlavorById(aHugeNumber)
       .catch((error: AxiosError<string>) => error.response?.status);
 
-    expect(data).toBe(StatusCodes.NOT_FOUND);
+    expect(data).toBe(404);
   });
 
   it('check if it returns a list of berry flavors', async () => {
