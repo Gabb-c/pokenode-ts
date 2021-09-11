@@ -12,7 +12,7 @@ module.exports = {
     },
     questions: {
       type: {
-        description: "Select the type of change that you're committing✨",
+        description: "Select the type of change that you're committing",
         enum: {
           feat: {
             description: 'A new feature ✨',
@@ -73,7 +73,7 @@ module.exports = {
       },
       scope: {
         description:
-          'What is the scope of this change (e.g. component or file name)',
+          'What is the scope of this change ? (e.g. component or file name)',
       },
       subject: {
         description: 'Write a short, imperative tense description of the change',
@@ -82,7 +82,7 @@ module.exports = {
         description: 'Provide a longer description of the change',
       },
       isBreaking: {
-        description: 'Are there any breaking changes?',
+        description: 'Are there any breaking changes ?',
       },
       breakingBody: {
         description:
@@ -92,7 +92,7 @@ module.exports = {
         description: 'Describe the breaking changes',
       },
       isIssueAffected: {
-        description: 'Does this change affect any open issues?',
+        description: 'Does this change affect any open issues ?',
       },
       issuesBody: {
         description:
