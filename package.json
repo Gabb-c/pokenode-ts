@@ -99,7 +99,7 @@
     "jest": "^27.2.0",
     "lint-staged": "^11.1.2",
     "lockfile-lint": "^4.6.2",
-    "prettier": "^2.4.0",
+    "prettier": "^2.4.1",
     "semantic-release": "^17.4.7",
     "sort-package-json": "^1.51.0",
     "ts-jest": "^27.0.5",
