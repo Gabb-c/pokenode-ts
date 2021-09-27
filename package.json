@@ -27,23 +27,23 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "reinstall": "rimraf node_modules yarn.lock && yarn install --check-files --silent --audit",
     "build": "rimraf dist && tsc",
-    "types": "dts-bundle-generator --config dts-generator.json",
     "build:ci": "yarn build && yarn types",
     "docs": "docsify serve ./docs",
-    "lint": "eslint src --ext js,ts",
-    "lint:fix": "eslint src --ext js,ts --fix",
     "format": "prettier 'src/**/*.[jt]s?(x)' --write",
+    "lint": "eslint src --ext js,ts",
     "lint:ci": "yarn lint:fix && yarn format && yarn sort",
+    "lint:fix": "eslint src --ext js,ts --fix",
     "lint:lock": "lockfile-lint -p ./yarn.lock -a yarn -t yarn -s",
+    "prepare": "is-ci || husky install",
+    "prepublishOnly": "yarn build:ci",
+    "reinstall": "rimraf node_modules yarn.lock && yarn install --check-files --silent --audit",
     "sort": "sort-package-json package.json",
-    "test:watch": "jest --watch --verbose --colors --expand --maxWorkers=25%",
+    "test:ci": "jest --ci --runInBand --bail --detectOpenHandles --errorOnDeprecated",
     "test:coverage": "jest --coverage",
     "test:dev": "jest --verbose --colors --expand --maxWorkers=50% --detectOpenHandles --errorOnDeprecated --bail",
-    "test:ci": "jest --ci --runInBand --bail --detectOpenHandles --errorOnDeprecated",
-    "prepare": "is-ci || husky install",
-    "prepublishOnly": "yarn build:ci"
+    "test:watch": "jest --watch --verbose --colors --expand --maxWorkers=25%",
+    "types": "dts-bundle-generator --config dts-generator.json"
   },
   "config": {
     "commitizen": {
