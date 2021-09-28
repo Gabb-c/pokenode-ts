@@ -12,14 +12,13 @@ The Machine Client provide methods to access the [Machine Endpoinds](https://pok
 ```js
 import { MachineClient } from 'pokenode-ts'; // import the MachineClient
 
-const api = new MachineClient(); // create a MachineClient
+(async () => {
+  const api = new MachineClient(); // create an MachineClient
 
-const machine = await api
-  .getMachineById(1) // using method getMachineById()
-  .then((response) => response)
-  .catch((error) => console.log(error));
-
-console.log(machine);
+  await api
+    .getMachineById(1)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
 ```
 
 Will output:

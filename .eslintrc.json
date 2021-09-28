@@ -12,6 +12,7 @@
     "plugin:promise/recommended",
     "plugin:eslint-comments/recommended",
     "plugin:unicorn/recommended",
+    "plugin:import/recommended",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
@@ -20,7 +21,15 @@
     "sourceType": "module",
     "project": "./tsconfig.eslint.json"
   },
-  "plugins": ["@typescript-eslint", "prettier", "jest", "eslint-comments", "promise", "unicorn"],
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "jest",
+    "eslint-comments",
+    "promise",
+    "unicorn",
+    "import"
+  ],
   "rules": {
     "prettier/prettier": "error",
     "no-use-before-define": "off",
@@ -37,7 +46,10 @@
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"]
+        "devDependencies": ["**/?(*.)+(spec|test).[tj]s?(x)"],
+        "optionalDependencies": false,
+        "peerDependencies": true,
+        "bundledDependencies": true
       }
     ]
   }

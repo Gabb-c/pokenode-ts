@@ -27,6 +27,11 @@ export interface ClientArgs {
    * @see https://github.com/RasCarlito/axios-cache-adapter
    */
   cacheOptions?: IAxiosCacheAdapterOptions;
+  /**
+   * ## Base URL
+   * Location of the PokéAPI. Leave empty to use the official PokéAPI instance.
+   */
+  baseURL?: string;
 }
 
 /**
@@ -42,7 +47,7 @@ export class BaseClient {
    */
   constructor(clientOptions?: ClientArgs) {
     this.api = setup({
-      baseURL: BaseURL.REST,
+      baseURL: clientOptions?.baseURL ?? BaseURL.REST,
       headers: {
         'Content-Type': 'application/json',
       },

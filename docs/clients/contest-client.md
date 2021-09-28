@@ -15,16 +15,31 @@ The Contest Client provide methods to access the [Contest Endpoinds](https://pok
 ## Example
 
 ```js
-import { ContestClient, ContestTypes } from 'pokenode-ts'; // import the ContestClient (ContestTypes enum is fully optional)
+import { ContestClient } from 'pokenode-ts'; // import the ContestClient
 
-const api = new ContestClient(); // create a ContestClient
+(async () => {
+  const api = new ContestClient(); // create a ContestClient
 
-const contest = await api
-  .getContestTypeById(ContestTypes.TOUGH) // using method getContestTypeId()
-  .then((response) => response)
-  .catch((error) => console.log(error));
+  await api
+    .getContestTypeByName('tough')
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
+```
 
-console.log(contest);
+Or:
+
+```js
+import { ContestClient, ContestTypes } from 'pokenode-ts'; // import the ContestClient and the ContestTypes enum
+
+(async () => {
+  const api = new ContestClient(); // create a ContestClient
+
+  await api
+    .getContestTypeById(ContestTypes.TOUGH)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+})();
 ```
 
 Will output:
