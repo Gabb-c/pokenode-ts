@@ -21,12 +21,12 @@ jobs:
         uses: wagoid/commitlint-github-action@v4.1.4
 
       - name: Set up Node
-        uses: actions/setup-node@v2.4.0
+        uses: actions/setup-node@v2.4.1
         with:
           node-version: 14
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1.7.9
+        uses: bahmutov/npm-install@v1.7.10
         with:
           install-command: yarn --frozen-lockfile --check-files --silent
 
