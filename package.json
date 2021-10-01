@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@types/pino": "^6.3.11",
-    "axios": "^0.21.4",
+    "axios": "^0.22.0",
     "axios-cache-adapter": "^2.7.3",
     "pino": "^6.13.3",
     "pino-pretty": "^7.0.1",
