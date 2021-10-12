@@ -93,7 +93,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-unicorn": "^36.0.0",
+    "eslint-plugin-unicorn": "^37.0.1",
     "http-status-codes": "^2.1.4",
     "husky": "^7.0.2",
     "jest": "^27.2.4",
