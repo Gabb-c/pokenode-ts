@@ -30,7 +30,7 @@ export class ContestClient extends BaseClient {
     return new Promise<ContestType>((resolve, reject) => {
       this.api
         .get<ContestType>(`${Endpoints.ContestType}/${name}`)
-        .then((response: AxiosResponse<ContestType, ContestType>) => resolve(response.data))
+        .then((response: AxiosResponse<ContestType>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
   }
