@@ -28,7 +28,7 @@ export class EvolutionClient extends BaseClient {
   public async getEvolutionChainById(id: number): Promise<EvolutionChain> {
     return new Promise<EvolutionChain>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.EvolutionChain}/${id}`)
+        .get<EvolutionChain>(`${Endpoints.EvolutionChain}/${id}`)
         .then((response: AxiosResponse<EvolutionChain>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -42,7 +42,7 @@ export class EvolutionClient extends BaseClient {
   public async getEvolutionTriggerById(id: number): Promise<EvolutionTrigger> {
     return new Promise<EvolutionTrigger>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.EvolutionTrigger}/${id}`)
+        .get<EvolutionTrigger>(`${Endpoints.EvolutionTrigger}/${id}`)
         .then((response: AxiosResponse<EvolutionTrigger>) => resolve(response.data))
         .catch((error: AxiosError<string>) => {
           reject(error);
@@ -58,7 +58,7 @@ export class EvolutionClient extends BaseClient {
   public async getEvolutionTriggerByName(name: string): Promise<EvolutionTrigger> {
     return new Promise<EvolutionTrigger>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.EvolutionTrigger}/${name}`)
+        .get<EvolutionTrigger>(`${Endpoints.EvolutionTrigger}/${name}`)
         .then((response: AxiosResponse<EvolutionTrigger>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -73,7 +73,9 @@ export class EvolutionClient extends BaseClient {
   public async listEvolutionChains(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.EvolutionChain}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.EvolutionChain}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -91,7 +93,9 @@ export class EvolutionClient extends BaseClient {
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.EvolutionTrigger}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.EvolutionTrigger}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
