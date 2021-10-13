@@ -38,7 +38,7 @@ export class ItemClient extends BaseClient {
   public async getItemByName(name: string): Promise<Item> {
     return new Promise<Item>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Item}/${name}`)
+        .get<Item>(`${Endpoints.Item}/${name}`)
         .then((response: AxiosResponse<Item>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -52,7 +52,7 @@ export class ItemClient extends BaseClient {
   public async getItemById(id: number): Promise<Item> {
     return new Promise<Item>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Item}/${id}`)
+        .get<Item>(`${Endpoints.Item}/${id}`)
         .then((response: AxiosResponse<Item>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -66,7 +66,7 @@ export class ItemClient extends BaseClient {
   public async getItemAttributeByName(name: string): Promise<ItemAttribute> {
     return new Promise<ItemAttribute>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemAttribute}/${name}`)
+        .get<ItemAttribute>(`${Endpoints.ItemAttribute}/${name}`)
         .then((response: AxiosResponse<ItemAttribute>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -80,7 +80,7 @@ export class ItemClient extends BaseClient {
   public async getItemAttributeById(id: number): Promise<ItemAttribute> {
     return new Promise<ItemAttribute>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemAttribute}/${id}`)
+        .get<ItemAttribute>(`${Endpoints.ItemAttribute}/${id}`)
         .then((response: AxiosResponse<ItemAttribute>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -94,7 +94,7 @@ export class ItemClient extends BaseClient {
   public async getItemCategoryByName(name: string): Promise<ItemCategory> {
     return new Promise<ItemCategory>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemCategory}/${name}`)
+        .get<ItemCategory>(`${Endpoints.ItemCategory}/${name}`)
         .then((response: AxiosResponse<ItemCategory>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -108,7 +108,7 @@ export class ItemClient extends BaseClient {
   public async getItemCategoryById(id: number): Promise<ItemCategory> {
     return new Promise<ItemCategory>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemCategory}/${id}`)
+        .get<ItemCategory>(`${Endpoints.ItemCategory}/${id}`)
         .then((response: AxiosResponse<ItemCategory>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -122,7 +122,7 @@ export class ItemClient extends BaseClient {
   public async getItemFlingEffectByName(name: string): Promise<ItemFlingEffect> {
     return new Promise<ItemFlingEffect>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemFlingEffect}/${name}`)
+        .get<ItemFlingEffect>(`${Endpoints.ItemFlingEffect}/${name}`)
         .then((response: AxiosResponse<ItemFlingEffect>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -136,7 +136,7 @@ export class ItemClient extends BaseClient {
   public async getItemFlingEffectById(id: number): Promise<ItemFlingEffect> {
     return new Promise<ItemFlingEffect>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemFlingEffect}/${id}`)
+        .get<ItemFlingEffect>(`${Endpoints.ItemFlingEffect}/${id}`)
         .then((response: AxiosResponse<ItemFlingEffect>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -150,7 +150,7 @@ export class ItemClient extends BaseClient {
   public async getItemPocketByName(name: string): Promise<ItemPocket> {
     return new Promise<ItemPocket>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemPocket}/${name}`)
+        .get<ItemPocket>(`${Endpoints.ItemPocket}/${name}`)
         .then((response: AxiosResponse<ItemPocket>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -164,7 +164,7 @@ export class ItemClient extends BaseClient {
   public async getItemPocketById(id: number): Promise<ItemPocket> {
     return new Promise<ItemPocket>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemPocket}/${id}`)
+        .get<ItemPocket>(`${Endpoints.ItemPocket}/${id}`)
         .then((response: AxiosResponse<ItemPocket>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -179,7 +179,7 @@ export class ItemClient extends BaseClient {
   public async listItems(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Item}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(`${Endpoints.Item}?offset=${offset || 0}&limit=${limit || 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -194,7 +194,9 @@ export class ItemClient extends BaseClient {
   public async listItemAttributes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemAttribute}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.ItemAttribute}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -209,7 +211,9 @@ export class ItemClient extends BaseClient {
   public async listItemCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemCategory}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.ItemCategory}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -227,7 +231,9 @@ export class ItemClient extends BaseClient {
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemFlingEffect}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.ItemFlingEffect}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -242,7 +248,9 @@ export class ItemClient extends BaseClient {
   public async listItemPockets(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.ItemPocket}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.ItemPocket}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
