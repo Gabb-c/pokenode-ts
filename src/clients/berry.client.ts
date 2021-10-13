@@ -27,7 +27,7 @@ export class BerryClient extends BaseClient {
     return new Promise<Berry>((resolve, reject) => {
       this.api
         .get(`${Endpoints.Berry}/${name}`)
-        .then((response: AxiosResponse<Berry>) => resolve(response.data))
+        .then((response) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
   }
