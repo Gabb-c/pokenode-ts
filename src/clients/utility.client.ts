@@ -25,7 +25,7 @@ export class UtilityClient extends BaseClient {
   public async getLanguageById(id: number): Promise<Language> {
     return new Promise<Language>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Language}/${id}`)
+        .get<Language>(`${Endpoints.Language}/${id}`)
         .then((response: AxiosResponse<Language>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -39,7 +39,7 @@ export class UtilityClient extends BaseClient {
   public async getLanguageByName(name: string): Promise<Language> {
     return new Promise<Language>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Language}/${name}`)
+        .get<Language>(`${Endpoints.Language}/${name}`)
         .then((response: AxiosResponse<Language>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -70,7 +70,9 @@ export class UtilityClient extends BaseClient {
   public listLanguages(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Language}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.Language}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
