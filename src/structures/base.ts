@@ -1,5 +1,5 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Logger, LoggerOptions } from 'pino';
+import pino from 'pino';
 import { IAxiosCacheAdapterOptions, setup } from 'axios-cache-adapter';
 import { BaseURL } from '../constants';
 import {
@@ -20,7 +20,7 @@ export interface ClientArgs {
    * Options for the client logger.
    * @see https://getpino.io/#/docs/api?id=options
    */
-  logOptions?: LoggerOptions;
+  logOptions?: pino.LoggerOptions;
   /**
    * ## Axios Cache Options
    * Options for cache.
@@ -40,7 +40,7 @@ export interface ClientArgs {
 export class BaseClient {
   public api: AxiosInstance;
 
-  public logger: Logger;
+  public logger: pino.Logger;
 
   /**
    *

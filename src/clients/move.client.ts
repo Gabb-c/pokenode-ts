@@ -42,7 +42,7 @@ export class MoveClient extends BaseClient {
   public async getMoveByName(name: string): Promise<Move> {
     return new Promise<Move>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Move}/${name}`)
+        .get<Move>(`${Endpoints.Move}/${name}`)
         .then((response: AxiosResponse<Move>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -56,7 +56,7 @@ export class MoveClient extends BaseClient {
   public async getMoveById(id: number): Promise<Move> {
     return new Promise<Move>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Move}/${id}`)
+        .get<Move>(`${Endpoints.Move}/${id}`)
         .then((response: AxiosResponse<Move>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -70,7 +70,7 @@ export class MoveClient extends BaseClient {
   public async getMoveAilmentByName(name: string): Promise<MoveAilment> {
     return new Promise<MoveAilment>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveAilment}/${name}`)
+        .get<MoveAilment>(`${Endpoints.MoveAilment}/${name}`)
         .then((response: AxiosResponse<MoveAilment>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -84,7 +84,7 @@ export class MoveClient extends BaseClient {
   public async getMoveAilmentById(id: number): Promise<MoveAilment> {
     return new Promise<MoveAilment>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveAilment}/${id}`)
+        .get<MoveAilment>(`${Endpoints.MoveAilment}/${id}`)
         .then((response: AxiosResponse<MoveAilment>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -98,7 +98,7 @@ export class MoveClient extends BaseClient {
   public async getMoveBattleStyleByName(name: string): Promise<MoveBattleStyle> {
     return new Promise<MoveBattleStyle>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveBattleStyle}/${name}`)
+        .get<MoveBattleStyle>(`${Endpoints.MoveBattleStyle}/${name}`)
         .then((response: AxiosResponse<MoveBattleStyle>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -112,7 +112,7 @@ export class MoveClient extends BaseClient {
   public async getMoveBattleStyleById(id: number): Promise<MoveBattleStyle> {
     return new Promise<MoveBattleStyle>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveBattleStyle}/${id}`)
+        .get<MoveBattleStyle>(`${Endpoints.MoveBattleStyle}/${id}`)
         .then((response: AxiosResponse<MoveBattleStyle>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -126,7 +126,7 @@ export class MoveClient extends BaseClient {
   public async getMoveCategoryByName(name: string): Promise<MoveCategory> {
     return new Promise<MoveCategory>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveCategory}/${name}`)
+        .get<MoveCategory>(`${Endpoints.MoveCategory}/${name}`)
         .then((response: AxiosResponse<MoveCategory>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -140,7 +140,7 @@ export class MoveClient extends BaseClient {
   public async getMoveCategoryById(id: number): Promise<MoveCategory> {
     return new Promise<MoveCategory>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveCategory}/${id}`)
+        .get<MoveCategory>(`${Endpoints.MoveCategory}/${id}`)
         .then((response: AxiosResponse<MoveCategory>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -154,7 +154,7 @@ export class MoveClient extends BaseClient {
   public async getMoveDamageClassByName(name: string): Promise<MoveDamageClass> {
     return new Promise<MoveDamageClass>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveDamageClass}/${name}`)
+        .get<MoveDamageClass>(`${Endpoints.MoveDamageClass}/${name}`)
         .then((response: AxiosResponse<MoveDamageClass>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -168,7 +168,7 @@ export class MoveClient extends BaseClient {
   public async getMoveDamageClassById(id: number): Promise<MoveDamageClass> {
     return new Promise<MoveDamageClass>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveDamageClass}/${id}`)
+        .get<MoveDamageClass>(`${Endpoints.MoveDamageClass}/${id}`)
         .then((response: AxiosResponse<MoveDamageClass>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -182,7 +182,7 @@ export class MoveClient extends BaseClient {
   public async getMoveLearnMethodByName(name: string): Promise<MoveLearnMethod> {
     return new Promise<MoveLearnMethod>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveLearnMethod}/${name}`)
+        .get<MoveLearnMethod>(`${Endpoints.MoveLearnMethod}/${name}`)
         .then((response: AxiosResponse<MoveLearnMethod>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -196,7 +196,7 @@ export class MoveClient extends BaseClient {
   public async getMoveLearnMethodById(id: number): Promise<MoveLearnMethod> {
     return new Promise<MoveLearnMethod>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveLearnMethod}/${id}`)
+        .get<MoveLearnMethod>(`${Endpoints.MoveLearnMethod}/${id}`)
         .then((response: AxiosResponse<MoveLearnMethod>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -210,7 +210,7 @@ export class MoveClient extends BaseClient {
   public async getMoveTargetByName(name: string): Promise<MoveTarget> {
     return new Promise<MoveTarget>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveTarget}/${name}`)
+        .get<MoveTarget>(`${Endpoints.MoveTarget}/${name}`)
         .then((response: AxiosResponse<MoveTarget>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -224,7 +224,7 @@ export class MoveClient extends BaseClient {
   public async getMoveTargetById(id: number): Promise<MoveTarget> {
     return new Promise<MoveTarget>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveTarget}/${id}`)
+        .get<MoveTarget>(`${Endpoints.MoveTarget}/${id}`)
         .then((response: AxiosResponse<MoveTarget>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -239,7 +239,7 @@ export class MoveClient extends BaseClient {
   public async listMoves(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Move}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(`${Endpoints.Move}?offset=${offset || 0}&limit=${limit || 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -254,7 +254,9 @@ export class MoveClient extends BaseClient {
   public async listMoveAilments(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveAilment}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.MoveAilment}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -272,7 +274,9 @@ export class MoveClient extends BaseClient {
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveBattleStyle}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.MoveBattleStyle}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -287,7 +291,9 @@ export class MoveClient extends BaseClient {
   public async listMoveCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveCategory}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.MoveCategory}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -305,7 +311,9 @@ export class MoveClient extends BaseClient {
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveDamageClass}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.MoveDamageClass}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -323,7 +331,9 @@ export class MoveClient extends BaseClient {
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveLearnMethod}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.MoveLearnMethod}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -338,7 +348,9 @@ export class MoveClient extends BaseClient {
   public async listMoveTargets(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.MoveTarget}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.MoveTarget}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });

@@ -27,7 +27,7 @@ export class MachineClient extends BaseClient {
   public async getMachineById(id: number): Promise<Machine> {
     return new Promise<Machine>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Machine}/${id}`)
+        .get<Machine>(`${Endpoints.Machine}/${id}`)
         .then((response: AxiosResponse<Machine>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -42,7 +42,9 @@ export class MachineClient extends BaseClient {
   public async listMachines(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Machine}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.Machine}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });

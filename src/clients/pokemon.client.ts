@@ -60,7 +60,7 @@ export class PokemonClient extends BaseClient {
   public async getAbilityByName(name: string): Promise<Ability> {
     return new Promise<Ability>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Ability}/${name}`)
+        .get<Ability>(`${Endpoints.Ability}/${name}`)
         .then((response: AxiosResponse<Ability>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -74,7 +74,7 @@ export class PokemonClient extends BaseClient {
   public async getAbilityById(id: number): Promise<Ability> {
     return new Promise<Ability>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Ability}/${id}`)
+        .get<Ability>(`${Endpoints.Ability}/${id}`)
         .then((response: AxiosResponse<Ability>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -88,7 +88,7 @@ export class PokemonClient extends BaseClient {
   public async getCharacteristicById(id: number): Promise<Characteristic> {
     return new Promise<Characteristic>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Characteristic}/${id}`)
+        .get<Characteristic>(`${Endpoints.Characteristic}/${id}`)
         .then((response: AxiosResponse<Characteristic>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -102,7 +102,7 @@ export class PokemonClient extends BaseClient {
   public async getEggGroupByName(name: string): Promise<EggGroup> {
     return new Promise<EggGroup>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.EggGroup}/${name}`)
+        .get<EggGroup>(`${Endpoints.EggGroup}/${name}`)
         .then((response: AxiosResponse<EggGroup>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -116,7 +116,7 @@ export class PokemonClient extends BaseClient {
   public async getEggGroupById(id: number): Promise<EggGroup> {
     return new Promise<EggGroup>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.EggGroup}/${id}`)
+        .get<EggGroup>(`${Endpoints.EggGroup}/${id}`)
         .then((response: AxiosResponse<EggGroup>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -130,7 +130,7 @@ export class PokemonClient extends BaseClient {
   public async getGenderByName(name: string): Promise<Gender> {
     return new Promise<Gender>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Gender}/${name}`)
+        .get<Gender>(`${Endpoints.Gender}/${name}`)
         .then((response: AxiosResponse<Gender>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -144,7 +144,7 @@ export class PokemonClient extends BaseClient {
   public async getGenderById(id: number): Promise<Gender> {
     return new Promise<Gender>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Gender}/${id}`)
+        .get<Gender>(`${Endpoints.Gender}/${id}`)
         .then((response: AxiosResponse<Gender>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -158,7 +158,7 @@ export class PokemonClient extends BaseClient {
   public async getGrowthRateByName(name: string): Promise<GrowthRate> {
     return new Promise<GrowthRate>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.GrowthRate}/${name}`)
+        .get<GrowthRate>(`${Endpoints.GrowthRate}/${name}`)
         .then((response: AxiosResponse<GrowthRate>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -172,7 +172,7 @@ export class PokemonClient extends BaseClient {
   public async getGrowthRateById(id: number): Promise<GrowthRate> {
     return new Promise<GrowthRate>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.GrowthRate}/${id}`)
+        .get<GrowthRate>(`${Endpoints.GrowthRate}/${id}`)
         .then((response: AxiosResponse<GrowthRate>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -186,7 +186,7 @@ export class PokemonClient extends BaseClient {
   public async getNatureByName(name: string): Promise<Nature> {
     return new Promise<Nature>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Nature}/${name}`)
+        .get<Nature>(`${Endpoints.Nature}/${name}`)
         .then((response: AxiosResponse<Nature>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -200,7 +200,7 @@ export class PokemonClient extends BaseClient {
   public async getNatureById(id: number): Promise<Nature> {
     return new Promise<Nature>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Nature}/${id}`)
+        .get<Nature>(`${Endpoints.Nature}/${id}`)
         .then((response: AxiosResponse<Nature>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -214,7 +214,7 @@ export class PokemonClient extends BaseClient {
   public async getPokeathlonStatByName(name: string): Promise<PokeathlonStat> {
     return new Promise<PokeathlonStat>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokeathlonStat}/${name}`)
+        .get<PokeathlonStat>(`${Endpoints.PokeathlonStat}/${name}`)
         .then((response: AxiosResponse<PokeathlonStat>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -228,7 +228,7 @@ export class PokemonClient extends BaseClient {
   public async getPokeathlonStatById(id: number): Promise<PokeathlonStat> {
     return new Promise<PokeathlonStat>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokeathlonStat}/${id}`)
+        .get<PokeathlonStat>(`${Endpoints.PokeathlonStat}/${id}`)
         .then((response: AxiosResponse<PokeathlonStat>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -242,7 +242,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonByName(name: string): Promise<Pokemon> {
     return new Promise<Pokemon>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Pokemon}/${name}`)
+        .get<Pokemon>(`${Endpoints.Pokemon}/${name}`)
         .then((response: AxiosResponse<Pokemon>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -256,7 +256,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonById(id: number): Promise<Pokemon> {
     return new Promise<Pokemon>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Pokemon}/${id}`)
+        .get<Pokemon>(`${Endpoints.Pokemon}/${id}`)
         .then((response: AxiosResponse<Pokemon>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -270,7 +270,9 @@ export class PokemonClient extends BaseClient {
   public async getPokemonLocationAreaById(id: number): Promise<LocationAreaEncounter[]> {
     return new Promise<LocationAreaEncounter[]>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonLocationArea.replace(':id', id.toString())}`)
+        .get<LocationAreaEncounter[]>(
+          `${Endpoints.PokemonLocationArea.replace(':id', id.toString())}`
+        )
         .then((response: AxiosResponse<LocationAreaEncounter[]>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -284,7 +286,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonColorByName(name: string): Promise<PokemonColor> {
     return new Promise<PokemonColor>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonColor}/${name}`)
+        .get<PokemonColor>(`${Endpoints.PokemonColor}/${name}`)
         .then((response: AxiosResponse<PokemonColor>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -298,7 +300,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonColorById(id: number): Promise<PokemonColor> {
     return new Promise<PokemonColor>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonColor}/${id}`)
+        .get<PokemonColor>(`${Endpoints.PokemonColor}/${id}`)
         .then((response: AxiosResponse<PokemonColor>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -312,7 +314,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonFormByName(name: string): Promise<PokemonForm> {
     return new Promise<PokemonForm>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonForm}/${name}`)
+        .get<PokemonForm>(`${Endpoints.PokemonForm}/${name}`)
         .then((response: AxiosResponse<PokemonForm>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -326,7 +328,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonFormById(id: number): Promise<PokemonForm> {
     return new Promise<PokemonForm>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonForm}/${id}`)
+        .get<PokemonForm>(`${Endpoints.PokemonForm}/${id}`)
         .then((response: AxiosResponse<PokemonForm>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -340,7 +342,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonHabitatByName(name: string): Promise<PokemonHabitat> {
     return new Promise<PokemonHabitat>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonHabitat}/${name}`)
+        .get<PokemonHabitat>(`${Endpoints.PokemonHabitat}/${name}`)
         .then((response: AxiosResponse<PokemonHabitat>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -354,7 +356,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonHabitatById(id: number): Promise<PokemonHabitat> {
     return new Promise<PokemonHabitat>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonHabitat}/${id}`)
+        .get<PokemonHabitat>(`${Endpoints.PokemonHabitat}/${id}`)
         .then((response: AxiosResponse<PokemonHabitat>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -368,7 +370,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonShapeByName(name: string): Promise<PokemonShape> {
     return new Promise<PokemonShape>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonShape}/${name}`)
+        .get<PokemonShape>(`${Endpoints.PokemonShape}/${name}`)
         .then((response: AxiosResponse<PokemonShape>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -382,7 +384,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonShapeById(id: number): Promise<PokemonShape> {
     return new Promise<PokemonShape>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonShape}/${id}`)
+        .get<PokemonShape>(`${Endpoints.PokemonShape}/${id}`)
         .then((response: AxiosResponse<PokemonShape>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -396,7 +398,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonSpeciesByName(name: string): Promise<PokemonSpecies> {
     return new Promise<PokemonSpecies>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonSpecies}/${name}`)
+        .get<PokemonSpecies>(`${Endpoints.PokemonSpecies}/${name}`)
         .then((response: AxiosResponse<PokemonSpecies>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -410,7 +412,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonSpeciesById(id: number): Promise<PokemonSpecies> {
     return new Promise<PokemonSpecies>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonSpecies}/${id}`)
+        .get<PokemonSpecies>(`${Endpoints.PokemonSpecies}/${id}`)
         .then((response: AxiosResponse<PokemonSpecies>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -424,7 +426,7 @@ export class PokemonClient extends BaseClient {
   public async getStatByName(name: string): Promise<Stat> {
     return new Promise<Stat>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Stat}/${name}`)
+        .get<Stat>(`${Endpoints.Stat}/${name}`)
         .then((response: AxiosResponse<Stat>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -438,7 +440,7 @@ export class PokemonClient extends BaseClient {
   public async getStatById(id: number): Promise<Stat> {
     return new Promise<Stat>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Stat}/${id}`)
+        .get<Stat>(`${Endpoints.Stat}/${id}`)
         .then((response: AxiosResponse<Stat>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -452,7 +454,7 @@ export class PokemonClient extends BaseClient {
   public async getTypeByName(name: string): Promise<Type> {
     return new Promise<Type>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Type}/${name}`)
+        .get<Type>(`${Endpoints.Type}/${name}`)
         .then((response: AxiosResponse<Type>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -466,7 +468,7 @@ export class PokemonClient extends BaseClient {
   public async getTypeById(id: number): Promise<Type> {
     return new Promise<Type>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Type}/${id}`)
+        .get<Type>(`${Endpoints.Type}/${id}`)
         .then((response: AxiosResponse<Type>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -481,7 +483,9 @@ export class PokemonClient extends BaseClient {
   public async listAbilities(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Ability}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.Ability}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -496,7 +500,9 @@ export class PokemonClient extends BaseClient {
   public async listCharacteristics(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Characteristic}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.Characteristic}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -511,7 +517,9 @@ export class PokemonClient extends BaseClient {
   public async listEggGroups(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.EggGroup}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.EggGroup}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -526,7 +534,7 @@ export class PokemonClient extends BaseClient {
   public async listGenders(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Gender}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(`${Endpoints.Gender}?offset=${offset || 0}&limit=${limit || 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -541,7 +549,9 @@ export class PokemonClient extends BaseClient {
   public async listGrowthRates(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.GrowthRate}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.GrowthRate}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -556,7 +566,7 @@ export class PokemonClient extends BaseClient {
   public async listNatures(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Nature}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(`${Endpoints.Nature}?offset=${offset || 0}&limit=${limit || 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -571,7 +581,9 @@ export class PokemonClient extends BaseClient {
   public async listPokeathlonStats(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokeathlonStat}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.PokeathlonStat}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -586,7 +598,9 @@ export class PokemonClient extends BaseClient {
   public async listPokemons(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Pokemon}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.Pokemon}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -601,7 +615,9 @@ export class PokemonClient extends BaseClient {
   public async listPokemonColors(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonColor}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.PokemonColor}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -616,7 +632,9 @@ export class PokemonClient extends BaseClient {
   public async listPokemonForms(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonForm}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.PokemonForm}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -631,7 +649,9 @@ export class PokemonClient extends BaseClient {
   public async listPokemonHabitats(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonHabitat}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.PokemonHabitat}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -646,7 +666,9 @@ export class PokemonClient extends BaseClient {
   public async listPokemonShapes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonShape}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.PokemonShape}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -661,7 +683,9 @@ export class PokemonClient extends BaseClient {
   public async listPokemonSpecies(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.PokemonSpecies}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.PokemonSpecies}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -676,7 +700,7 @@ export class PokemonClient extends BaseClient {
   public async listStats(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Stat}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(`${Endpoints.Stat}?offset=${offset || 0}&limit=${limit || 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -691,7 +715,7 @@ export class PokemonClient extends BaseClient {
   public async listTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Type}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(`${Endpoints.Type}?offset=${offset || 0}&limit=${limit || 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });

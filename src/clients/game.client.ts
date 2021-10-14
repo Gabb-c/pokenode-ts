@@ -30,7 +30,7 @@ export class GameClient extends BaseClient {
   public async getGenerationByName(name: string): Promise<Generation> {
     return new Promise<Generation>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Generation}/${name}`)
+        .get<Generation>(`${Endpoints.Generation}/${name}`)
         .then((response: AxiosResponse<Generation>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -44,7 +44,7 @@ export class GameClient extends BaseClient {
   public async getGenerationById(id: number): Promise<Generation> {
     return new Promise<Generation>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Generation}/${id}`)
+        .get<Generation>(`${Endpoints.Generation}/${id}`)
         .then((response: AxiosResponse<Generation>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -58,7 +58,7 @@ export class GameClient extends BaseClient {
   public async getPokedexByName(name: string): Promise<Pokedex> {
     return new Promise<Pokedex>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Pokedex}/${name}`)
+        .get<Pokedex>(`${Endpoints.Pokedex}/${name}`)
         .then((response: AxiosResponse<Pokedex>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -72,7 +72,7 @@ export class GameClient extends BaseClient {
   public async getPokedexById(id: number): Promise<Pokedex> {
     return new Promise<Pokedex>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Pokedex}/${id}`)
+        .get<Pokedex>(`${Endpoints.Pokedex}/${id}`)
         .then((response: AxiosResponse<Pokedex>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -86,7 +86,7 @@ export class GameClient extends BaseClient {
   public async getVersionByName(name: string): Promise<Version> {
     return new Promise<Version>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Version}/${name}`)
+        .get<Version>(`${Endpoints.Version}/${name}`)
         .then((response: AxiosResponse<Version>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -100,7 +100,7 @@ export class GameClient extends BaseClient {
   public async getVersionById(id: number): Promise<Version> {
     return new Promise<Version>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Version}/${id}`)
+        .get<Version>(`${Endpoints.Version}/${id}`)
         .then((response: AxiosResponse<Version>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -114,7 +114,7 @@ export class GameClient extends BaseClient {
   public async getVersionGroupByName(name: string): Promise<VersionGroup> {
     return new Promise<VersionGroup>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.VersionGroup}/${name}`)
+        .get<VersionGroup>(`${Endpoints.VersionGroup}/${name}`)
         .then((response: AxiosResponse<VersionGroup>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -128,7 +128,7 @@ export class GameClient extends BaseClient {
   public async getVersionGroupById(id: number): Promise<VersionGroup> {
     return new Promise<VersionGroup>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.VersionGroup}/${id}`)
+        .get<VersionGroup>(`${Endpoints.VersionGroup}/${id}`)
         .then((response: AxiosResponse<VersionGroup>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -143,7 +143,9 @@ export class GameClient extends BaseClient {
   public async listGenerations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Generation}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.Generation}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -158,7 +160,9 @@ export class GameClient extends BaseClient {
   public async listPokedexes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Pokedex}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.Pokedex}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -173,7 +177,9 @@ export class GameClient extends BaseClient {
   public async listVersions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.Version}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.Version}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -188,7 +194,9 @@ export class GameClient extends BaseClient {
   public async listVersionGroups(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get(`${Endpoints.VersionGroup}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(
+          `${Endpoints.VersionGroup}?offset=${offset || 0}&limit=${limit || 20}`
+        )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
