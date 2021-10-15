@@ -53,7 +53,7 @@
   "dependencies": {
     "axios": "^0.23.0",
     "axios-cache-adapter": "^2.7.3",
-    "pino": "^7.0.1",
+    "pino": "^7.0.2",
     "pino-pretty": "^7.1.0",
     "tslib": "^2.3.1"
   },
@@ -73,7 +73,7 @@
     "@semantic-release/npm": "^8.0.0",
     "@semantic-release/release-notes-generator": "^10.0.2",
     "@types/jest": "^27.0.2",
-    "@types/node": "^16.10.9",
+    "@types/node": "^16.11.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "babel-plugin-module-resolver": "^4.1.0",
@@ -88,7 +88,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jest": "^25.0.6",
+    "eslint-plugin-jest": "^25.2.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.1.0",
@@ -101,7 +101,7 @@
     "prettier": "^2.4.1",
     "semantic-release": "^18.0.0",
     "sort-package-json": "^1.52.0",
-    "ts-jest": "^27.0.5",
+    "ts-jest": "^27.0.6",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.4.4"
   },
