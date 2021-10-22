@@ -73,7 +73,7 @@
     "@semantic-release/npm": "^8.0.2",
     "@semantic-release/release-notes-generator": "^10.0.2",
     "@types/jest": "^27.0.2",
-    "@types/node": "^16.11.2",
+    "@types/node": "^16.11.3",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "babel-plugin-module-resolver": "^4.1.0",
