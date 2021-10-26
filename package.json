@@ -96,7 +96,7 @@
     "http-status-codes": "^2.1.4",
     "husky": "^7.0.4",
     "jest": "^27.3.1",
-    "lint-staged": "^11.2.4",
+    "lint-staged": "^11.2.5",
     "lockfile-lint": "^4.6.2",
     "prettier": "^2.4.1",
     "semantic-release": "^18.0.0",
