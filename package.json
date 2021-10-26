@@ -51,9 +51,9 @@
     }
   },
   "dependencies": {
-    "axios": "^0.23.0",
+    "axios": "^0.24.0",
     "axios-cache-adapter": "^2.7.3",
-    "pino": "^7.0.3",
+    "pino": "^7.0.5",
     "pino-pretty": "^7.1.0",
     "tslib": "^2.3.1"
   },
@@ -73,9 +73,9 @@
     "@semantic-release/npm": "^8.0.2",
     "@semantic-release/release-notes-generator": "^10.0.2",
     "@types/jest": "^27.0.2",
-    "@types/node": "^16.11.4",
-    "@typescript-eslint/eslint-plugin": "^5.1.0",
-    "@typescript-eslint/parser": "^5.1.0",
+    "@types/node": "^16.11.6",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "commitizen": "^4.2.4",
     "conventional-changelog-conventionalcommits": "^4.6.1",
