@@ -85,8 +85,8 @@ Open Pokenode-ts in your Code, either using the [Remote Repositories extension](
 ## Leave your feedback
 
 - Did you like pokenode-ts? Give us a star ⭐
-- Found a problem? Let us know by [creating an issue 🔎📑](https://github.com/Gabb-c/pokenode-ts/issues)
-- Want to contribute? [Submit a PR](https://github.com/Gabb-c/pokenode-ts/pulls)
+- Found a problem? Let us know by [creating an issue 🔎](https://github.com/Gabb-c/pokenode-ts/issues)
+- Want to contribute? [Submit a PR 📑](https://github.com/Gabb-c/pokenode-ts/pulls)
 
 ## Donate
 
