@@ -2007,10 +2007,10 @@
     semver "^7.1.2"
     tempy "^1.0.0"
 
-"@semantic-release/npm@^8.0.2":
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/@semantic-release/npm/-/npm-8.0.2.tgz#1dc285e4250380bc3259735bf843738c7151f275"
-  integrity sha512-ky7QczJGExZJnS8wjdhag1EV+T3u/DbcxqpBQOIZu1fcJYKsGxr2uK9guc/H2cg0yFCto5atbuZm2sZmaG5qxg==
+"@semantic-release/npm@^8.0.3":
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/@semantic-release/npm/-/npm-8.0.3.tgz#69378ce529bbd263aa8fc899b2d0f874114e0302"
+  integrity sha512-Qbg7x/O1t3sJqsv2+U0AL4Utgi/ymlCiUdt67Ftz9HL9N8aDML4t2tE0T9MBaYdqwD976hz57DqHHXKVppUBoA==
   dependencies:
     "@semantic-release/error" "^3.0.0"
     aggregate-error "^3.0.0"
@@ -7393,25 +7393,25 @@ pify@^4.0.1:
   resolved "https://registry.yarnpkg.com/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
 
-pino-abstract-transport@^0.4.0, pino-abstract-transport@v0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/pino-abstract-transport/-/pino-abstract-transport-0.4.0.tgz#be5913fa55542f82fccb77f6a9e04735fa583cac"
-  integrity sha512-Znl3f1ntZnDG+NpCyJyJDS+lkrlRSbgQBkV3eqNAvet/QHql6rhKLc4DuYRlwfc3fvV611O9NXPm5pbT9AJ50g==
+pino-abstract-transport@^0.5.0, pino-abstract-transport@v0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/pino-abstract-transport/-/pino-abstract-transport-0.5.0.tgz#4b54348d8f73713bfd14e3dc44228739aa13d9c0"
+  integrity sha512-+KAgmVeqXYbTtU2FScx1XS3kNyfZ5TrXY07V96QnUSFqo2gAqlvmaxH67Lj7SWazqsMabf+58ctdTcBgnOLUOQ==
   dependencies:
     duplexify "^4.1.2"
-    split2 "^3.2.2"
+    split2 "^4.0.0"
 
-pino-pretty@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-7.1.0.tgz#bfd16e6919985a141eb8c1c2e5c87d5fa3f7bb77"
-  integrity sha512-khuvWuuf2ABRp388AlPOv3sOzj+zEgnj9EeFOXw1VUqmSuPK1JqKfdvITk6prhxddVgnjQtbi5x63QeIcWencw==
+pino-pretty@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-7.2.0.tgz#6cd1500fa47a6e9011e87bb65e129cd4555265f1"
+  integrity sha512-pkZhaF1JiyQt4BRqkLANYWuZTxavmuXh3OHsb8goeQasTFgNdzOECXkZWyPYrA0YMRa8zKoVsCzeYz9lI2NYwA==
   dependencies:
     args "^5.0.1"
     colorette "^2.0.7"
     dateformat "^4.6.3"
     fast-safe-stringify "^2.0.7"
     joycon "^3.0.0"
-    pino-abstract-transport "^0.4.0"
+    pino-abstract-transport "^0.5.0"
     pump "^3.0.0"
     readable-stream "^3.6.0"
     rfdc "^1.3.0"
@@ -7424,21 +7424,21 @@ pino-std-serializers@^4.0.0:
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-4.0.0.tgz#1791ccd2539c091ae49ce9993205e2cd5dbba1e2"
   integrity sha512-cK0pekc1Kjy5w9V2/n+8MkZwusa6EyyxfeQCB799CQRhRt/CqYKiWs5adeu8Shve2ZNffvfC/7J64A2PJo1W/Q==
 
-pino@^7.0.5:
-  version "7.0.5"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-7.0.5.tgz#7b49dbc6734237041849599ce4fde39f579f078f"
-  integrity sha512-ePain4FiooTqiqg0eLQ/KBfRepKPZBggmF1caUrLX+Ku1erPAiIZL3p2lycM3UhorVYbFt4CuDFAHP/d80hCzg==
+pino@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-7.1.0.tgz#1012882eb2cd75ebd6b33e407d93e9295c996f34"
+  integrity sha512-EdNpwNxlNK2gt48V4P8uvGmfTH7yW+in4MAMGgU69ovtNQqBj+kA3xGjgPQHMXo5vr4rq+vWuBgNiz/LmfK++A==
   dependencies:
     fast-redact "^3.0.0"
     fastify-warning "^0.2.0"
     get-caller-file "^2.0.5"
-    json-stringify-safe "^5.0.1"
     on-exit-leak-free "^0.2.0"
-    pino-abstract-transport v0.4.0
+    pino-abstract-transport v0.5.0
     pino-std-serializers "^4.0.0"
     quick-format-unescaped "^4.0.3"
+    safe-stable-stringify "^2.1.0"
     sonic-boom "^2.2.1"
-    thread-stream "^0.11.1"
+    thread-stream "^0.12.0"
 
 pirates@^4.0.0, pirates@^4.0.1:
   version "4.0.1"
@@ -8005,6 +8005,11 @@ safe-regex@^2.1.1:
   dependencies:
     regexp-tree "~0.1.1"
 
+safe-stable-stringify@^2.1.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/safe-stable-stringify/-/safe-stable-stringify-2.2.0.tgz#26a52f13a6988de16a0d88e20248f38e8a7d840c"
+  integrity sha512-C6AuMdYPuPV/P1leplHNu0lgc2LAElq/g3TdoksDCIVtBhr78o/CH03bt/9SKqugFbKU9CUjsNlCu0fjtQzQUw==
+
 "safer-buffer@>= 2.1.2 < 3", "safer-buffer@>= 2.1.2 < 3.0.0", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
@@ -8296,12 +8301,17 @@ spdx-license-ids@^3.0.0:
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.10.tgz#0d9becccde7003d6c658d487dd48a32f0bf3014b"
   integrity sha512-oie3/+gKf7QtpitB0LYLETe+k8SifzsX4KixvpOsbI6S0kRiRQ5MKOio8eMSAKQ17N06+wdEOXRiId+zOxo0hA==
 
-split2@^3.0.0, split2@^3.2.2:
+split2@^3.0.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/split2/-/split2-3.2.2.tgz#bf2cf2a37d838312c249c89206fd7a17dd12365f"
   integrity sha512-9NThjpgZnifTkJpzTZ7Eue85S49QwpNhZTq6GRJwObb6jnLFNGB7Qm73V5HewTROPyxD0C29xqmaI68bQtV+hg==
   dependencies:
     readable-stream "^3.0.0"
+
+split2@^4.0.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/split2/-/split2-4.1.0.tgz#101907a24370f85bb782f08adaabe4e281ecf809"
+  integrity sha512-VBiJxFkxiXRlUIeyMQi8s4hgvKCSjtknJv/LVYbrgALPwf5zSKmEwV9Lst25AkvMDnvxODugjdl6KZgwKM1WYQ==
 
 split2@~1.0.0:
   version "1.0.0"
@@ -8620,10 +8630,10 @@ text-table@^0.2.0, text-table@~0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-thread-stream@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/thread-stream/-/thread-stream-0.11.1.tgz#9af0f4b4b9b44744729897bc1665decb2bad2315"
-  integrity sha512-YbZEIo+JcScRekY1bl7O717RZGA/1eT7t4n9uyKf5Fu7TYpZKuml185bQdV3l2pgoq0wCobkQySWxdNEORkghg==
+thread-stream@^0.12.0:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/thread-stream/-/thread-stream-0.12.1.tgz#83d851903a03c51f10612c2a9b2c087914780ff4"
+  integrity sha512-eFgcefesjNohVbqtNG/rh54HekZeId2xbuVXZpP5PBXTe5S+WIBfAFTbh2KRa4o/4pocgWTOTfnS0MaGOEiFTA==
 
 throat@^6.0.1:
   version "6.0.1"
