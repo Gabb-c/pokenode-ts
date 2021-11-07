@@ -222,7 +222,7 @@ export interface OtherPokemonSprites {
   /** Dream World Sprites of this Pokémon */
   dream_world: PokemonVersionSprites;
   /** Official Artwork Sprites of this Pokémon */
-  official_artwork: PokemonVersionSprites;
+  'official-artwork': PokemonVersionSprites;
 }
 
 /** Generation-I Srites */
