@@ -59,7 +59,7 @@ export interface ChainLink {
   /** All details regarding the specific details of the referenced Pokémon species evolution */
   evolution_detail: EvolutionDetail[];
   /** A List of chain objects */
-  envolves_to: ChainLink[];
+  evolves_to: ChainLink[];
 }
 
 /**
