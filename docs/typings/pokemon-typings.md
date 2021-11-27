@@ -356,7 +356,7 @@ export interface PokemonSpecies {
   /** The shape of this Pokémon for Pokédex search */
   shape: NamedAPIResource;
   /** The Pokémon species that evolves into this Pokemon_species */
-  envolves_from_species: NamedAPIResource;
+  evolves_from_species: NamedAPIResource;
   /** The evolution chain this Pokémon species is a member of */
   evolution_chain: APIResource;
   /** The habitat this Pokémon species can be encountered in */
