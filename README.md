@@ -104,4 +104,4 @@ Please consider donating if you think pokenode-ts is helpful to you or that my w
 
 ## Repository Analytics
 
-![Analytics](https://repobeats.axiom.co/api/embed/f71a113e3161e1d054170c94e4ac3fcfc960cdd4.svg "Repobeats analytics image")
+![Analytics](https://repobeats.axiom.co/api/embed/f71a113e3161e1d054170c94e4ac3fcfc960cdd4.svg 'Repobeats analytics image')

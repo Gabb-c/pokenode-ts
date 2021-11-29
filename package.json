@@ -53,7 +53,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "axios-cache-adapter": "^2.7.3",
-    "pino": "^7.4.1",
+    "pino": "^7.5.0",
     "pino-pretty": "^7.2.0",
     "tslib": "^2.3.1"
   },
@@ -74,8 +74,8 @@
     "@semantic-release/release-notes-generator": "^10.0.3",
     "@types/jest": "^27.0.3",
     "@types/node": "^16.11.10",
-    "@typescript-eslint/eslint-plugin": "^5.4.0",
-    "@typescript-eslint/parser": "^5.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.5.0",
+    "@typescript-eslint/parser": "^5.5.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "commitizen": "^4.2.4",
     "conventional-changelog-conventionalcommits": "^4.6.1",
@@ -96,7 +96,7 @@
     "http-status-codes": "^2.1.4",
     "husky": "^7.0.4",
     "is-ci": "^3.0.1",
-    "jest": "^27.3.1",
+    "jest": "^27.4.0",
     "lint-staged": "^12.1.2",
     "lockfile-lint": "^4.6.2",
     "prettier": "^2.5.0",
