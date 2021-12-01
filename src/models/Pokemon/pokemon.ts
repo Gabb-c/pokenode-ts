@@ -169,126 +169,386 @@ export interface VersionSprites {
  */
 export interface PokemonSprites {
   /** The default depiction of this Pokémon from the front in battle */
-  front_default: string;
+  front_default: string | null;
   /** The shiny depiction of this Pokémon from the front in battle */
-  front_shiny: string;
+  front_shiny: string | null;
   /** The female depiction of this Pokémon from the front in battle */
   front_female: string | null;
   /** The shiny female depiction of this Pokémon from the front in battle */
   front_shiny_female: string | null;
   /** The default depiction of this Pokémon from the back in battle */
-  back_default: string;
+  back_default: string | null;
   /** The shiny depiction of this Pokémon from the back in battle */
-  back_shiny: string;
+  back_shiny: string | null;
   /** The female depiction of this Pokémon from the back in battle */
   back_female: string | null;
   /** The shiny female depiction of this Pokémon from the back in battle */
   back_shiny_female: string | null;
-  /** Dream World and Official Artwork */
+  /** Dream World, Official Artwork and Home sprites */
   other: OtherPokemonSprites;
   /** Version Sprites of this Pokémon */
   versions: VersionSprites;
 }
 
-/**
- * A set of sprites used to depict this Pokémon in the game versions.
- * A visual representation of the various sprites can be found at [PokeAPI/sprites](https://github.com/PokeAPI/sprites#sprites)
- */
-export interface PokemonVersionSprites {
-  /** The default depiction of this Pokémon from the front in battle */
-  front_default: string;
-  /** The shiny depiction of this Pokémon from the front in battle */
-  front_shiny: string;
-  /** The female depiction of this Pokémon from the front in battle */
-  front_female: string | null;
-  /** The shiny female depiction of this Pokémon from the front in battle */
-  front_shiny_female: string | null;
-  /** The default depiction of this Pokémon from the back in battle */
-  back_default: string;
-  /** The shiny depiction of this Pokémon from the back in battle */
-  back_shiny: string;
-  /** The female depiction of this Pokémon from the back in battle */
-  back_female: string | null;
-  /** The shiny female depiction of this Pokémon from the back in battle */
-  back_shiny_female: string | null;
-  /** Dream World and Official Artwork */
-  other: OtherPokemonSprites;
-  /** Animated sprites of this pokemon ([GIF's](https://i.imgur.com/CzTcMbo.gif)) */
-  animated?: PokemonSprites;
-}
-
 /** Other Pokemon Sprites (Dream World and Official Artwork sprites) */
 export interface OtherPokemonSprites {
   /** Dream World Sprites of this Pokémon */
-  dream_world: PokemonVersionSprites;
+  dream_world: DreamWorld;
   /** Official Artwork Sprites of this Pokémon */
-  'official-artwork': PokemonVersionSprites;
+  'official-artwork': OfficialArtwork;
+  /** Home Artwork Sprites of this Pokémon */
+  home: Home;
+}
+
+/** Dream World sprites */
+export interface DreamWorld {
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
+}
+
+/** Official Artwork sprites */
+interface OfficialArtwork {
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+}
+
+/** Home sprites */
+export interface Home {
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  front_shiny_female: string | null;
 }
 
 /** Generation-I Srites */
 export interface GenerationISprites {
   /** Red-blue sprites of this Pokémon */
-  'red-blue': PokemonVersionSprites;
+  'red-blue': RedBlue;
   /** Yellow sprites of this Pokémon  */
-  yellow: PokemonVersionSprites;
+  yellow: Yellow;
+}
+
+/** Red/Blue Sprites */
+export interface RedBlue {
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The gray depiction of this Pokémon from the back in battle */
+  back_gray: string | null;
+  /** The transparent depiction of this Pokémon from the back in battle */
+  back_transparent: string | null;
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The gray depiction of this Pokémon from the front in battle */
+  front_gray: string | null;
+  /** The transparent depiction of this Pokémon from the front in battle */
+  front_transparent: string | null;
+}
+
+/** Yellow sprites */
+export interface Yellow {
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The gray depiction of this Pokémon from the back in battle */
+  back_gray: string | null;
+  /** The transparent depiction of this Pokémon from the back in battle */
+  back_transparent: string | null;
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The gray depiction of this Pokémon from the front in battle */
+  front_gray: string | null;
+  /** The transparent depiction of this Pokémon from the front in battle */
+  front_transparent: string | null;
 }
 
 /** Generation-II Sprites */
 export interface GenerationIISprites {
   /** Crystal sprites of this Pokémon */
-  crystal: PokemonVersionSprites;
+  crystal: Crystal;
   /** Gold sprites of this Pokémon */
-  gold: PokemonVersionSprites;
+  gold: Gold;
   /** Silver sprites of this Pokémon */
-  silver: PokemonVersionSprites;
+  silver: Silver;
+}
+
+/** Crystal sprites */
+export interface Crystal {
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle */
+  back_shiny: string | null;
+  /** The back shiny transparent depiction of this Pokémon from the back in battle */
+  back_shiny_transparent: string | null;
+  /** The transparent depiction of this Pokémon from the back in battle */
+  back_transparent: string | null;
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The front shiny transparent depiction of this Pokémon from the front in battle */
+  front_shiny_transparent: string | null;
+  /** The transparent depiction of this Pokémon from the front in battle */
+  front_transparent: string | null;
+}
+
+export interface Gold {
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle */
+  back_shiny: string | null;
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The transparent depiction of this Pokémon from the front in battle */
+  front_transparent: string | null;
+}
+
+/** Silver sprites */
+interface Silver {
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle */
+  back_shiny: string | null;
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The transparent depiction of this Pokémon from the front in battle */
+  front_transparent: string | null;
 }
 
 /** Generation-III Sprites */
 export interface GenerationIIISprites {
   /** Emerald sprites of this Pokémon */
-  emerald: PokemonVersionSprites;
+  emerald: Emerald;
   /** Firered-Leafgreen sprites of this Pokémon */
-  'firered-leafgreen': PokemonVersionSprites;
+  'firered-leafgreen': FireredLeafgreen;
   /** Ruby-Sapphire sprites of this Pokémon */
-  'ruby-sapphire': PokemonVersionSprites;
+  'ruby-sapphire': RubySapphire;
+}
+
+/** Emerald sprites */
+export interface Emerald {
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+}
+
+/** FireRead LeafGreen sprites  */
+export interface FireredLeafgreen {
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle */
+  back_shiny: string | null;
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+}
+
+/** Ruby/Sapphire sprites */
+export interface RubySapphire {
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle */
+  back_shiny: string | null;
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
 }
 
 /** Generation-IV Sprites */
 export interface GenerationIVSprites {
   /** Diamond-pearl Generation sprites of this Pokémon */
-  'diamond-perl': PokemonVersionSprites;
+  'diamond-perl': DiamondPearl;
   /** Heartgold-Soulsilver sprites of this Pokémon */
-  'heartgold-soulsilver': PokemonVersionSprites;
+  'heartgold-soulsilver': HeartgoldSoulsilver;
   /** Platinum sprites of this Pokémon */
-  platinum: PokemonVersionSprites;
+  platinum: Platinum;
+}
+
+export interface DiamondPearl {
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle */
+  back_shiny: string | null;
+  /** The female depiction of this Pokémon from the back in battle */
+  back_female: string | null;
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  back_shiny_female: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  front_shiny_female: string | null;
+}
+
+export interface HeartgoldSoulsilver {
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle */
+  back_shiny: string | null;
+  /** The female depiction of this Pokémon from the back in battle */
+  back_female: string | null;
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  back_shiny_female: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  front_shiny_female: string | null;
+}
+
+export interface Platinum {
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle */
+  back_shiny: string | null;
+  /** The female depiction of this Pokémon from the back in battle */
+  back_female: string | null;
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  back_shiny_female: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  front_shiny_female: string | null;
 }
 
 /** Generation-V Sprites */
 export interface GenerationVSprites {
   /** Black-white sprites of this Pokémon */
-  'black-white': PokemonVersionSprites;
+  'black-white': BlackWhite;
+}
+
+/** Black/White sprites */
+export interface BlackWhite {
+  /** The animated sprite of this pokémon */
+  animated: Animated;
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle */
+  back_shiny: string | null;
+  /** The female depiction of this Pokémon from the back in battle */
+  back_female: string | null;
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  back_shiny_female: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  front_shiny_female: string | null;
+}
+export interface Animated {
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle */
+  back_shiny: string | null;
+  /** The female depiction of this Pokémon from the back in battle */
+  back_female: string | null;
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  back_shiny_female: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  front_shiny_female: string | null;
 }
 
 /** Generation-VI Sprites */
 export interface GenerationVISprites {
   /** Omegaruby-Alphasapphire sprites of this Pokémon */
-  'omegaruby-alphasapphire': PokemonVersionSprites;
+  'omegaruby-alphasapphire': OmegarubyAlphasapphire;
   /** X-Y sprites of this Pokémon */
-  'x-y': PokemonVersionSprites;
+  'x-y': XY;
+}
+
+/** Omega/Ruby Alpha/Sapphire sprites */
+export interface OmegarubyAlphasapphire {
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  front_shiny_female: string | null;
+}
+
+/** XY sprites */
+export interface XY {
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  front_shiny_female: string | null;
 }
 
 /** Generation-VII Sprites */
 export interface GenerationVIISprites {
   /** Icon sprites of this Pokémon */
-  icons: PokemonVersionSprites;
+  icons: GenerationViiIcons;
   /** Ultra-sun-ultra-moon sprites of this Pokémon */
-  'ultra-sun-ultra-moon': PokemonVersionSprites;
+  'ultra-sun-ultra-moon': UltraSunUltraMoon;
+}
+
+/** Generation VII icons */
+export interface GenerationViiIcons {
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
+}
+
+/** Ultra Sun Ultra Moon sprites */
+export interface UltraSunUltraMoon {
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  front_shiny_female: string | null;
 }
 
 /** Generation-VIII Sprites */
 export interface GenerationVIIISprites {
   /** Icon sprites of this Pokémon */
-  icons: PokemonVersionSprites;
+  icons: GenerationViiiIcons;
+}
+
+/** Generation VIII icons */
+export interface GenerationViiiIcons {
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
 }
 
 /**
