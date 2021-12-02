@@ -13,7 +13,7 @@ export interface Berry {
   /** The name for this resource */
   name: string;
   /** Time it takes the tree to grow one stage, in hours. Berry trees go through four of these growth stages before they can be picked */
-  growth_time: string;
+  growth_time: number;
   /** The maximum number of these berries that can grow on one tree in Generation IV */
   max_harvest: number;
   /** The power of the move "Natural Gift" when used with this Berry */
