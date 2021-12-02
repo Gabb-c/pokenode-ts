@@ -20,7 +20,7 @@ export interface EvolutionDetail {
   /** The location the evolution must be triggered at. */
   location: NamedAPIResource | null;
   /** The minimum required level of the evolving Pokémon species to evolve into this Pokémon species. */
-  min_level: number;
+  min_level: number | null;
   /** The minimum required level of happiness the evolving Pokémon species to evolve into this Pokémon species. */
   min_happiness: number | null;
   /** The minimum required level of beauty the evolving Pokémon species to evolve into this Pokémon species. */
@@ -35,7 +35,7 @@ export interface EvolutionDetail {
    * The player must have a Pokémon of this type in their party during the evolution trigger event
    * in order for the evolving Pokémon species to evolve into this Pokémon species.
    */
-  party_type: NamedAPIResource;
+  party_type: NamedAPIResource | null;
   /** The required relation between the Pokémon's Attack and Defense stats. 1 means Attack > Defense. 0 means Attack = Defense. -1 means Attack < Defense. */
   relative_physical_stats: 1 | 0 | -1 | null;
   /** The required time of day. Day or night. */
