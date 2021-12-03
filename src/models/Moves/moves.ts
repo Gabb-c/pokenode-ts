@@ -106,7 +106,7 @@ export interface MoveAilment {
 
 export interface PastMoveStatValues {
   /** The percent value of how likely this move is to be successful. */
-  accuracy: number;
+  accuracy: number | null;
   /** The percent value of how likely it is this moves effect will take effect. */
   effect_chance: number | number;
   /** The base power of this move with a value of 0 if it does not have a base power. */
@@ -116,9 +116,9 @@ export interface PastMoveStatValues {
   /** The effect of this move listed in different languages. */
   effect_entries: VerboseEffect[];
   /** The elemental type of this move. */
-  type: NamedAPIResource[] | null;
+  type: NamedAPIResource | null;
   /** The version group in which these move stat values were in effect. */
-  version_group: NamedAPIResource[];
+  version_group: NamedAPIResource;
 }
 
 /** */
@@ -204,11 +204,11 @@ export interface Move {
   /** The name for this resource */
   name: string;
   /** The percent value of how likely this move is to be successful */
-  accuracy: number;
+  accuracy: number | null;
   /** The percent value of how likely it is this moves effect will happen */
   effect_chance: number | null;
   /** Power points. The number of times this move can be used */
-  pp: number;
+  pp: number | null;
   /**
    * A value between -8 and 8. Sets the order in which moves are executed during battle.
    * See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Priority) for greater detail
@@ -219,11 +219,11 @@ export interface Move {
   /** A detail of normal and super contest combos that require this move */
   contest_combos: ContestComboSets | null;
   /** The type of appeal this move gives a Pokémon when used in a contest */
-  contest_types: NamedAPIResource;
+  contest_types: NamedAPIResource | null;
   /** The effect the move has when used in a contest */
-  contest_effect: APIResource;
+  contest_effect: APIResource | null;
   /** The type of damage the move inflicts on the target, e.g. physical */
-  damage_class: NamedAPIResource;
+  damage_class: NamedAPIResource | null;
   /** The effect of this move listed in different languages */
   effect_entries: VerboseEffect[];
   /** The list of previous effects this move has had across version groups of the games */
@@ -235,7 +235,7 @@ export interface Move {
   /** A list of the machines that teach this move */
   machines: MachineVersionDetail[];
   /** Metadata about this move */
-  meta: MoveMetaData;
+  meta: MoveMetaData | null;
   /** The name of this resource listed in different languages */
   names: Name[];
   /** A list of move resource value changes across version groups of the game */
@@ -243,7 +243,7 @@ export interface Move {
   /** A list of stats this moves effects and how much it effects them */
   stat_changes: MoveStatChange[];
   /** The effect the move has when used in a super contest */
-  super_contest_effect: APIResource;
+  super_contest_effect: APIResource | null;
   /** The type of target that will receive the effects of the attack */
   target: NamedAPIResource;
   /** The elemental type of this move */
