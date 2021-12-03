@@ -1,11 +1,11 @@
-import { NamedAPIResource } from './resource';
+import { NamedAPIResource, APIResource } from './resource';
 
 /**
  * The machine that teaches a move from an item
  */
 export interface MachineVersionDetail {
   /** The machine that teaches a move from an item */
-  machine: NamedAPIResource;
+  machine: APIResource;
   /** The version group of this specific machine */
   version_group: NamedAPIResource;
 }

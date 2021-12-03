@@ -13,7 +13,7 @@ export interface Location {
   /** The name for this resource */
   name: string;
   /** The region this location can be found in */
-  region: NamedAPIResource;
+  region: NamedAPIResource | null;
   /** The name of this resource listed in different languages */
   names: Name[];
   /** A list of game indices relevent to this location by generation */
