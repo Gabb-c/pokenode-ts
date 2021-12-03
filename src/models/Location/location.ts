@@ -36,7 +36,7 @@ export interface LocationArea {
   /** The internal id of an API resource within game data */
   game_index: number;
   /** A list of methods in which Pokémon may be encountered in this area and how likely the method will occur depending on the version of the game */
-  encounter_method_rates: EncounterMethodRate;
+  encounter_method_rates: EncounterMethodRate[];
   /** The region this location area can be found in */
   location: NamedAPIResource;
   /** The name of this resource listed in different languages */
