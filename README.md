@@ -16,7 +16,7 @@ A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way 
 ## Features
 
 - [Bulit-in typings](https://gabb-c.github.io/pokenode-ts/#/typings/berry-typings?id=berries)
-- [Axios with auto-cache reqests](https://gabb-c.github.io/pokenode-ts/#/getting-started/cache)
+- [Axios with auto-cache requests](https://gabb-c.github.io/pokenode-ts/#/getting-started/cache)
 - [Logging configuration](https://gabb-c.github.io/pokenode-ts/#/getting-started/logs)
 
 ## Installation
