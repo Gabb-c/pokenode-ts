@@ -13,12 +13,12 @@ export const handleRequest = (
   return config;
 };
 
-export const handleRequestError = async (
+export const handleRequestError = (
   error: AxiosError<unknown>,
   logger: pino.Logger
 ): Promise<AxiosError<unknown>> => {
-  logger.error(`[ Request Error ] ${error.code || 'UNKNOWN'} | ${error.message}`);
-  return Promise.reject(error);
+  logger.error(`[ Request Error ] CODE ${error.code || 'UNKNOWN'} | ${error.message}`);
+  throw error;
 };
 
 export const handleResponse = (response: AxiosResponse, logger: pino.Logger): AxiosResponse => {
@@ -26,10 +26,10 @@ export const handleResponse = (response: AxiosResponse, logger: pino.Logger): Ax
   return response;
 };
 
-export const handleResponseError = async (
+export const handleResponseError = (
   error: AxiosError<unknown>,
   logger: pino.Logger
 ): Promise<AxiosError<unknown>> => {
-  logger.error(`[ Response Error ] ${error.code || 'UNKNOWN'} | ${error.message}`);
-  return Promise.reject(error);
+  logger.error(`[ Response Error ] CODE ${error.code || 'UNKNOWN'} | ${error.message}`);
+  throw error;
 };

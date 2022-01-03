@@ -9,7 +9,7 @@ const aHugeNumber = 62_436_346;
 describe('test Berry Client', () => {
   let client: BerryClient;
   beforeAll(() => {
-    client = new BerryClient();
+    client = new BerryClient({ logOptions: { enabled: true } });
   });
 
   // Berry
