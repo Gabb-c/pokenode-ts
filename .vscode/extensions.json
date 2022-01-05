@@ -1,14 +1,10 @@
 {
   "recommendations": [
     "christian-kohler.path-intellisense",
-    "codezombiech.gitignore",
-    "CoenraadS.bracket-pair-colorizer",
-    "DavidAnson.vscode-markdownlint",
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
     "EditorConfig.EditorConfig",
     "ms-vscode.vscode-typescript-next",
-    "redhat.vscode-commons",
     "VisualStudioExptTeam.vscodeintellicode",
     "wix.vscode-import-cost",
     "xabikos.JavaScriptSnippets",
