@@ -17,7 +17,7 @@ jobs:
         uses: wagoid/commitlint-github-action@v4.1.9
 
       - name: Set up Node
-        uses: actions/setup-node@v2.5.0
+        uses: actions/setup-node@v2.5.1
         with:
           node-version: 14
 
@@ -53,7 +53,7 @@ jobs:
         uses: bahmutov/npm-install@v1.7.11
 
       - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v2.6.0
+        uses: cycjimmy/semantic-release-action@v2.7.0
         with:
           extra_plugins: |
             @semantic-release/git
