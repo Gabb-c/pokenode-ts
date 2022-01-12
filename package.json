@@ -58,10 +58,10 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.16.7",
+    "@babel/cli": "^7.16.8",
     "@babel/core": "^7.16.7",
-    "@babel/node": "^7.16.7",
-    "@babel/preset-env": "^7.16.7",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.8",
     "@babel/preset-typescript": "^7.16.7",
     "@commitlint/cli": "^16.0.2",
     "@commitlint/config-conventional": "^16.0.0",
@@ -80,7 +80,7 @@
     "commitizen": "^4.2.4",
     "conventional-changelog-conventionalcommits": "^4.6.3",
     "cz-conventional-changelog": "3.3.0",
-    "dts-bundle-generator": "^6.3.0",
+    "dts-bundle-generator": "^6.4.0",
     "eslint": "^8.6.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
