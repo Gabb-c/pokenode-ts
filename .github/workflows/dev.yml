@@ -14,16 +14,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2.4.0
-        with:
-          fetch-depth: 0
-
-      - name: Lint commits
-        uses: wagoid/commitlint-github-action@v4.1.9
 
       - name: Set up Node
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: 14
+          node-version: 14.18.3
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1.7.11
@@ -31,12 +26,7 @@ jobs:
           install-command: yarn --frozen-lockfile --check-files --silent
 
       - name: Lint
-        run: yarn lint:ci
-
-      - name: Commit formatted files
-        uses: stefanzweifel/git-auto-commit-action@v4.12.0
-        with:
-          commit_message: "fix: formatting"
+        run: yarn lint
 
       - name: Build
         run: yarn build:ci
