@@ -61,7 +61,7 @@ import { MainClient } from 'pokenode-ts';
 
 ## Documentation
 
-Check out our [Documentation page](https://gabb-c.github.io/pokenode-ts/#/)!
+Check out our [Documentation page](https://pokenode-ts-docs-gabb-c.vercel.app/)!
 
 ## Insomnia Collection
 
