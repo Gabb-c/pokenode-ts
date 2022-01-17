@@ -1,6 +1,6 @@
-![logo](docs/_media/facebook_cover_photo_2.png)
+# pokenode-ts
 
-<p align="center">
+<p align="left">
   <img alt="Build" src="https://img.shields.io/github/workflow/status/Gabb-c/pokenode-ts/Build?color=000000&labelColor=480ca8&style=for-the-badge&logo=nodedotjs&logoColor=white">
   <img alt="Codecov" src="https://img.shields.io/codecov/c/github/Gabb-c/pokenode-ts?color=000000&labelColor=f72585&&style=for-the-badge&token=whfY8GNSpS&logo=codecov&logoColor=white">
   <img alt="Snyk" src="https://img.shields.io/snyk/vulnerabilities/github/Gabb-c/pokenode-ts?style=for-the-badge&color=000000&labelColor=70e000&logo=snyk" />
