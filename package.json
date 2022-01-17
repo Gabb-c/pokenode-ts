@@ -11,7 +11,7 @@
     "pokemon",
     "pokedex"
   ],
-  "homepage": "https://gabb-c.github.io/pokenode-ts/#/",
+  "homepage": "https://pokenode-ts-docs-gabb-c.vercel.app/",
   "bugs": {
     "url": "https://github.com/Gabb-c/pokenode-ts/issues"
   },
@@ -29,7 +29,6 @@
   "scripts": {
     "build": "rimraf dist && tsc",
     "build:ci": "yarn build && yarn types",
-    "docs": "docsify serve ./docs",
     "format": "prettier 'src/**/*.[jt]s?(x)' --write",
     "lint": "eslint src --ext js,ts",
     "lint:ci": "yarn lint:fix && yarn format && yarn sort",
@@ -65,7 +64,6 @@
     "@babel/preset-typescript": "^7.16.7",
     "@commitlint/cli": "^16.0.2",
     "@commitlint/config-conventional": "^16.0.0",
-    "@commitlint/cz-commitlint": "^16.0.0",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/commit-analyzer": "^9.0.2",
     "@semantic-release/git": "^10.0.1",
@@ -77,9 +75,7 @@
     "@typescript-eslint/eslint-plugin": "^5.9.1",
     "@typescript-eslint/parser": "^5.9.1",
     "babel-plugin-module-resolver": "^4.1.0",
-    "commitizen": "^4.2.4",
     "conventional-changelog-conventionalcommits": "^4.6.3",
-    "cz-conventional-changelog": "3.3.0",
     "dts-bundle-generator": "^6.4.0",
     "eslint": "^8.7.0",
     "eslint-config-airbnb-base": "^15.0.0",
