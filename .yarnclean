@@ -18,6 +18,7 @@ examples
 # code coverage directories
 coverage
 .nyc_output
+!istanbul-reports/lib/html/assets
 
 # build scripts
 Makefile
