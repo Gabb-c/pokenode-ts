@@ -53,14 +53,14 @@
     "axios": "^0.25.0",
     "axios-cache-adapter": "^2.7.3",
     "pino": "^7.6.3",
-    "pino-pretty": "^7.3.0",
+    "pino-pretty": "^7.4.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.8",
-    "@babel/core": "^7.16.7",
+    "@babel/core": "^7.16.10",
     "@babel/node": "^7.16.8",
-    "@babel/preset-env": "^7.16.8",
+    "@babel/preset-env": "^7.16.10",
     "@babel/preset-typescript": "^7.16.7",
     "@commitlint/cli": "^16.0.3",
     "@commitlint/config-conventional": "^16.0.0",
