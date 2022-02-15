@@ -108,7 +108,7 @@ export interface PastMoveStatValues {
   /** The percent value of how likely this move is to be successful. */
   accuracy: number | null;
   /** The percent value of how likely it is this moves effect will take effect. */
-  effect_chance: number | number;
+  effect_chance: number | null;
   /** The base power of this move with a value of 0 if it does not have a base power. */
   power: number | null;
   /** Power points. The number of times this move can be used. */
