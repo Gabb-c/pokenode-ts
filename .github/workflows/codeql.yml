@@ -1,18 +1,27 @@
-name: Snyk vulnerabilities and Github CodeQL
+name: SonarCloud
 
 on:
   push:
-    branches: [master]
-
+    branches:
+      - master
+  pull_request:
+      types: [opened, synchronize, reopened]
+      
 jobs:
-  security:
+  analysis:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.4.0
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk.sarif
+
+    - uses: actions/checkout@v2.4.0
+      with:
+        fetch-depth: 0
+
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      with:
+        args: >
+          -Dsonar.tests=src/__tests__
+          -Dsonar.verbose=true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
