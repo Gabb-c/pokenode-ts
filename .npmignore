@@ -27,3 +27,4 @@ tsconfig.eslint.json
 tsconfig.json
 yarn.lock
 Makefile
+sonar-project.properties
