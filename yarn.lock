@@ -6768,9 +6768,9 @@ pino-abstract-transport@^0.5.0, pino-abstract-transport@v0.5.0:
     split2 "^4.0.0"
 
 pino-pretty@^7.5.1:
-  version "7.5.2"
-  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-7.5.2.tgz#a4f108efb4e96e9918354bb3b7d466faf5ab6357"
-  integrity sha512-oIbK2TXfCjG1Lgv3tjLCnb6uspC3NDqhQiIPNbSSWbC13MTIkcNr+w+fvpk/4dVVVsnZCY79KSPsmXq15qpQmQ==
+  version "7.5.3"
+  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-7.5.3.tgz#cceb5f0ae193c949d8a0b302227b1cec69b7491c"
+  integrity sha512-jOGysjWxOfaeUElKTeJPstiitt1Ii7owcb21lDc1BS5F4P4HRDDcGxL1f1jskSA0zkTyj64/iaXlMLGhwtLVtg==
   dependencies:
     args "^5.0.1"
     colorette "^2.0.7"
