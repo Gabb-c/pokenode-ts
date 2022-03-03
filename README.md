@@ -3,10 +3,10 @@
 <p align="left">
   <img alt="Build" src="https://img.shields.io/github/workflow/status/Gabb-c/pokenode-ts/Build?color=000000&labelColor=480ca8&style=for-the-badge&logo=nodedotjs&logoColor=white">
   <img alt="Codecov" src="https://img.shields.io/codecov/c/github/Gabb-c/pokenode-ts?color=000000&labelColor=f72585&&style=for-the-badge&token=whfY8GNSpS&logo=codecov&logoColor=white">
-  <img alt="Snyk" src="https://img.shields.io/snyk/vulnerabilities/github/Gabb-c/pokenode-ts?style=for-the-badge&color=000000&labelColor=70e000&logo=snyk" />
-  <a href="https://www.npmjs.com/package/pokenode-ts">
+  <a href="https://open.vscode.dev/Gabb-c/pokenode-ts">
+  <img alt="VSCode" src="https://img.shields.io/badge/VSCode-0078d7.svg?&style=for-the-badge&logo=visual-studio-code&logoColor=white&label=Open%20in&color=000000&labelColor=007acc" />
+  <a/>
   <img alt="NPM Downloads" src="https://img.shields.io/npm/dt/pokenode-ts?style=for-the-badge&color=000000&labelColor=CB3837&logo=npm" />
-  </a>
 </p>
 
 ## What it is
@@ -63,24 +63,14 @@ import { MainClient } from 'pokenode-ts';
 
 Check out our [Documentation page](https://pokenode-ts-docs-gabb-c.vercel.app/)!
 
-## Insomnia Collection
+## Security
 
-If you want to test the PokéAPI endpoints, we recommend using [Insomnia](https://insomnia.rest/):
+Every change in this project is analyzed by [SonarCloud](https://sonarcloud.io/)
 
-<div display="flex">
-  <a href="https://insomnia.rest/run/?label=Pok%C3%A9API&uri=https%3A%2F%2Fraw.githubusercontent.com%2FGabb-c%2Fpokeapi-insomnia-collection%2Fmain%2Fpokeapi.json">
-    <img alt="Run in Insomnia" src="https://img.shields.io/badge/Insomnia-5849be?style=for-the-badge&logo=Insomnia&logoColor=white&label=Run%20in&labelColor=black">
-  </a>
-  <a href="https://insomnia.rest/download">
-    <img alt="Insomnia Download" src="https://img.shields.io/badge/Insomnia-5849be?style=for-the-badge&logo=Insomnia&logoColor=white&label=Download&labelColor=black"/>
-  </a>
-</div>
-
-## Open in VS Code
-
-Open Pokenode-ts in your Code, either using the [Remote Repositories extension](https://code.visualstudio.com/blogs/2021/06/10/remote-repositories), or [cloning in a Dev Container](https://code.visualstudio.com/docs/remote/containers):
-
-[![Open in VS Code](https://img.shields.io/badge/VSCode-0078d7.svg?&style=for-the-badge&logo=visual-studio-code&logoColor=white&label=Open%20in&color=000000&labelColor=007acc)](https://open.vscode.dev/Gabb-c/pokenode-ts)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
 
 ## Leave your feedback
 
