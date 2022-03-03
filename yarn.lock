@@ -3611,10 +3611,10 @@ eslint-config-node@^4.1.0:
     eslint "^6.8.0"
     eslint-config-esnext "^4.1.0"
 
-eslint-config-prettier@^8.4.0:
-  version "8.4.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.4.0.tgz#8e6d17c7436649e98c4c2189868562921ef563de"
-  integrity sha512-CFotdUcMY18nGRo5KGsnNxpznzhkopOcOo0InID+sgQssPrzjvsyKZPvOgymTFeHrFuC3Tzdf2YndhXtULK9Iw==
+eslint-config-prettier@^8.5.0:
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.5.0.tgz#5a81680ec934beca02c7b1a61cf8ca34b66feab1"
+  integrity sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==
 
 eslint-import-resolver-node@^0.3.6:
   version "0.3.6"
@@ -6767,10 +6767,10 @@ pino-abstract-transport@^0.5.0, pino-abstract-transport@v0.5.0:
     duplexify "^4.1.2"
     split2 "^4.0.0"
 
-pino-pretty@^7.5.1:
-  version "7.5.2"
-  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-7.5.2.tgz#a4f108efb4e96e9918354bb3b7d466faf5ab6357"
-  integrity sha512-oIbK2TXfCjG1Lgv3tjLCnb6uspC3NDqhQiIPNbSSWbC13MTIkcNr+w+fvpk/4dVVVsnZCY79KSPsmXq15qpQmQ==
+pino-pretty@^7.5.3:
+  version "7.5.3"
+  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-7.5.3.tgz#cceb5f0ae193c949d8a0b302227b1cec69b7491c"
+  integrity sha512-jOGysjWxOfaeUElKTeJPstiitt1Ii7owcb21lDc1BS5F4P4HRDDcGxL1f1jskSA0zkTyj64/iaXlMLGhwtLVtg==
   dependencies:
     args "^5.0.1"
     colorette "^2.0.7"
