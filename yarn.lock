@@ -2483,7 +2483,7 @@ axios-cache-adapter@^2.7.3:
     cache-control-esm "1.0.0"
     md5 "^2.2.1"
 
-axios@^0.26.0:
+axios@^0.26.1:
   version "0.26.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
   integrity sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==
@@ -3586,10 +3586,10 @@ eslint-config-airbnb-base@^15.0.0:
     object.entries "^1.1.5"
     semver "^6.3.0"
 
-eslint-config-airbnb-typescript@^16.1.0:
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-typescript/-/eslint-config-airbnb-typescript-16.1.0.tgz#f75a6b4f3bb679eef34c3c930359c2ca9bc3f09c"
-  integrity sha512-W5Cq20KpEx5ZLC54bnVrC37zq2+WD956Kp/Ma3nYFRjT1v9KM63v+DPkrrmmrVqrlDKaD0ivm/qeYmyHV6qKlw==
+eslint-config-airbnb-typescript@^16.1.1:
+  version "16.1.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-typescript/-/eslint-config-airbnb-typescript-16.1.1.tgz#cfa6b0d7a0a2950465b697ce9682707869f04d22"
+  integrity sha512-E02SYIDMAEx6PB6Mi/twWNYwgK9yYd19vQzGASBUejWtdCSAuEcC3cSH8A6VZJjPITxaPRqbd00BKihSInFvbA==
   dependencies:
     eslint-config-airbnb-base "^15.0.0"
 
@@ -5761,7 +5761,7 @@ lockfile-lint-api@^5.2.3:
     debug "^4.1.1"
     object-hash "^2.0.1"
 
-lockfile-lint@^4.6.2:
+lockfile-lint@^4.7.3:
   version "4.7.3"
   resolved "https://registry.yarnpkg.com/lockfile-lint/-/lockfile-lint-4.7.3.tgz#c186b817e0cd11c02ed37eacbf88e850641e2d1e"
   integrity sha512-U+d9Z8tDQCUgjIRQpbKA3jj7J0OnAe/YEadojsIhXDUj62KuIGSRJEekrTp795NKIUhCTTMBvd3DevVgYEjHFg==
