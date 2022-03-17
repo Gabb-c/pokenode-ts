@@ -3636,10 +3636,10 @@ eslint-config-airbnb-base@^15.0.0:
     object.entries "^1.1.5"
     semver "^6.3.0"
 
-eslint-config-airbnb-typescript@^16.1.2:
-  version "16.1.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-typescript/-/eslint-config-airbnb-typescript-16.1.2.tgz#6ad1d6179afd7a857e04bafad8eac131f31cd8e7"
-  integrity sha512-IZnWyJXCYGpWvEmGQ9eyxQUnuH/NTmw4E6pI+NNGNxu4weWclZstaDGjzD+lrld81sP4BKshaigLbqFWBB9QPg==
+eslint-config-airbnb-typescript@^16.1.3:
+  version "16.1.3"
+  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-typescript/-/eslint-config-airbnb-typescript-16.1.3.tgz#ad2cfc66a3c29ba8a589938788fb838a8ece1469"
+  integrity sha512-Pxv+dnXuzyXsjKefl1THWMN7eJ7pALU05L7UyW/WmJ2FKlwsKpBE4Z8KSv5Fz+4R6Kvu7kLFYqkXdkg4wsZUow==
   dependencies:
     eslint-config-airbnb-base "^15.0.0"
 
@@ -6823,16 +6823,17 @@ pino-abstract-transport@^0.5.0, pino-abstract-transport@v0.5.0:
     duplexify "^4.1.2"
     split2 "^4.0.0"
 
-pino-pretty@^7.5.3:
-  version "7.5.3"
-  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-7.5.3.tgz#cceb5f0ae193c949d8a0b302227b1cec69b7491c"
-  integrity sha512-jOGysjWxOfaeUElKTeJPstiitt1Ii7owcb21lDc1BS5F4P4HRDDcGxL1f1jskSA0zkTyj64/iaXlMLGhwtLVtg==
+pino-pretty@^7.5.4:
+  version "7.5.4"
+  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-7.5.4.tgz#3486f74bcab7f84d85640ff125ae4a424e74fa64"
+  integrity sha512-p5AuDpsesgCiEE+8veQTOcuHBdj/BsAMntpDQeTJ0vAcsIGufR3WnKAXbjaELfEp1UYBD+ewAPb1EmIcfVXl6w==
   dependencies:
     args "^5.0.1"
     colorette "^2.0.7"
     dateformat "^4.6.3"
     fast-safe-stringify "^2.0.7"
     joycon "^3.1.1"
+    on-exit-leak-free "^0.2.0"
     pino-abstract-transport "^0.5.0"
     pump "^3.0.0"
     readable-stream "^3.6.0"
@@ -6846,10 +6847,10 @@ pino-std-serializers@^4.0.0:
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-4.0.0.tgz#1791ccd2539c091ae49ce9993205e2cd5dbba1e2"
   integrity sha512-cK0pekc1Kjy5w9V2/n+8MkZwusa6EyyxfeQCB799CQRhRt/CqYKiWs5adeu8Shve2ZNffvfC/7J64A2PJo1W/Q==
 
-pino@^7.8.1:
-  version "7.8.1"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-7.8.1.tgz#f8a7b590a6f2321e2f23b91515763530efbd61bb"
-  integrity sha512-G0AVnaJBBtbdOpZ3z0/QD3R57BWwjVo4K7e+c5mHKjNCYIY1FIKuNlWjVJfCVQ4Bq6iN/yAAh5OCeeTI7OXosA==
+pino@^7.9.0:
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-7.9.0.tgz#f4520b3b4b7942b273af0986d40814650f306028"
+  integrity sha512-5Zjb92wQPeCmTpIkdEjtz0LElnsAhL3VIgXm9yj3rr0+i7HcsxeiO46bA73sd9oys19qldR54mXURplUdMTf2w==
   dependencies:
     fast-redact "^3.0.0"
     on-exit-leak-free "^0.2.0"
