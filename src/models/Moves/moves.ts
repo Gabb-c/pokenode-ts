@@ -231,7 +231,7 @@ export interface Move {
   /** The flavor text of this move listed in different languages */
   flavor_text_entries: MoveFlavorText[];
   /** The generation in which this move was introduced */
-  generaton: NamedAPIResource;
+  generation: NamedAPIResource;
   /** A list of the machines that teach this move */
   machines: MachineVersionDetail[];
   /** Metadata about this move */
