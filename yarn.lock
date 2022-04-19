@@ -3538,9 +3538,9 @@ dot-prop@^5.1.0:
     is-obj "^2.0.0"
 
 dts-bundle-generator@^6.6.0:
-  version "6.6.0"
-  resolved "https://registry.yarnpkg.com/dts-bundle-generator/-/dts-bundle-generator-6.6.0.tgz#33ed9eb17fb121f9cff6735b4da072038efbd125"
-  integrity sha512-1AvBQ808RCdJ4obf+Omdt7RkDc0DGDTvvtZl8+BHRivD0CSA9ZUz1E6tSlqEiQxk5s9AMiMNIek74tiQ6H/S4g==
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/dts-bundle-generator/-/dts-bundle-generator-6.8.0.tgz#91298857fb79ffc722f5643509e3bc2d63f65e00"
+  integrity sha512-r92/SWfKd5G+rmYFapAMCgcPFfSIzqxcxH6J4EOmNidJhPSfnDey8dHlGttIIQUHQoy8+stH1KQcE23O8iGmNg==
   dependencies:
     typescript ">=3.0.1"
     yargs "^17.2.1"
@@ -8291,12 +8291,7 @@ typedarray-to-buffer@^4.0.0:
   resolved "https://registry.yarnpkg.com/typedarray-to-buffer/-/typedarray-to-buffer-4.0.0.tgz#cdd2933c61dd3f5f02eda5d012d441f95bfeb50a"
   integrity sha512-6dOYeZfS3O9RtRD1caom0sMxgK59b27+IwoNy8RDPsmslSGOyU+mpTamlaIW7aNKi90ZQZ9DFaZL3YRoiSCULQ==
 
-typescript@>=3.0.1, typescript@^4.4.3:
-  version "4.5.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.5.tgz#d8c953832d28924a9e3d37c73d729c846c5896f3"
-  integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==
-
-typescript@^4.6.3:
+typescript@>=3.0.1, typescript@^4.4.3, typescript@^4.6.3:
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.3.tgz#eefeafa6afdd31d725584c67a0eaba80f6fc6c6c"
   integrity sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==
