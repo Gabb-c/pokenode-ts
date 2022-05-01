@@ -57,10 +57,10 @@
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.9",
-    "@babel/node": "^7.16.8",
-    "@babel/preset-env": "^7.16.11",
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/node": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
     "@babel/preset-typescript": "^7.16.7",
     "@commitlint/cli": "^16.2.4",
     "@commitlint/config-conventional": "^16.2.4",
@@ -70,10 +70,10 @@
     "@semantic-release/github": "^8.0.4",
     "@semantic-release/npm": "^9.0.1",
     "@semantic-release/release-notes-generator": "^10.0.3",
-    "@swc/core": "^1.2.173",
+    "@swc/core": "^1.2.174",
     "@swc/jest": "^0.2.20",
     "@types/jest": "^27.4.1",
-    "@types/node": "^17.0.29",
+    "@types/node": "^17.0.30",
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "@typescript-eslint/parser": "^5.21.0",
     "babel-plugin-module-resolver": "^4.1.0",
@@ -94,14 +94,14 @@
     "http-status-codes": "^2.2.0",
     "husky": "^7.0.4",
     "is-ci": "^3.0.1",
-    "jest": "^28.0.2",
+    "jest": "^28.0.3",
     "lint-staged": "^12.4.1",
     "lockfile-lint": "^4.7.4",
     "prettier": "^2.6.2",
     "semantic-release": "^19.0.2",
     "sort-package-json": "^1.55.0",
     "ts-node-dev": "^1.1.8",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.4"
   },
   "engines": {
     "node": ">=14"
