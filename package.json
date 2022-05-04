@@ -70,7 +70,7 @@
     "@semantic-release/github": "^8.0.4",
     "@semantic-release/npm": "^9.0.1",
     "@semantic-release/release-notes-generator": "^10.0.3",
-    "@swc/core": "^1.2.175",
+    "@swc/core": "^1.2.176",
     "@swc/jest": "^0.2.20",
     "@types/jest": "^27.5.0",
     "@types/node": "^17.0.31",
