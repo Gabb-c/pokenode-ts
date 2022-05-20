@@ -138,7 +138,7 @@ export interface PokemonStat {
   /** The stat the Pokémon has */
   stat: NamedAPIResource;
   /** The effort points (EV) the Pokémon has in the stat */
-  effort: 0 | 1 | 2 | 3;
+  effort: number;
   /** The base value of the stat */
   base_stat: number;
 }
@@ -368,7 +368,7 @@ export interface RubySapphire {
 /** Generation-IV Sprites */
 export interface GenerationIVSprites {
   /** Diamond-pearl Generation sprites of this Pokémon */
-  'diamond-perl': DiamondPearl;
+  'diamond-pearl': DiamondPearl;
   /** Heartgold-Soulsilver sprites of this Pokémon */
   'heartgold-soulsilver': HeartgoldSoulsilver;
   /** Platinum sprites of this Pokémon */
