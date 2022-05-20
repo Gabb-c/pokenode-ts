@@ -57,7 +57,7 @@ export interface ChainLink {
   /** The Pokémon species at this point in the evolution chain */
   species: NamedAPIResource;
   /** All details regarding the specific details of the referenced Pokémon species evolution */
-  evolution_detail: EvolutionDetail[];
+  evolution_details: EvolutionDetail[];
   /** A List of chain objects */
   evolves_to: ChainLink[];
 }

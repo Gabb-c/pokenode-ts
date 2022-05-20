@@ -1,6 +1,7 @@
 import type { Config } from '@jest/types';
 
 const jestConfig: Config.InitialOptions = {
+  displayName: 'pokenode-ts',
   clearMocks: true,
   testEnvironment: 'node',
   transform: {
