@@ -1,6 +1,7 @@
-import type { Config } from '@jest/types';
+// @ts-check
 
-const jestConfig: Config.InitialOptions = {
+/** @type {import('@jest/types').Config.InitialOptions} */
+const jestConfig = {
   displayName: 'pokenode-ts',
   clearMocks: true,
   testEnvironment: 'node',
@@ -21,4 +22,4 @@ const jestConfig: Config.InitialOptions = {
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
 };
 
-export default jestConfig;
+module.exports = jestConfig;
