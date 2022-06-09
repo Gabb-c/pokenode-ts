@@ -89,10 +89,10 @@
     "husky": "^8.0.1",
     "is-ci": "^3.0.1",
     "jest": "^28.1.1",
-    "lint-staged": "^13.0.0",
+    "lint-staged": "^13.0.1",
     "lockfile-lint": "^4.7.4",
     "prettier": "^2.6.2",
-    "semantic-release": "^19.0.2",
+    "semantic-release": "^19.0.3",
     "sort-package-json": "^1.57.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.7.3"
