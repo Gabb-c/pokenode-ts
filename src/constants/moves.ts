@@ -20,6 +20,7 @@ export enum MoveAilmtents {
   PERISH_SONG = 20,
   INGRAIN = 21,
   SILENCE = 24,
+  TAR_SHOT = 42,
 }
 
 export enum MoveBattleStyles {
