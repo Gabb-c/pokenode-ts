@@ -55,6 +55,11 @@ export enum ItemCategories {
   MEGA_STONES = 44,
   MEMORIES = 45,
   Z_CRYSTALS = 46,
+  SPECIES_CANDIES = 47,
+  CATCHING_BONUS = 48,
+  DYNAMAX_CRISTALS = 49,
+  NATURE_MINTS = 50,
+  CURRY_INGREDIENTS = 51,
 }
 
 export enum ItemFlingEffects {
