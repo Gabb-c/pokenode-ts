@@ -7,6 +7,7 @@ export enum Regions {
   KALOS = 6,
   ALOLA = 7,
   GALAR = 8,
+  HISUI = 9,
 }
 
 export enum PalParkAreas {
