@@ -75,6 +75,11 @@ export enum Versions {
   LETS_GO_EEVEE = 32,
   SWORD = 33,
   SHIELD = 34,
+  THE_ISLE_OF_ARMOR = 35,
+  THE_CROWN_TUNDRA = 36,
+  BRILLIANT_DIAMOND = 37,
+  SHINING_PEARL = 38,
+  LEGENDS_ARCEUS = 39,
 }
 
 export enum VersionGroups {
@@ -98,4 +103,8 @@ export enum VersionGroups {
   ULTRA_SUN_ULTRA_MOON = 18,
   LETS_GO = 19,
   SWORD_SHIELD = 20,
+  THE_ISLE_OF_ARMOR = 21,
+  THE_CROWN_TUNDRA = 22,
+  BRILLIANT_DIAMOND_AND_SHINING_PEARL = 23,
+  LEGENDS_ARCEUS = 24,
 }
