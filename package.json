@@ -48,7 +48,7 @@
     "axios": "^0.27.2",
     "axios-cache-adapter": "^2.7.3",
     "pino": "^8.4.0",
-    "pino-pretty": "^8.1.0",
+    "pino-pretty": "^9.0.0",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
