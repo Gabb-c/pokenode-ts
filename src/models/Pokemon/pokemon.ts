@@ -185,7 +185,7 @@ export interface PokemonSprites {
   /** The shiny female depiction of this Pokémon from the back in battle */
   back_shiny_female: string | null;
   /** Dream World, Official Artwork and Home sprites */
-  other: OtherPokemonSprites;
+  other?: OtherPokemonSprites[];
   /** Version Sprites of this Pokémon */
   versions: VersionSprites;
 }
