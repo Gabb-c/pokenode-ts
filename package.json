@@ -65,7 +65,7 @@
     "@semantic-release/github": "^8.0.5",
     "@semantic-release/npm": "^9.0.1",
     "@semantic-release/release-notes-generator": "^10.0.3",
-    "@swc/core": "^1.2.237",
+    "@swc/core": "^1.2.239",
     "@swc/jest": "^0.2.22",
     "@types/jest": "^28.1.7",
     "@types/node": "^18.7.6",
