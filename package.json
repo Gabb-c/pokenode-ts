@@ -67,7 +67,7 @@
     "@semantic-release/release-notes-generator": "^10.0.3",
     "@swc/core": "^1.2.244",
     "@swc/jest": "^0.2.22",
-    "@types/jest": "^28.1.8",
+    "@types/jest": "^29.0.0",
     "@types/node": "^18.7.13",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
