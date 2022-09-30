@@ -25,7 +25,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1.8.22
+        uses: bahmutov/npm-install@v1.8.23
         with:
           install-command: yarn --frozen-lockfile --check-files --silent
 
