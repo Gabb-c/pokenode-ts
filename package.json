@@ -45,7 +45,7 @@
     "types": "dts-bundle-generator --config dts-generator.json"
   },
   "dependencies": {
-    "axios": "^0.27.2",
+    "axios": "^1.1.2",
     "axios-cache-adapter": "^2.7.3",
     "pino": "^8.6.1",
     "pino-pretty": "^9.1.0",
