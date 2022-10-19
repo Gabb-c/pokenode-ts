@@ -41,6 +41,7 @@
     "import/no-unresolved": 0,
     "import/prefer-default-export": "off",
     "import/extensions": "off",
+    "import/named": "off",
     "unicorn/prevent-abbreviations": "off",
     "unicorn/no-array-for-each": "off",
     "import/no-extraneous-dependencies": [
