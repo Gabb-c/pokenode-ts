@@ -43,7 +43,7 @@ jobs:
         uses: bahmutov/npm-install@v1.8.24
 
       - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v3.1.1
+        uses: cycjimmy/semantic-release-action@v3.2.0
         with:
           extra_plugins: |
             @semantic-release/git
