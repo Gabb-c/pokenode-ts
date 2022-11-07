@@ -279,9 +279,9 @@
     js-tokens "^4.0.0"
 
 "@babel/node@^7.20.0":
-  version "7.20.0"
-  resolved "https://registry.yarnpkg.com/@babel/node/-/node-7.20.0.tgz#2c4cbebdd408998ebdbb01b82335aa3b2096c724"
-  integrity sha512-FEWKq7XC2I4ci05L46B9ghJVZc5mkqx1UKtxed0BUq7jaw+8HbpwjF4nsE7I5A4iolIWlMXycGRal1CcAe0PZA==
+  version "7.20.2"
+  resolved "https://registry.yarnpkg.com/@babel/node/-/node-7.20.2.tgz#9422926a5ccffa559b96fea1d0fbc9c5af8369bc"
+  integrity sha512-s4zKG8fccCpqXEXxSkzE8vAREefRneatdGfNQDPqikTTpQmWF4Bt1OTZ9r8GghKJSeNEgRJwbI5ZSmGBQLvAEQ==
   dependencies:
     "@babel/register" "^7.18.9"
     commander "^4.0.1"
