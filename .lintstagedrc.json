@@ -1,5 +1,4 @@
 {
   "src/**/*.{js,ts,tsx}": ["eslint src --ext js,ts --fix"],
-  "**/*.{md,mdx,json}": ["prettier '**/*.{md,mdx,json}' --write"],
-  "./yarn.lock": ["lockfile-lint -p ./yarn.lock -a yarn -t yarn -s"]
+  "**/*.{md,mdx,json}": ["prettier '**/*.{md,mdx,json}' --write"]
 }
