@@ -1,8 +1,9 @@
+import { expect, test, it, beforeAll } from 'vitest';
 import { Generation, NamedAPIResourceList, Pokedex, Version, VersionGroup } from '../models';
 import { Generations, Pokedexes, Versions, VersionGroups } from '../constants';
 import { GameClient } from '../clients';
 
-describe('test Game Client', () => {
+test('Game Client', () => {
   let client: GameClient;
   beforeAll(() => {
     client = new GameClient();

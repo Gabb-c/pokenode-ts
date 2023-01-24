@@ -44,14 +44,6 @@
     "import/named": "off",
     "unicorn/prevent-abbreviations": "off",
     "unicorn/no-array-for-each": "off",
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": ["**/?(*.)+(spec|test).[tj]s?(x)"],
-        "optionalDependencies": false,
-        "peerDependencies": true,
-        "bundledDependencies": true
-      }
-    ]
+    "import/no-extraneous-dependencies": ["off"]
   }
 }

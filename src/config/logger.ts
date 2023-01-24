@@ -1,4 +1,5 @@
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
+import { CacheAxiosResponse, CacheRequestConfig } from 'axios-cache-interceptor';
 
 import pino from 'pino';
 
@@ -6,9 +7,9 @@ export const createLogger = (options?: pino.LoggerOptions | pino.DestinationStre
   pino(options);
 
 export const handleRequest = (
-  config: AxiosRequestConfig,
+  config: CacheRequestConfig,
   logger: pino.Logger
-): AxiosRequestConfig => {
+): CacheRequestConfig => {
   logger.info(`[ Request Config ] ${config.method?.toUpperCase() || ''} | ${config.url || ''}`);
   return config;
 };
@@ -21,7 +22,10 @@ export const handleRequestError = (
   throw error;
 };
 
-export const handleResponse = (response: AxiosResponse, logger: pino.Logger): AxiosResponse => {
+export const handleResponse = (
+  response: CacheAxiosResponse,
+  logger: pino.Logger
+): CacheAxiosResponse => {
   logger.info(response.data);
   return response;
 };

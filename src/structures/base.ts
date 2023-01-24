@@ -1,6 +1,12 @@
-import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError } from 'axios';
 import pino from 'pino';
-import { IAxiosCacheAdapterOptions, setup } from 'axios-cache-adapter';
+import {
+  setupCache,
+  AxiosCacheInstance,
+  CacheAxiosResponse,
+  CacheRequestConfig,
+  CacheOptions,
+} from 'axios-cache-interceptor';
 import { BaseURL } from '../constants';
 import {
   createLogger,
@@ -26,7 +32,7 @@ export interface ClientArgs {
    * Options for cache.
    * @see https://github.com/RasCarlito/axios-cache-adapter
    */
-  cacheOptions?: IAxiosCacheAdapterOptions;
+  cacheOptions?: CacheOptions;
   /**
    * ## Base URL
    * Location of the PokéAPI. Leave empty to use the official PokéAPI instance.
@@ -38,7 +44,7 @@ export interface ClientArgs {
  * ### Base Client
  */
 export class BaseClient {
-  public api: AxiosInstance;
+  public api: AxiosCacheInstance;
 
   public logger: pino.Logger;
 
@@ -46,16 +52,15 @@ export class BaseClient {
    *
    */
   constructor(clientOptions?: ClientArgs) {
-    this.api = setup({
-      baseURL: clientOptions?.baseURL ?? BaseURL.REST,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: {
-        maxAge: clientOptions?.cacheOptions?.maxAge || 0,
-        ...clientOptions?.cacheOptions,
-      },
-    });
+    this.api = setupCache(
+      axios.create({
+        baseURL: clientOptions?.baseURL ?? BaseURL.REST,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+      clientOptions?.cacheOptions
+    );
 
     this.logger = createLogger({
       enabled: !(
@@ -66,12 +71,12 @@ export class BaseClient {
     });
 
     this.api.interceptors.request.use(
-      (config: AxiosRequestConfig) => handleRequest(config, this.logger),
+      (config: CacheRequestConfig) => handleRequest(config, this.logger),
       (error: AxiosError<string>) => handleRequestError(error, this.logger)
     );
 
     this.api.interceptors.response.use(
-      (response: AxiosResponse) => handleResponse(response, this.logger),
+      (response: CacheAxiosResponse) => handleResponse(response, this.logger),
       (error: AxiosError<string>) => handleResponseError(error, this.logger)
     );
   }
