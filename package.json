@@ -35,7 +35,7 @@
     "prepublishOnly": "pnpm build",
     "sort": "sort-package-json package.json",
     "test:ci": "vitest --run",
-    "test:coverage": "vitest --coverage",
+    "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui --api 9527",
     "test:dev": "vitest -w --logHeapUsage --inspect"
   },
@@ -58,6 +58,7 @@
     "@types/node": "^18.11.18",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
+    "@vitest/coverage-c8": "^0.28.1",
     "@vitest/ui": "^0.28.1",
     "eslint": "^8.32.0",
     "eslint-config-airbnb-base": "^15.0.0",
