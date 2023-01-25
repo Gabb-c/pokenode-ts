@@ -1,8 +1,9 @@
+import { expect, test, it, beforeAll } from 'vitest';
 import { EvolutionChain, EvolutionTrigger, NamedAPIResourceList } from '../models';
 import { EvolutionTriggers } from '../constants';
 import { EvolutionClient } from '../clients';
 
-describe('test Evolution Client', () => {
+test('Evolution Client', () => {
   let client: EvolutionClient;
   beforeAll(() => {
     client = new EvolutionClient();

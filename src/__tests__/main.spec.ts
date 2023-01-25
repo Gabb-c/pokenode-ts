@@ -1,3 +1,4 @@
+import { expect, test, it, beforeAll } from 'vitest';
 import {
   Berry,
   ContestType,
@@ -19,7 +20,7 @@ import {
 } from '../constants';
 import { MainClient } from '../clients';
 
-describe('test MainClient Client', () => {
+test('MainClient Client', () => {
   let client: MainClient;
   beforeAll(() => {
     client = new MainClient();

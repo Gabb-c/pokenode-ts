@@ -1,8 +1,9 @@
+import { expect, test, it, beforeAll } from 'vitest';
 import { Language, NamedAPIResourceList, Pokemon } from '../models';
 import { Languages } from '../constants';
 import { UtilityClient } from '../clients';
 
-describe('test Utility Client', () => {
+test('Utility Client', () => {
   let client: UtilityClient;
   beforeAll(() => {
     client = new UtilityClient();

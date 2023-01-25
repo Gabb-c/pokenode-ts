@@ -3,4 +3,4 @@
 . "$(dirname "$0")/common.sh"
 
 echo "Checking commit message 📝"
-yarn commitlint --edit $1
+pnpm commitlint --edit $1

@@ -1,8 +1,9 @@
+import { expect, test, it, beforeAll } from 'vitest';
 import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from '../models';
 import { ContestClient } from '../clients';
 import { ContestTypes } from '../constants';
 
-describe('test Contest Client', () => {
+test('Contest Client', () => {
   let client: ContestClient;
   beforeAll(() => {
     client = new ContestClient();
