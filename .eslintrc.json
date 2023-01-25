@@ -1,14 +1,12 @@
 {
   "env": {
     "es2021": true,
-    "node": true,
-    "jest": true
+    "node": true
   },
   "extends": [
     "airbnb-typescript/base",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:jest/recommended",
     "plugin:promise/recommended",
     "plugin:eslint-comments/recommended",
     "plugin:unicorn/recommended",
@@ -21,15 +19,7 @@
     "sourceType": "module",
     "project": "./tsconfig.eslint.json"
   },
-  "plugins": [
-    "@typescript-eslint",
-    "prettier",
-    "jest",
-    "eslint-comments",
-    "promise",
-    "unicorn",
-    "import"
-  ],
+  "plugins": ["@typescript-eslint", "prettier", "eslint-comments", "promise", "unicorn", "import"],
   "rules": {
     "prettier/prettier": "error",
     "no-use-before-define": "off",

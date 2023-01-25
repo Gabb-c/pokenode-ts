@@ -2,10 +2,8 @@ image: gitpod/workspace-full
 tasks:
   - name: Install dependencies
     init: |
-      yarn --check-files --silent
-      yarn lint:lock
-      yarn lint:ci
-    command: yarn build:ci
+      pnpm install --frozen-lockfile
+    command: pnpm build
 
 github:
   prebuilds:
