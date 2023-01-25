@@ -44,7 +44,7 @@ export interface ClientArgs {
  * ### Base Client
  */
 export class BaseClient {
-  private api: AxiosCacheInstance;
+  protected api: AxiosCacheInstance;
 
   private logger: pino.Logger;
 
