@@ -1,8 +1,8 @@
-import { expect, test, it, beforeAll } from 'vitest';
+import { expect, it, beforeAll, describe } from 'vitest';
 import { Machine, NamedAPIResourceList } from '../models';
 import { MachineClient } from '../clients';
 
-test('Machine Client', () => {
+describe('Machine Client', () => {
   let client: MachineClient;
   beforeAll(() => {
     client = new MachineClient();

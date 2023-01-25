@@ -4,3 +4,5 @@
 
 echo "Linting files 📝"
 pnpm lint-staged
+echo "Running tests 📝"
+pnpm test:ci

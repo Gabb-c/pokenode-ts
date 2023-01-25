@@ -1,4 +1,4 @@
-import { expect, test, it, beforeAll } from 'vitest';
+import { expect, describe, it, beforeAll } from 'vitest';
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from '../models';
 import { Berries, BerryFirmnesses, BerryFlavors } from '../constants';
 import { BerryClient } from '../clients';
@@ -7,7 +7,7 @@ import { StatusCodes } from 'http-status-codes';
 
 const aHugeNumber = 62_436_346;
 
-test('Berry Client', () => {
+describe('Berry Client', () => {
   let client: BerryClient;
   beforeAll(() => {
     client = new BerryClient();

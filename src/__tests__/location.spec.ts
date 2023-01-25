@@ -1,9 +1,9 @@
-import { expect, test, it, beforeAll } from 'vitest';
+import { expect, it, beforeAll, describe } from 'vitest';
 import { Location, LocationArea, PalParkArea, Region, NamedAPIResourceList } from '../models';
 import { PalParkAreas, Regions } from '../constants';
 import { LocationClient } from '../clients';
 
-test('Location Client', () => {
+describe('Location Client', () => {
   let client: LocationClient;
   beforeAll(() => {
     client = new LocationClient();

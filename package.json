@@ -37,7 +37,7 @@
     "prepare": "is-ci || husky install",
     "prepublishOnly": "pnpm build",
     "sort": "sort-package-json package.json",
-    "test:ci": "vitest --run",
+    "test:ci": "vitest --silent --run",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui --api 9527",
     "test:dev": "vitest -w --logHeapUsage --inspect"

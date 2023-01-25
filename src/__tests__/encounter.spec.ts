@@ -1,4 +1,4 @@
-import { expect, test, it, beforeAll } from 'vitest';
+import { expect, describe, it, beforeAll } from 'vitest';
 import {
   EncounterCondition,
   EncounterConditionValue,
@@ -8,7 +8,7 @@ import {
 import { EncounterClient } from '../clients';
 import { EncounterMethods, EncounterConditions, EncounterConditionValues } from '../constants';
 
-test('Encounter Client', () => {
+describe('Encounter Client', () => {
   let client: EncounterClient;
   beforeAll(() => {
     client = new EncounterClient();

@@ -1,4 +1,4 @@
-import { expect, test, it, beforeAll } from 'vitest';
+import { expect, it, beforeAll, describe } from 'vitest';
 import {
   Move,
   MoveAilment,
@@ -19,7 +19,7 @@ import {
   MoveTargets,
 } from '../constants';
 
-test('Move Client', () => {
+describe('Move Client', () => {
   let client: MoveClient;
   beforeAll(() => {
     client = new MoveClient();

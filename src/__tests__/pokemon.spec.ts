@@ -1,4 +1,4 @@
-import { expect, test, it, beforeAll } from 'vitest';
+import { expect, it, beforeAll, describe } from 'vitest';
 import {
   Ability,
   Characteristic,
@@ -32,7 +32,7 @@ import {
 } from '../constants';
 import { PokemonClient } from '../clients';
 
-test('Pokemon Client', () => {
+describe('Pokemon Client', () => {
   let client: PokemonClient;
   beforeAll(() => {
     client = new PokemonClient();

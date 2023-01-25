@@ -1,4 +1,4 @@
-import { expect, test, it, beforeAll } from 'vitest';
+import { expect, describe, it, beforeAll } from 'vitest';
 import {
   Item,
   ItemAttribute,
@@ -10,7 +10,7 @@ import {
 import { ItemClient } from '../clients';
 import { ItemCategories, ItemFlingEffects, ItemPockets } from '../constants';
 
-test('Item Client', () => {
+describe('Item Client', () => {
   let client: ItemClient;
   beforeAll(() => {
     client = new ItemClient();
