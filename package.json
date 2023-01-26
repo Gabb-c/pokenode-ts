@@ -24,14 +24,14 @@
     "name": "Gabb-c",
     "url": "https://github.com/Gabb-c"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
+  "types": "lib/index.d.ts",
   "files": [
-    "dist"
+    "lib"
   ],
   "scripts": {
-    "build": "tsup --config tsup.config.js",
+    "build": "tsup --config tsup.config.ts",
     "lint": "eslint src --ext js,ts",
     "lint:fix": "eslint src --ext js,ts --fix",
     "prepare": "is-ci || husky install",
@@ -43,7 +43,7 @@
     "test:dev": "vitest -w --logHeapUsage --inspect"
   },
   "dependencies": {
-    "axios": "^1.2.4",
+    "axios": "^1.2.5",
     "axios-cache-interceptor": "^1.0.0",
     "pino": "^8.8.0",
     "pino-pretty": "^9.1.1"
@@ -57,12 +57,13 @@
     "@semantic-release/github": "^8.0.7",
     "@semantic-release/npm": "^9.0.2",
     "@semantic-release/release-notes-generator": "^10.0.3",
-    "@swc/core": "^1.3.28",
+    "@swc/core": "^1.3.29",
+    "@types/is-ci": "^3.0.0",
     "@types/node": "^18.11.18",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
-    "@vitest/coverage-c8": "^0.28.1",
-    "@vitest/ui": "^0.28.1",
+    "@vitest/coverage-c8": "^0.28.2",
+    "@vitest/ui": "^0.28.2",
     "eslint": "^8.32.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
@@ -81,11 +82,11 @@
     "lockfile-lint": "^4.10.0",
     "prettier": "^2.8.3",
     "rimraf": "^4.1.2",
-    "semantic-release": "^20.0.4",
+    "semantic-release": "^20.1.0",
     "sort-package-json": "^2.2.0",
     "tsup": "^6.5.0",
     "typescript": "^4.9.4",
-    "vitest": "^0.28.1"
+    "vitest": "^0.28.2"
   },
   "engines": {
     "node": ">=14"

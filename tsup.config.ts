@@ -3,10 +3,11 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
   entry: ['src/index.ts'],
-  splitting: false,
-  sourcemap: isCI ? false : true,
-  clean: true,
+  outDir: 'lib',
+  splitting: true,
+  sourcemap: !isCI,
+  clean: !isCI,
   dts: true,
   format: ['cjs', 'esm'],
-  minify: true,
+  minify: isCI,
 });

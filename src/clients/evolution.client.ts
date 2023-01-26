@@ -44,9 +44,7 @@ export class EvolutionClient extends BaseClient {
       this.api
         .get<EvolutionTrigger>(`${Endpoints.EvolutionTrigger}/${id}`)
         .then((response: AxiosResponse<EvolutionTrigger>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => {
-          reject(error);
-        });
+        .catch((error: AxiosError<string>) => reject(error));
     });
   }
 
