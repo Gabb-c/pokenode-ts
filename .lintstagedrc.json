@@ -1,4 +1,4 @@
 {
-  "src/**/*.{js,ts,tsx}": ["eslint src --ext js,ts --fix"],
+  "src/**/*.{js,ts,tsx}": ["pnpm lint:fix", "pnpm lint:tsc"],
   "**/*.{md,mdx,json}": ["prettier '**/*.{md,mdx,json}' --write"]
 }

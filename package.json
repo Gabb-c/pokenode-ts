@@ -34,6 +34,7 @@
     "build": "tsup --config tsup.config.ts",
     "lint": "eslint src --ext js,ts",
     "lint:fix": "eslint src --ext js,ts --fix",
+    "lint:tsc": "tsc --diagnostics",
     "prepare": "is-ci || husky install",
     "prepublishOnly": "pnpm build",
     "sort": "sort-package-json package.json",
