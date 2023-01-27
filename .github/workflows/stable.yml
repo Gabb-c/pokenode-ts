@@ -41,13 +41,13 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
 
       - name: Build
-        run: yarn build:ci
+        run: pnpm build
 
       - name: Test
-        run: yarn test:ci
+        run: pnpm test:ci
 
   release:
     name: Release
@@ -58,8 +58,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install deps and build (with cache)
-        uses: bahmutov/npm-install@v1.8.24
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v3.1.1
