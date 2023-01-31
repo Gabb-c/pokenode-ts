@@ -2,7 +2,9 @@ import * as PACKAGE from './package.json' assert { type: 'json' };
 
 export const myBanner = `
 /**
- * Version ${PACKAGE.version} | Licensed under the ${PACKAGE.license} license
+ * Version ${PACKAGE.version}
+ * Build with Node ${process.version}
+ * Licensed under the ${PACKAGE.license} license
  *  _
  * |_) _  |   _   _   _   _|  _  __  _|_  _
  * |  (_) |< (/_ | | (_) (_| (/_      |_ _>

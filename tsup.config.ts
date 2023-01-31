@@ -12,4 +12,8 @@ export default defineConfig({
   format: ['cjs', 'esm'],
   minify: isCI,
   banner: { js: myBanner },
+  name: 'Pokenode-ts',
+  async onSuccess() {
+    await Promise.resolve(console.log(myBanner));
+  },
 });
