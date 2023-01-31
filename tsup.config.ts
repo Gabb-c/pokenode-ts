@@ -10,6 +10,6 @@ export default defineConfig({
   clean: !isCI,
   dts: true,
   format: ['cjs', 'esm'],
-  minify: !isCI,
+  minify: isCI,
   banner: { js: myBanner },
 });
