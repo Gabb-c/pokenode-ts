@@ -18,6 +18,7 @@ specifiers:
   '@vitest/ui': ^0.28.3
   axios: ^1.2.6
   axios-cache-interceptor: ^1.0.0
+  ci-info: ^3.7.1
   eslint: ^8.33.0
   eslint-config-airbnb-base: ^15.0.0
   eslint-config-airbnb-typescript: ^17.0.0
@@ -66,6 +67,7 @@ devDependencies:
   '@typescript-eslint/parser': 5.50.0_4vsywjlpuriuw3tl5oq6zy5a64
   '@vitest/coverage-c8': 0.28.3_@vitest+ui@0.28.3
   '@vitest/ui': 0.28.3
+  ci-info: 3.7.1
   eslint: 8.33.0
   eslint-config-airbnb-base: 15.0.0_ohdts44xlqyeyrlje4qnefqeay
   eslint-config-airbnb-typescript: 17.0.0_kh22gsft6r4fkunxdzqyqzlvzy

@@ -1,5 +1,6 @@
 import isCI from 'is-ci';
 import { defineConfig } from 'tsup';
+import { myBanner } from './banner';
 
 export default defineConfig({
   entry: ['src/index.ts'],
@@ -9,5 +10,6 @@ export default defineConfig({
   clean: !isCI,
   dts: true,
   format: ['cjs', 'esm'],
-  minify: isCI,
+  minify: !isCI,
+  banner: { js: myBanner },
 });
