@@ -2,7 +2,7 @@ import * as PACKAGE from './package.json' assert { type: 'json' };
 
 export const myBanner = `
 /**
- * Version ${PACKAGE.version}
+ * Version ${PACKAGE.version} | ${new Date().toLocaleDateString('en-us')}
  * Build with Node ${process.version}
  * Licensed under the ${PACKAGE.license} license
  *  _
