@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { CacheAxiosResponse, CacheRequestConfig } from 'axios-cache-interceptor';
+import { CacheAxiosResponse, InternalCacheRequestConfig } from 'axios-cache-interceptor';
 
 import pino from 'pino';
 
@@ -7,9 +7,9 @@ export const createLogger = (options?: pino.LoggerOptions | pino.DestinationStre
   pino(options);
 
 export const handleRequest = (
-  config: CacheRequestConfig,
+  config: InternalCacheRequestConfig,
   logger: pino.Logger
-): CacheRequestConfig => {
+): InternalCacheRequestConfig => {
   logger.info(`[ Request Config ] ${config.method?.toUpperCase() || ''} | ${config.url || ''}`);
   return config;
 };
