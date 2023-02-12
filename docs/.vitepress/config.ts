@@ -1,23 +1,13 @@
 import { defineConfig } from 'vitepress';
 import { author, license, repository } from '../../package.json';
+import { navbarItems, sidebarRoutes } from './routes';
 
 export default defineConfig({
   title: 'Pokenode-ts',
   description: 'Just playing around.',
   themeConfig: {
-    nav: [{ text: 'Clients', items: [{ text: 'Berry', link: '/clients/berry-client' }] }],
-    sidebar: [
-      {
-        text: 'Clients',
-        collapsed: true,
-        items: [
-          {
-            text: 'Berry Client',
-            link: '/clients/berry-client',
-          },
-        ],
-      },
-    ],
+    nav: navbarItems,
+    sidebar: sidebarRoutes,
     siteTitle: 'Pokenode-ts',
     logo: '/siteLogo.svg',
     footer: {
