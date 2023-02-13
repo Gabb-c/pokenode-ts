@@ -55,8 +55,8 @@
   },
   "devDependencies": {
     "@algolia/client-search": "^4.14.3",
-    "@commitlint/cli": "^17.4.2",
-    "@commitlint/config-conventional": "^17.4.2",
+    "@commitlint/cli": "^17.4.3",
+    "@commitlint/config-conventional": "^17.4.3",
     "@semantic-release/changelog": "^6.0.2",
     "@semantic-release/commit-analyzer": "^9.0.2",
     "@semantic-release/git": "^10.0.1",
@@ -68,8 +68,8 @@
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
-    "@vitest/coverage-c8": "^0.28.4",
-    "@vitest/ui": "^0.28.4",
+    "@vitest/coverage-c8": "^0.28.5",
+    "@vitest/ui": "^0.28.5",
     "boxen": "^7.0.1",
     "ci-info": "^3.8.0",
     "eslint": "^8.34.0",
@@ -87,15 +87,14 @@
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
     "lint-staged": "^13.1.1",
-    "lockfile-lint": "^4.10.0",
     "prettier": "^2.8.4",
     "rimraf": "^4.1.2",
     "semantic-release": "^20.1.0",
     "sort-package-json": "^2.4.1",
-    "tsup": "^6.6.1",
+    "tsup": "^6.6.2",
     "typescript": "^4.9.5",
-    "vitepress": "1.0.0-alpha.45",
-    "vitest": "^0.28.4"
+    "vitepress": "1.0.0-alpha.46",
+    "vitest": "^0.28.5"
   },
   "engines": {
     "node": ">=14"
