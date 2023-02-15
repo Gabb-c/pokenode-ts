@@ -6,6 +6,20 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
     link: '/getting-started',
   },
   {
+    text: 'Guides',
+    collapsed: false,
+    items: [
+      {
+        text: 'Logging',
+        link: '/guides/logging'
+      },
+      {
+        text: 'Cache',
+        link: '/guides/cache'
+      }
+    ]
+  },
+  {
     text: 'Clients',
     collapsed: false,
     items: [

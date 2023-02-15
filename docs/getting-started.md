@@ -1,3 +1,5 @@
+# Getting Started
+
 ## Installation
 
 Install pokenode-ts with your favorite package manager:
@@ -68,11 +70,8 @@ console.log(Berries.ASPEAR); // will output 5, the Aspear Berry ID
 
 If you want to test the PokéAPI endpoints, we recommend using [Insomnia](https://insomnia.rest/):
 
-<div display="flex">
+<div>
   <a href="https://insomnia.rest/run/?label=Pok%C3%A9API&uri=https%3A%2F%2Fraw.githubusercontent.com%2FGabb-c%2Fpokeapi-insomnia-collection%2Fmain%2Fpokeapi.json">
     <img alt="Run in Insomnia" src="https://img.shields.io/badge/Insomnia-5849be?style=for-the-badge&logo=Insomnia&logoColor=white&label=Run%20in&labelColor=black"/>
-  </a>
-  <a href="https://insomnia.rest/download">
-    <img alt="Insomnia Download" src="https://img.shields.io/badge/Insomnia-5849be?style=for-the-badge&logo=Insomnia&logoColor=white&label=Download&labelColor=black"/>
   </a>
 </div>
