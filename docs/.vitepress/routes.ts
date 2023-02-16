@@ -2,13 +2,13 @@ import { DefaultTheme } from 'vitepress';
 
 export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
   {
-    text: 'Getting starded',
-    link: '/getting-started',
-  },
-  {
     text: 'Guides',
     collapsed: false,
     items: [
+      {
+        text: 'Getting starded',
+        link: '/guides/getting-started',
+      },
       {
         text: 'Logging',
         link: '/guides/logging'
@@ -16,6 +16,10 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
       {
         text: 'Cache',
         link: '/guides/cache'
+      },
+      {
+        text: 'Contributing',
+        link: '/guides/contributing'
       }
     ]
   },
@@ -118,6 +122,27 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
 ];
 
 export const navbarItems: DefaultTheme.NavItem[] = [
+  {
+    text: 'Guides',
+    items: [
+      {
+        text: 'Getting Started',
+        link: '/guides/getting-started'
+      },
+      {
+        text: 'Logging',
+        link: '/guides/logging'
+      },
+      {
+        text: 'Cache',
+        link: '/guides/cache'
+      },
+      {
+        text: 'Contributing',
+        link: '/guides/contributing'
+      }
+    ]
+  },
   {
     text: 'Clients',
     items: [

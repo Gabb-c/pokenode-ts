@@ -3,11 +3,12 @@ layout: home
 
 hero:
   name: Pokenode-ts
+  text: Type-safe Configurable Lightweight
   tagline: A lightweight Node.js wrapper for the PokéAPI with built-in types.
   actions:
     - theme: brand
       text: Get Started
-      link: /getting-started
+      link: /guides/getting-started
     - theme: alt
       text: View on GitHub
       link: https://github.com/Gabb-c/pokenode-ts

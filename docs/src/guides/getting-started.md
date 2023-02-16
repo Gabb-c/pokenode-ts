@@ -3,12 +3,28 @@
 ## Installation
 
 Install pokenode-ts with your favorite package manager:
+:::code-group
 
-```bash
+```bash [NPM]
 npm i pokenode-ts
-# or
-yarn add pokenode-ts # Recommended
 ```
+
+```bash [Yarn]
+yarn add pokenode-ts
+```
+
+```bash [Pnpm]
+pnpm i pokenode-ts
+```
+
+```html [Browser]
+<script
+  src="https://cdn.jsdelivr.net/npm/pokenode-ts/lib/index.global.js"
+  crossorigin="anonymous"
+></script>
+```
+
+:::
 
 ## Basic Example
 
@@ -65,13 +81,3 @@ console.log(Berries.ASPEAR); // will output 5, the Aspear Berry ID
 - Did you like pokenode-ts? [Give us a star ⭐](https://github.com/Gabb-c/pokenode-ts)
 - Found a problem? Let us know by [creating an issue 🔎📑](https://github.com/Gabb-c/pokenode-ts/issues)
 - Want to contribute? [Submit a PR](https://github.com/Gabb-c/pokenode-ts/pulls)
-
-## Insomnia Collection
-
-If you want to test the PokéAPI endpoints, we recommend using [Insomnia](https://insomnia.rest/):
-
-<div>
-  <a href="https://insomnia.rest/run/?label=Pok%C3%A9API&uri=https%3A%2F%2Fraw.githubusercontent.com%2FGabb-c%2Fpokeapi-insomnia-collection%2Fmain%2Fpokeapi.json">
-    <img alt="Run in Insomnia" src="https://img.shields.io/badge/Insomnia-5849be?style=for-the-badge&logo=Insomnia&logoColor=white&label=Run%20in&labelColor=black"/>
-  </a>
-</div>
