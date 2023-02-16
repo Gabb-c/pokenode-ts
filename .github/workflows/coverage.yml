@@ -5,52 +5,33 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  coverage:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node
-        uses: actions/setup-node@v3.6.0
-        with:
-          node-version: current
-
-      - uses: pnpm/action-setup@v2.2.4
-        name: Install pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.4
         id: pnpm-install
         with:
           version: latest
           run_install: false
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
+      - name: Setup Node.js lts/gallium
+        uses: actions/setup-node@v3.6.0
         with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: lts/gallium
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Coverage
+      - name: Generate coverage report
         run: pnpm test:coverage
-        
-#       - name: SonarCloud Scan
-#         uses: SonarSource/sonarcloud-github-action@master
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#           SONAR_TOKEN: ${{ secrets. SONAR_TOKEN }}
 
-      - name: Upload coverage to Codecov
+      - name: Upload coverage report to Codecov
         run: bash <(curl -s https://codecov.io/bash)
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
