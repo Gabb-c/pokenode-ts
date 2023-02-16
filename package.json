@@ -25,6 +25,8 @@
     "url": "https://github.com/Gabb-c"
   },
   "main": "lib/index.js",
+  "jsdelivr": "lib/index.global.js",
+  "unpkg": "lib/index.global.js",
   "module": "lib/index.mjs",
   "types": "lib/index.d.ts",
   "files": [
@@ -47,12 +49,6 @@
     "test:dev": "vitest -w --logHeapUsage --inspect",
     "test:ui": "vitest --ui --api 9527"
   },
-  "dependencies": {
-    "axios": "^1.3.3",
-    "axios-cache-interceptor": "^1.0.1",
-    "pino": "^8.10.0",
-    "pino-pretty": "^9.2.0"
-  },
   "devDependencies": {
     "@algolia/client-search": "^4.14.3",
     "@commitlint/cli": "^17.4.3",
@@ -70,6 +66,8 @@
     "@typescript-eslint/parser": "^5.52.0",
     "@vitest/coverage-c8": "^0.28.5",
     "@vitest/ui": "^0.28.5",
+    "axios": "^1.3.3",
+    "axios-cache-interceptor": "^1.0.1",
     "boxen": "^7.0.1",
     "ci-info": "^3.8.0",
     "eslint": "^8.34.0",
@@ -87,6 +85,8 @@
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
     "lint-staged": "^13.1.2",
+    "pino": "^8.10.0",
+    "pino-pretty": "^9.2.0",
     "prettier": "^2.8.4",
     "rimraf": "^4.1.2",
     "semantic-release": "^20.1.0",
@@ -95,6 +95,12 @@
     "typescript": "^4.9.5",
     "vitepress": "1.0.0-alpha.46",
     "vitest": "^0.28.5"
+  },
+  "peerDependencies": {
+    "axios": "^1.3.3",
+    "axios-cache-interceptor": "^1.0.1",
+    "pino": "^8.10.0",
+    "pino-pretty": "^9.2.0"
   },
   "engines": {
     "node": ">=14"
