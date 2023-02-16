@@ -19,6 +19,7 @@
     "type": "git",
     "url": "https://github.com/Gabb-c/pokenode-ts"
   },
+  "funding": "https://github.com/Gabb-c/pokenode-ts?sponsor=1",
   "license": "MIT",
   "author": {
     "name": "Gabb-c",

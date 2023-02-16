@@ -15,9 +15,15 @@
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "rootDir": "./src",
-    "outDir": "./dist"
+    "baseUrl": ".",
+    "paths": {
+      "@clients/*": ["src/clients/*"],
+      "@config/*": ["src/config/*"],
+      "@constants/*": ["src/constants/*"],
+      "@models/*": ["src/models/*"],
+      "@structures/*": ["src/structures/*"]
+    }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts"]
 }
