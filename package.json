@@ -1,6 +1,6 @@
 {
   "name": "pokenode-ts",
-  "version": "1.16.1",
+  "version": "1.17.0",
   "private": false,
   "description": "A lightweight Node.js wrapper for the PokéAPI with built-in types.",
   "keywords": [
