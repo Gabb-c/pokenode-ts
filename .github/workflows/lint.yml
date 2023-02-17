@@ -2,10 +2,12 @@ name: Lint
 
 on:
   pull_request:
-    branches: "*"
+    branches:
+      - "**"
 
   push:
-    branches: "*"
+    branches:
+      - "**"
 
 jobs:
   lint:
