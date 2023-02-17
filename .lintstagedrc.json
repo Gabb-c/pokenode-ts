@@ -1,5 +1,0 @@
-{
-  "src/**/*.{js,ts,tsx}": ["pnpm lint:fix", "pnpm lint:tsc"],
-  "**/*.{md,mdx,json}": ["prettier '**/*.{md,mdx,json}' --write"],
-  "package.json": ["pnpm audit", "pnpm lint:pkg"]
-}
