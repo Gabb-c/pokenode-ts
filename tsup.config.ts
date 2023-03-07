@@ -3,7 +3,7 @@ import { defineConfig } from 'tsup';
 import { myBanner } from './banner';
 import { peerDependencies } from './package.json';
 
-const EXTERNAL_DEPS = Object.keys(peerDependencies as object);
+const EXTERNAL_DEPS = Object.keys(peerDependencies as Record<string, string>);
 
 export default defineConfig({
   entry: ['src/index.ts'],
