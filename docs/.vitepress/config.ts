@@ -1,6 +1,12 @@
 import { defineConfig } from 'vitepress';
 import { readFileSync } from 'node:fs';
-import { author, license, repository, description as packageDescription } from '../../package.json';
+import {
+  author,
+  license,
+  repository,
+  description as packageDescription,
+  name,
+} from '../../package.json';
 import { navbarItems, sidebarRoutes } from './routes';
 import { SOCIAL_LINKS } from './social-links';
 
@@ -111,6 +117,9 @@ export default defineConfig({
         type: 'image/svg+xml',
       },
     ],
+    ['meta', { property: 'og:title', content: name }],
+    ['meta', { property: 'og:description', content: packageDescription }],
+    ['meta', { property: 'og:image', content: '/cover.jpg' }],
   ],
   themeConfig: {
     nav: navbarItems,
@@ -118,15 +127,21 @@ export default defineConfig({
     siteTitle: 'Pokenode-ts',
     logo: '/siteLogo.svg',
     footer: {
-      message: `Released under the ${license} License.`,
+      message: `Made with ❤️<br/>Released under the ${license} License`,
       copyright: `Copyright © 2021-${new Date().getFullYear()} ${author.name}`,
     },
     socialLinks: [
       { icon: 'github', link: SOCIAL_LINKS.GITHUB },
       { icon: { svg: readSvg('../src/public/npm-icon.svg') }, link: SOCIAL_LINKS.NPM },
       { icon: { svg: readSvg('../src/public/jsdelivr-icon.svg') }, link: SOCIAL_LINKS.JSDELIVR },
-      { icon: { svg: readSvg('../src/public/bundlephobia-icon.svg') }, link: SOCIAL_LINKS.BUNDLEPHOBIA },
-      { icon: { svg: readSvg('../src/public/packagephobia-icon.svg') }, link: SOCIAL_LINKS.PACKAGEPHOBIA }
+      {
+        icon: { svg: readSvg('../src/public/bundlephobia-icon.svg') },
+        link: SOCIAL_LINKS.BUNDLEPHOBIA,
+      },
+      {
+        icon: { svg: readSvg('../src/public/packagephobia-icon.svg') },
+        link: SOCIAL_LINKS.PACKAGEPHOBIA,
+      },
     ],
     editLink: {
       pattern: `${repository.url}/vitepress/edit/main/docs/src/:path`,

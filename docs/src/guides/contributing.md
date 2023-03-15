@@ -1,7 +1,3 @@
----
-sidebar_position: 1
----
-
 # Contributing to Pokenode-ts
 
 ## Development Setup
@@ -19,7 +15,7 @@ Check out our:
 - [Pull Request Template](https://github.com/Gabb-c/pokenode-ts/blob/master/.github/pull_request_template.md)
 - [Bug Report Template](https://github.com/Gabb-c/pokenode-ts/blob/master/.github/ISSUE_TEMPLATE/bug_report.yml)
 - [Feature Request Template](https://github.com/Gabb-c/pokenode-ts/blob/master/.github/ISSUE_TEMPLATE/bug_report.yml)
-  :::
+:::
 
 ## Testing PokéAPI Endpoints
 

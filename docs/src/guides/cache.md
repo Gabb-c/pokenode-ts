@@ -4,12 +4,12 @@ With `Axios Cache Interceptor` you can store request results to prevent unneeded
 
 ## Basic Usage
 
-To enable cache requests:
+Cache is `enabled by default`. Use the `cacheOptions` property to configure it:
 
 ```js
 import { BerryClient, Constants } from 'pokenode-ts';
 
-const api = new BerryClient({ cacheOptions: { enabled: true } });
+const api = new BerryClient({ cacheOptions: { ... } }); // options here
 ```
 
 :::tip

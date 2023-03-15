@@ -11,17 +11,17 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
       },
       {
         text: 'Logging',
-        link: '/guides/logging'
+        link: '/guides/logging',
       },
       {
         text: 'Cache',
-        link: '/guides/cache'
+        link: '/guides/cache',
       },
       {
         text: 'Contributing',
-        link: '/guides/contributing'
-      }
-    ]
+        link: '/guides/contributing',
+      },
+    ],
   },
   {
     text: 'Clients',
@@ -114,11 +114,11 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
         link: '/typings/move-typings',
       },
       {
-        text: 'Utility',
-        link: '/typings/utility-typings',
+        text: 'Common',
+        link: '/typings/common-typings',
       },
-    ]
-  }
+    ],
+  },
 ];
 
 export const navbarItems: DefaultTheme.NavItem[] = [
@@ -127,21 +127,21 @@ export const navbarItems: DefaultTheme.NavItem[] = [
     items: [
       {
         text: 'Getting Started',
-        link: '/guides/getting-started'
+        link: '/guides/getting-started',
       },
       {
         text: 'Logging',
-        link: '/guides/logging'
+        link: '/guides/logging',
       },
       {
         text: 'Cache',
-        link: '/guides/cache'
+        link: '/guides/cache',
       },
       {
         text: 'Contributing',
-        link: '/guides/contributing'
-      }
-    ]
+        link: '/guides/contributing',
+      },
+    ],
   },
   {
     text: 'Clients',
@@ -232,9 +232,9 @@ export const navbarItems: DefaultTheme.NavItem[] = [
         link: '/typings/move-typings',
       },
       {
-        text: 'Utility',
-        link: '/typings/utility-typings',
+        text: 'Common',
+        link: '/typings/common-typings',
       },
-    ]
-  }
+    ],
+  },
 ];

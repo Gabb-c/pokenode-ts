@@ -16,5 +16,4 @@ export default defineConfig({
   format: ['cjs', 'esm', 'iife'],
   minify: isCI,
   banner: { js: myBanner },
-  name: 'Pokenode-ts',
 });

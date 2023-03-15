@@ -9,7 +9,7 @@ Every client in Pokenode-ts can display logs from requests and responses thanks 
 To enable basic plain json logs just pass the `logOptions` with `enabled: true`:
 
 ```js
-import { BerryClient, Constants } from 'pokenode-ts';
+import { BerryClient } from 'pokenode-ts';
 
 const api = new BerryClient({ logOptions: { enabled: true } }); // Enable logs
 ```
@@ -38,7 +38,9 @@ import { BerryClient } from 'pokenode-ts';
 const api = new BerryClient({
   logOptions: {
     enabled: true,
-    prettyPrint: { levelFirst: true, colorize: true },
+    transport: {
+      target: 'pino-pretty'
+    },
   },
 });
 
