@@ -1,39 +1,44 @@
 import { AxiosError } from 'axios';
 import { CacheAxiosResponse, InternalCacheRequestConfig } from 'axios-cache-interceptor';
 
-import pino from 'pino';
-
-export const createLogger = (options?: pino.LoggerOptions | pino.DestinationStream): pino.Logger =>
-  pino(options);
-
 export const handleRequest = (
   config: InternalCacheRequestConfig,
-  logger: pino.Logger
+  logsEnabled?: boolean
 ): InternalCacheRequestConfig => {
-  logger.info(`[ Request Config ] ${config.method?.toUpperCase() || ''} | ${config.url || ''}`);
+  if (logsEnabled) {
+    console.log(`[ Request Config ] ${config.method?.toUpperCase() || ''} | ${config.url || ''}`);
+  }
   return config;
 };
 
 export const handleRequestError = (
   error: AxiosError<unknown>,
-  logger: pino.Logger
+  logsEnabled?: boolean
 ): Promise<AxiosError<unknown>> => {
-  logger.error(`[ Request Error ] CODE ${error.code || 'UNKNOWN'} | ${error.message}`);
+  if (logsEnabled) {
+    console.error(`[ Request Error ] CODE ${error.code || 'UNKNOWN'} | ${error.message}`);
+  }
   throw error;
 };
 
 export const handleResponse = (
   response: CacheAxiosResponse,
-  logger: pino.Logger
+  logsEnabled?: boolean
 ): CacheAxiosResponse => {
-  logger.info(response.data);
+  if (logsEnabled) {
+    console.log(
+      `[ Response ] STATUS ${response.status} | ${response.cached ? 'CACHED' : 'NOT CACHED'}`
+    );
+  }
   return response;
 };
 
 export const handleResponseError = (
   error: AxiosError<unknown>,
-  logger: pino.Logger
+  logsEnabled?: boolean
 ): Promise<AxiosError<unknown>> => {
-  logger.error(`[ Response Error ] CODE ${error.code || 'UNKNOWN'} | ${error.message}`);
+  if (logsEnabled) {
+    console.error(`[ Response Error ] CODE ${error.code || 'UNKNOWN'} | ${error.message}`);
+  }
   throw error;
 };

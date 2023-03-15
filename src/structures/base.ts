@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios';
-import pino from 'pino';
 import {
   setupCache,
   AxiosCacheInstance,
@@ -9,7 +8,6 @@ import {
 } from 'axios-cache-interceptor';
 import { BaseURL } from '../constants';
 import {
-  createLogger,
   handleRequest,
   handleRequestError,
   handleResponse,
@@ -22,15 +20,13 @@ import {
  */
 export interface ClientArgs {
   /**
-   * ## Logger Options
-   * Options for the client logger.
-   * @see https://getpino.io/#/docs/api?id=options
+   * ## Enable logs
    */
-  logOptions?: pino.LoggerOptions;
+  logs?: boolean;
   /**
    * ## Axios Cache Options
    * Options for cache.
-   * @see https://github.com/RasCarlito/axios-cache-adapter
+   * @see https://axios-cache-interceptor.js.org/
    */
   cacheOptions?: CacheOptions;
   /**
@@ -46,11 +42,6 @@ export interface ClientArgs {
 export class BaseClient {
   protected api: AxiosCacheInstance;
 
-  private logger: pino.Logger;
-
-  /**
-   *
-   */
   constructor(clientOptions?: ClientArgs) {
     this.api = setupCache(
       axios.create({
@@ -62,22 +53,14 @@ export class BaseClient {
       clientOptions?.cacheOptions
     );
 
-    this.logger = createLogger({
-      enabled: !(
-        clientOptions?.logOptions?.enabled === undefined ||
-        clientOptions?.logOptions.enabled === false
-      ),
-      ...clientOptions?.logOptions,
-    });
-
     this.api.interceptors.request.use(
-      (config: InternalCacheRequestConfig) => handleRequest(config, this.logger),
-      (error: AxiosError<string>) => handleRequestError(error, this.logger)
+      (config: InternalCacheRequestConfig) => handleRequest(config, clientOptions?.logs),
+      (error: AxiosError<string>) => handleRequestError(error, clientOptions?.logs)
     );
 
     this.api.interceptors.response.use(
-      (response: CacheAxiosResponse) => handleResponse(response, this.logger),
-      (error: AxiosError<string>) => handleResponseError(error, this.logger)
+      (response: CacheAxiosResponse) => handleResponse(response, clientOptions?.logs),
+      (error: AxiosError<string>) => handleResponseError(error, clientOptions?.logs)
     );
   }
 }

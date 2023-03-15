@@ -9,7 +9,7 @@
     "pokemon",
     "pokedex"
   ],
-  "homepage": "https://pokenode-ts-docs-gabb-c.vercel.app/",
+  "homepage": "https://pokenode-ts.vercel.app/",
   "bugs": {
     "url": "https://github.com/Gabb-c/pokenode-ts/issues"
   },
@@ -29,6 +29,16 @@
   "files": [
     "lib"
   ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./package.json": "./package.json",
+    "./*": "./*"
+  },
   "scripts": {
     "build": "tsup --config tsup.config.ts",
     "size": "pnpm build --silent && size-limit",
@@ -83,8 +93,6 @@
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
     "lint-staged": "^13.2.0",
-    "pino": "^8.11.0",
-    "pino-pretty": "^10.0.0",
     "prettier": "^2.8.4",
     "rimraf": "^4.4.0",
     "semantic-release": "^20.1.1",
@@ -96,11 +104,9 @@
     "vitest": "^0.29.2",
     "vue": "^3.2.47"
   },
-  "dependencies": {
+  "peerDependencies": {
     "axios": "^1.3.3",
-    "axios-cache-interceptor": "^1.0.1",
-    "pino": "^8.10.0",
-    "pino-pretty": "^9.3.0"
+    "axios-cache-interceptor": "^1.0.1"
   },
   "engines": {
     "node": ">=14"

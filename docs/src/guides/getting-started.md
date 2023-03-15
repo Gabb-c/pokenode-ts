@@ -3,27 +3,19 @@
 ## Installation
 
 Install pokenode-ts with your favorite package manager:
-:::code-group
 
+:::code-group
 ```bash [NPM]
-npm i pokenode-ts
+npm i axios axios-cache-interceptor pokenode-ts
 ```
 
 ```bash [Yarn]
-yarn add pokenode-ts
+yarn add axios axios-cache-interceptor pokenode-ts
 ```
 
 ```bash [Pnpm]
-pnpm i pokenode-ts
+pnpm i axios axios-cache-interceptor pokenode-ts
 ```
-
-```html [Browser]
-<script
-  src="https://cdn.jsdelivr.net/npm/pokenode-ts/lib/index.global.js"
-  crossorigin="anonymous"
-></script>
-```
-
 :::
 
 ## Basic Example

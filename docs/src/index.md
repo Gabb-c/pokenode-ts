@@ -21,6 +21,6 @@ features:
     title: Request Cache
     details: Axios auto-cache feature can make your app requests blazing fast! You can store request results to prevent unneeded network requests.
   - icon: 🌲
-    title: Low Overhead Logs
-    details: Manipulate your app logs with Pino.js, a super fast, all natural json logger.
+    title: Logs
+    details: Display logs for development
 ---
