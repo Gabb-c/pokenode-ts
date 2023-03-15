@@ -5,27 +5,33 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  coverage:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node
-        uses: actions/setup-node@v3.4.1
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.4
+        id: pnpm-install
         with:
-          node-version: current
+          version: latest
+          run_install: false
 
-      - name: Install dependencies (with cache)
-        uses: bahmutov/npm-install@v1.8.22
+      - name: Setup Node.js lts/gallium
+        uses: actions/setup-node@v3.6.0
         with:
-          install-command: yarn --frozen-lockfile --check-files --silent
+          node-version: lts/gallium
+          cache: pnpm
 
-      - name: Coverage
-        run: yarn test:coverage
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Upload coverage to Codecov
+      - name: Generate coverage report
+        run: pnpm test:coverage
+
+      - name: Upload coverage report to Codecov
         run: bash <(curl -s https://codecov.io/bash)
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

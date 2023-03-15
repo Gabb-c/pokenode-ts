@@ -50,16 +50,14 @@ export class UtilityClient extends BaseClient {
    * @param url The Resource url
    * @returns Resource
    */
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  public async getResourceByUrl(url: string): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
+  public async getResourceByUrl<T>(url: string): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
       this.api
         .get(url, { baseURL: '' })
-        .then((response: AxiosResponse<any>) => resolve(response.data))
+        .then((response: AxiosResponse<T>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
   }
-  /* eslint-enable @typescript-eslint/no-explicit-any */
 
   /**
    * List Languages

@@ -1,0 +1,42 @@
+name: Lint
+
+on:
+  pull_request:
+    branches:
+      - "**"
+
+  push:
+    branches:
+      - "**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2.2.4
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: latest
+          run_install: false
+
+      - name: Setup Node lts/gallium
+        uses: actions/setup-node@v3.6.0
+        with:
+          node-version: lts/gallium
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Audit installed dependencies
+        run: pnpm audit
+
+      - name: Lint (ESLint)
+        run: pnpm lint
+
+      - name: Typecheck (tsc)
+        run: pnpm lint:tsc

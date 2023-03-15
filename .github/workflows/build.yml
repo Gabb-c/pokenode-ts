@@ -2,10 +2,12 @@ name: Build
 
 on:
   pull_request:
-    branches: [master]
+    branches:
+      - "**"
 
   push:
-    branches: [master]
+    branches:
+      - "**"
 
 jobs:
   build:
@@ -13,21 +15,27 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [current, latest]
+        node-version: [lts/gallium, lts/hydrogen]
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2.2.4
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: latest
+          run_install: false
+
       - name: Set up Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.4.1
+        uses: actions/setup-node@v3.6.0
         with:
           node-version: ${{ matrix.node-version }}
+          cache: pnpm
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1.8.22
-        with:
-          install-command: yarn --frozen-lockfile --check-files --silent
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: yarn build:ci
+        run: pnpm build

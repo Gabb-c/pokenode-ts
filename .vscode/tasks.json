@@ -3,39 +3,25 @@
 	"tasks": [
     {
       "type": "npm",
-      "script": "build:ci",
+      "script": "build",
       "group": {
         "kind": "build",
         "isDefault": true
       },
       "problemMatcher": [],
-      "label": "npm: build:ci",
-      "detail": "yarn build && yarn types"
+      "label": "Build",
+      "detail": "pnpm build"
     },
     {
       "type": "npm",
       "script": "test:dev",
       "problemMatcher": [],
-      "label": "npm: test:dev",
-      "detail": "jest --verbose --colors --expand --maxWorkers=50% --detectOpenHandles --errorOnDeprecated --bail",
+      "label": "Test (development)",
+      "detail": "pnpm test:dev",
       "group": {
         "kind": "test",
         "isDefault": true
       }
-    },
-    {
-      "type": "npm",
-      "script": "lint:ci",
-      "problemMatcher": [],
-      "label": "npm: lint:ci",
-      "detail": "yarn lint:fix && yarn format && yarn sort"
-    },
-    {
-      "type": "npm",
-      "script": "reinstall",
-      "problemMatcher": [],
-      "label": "npm: reinstall",
-      "detail": "rimraf node_modules yarn.lock && yarn install --check-files --silent"
     }
   ]
 }

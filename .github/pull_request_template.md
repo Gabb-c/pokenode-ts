@@ -4,10 +4,10 @@
 <!-- Mark your checks with 'x' inside the square brackets -->
 
 * [ ] Have you checked that there aren't other open [Pull Requests](https://github.com/Gabb-c/pokenode-ts/pulls) for the same update/change?
-* [ ] Linting passed `yarn lint:ci`
-* [ ] Integration tests added
-* [ ] Tests passed `yarn test:dev`
-* [ ] Build passed `yarn build:ci`
+* [ ] Linting passed `lint and lint:tsc`
+* [ ] Tests added (if needed)
+* [ ] Tests passed `test:dev`
+* [ ] Build passed `build`
 
 <!-- You can erase any part of this template if not applicable to your Pull Request. -->
 
