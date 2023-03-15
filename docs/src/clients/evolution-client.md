@@ -4,11 +4,11 @@
 
 The Evolution Client provide methods to access the [Evolution Endpoinds](https://pokeapi.co/docs/v2#evolution-section):
 
-- `getEvolutionChainByID`(id: `number`) : [EvolutionChain](/docs/typings/evolution-typings#evolution-chain)
-- `getEvolutionTriggerByName`(name: `string`) : [EvolutionTrigger](/docs/typings/evolution-typings#evolution-trigger)
-- `getEvolutionTriggerByID`(id: `number`) : [EvolutionTrigger](/docs/typings/evolution-typings#evolution-trigger)
-- `listEvolutionChains`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
-- `listEvolutionTriggers`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
+- `getEvolutionChainByID`
+- `getEvolutionTriggerByName`
+- `getEvolutionTriggerByID`
+- `listEvolutionChains`
+- `listEvolutionTriggers`
 
 ## Example
 
@@ -16,7 +16,7 @@ The Evolution Client provide methods to access the [Evolution Endpoinds](https:/
 import { EvolutionClient } from 'pokenode-ts'; // import the EvolutionClient
 
 (async () => {
-  const api = new EvolutinClient(); // create a EncounterClient
+  const api = new EvolutinClient(); // create an EncounterClient
 
   await api
     .getEvolutionTriggerByName('level-up')
@@ -31,7 +31,7 @@ Or:
 import { EvolutionClient, EvolutionTriggers } from 'pokenode-ts'; // import the EvolutionClient and the EvolutionTriggers enum
 
 (async () => {
-  const api = new EvolutinClient(); // create a EncounterClient
+  const api = new EvolutinClient(); // create an EncounterClient
 
   await api
     .getEvolutionTriggerById(EvolutionTriggers.LEVEL_UP)

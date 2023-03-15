@@ -4,18 +4,18 @@
 
 The Game Client provide methods to access the [Game Endpoinds](https://pokeapi.co/docs/v2#games-section):
 
-- `getGenerationByName`(name: `string`) : [Generation](/docs/typings/game-typings#generation)
-- `getGenerationById`(id: `number`) : [Generation](/docs/typings/game-typings#generation)
-- `getPokedexByName`(name: `string`) : [Pokedex](/docs/typings/game-typings#pokedex)
-- `getPokedexById`(id: `number`) : [Pokedex](/docs/typings/game-typings#pokedex)
-- `getVersionByName`(name: `string`) : [Version](/docs/typings/game-typings#version)
-- `getVersionById`(id: `number`) : [Version](/docs/typings/game-typings#version)
-- `getVersionGroupByName`(name: `string`) : [VersionGroup](/docs/typings/game-typings#version-group)
-- `getVersionGroupById`(id: `number`) : [VersionGroup](/docs/typings/game-typings#version-group)
-- `listGenerations`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
-- `listPokedexes`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
-- `listVersion`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
-- `listVersionGroups`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
+- `getGenerationByName`
+- `getGenerationById`
+- `getPokedexByName`
+- `getPokedexById`
+- `getVersionByName`
+- `getVersionById`
+- `getVersionGroupByName`
+- `getVersionGroupById`
+- `listGenerations`
+- `listPokedexes`
+- `listVersion`
+- `listVersionGroups`
 
 ## Example
 

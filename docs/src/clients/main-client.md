@@ -4,17 +4,17 @@
 
 The Main Client provide methods to access all of the [PokéAPI Endpoinds](https://pokeapi.co/docs/v2):
 
-- [Berry](/docs/clients/berry-client)
-- [Contest](/docs/clients/contest-client)
-- [Encounter](/docs/clients/encounter-client)
-- [Evolution](/docs/clients/evolution-client)
-- [Game](/docs/clients/game-client)
-- [Item](/docs/clients/item-client)
-- [Location](/docs/clients/location-client)
-- [Machine](/docs/clients/machine-client)
-- [Move](/docs/clients/move-client)
-- [Pokemon](/docs/clients/pokemon-client)
-- [Utility](/docs/clients/utility-client)
+- [Berry](/clients/berry-client)
+- [Contest](/clients/contest-client)
+- [Encounter](/clients/encounter-client)
+- [Evolution](/clients/evolution-client)
+- [Game](/clients/game-client)
+- [Item](/clients/item-client)
+- [Location](/clients/location-client)
+- [Machine](/clients/machine-client)
+- [Move](/clients/move-client)
+- [Pokemon](/clients/pokemon-client)
+- [Utility](/clients/utility-client)
 
 ## Example
 

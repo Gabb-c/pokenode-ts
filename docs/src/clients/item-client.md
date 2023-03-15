@@ -4,21 +4,21 @@
 
 The Item Client provide methods to access the [Item Endpoinds](https://pokeapi.co/docs/v2#items-section):
 
-- `getItemByName`(name: `string`) : [Item](/docs/typings/item-typings#item)
-- `getItemByID`(id: `number`) : [Item](/docs/typings/item-typings#item)
-- `getItemAttributeByName`(name: `string`) : [ItemAttribute](/docs/typings/item-typings#item-attribute)
-- `getItemAttributeById`(id: `number`) : [ItemAttribute](/docs/typings/item-typings#item-attribute)
-- `getItemCategoryByName`(name: `string`) : [ItemCategory](/docs/typings/item-typings#item-category)
-- `getItemCategoryById`(id: `number`) : [ItemCategory](/docs/typings/item-typings#item-category)
-- `getItemFlingEffectByName`(name: `string`) : [ItemFlingEffect](/docs/typings/item-typings#item-fling-effect)
-- `getItemFlingEffectById`(id: `number`) : [ItemFlingEffect](/docs/typings/item-typings#item-fling-effect)
-- `getItemPocketById`(id: `number`) : [ItemPocket](/docs/typings/item-typings#item-pocket)
-- `getItemPocketByName`(name: `string`) : [ItemPocket](/docs/typings/item-typings#item-pocket)
-- `listItems`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
-- `listItemAttributes`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
-- `listItemCategories`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
-- `listItemFlingEffects`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
-- `listItemPockets`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
+- `getItemByName`
+- `getItemByID`
+- `getItemAttributeByName`
+- `getItemAttributeById`
+- `getItemCategoryByName`
+- `getItemCategoryById`
+- `getItemFlingEffectByName`
+- `getItemFlingEffectById`
+- `getItemPocketById`
+- `getItemPocketByName`
+- `listItems`
+- `listItemAttributes`
+- `listItemCategories`
+- `listItemFlingEffects`
+- `listItemPockets`
 
 ## Example
 

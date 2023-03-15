@@ -4,8 +4,8 @@
 
 The Machine Client provide methods to access the [Machine Endpoinds](https://pokeapi.co/docs/v2#machines-section):
 
-- `getMachineById`(id: `number`) : [Machine](/docs/typings/machine-typings#machine)
-- `listMachines`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
+- `getMachineById`
+- `listMachines`
 
 ## Example
 
@@ -13,7 +13,7 @@ The Machine Client provide methods to access the [Machine Endpoinds](https://pok
 import { MachineClient } from 'pokenode-ts'; // import the MachineClient
 
 (async () => {
-  const api = new MachineClient(); // create an MachineClient
+  const api = new MachineClient(); // create a MachineClient
 
   await api
     .getMachineById(1)

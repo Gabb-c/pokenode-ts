@@ -2,15 +2,15 @@
 
 The Berry Client provide methods to access the Berry Endpoinds
 
-- `getBerryByName`(name: `string`)
-- `getBerryById`(id: `number`)
-- `getBerryFirmnessByName`(name: `string`)
-- `getBerryFirmnessById`(id: `number`) :
-- `getBerryFlavorByName`(name: `string`)
-- `getBerryFlavorById`(id: `number`)
-- `listBerries`(offset?: `number`, limit?: `number`)
-- `listBerryFirmness`(offset?: `number`, limit?: `number`)
-- `listBerryFlavors`(offset?: `number`, limit?: `number`)
+- `getBerryByName`
+- `getBerryById`
+- `getBerryFirmnessByName`
+- `getBerryFirmnessById`
+- `getBerryFlavorByName`
+- `getBerryFlavorById`
+- `listBerries`
+- `listBerryFirmness`
+- `listBerryFlavors`
 
 ## Example
 

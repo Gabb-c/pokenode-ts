@@ -4,18 +4,18 @@
 
 The Location Client provide methods to access the [Location Endpoinds](https://pokeapi.co/docs/v2#locations-section):
 
-- `getLocationByName`(name: `string`) : [Location](/docs/typings/location-typings#location)
-- `getLocationById`(id: `number`) : [Location](/docs/typings/location-typings#location)
-- `getLocationAreaByName`(name: `string`) : [LocationArea](/docs/typings/location-typings#location-area)
-- `getLocatinAreaById`(id: `number`) : [LocationArea](/docs/typings/location-typings#location-area)
-- `getPalParkAreaByName`(name: `string`) : [PalParkArea](/docs/typings/location-typings#pal-park-area)
-- `getPalParkAreaById`(id: `number`) : [PalParkArea](/docs/typings/location-typings#locationpal-park-area)
-- `getRegionByName`(name: `string`) : [Region](/docs/typings/location-typings#region)
-- `getRegionById`(id: `number`) : [Region](/docs/typings/location-typings#region)
-- `listLocations`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
-- `listLocationAreas`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
-- `listPalParkAreas`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
-- `listRegions`(offset?: `number`, limit?: `number`) : [NamedAPIResourceList](/docs/typings/common-typings#named-api-resource-list)
+- `getLocationByName`
+- `getLocationById`
+- `getLocationAreaByName`
+- `getLocatinAreaById`
+- `getPalParkAreaByName`
+- `getPalParkAreaById`
+- `getRegionByName`
+- `getRegionById`
+- `listLocations`
+- `listLocationAreas`
+- `listPalParkAreas`
+- `listRegions`
 
 ## Example
 
@@ -23,7 +23,7 @@ The Location Client provide methods to access the [Location Endpoinds](https://p
 import { LocationClient, PalParkAreas } from 'pokenode-ts'; // import the LocationClient and the PalParkAreas enum
 
 (async () => {
-  const api = new LocationClient(); // create an LocationClient
+  const api = new LocationClient(); // create a LocationClient
 
   await api
     .getPalParkAreaById(PalParkAreas.FOREST)
@@ -38,7 +38,7 @@ Or:
 import { LocationClient } from 'pokenode-ts'; // import the LocationClient
 
 (async () => {
-  const api = new LocationClient(); // create an LocationClient
+  const api = new LocationClient(); // create a LocationClient
 
   await api
     .getPalParkAreaByName('forest')
