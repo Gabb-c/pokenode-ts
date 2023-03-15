@@ -49,7 +49,7 @@ const api = new BerryClient({
 
 Will output:
 
-```txt
+```
 // Axios Request Config log
 
 INFO [1622554026120] (26906 on yourpc): [ Request Config ] GET | /berry/1
