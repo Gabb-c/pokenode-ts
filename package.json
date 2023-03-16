@@ -54,7 +54,7 @@
     "sort": "sort-package-json package.json",
     "test:ci": "vitest --silent --run",
     "test:coverage": "vitest run --coverage",
-    "test:dev": "vitest -w --logHeapUsage --inspect",
+    "test:dev": "vitest -w",
     "test:ui": "vitest --ui --api 9527"
   },
   "devDependencies": {
@@ -100,7 +100,7 @@
     "size-limit": "^8.2.4",
     "sort-package-json": "^2.4.1",
     "tsup": "^6.6.3",
-    "typescript": "^4.9.5",
+    "typescript": "^5.0.2",
     "vitepress": "1.0.0-alpha.60",
     "vitest": "^0.29.3",
     "vue": "^3.2.47"
