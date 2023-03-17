@@ -18,7 +18,7 @@ export const handleRequestError = (
   if (logsEnabled) {
     console.error(`[ Request Error ] CODE ${error.code || 'UNKNOWN'} | ${error.message}`);
   }
-  throw error;
+  return Promise.reject(error);
 };
 
 export const handleResponse = (
@@ -40,5 +40,5 @@ export const handleResponseError = (
   if (logsEnabled) {
     console.error(`[ Response Error ] CODE ${error.code || 'UNKNOWN'} | ${error.message}`);
   }
-  throw error;
+  return Promise.reject(error);
 };
