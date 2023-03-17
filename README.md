@@ -4,9 +4,22 @@ A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way 
 
 ## Features
 
-- [Built-in typings](https://pokenode-ts.vercel.app/typings/pokemon-typings)
-- [Axios with auto-cache requests](https://pokenode-ts.vercel.app/guides/cache)
-- [Logging](https://pokenode-ts.vercel.app/guides/logging)
+- Built-in typings
+- Axios with auto-cache requests
+- Logging
+
+## Installation
+
+```bash
+# NPM
+npm i axios axios-cache-interceptor pokenode-ts
+
+# Yarn
+yarn add axios axios-cache-interceptor pokenode-ts
+
+# Pnpm
+pnpm i axios axios-cache-interceptor pokenode-ts
+```
 
 ## Basic Example
 
