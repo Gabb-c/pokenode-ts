@@ -831,6 +831,19 @@ export interface TypeRelations {
 }
 ```
 
+## Type Relations
+
+Details of how effective this type was toward others and vice versa in a previous generation
+
+```ts
+export interface TypeRelationsPast {
+  /** The last generation in which the referenced type had the listed damage relations */
+  generation: NamedAPIResource;
+  /** The damage relations the referenced type had up to and including the listed generation */
+  damage_relations: TypeRelations;
+}
+```
+
 ## Type
 
 Types are properties for Pokémon and their moves.
@@ -845,6 +858,8 @@ export interface Type {
   name: string;
   /** A detail of how effective this type is toward others and vice versa */
   damage_relations: TypeRelations;
+  /** A list of details of how effective this type was toward others and vice versa in previous generations */
+  past_damage_relations: TypeRelationsPast[];
   /** A list of game indices relevent to this item by generation */
   game_indices: GenerationGameIndex[];
   /** The generation this type was introduced in */

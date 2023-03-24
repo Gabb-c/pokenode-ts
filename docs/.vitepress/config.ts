@@ -1,14 +1,12 @@
 import { defineConfig } from 'vitepress';
 import { readFileSync } from 'node:fs';
-import {
-  author,
-  license,
-  repository,
-  description as packageDescription,
-  name,
-} from '../../package.json';
+import { author, license, repository, description as packageDescription } from '../../package.json';
 import { navbarItems, sidebarRoutes } from './routes';
 import { SOCIAL_LINKS } from './social-links';
+import { headConfig } from './head-config';
+
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const readSvg = (path: string): string => readFileSync(require.resolve(path), 'utf-8');
 
@@ -18,109 +16,7 @@ export default defineConfig({
   lang: 'en-US',
   srcDir: './src',
   lastUpdated: true,
-  head: [
-    ['link', { rel: 'icon', href: '/siteLogo.svg', type: 'image/svg+xml' }],
-    [
-      'link',
-      { rel: 'apple-touch-icon', sizes: '57x57', href: '/siteLogo.svg', type: 'image/svg+xml' },
-    ],
-    [
-      'link',
-      { rel: 'apple-touch-icon', sizes: '60x60', href: '/siteLogo.svg', type: 'image/svg+xml' },
-    ],
-    [
-      'link',
-      { rel: 'apple-touch-icon', sizes: '72x72', href: '/siteLogo.svg', type: 'image/svg+xml' },
-    ],
-    [
-      'link',
-      { rel: 'apple-touch-icon', sizes: '76x76', href: '/siteLogo.svg', type: 'image/svg+xml' },
-    ],
-    [
-      'link',
-      {
-        rel: 'apple-touch-icon',
-        sizes: '114x114',
-        href: '/siteLogo.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    [
-      'link',
-      {
-        rel: 'apple-touch-icon',
-        sizes: '120x120',
-        href: '/siteLogo.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    [
-      'link',
-      {
-        rel: 'apple-touch-icon',
-        sizes: '144x144',
-        href: '/siteLogo.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    [
-      'link',
-      {
-        rel: 'apple-touch-icon',
-        sizes: '152x152',
-        href: '/siteLogo.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    [
-      'link',
-      {
-        rel: 'apple-touch-icon',
-        sizes: '180x180',
-        href: '/siteLogo.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    [
-      'link',
-      {
-        rel: 'icon',
-        sizes: '192x192',
-        href: '/siteLogo.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    [
-      'link',
-      {
-        rel: 'icon',
-        sizes: '32x32',
-        href: '/siteLogo.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    [
-      'link',
-      {
-        rel: 'icon',
-        sizes: '96x96',
-        href: '/siteLogo.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    [
-      'link',
-      {
-        rel: 'icon',
-        sizes: '16x16',
-        href: '/siteLogo.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    ['meta', { property: 'og:title', content: name }],
-    ['meta', { property: 'og:description', content: packageDescription }],
-    ['meta', { property: 'og:image', content: '/cover.jpg' }],
-  ],
+  head: headConfig,
   themeConfig: {
     nav: navbarItems,
     sidebar: sidebarRoutes,
@@ -146,6 +42,11 @@ export default defineConfig({
     editLink: {
       pattern: `${repository.url}/vitepress/edit/main/docs/src/:path`,
       text: 'Edit this page on GitHub',
+    },
+    algolia: {
+      apiKey: process.env.API_KEY as string,
+      appId: process.env.APP_ID as string,
+      indexName: process.env.INDEX_NAME as string,
     },
   },
   cleanUrls: true,

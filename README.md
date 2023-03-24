@@ -4,9 +4,22 @@ A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way 
 
 ## Features
 
-- [Built-in typings](https://pokenode-ts.vercel.app/typings/pokemon-typings)
-- [Axios with auto-cache requests](https://pokenode-ts.vercel.app/guides/cache)
-- [Logging](https://pokenode-ts.vercel.app/guides/logging)
+- Built-in typings
+- Axios with auto-cache requests
+- Logging
+
+## Installation
+
+```bash
+# NPM
+npm i axios axios-cache-interceptor pokenode-ts
+
+# Yarn
+yarn add axios axios-cache-interceptor pokenode-ts
+
+# Pnpm
+pnpm i axios axios-cache-interceptor pokenode-ts
+```
 
 ## Basic Example
 
@@ -52,6 +65,7 @@ Every change in this project is analyzed by [SonarCloud](https://sonarcloud.io/)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
+[![codecov](https://codecov.io/gh/Gabb-c/pokenode-ts/branch/master/graph/badge.svg?token=whfY8GNSpS)](https://codecov.io/gh/Gabb-c/pokenode-ts)
 
 ## Leave your feedback
 
