@@ -831,7 +831,7 @@ export interface TypeRelations {
 }
 ```
 
-## Type Relations
+## Type Relations Past
 
 Details of how effective this type was toward others and vice versa in a previous generation
 

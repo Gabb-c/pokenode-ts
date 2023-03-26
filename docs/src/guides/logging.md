@@ -16,7 +16,7 @@ const api = new BerryClient({ logs: true }); // Enable logs
 
 Will output:
 
-```log
+```
 // success
 [ Request Config ] GET | /berry/cheri
 [ Response ] STATUS 200 | CACHED
