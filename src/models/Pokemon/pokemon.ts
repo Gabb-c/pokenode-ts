@@ -6,7 +6,7 @@ import {
   NamedAPIResource,
   VersionEncounterDetail,
   VersionGameIndex,
-} from '../Common';
+} from "../Common";
 
 /**
  * ## Pokemon
@@ -146,21 +146,21 @@ export interface PokemonStat {
 /** Version Sprites */
 export interface VersionSprites {
   /** Generation-I Sprites of this Pokémon */
-  'generation-i': GenerationISprites;
+  "generation-i": GenerationISprites;
   /** Generation-II Sprites of this Pokémon */
-  'generation-ii': GenerationIISprites;
+  "generation-ii": GenerationIISprites;
   /** Generation-III Sprites of this Pokémon */
-  'generation-iii': GenerationIIISprites;
+  "generation-iii": GenerationIIISprites;
   /** Generation-IV Sprites of this Pokémon */
-  'generation-iv': GenerationIVSprites;
+  "generation-iv": GenerationIVSprites;
   /** Generation-V Sprites of this Pokémon */
-  'generation-v': GenerationVSprites;
+  "generation-v": GenerationVSprites;
   /** Generation-VI Sprites of this Pokémon */
-  'generation-vi': GenerationVISprites;
+  "generation-vi": GenerationVISprites;
   /** Generation-VII Sprites of this Pokémon */
-  'generation-vii': GenerationVIISprites;
+  "generation-vii": GenerationVIISprites;
   /** Generation-VIII Sprites of this Pokémon */
-  'generation-viii': GenerationVIIISprites;
+  "generation-viii": GenerationVIIISprites;
 }
 
 /**
@@ -195,7 +195,7 @@ export interface OtherPokemonSprites {
   /** Dream World Sprites of this Pokémon */
   dream_world: DreamWorld;
   /** Official Artwork Sprites of this Pokémon */
-  'official-artwork': OfficialArtwork;
+  "official-artwork": OfficialArtwork;
   /** Home Artwork Sprites of this Pokémon */
   home: Home;
 }
@@ -229,7 +229,7 @@ export interface Home {
 /** Generation-I Srites */
 export interface GenerationISprites {
   /** Red-blue sprites of this Pokémon */
-  'red-blue': RedBlue;
+  "red-blue": RedBlue;
   /** Yellow sprites of this Pokémon  */
   yellow: Yellow;
 }
@@ -328,9 +328,9 @@ export interface GenerationIIISprites {
   /** Emerald sprites of this Pokémon */
   emerald: Emerald;
   /** Firered-Leafgreen sprites of this Pokémon */
-  'firered-leafgreen': FireredLeafgreen;
+  "firered-leafgreen": FireredLeafgreen;
   /** Ruby-Sapphire sprites of this Pokémon */
-  'ruby-sapphire': RubySapphire;
+  "ruby-sapphire": RubySapphire;
 }
 
 /** Emerald sprites */
@@ -368,9 +368,9 @@ export interface RubySapphire {
 /** Generation-IV Sprites */
 export interface GenerationIVSprites {
   /** Diamond-pearl Generation sprites of this Pokémon */
-  'diamond-pearl': DiamondPearl;
+  "diamond-pearl": DiamondPearl;
   /** Heartgold-Soulsilver sprites of this Pokémon */
-  'heartgold-soulsilver': HeartgoldSoulsilver;
+  "heartgold-soulsilver": HeartgoldSoulsilver;
   /** Platinum sprites of this Pokémon */
   platinum: Platinum;
 }
@@ -435,7 +435,7 @@ export interface Platinum {
 /** Generation-V Sprites */
 export interface GenerationVSprites {
   /** Black-white sprites of this Pokémon */
-  'black-white': BlackWhite;
+  "black-white": BlackWhite;
 }
 
 /** Black/White sprites */
@@ -481,9 +481,9 @@ export interface Animated {
 /** Generation-VI Sprites */
 export interface GenerationVISprites {
   /** Omegaruby-Alphasapphire sprites of this Pokémon */
-  'omegaruby-alphasapphire': OmegarubyAlphasapphire;
+  "omegaruby-alphasapphire": OmegarubyAlphasapphire;
   /** X-Y sprites of this Pokémon */
-  'x-y': XY;
+  "x-y": XY;
 }
 
 /** Omega/Ruby Alpha/Sapphire sprites */
@@ -515,7 +515,7 @@ export interface GenerationVIISprites {
   /** Icon sprites of this Pokémon */
   icons: GenerationViiIcons;
   /** Ultra-sun-ultra-moon sprites of this Pokémon */
-  'ultra-sun-ultra-moon': UltraSunUltraMoon;
+  "ultra-sun-ultra-moon": UltraSunUltraMoon;
 }
 
 /** Generation VII icons */
@@ -574,16 +574,16 @@ export interface PokemonColor {
   id: number;
   /** The name for this resource */
   name:
-    | 'black'
-    | 'blue'
-    | 'brown'
-    | 'gray'
-    | 'green'
-    | 'pink'
-    | 'purple'
-    | 'red'
-    | 'white'
-    | 'yellow';
+    | "black"
+    | "blue"
+    | "brown"
+    | "gray"
+    | "green"
+    | "pink"
+    | "purple"
+    | "red"
+    | "white"
+    | "yellow";
   /** The name of this resource listed in different languages */
   names: Name[];
   /** A list of the Pokémon species that have this color */
@@ -661,15 +661,15 @@ export interface PokemonHabitat {
   id: number;
   /** The name for this resource */
   name:
-    | 'cave'
-    | 'forest'
-    | 'grassland'
-    | 'mountain'
-    | 'rare'
-    | 'rough-terrain'
-    | 'sea'
-    | 'urban'
-    | 'waters-edge';
+    | "cave"
+    | "forest"
+    | "grassland"
+    | "mountain"
+    | "rare"
+    | "rough-terrain"
+    | "sea"
+    | "urban"
+    | "waters-edge";
   /** The name of this resource listed in different languages */
   names: Name[];
   /** A list of the Pokémon species that can be found in this habitat */

@@ -1,18 +1,18 @@
-import axios, { AxiosError } from 'axios';
-import {
-  setupCache,
-  AxiosCacheInstance,
-  CacheAxiosResponse,
-  CacheOptions,
-  InternalCacheRequestConfig,
-} from 'axios-cache-interceptor';
-import { BaseURL } from '../constants';
 import {
   handleRequest,
   handleRequestError,
   handleResponse,
   handleResponseError,
-} from '../config/logger';
+} from "../config/logger";
+import { BaseURL } from "../constants";
+import axios, { AxiosError } from "axios";
+import {
+  AxiosCacheInstance,
+  CacheAxiosResponse,
+  CacheOptions,
+  InternalCacheRequestConfig,
+  setupCache,
+} from "axios-cache-interceptor";
 
 /**
  * ## Client Args
@@ -47,20 +47,20 @@ export class BaseClient {
       axios.create({
         baseURL: clientOptions?.baseURL ?? BaseURL.REST,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }),
-      clientOptions?.cacheOptions
+      clientOptions?.cacheOptions,
     );
 
     this.api.interceptors.request.use(
       (config: InternalCacheRequestConfig) => handleRequest(config, clientOptions?.logs),
-      (error: AxiosError<string>) => handleRequestError(error, clientOptions?.logs)
+      (error: AxiosError<string>) => handleRequestError(error, clientOptions?.logs),
     );
 
     this.api.interceptors.response.use(
       (response: CacheAxiosResponse) => handleResponse(response, clientOptions?.logs),
-      (error: AxiosError<string>) => handleResponseError(error, clientOptions?.logs)
+      (error: AxiosError<string>) => handleResponseError(error, clientOptions?.logs),
     );
   }
 }

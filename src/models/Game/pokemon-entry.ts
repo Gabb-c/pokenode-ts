@@ -1,4 +1,4 @@
-import { NamedAPIResource } from '../Common';
+import { NamedAPIResource } from "../Common";
 
 /**
  * Catalogued pokémon for pokedex

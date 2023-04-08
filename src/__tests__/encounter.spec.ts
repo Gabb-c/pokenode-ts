@@ -1,40 +1,40 @@
-import { expect, describe, it, beforeAll, expectTypeOf } from 'vitest';
+import { EncounterClient } from "../clients";
+import { EncounterConditionValues, EncounterConditions, EncounterMethods } from "../constants";
 import {
   EncounterCondition,
   EncounterConditionValue,
   EncounterMethod,
   NamedAPIResourceList,
-} from '../models';
-import { EncounterClient } from '../clients';
-import { EncounterMethods, EncounterConditions, EncounterConditionValues } from '../constants';
+} from "../models";
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
-describe('Encounter Client', () => {
+describe("Encounter Client", () => {
   let client: EncounterClient;
   beforeAll(() => {
     client = new EncounterClient();
   });
 
   // Encouter Client
-  it('check if the encouter client was instantiated correctly', () => {
+  it("check if the encouter client was instantiated correctly", () => {
     expectTypeOf(client).toEqualTypeOf<EncounterClient>();
   });
 
   // Encounter Method
-  it('check if it returns an encounter method passig a name', async () => {
-    const data = await client.getEncounterMethodByName('walk');
+  it("check if it returns an encounter method passig a name", async () => {
+    const data = await client.getEncounterMethodByName("walk");
 
     expectTypeOf(data).toEqualTypeOf<EncounterMethod>();
     expect(data.id).toBe(EncounterMethods.WALK);
   });
 
-  it('check if it returns an encounter method passig an id', async () => {
+  it("check if it returns an encounter method passig an id", async () => {
     const data = await client.getEncounterMethodById(EncounterMethods.WALK);
 
     expectTypeOf(data).toEqualTypeOf<EncounterMethod>();
-    expect(data.name).toBe('walk');
+    expect(data.name).toBe("walk");
   });
 
-  it('check if it returns a list of encounter methods', async () => {
+  it("check if it returns a list of encounter methods", async () => {
     const data = await client.listEncounterMethods();
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
@@ -42,21 +42,21 @@ describe('Encounter Client', () => {
   });
 
   // Encounter Condition
-  it('check if it returns an encounter condition passig a name', async () => {
-    const data = await client.getEncounterConditionByName('swarm');
+  it("check if it returns an encounter condition passig a name", async () => {
+    const data = await client.getEncounterConditionByName("swarm");
 
     expectTypeOf(data).toEqualTypeOf<EncounterCondition>();
     expect(data.id).toBe(EncounterConditions.SWARM);
   });
 
-  it('check if it returns an encounter condition passig an id', async () => {
+  it("check if it returns an encounter condition passig an id", async () => {
     const data = await client.getEncounterConditionById(EncounterConditions.SWARM);
 
     expectTypeOf(data).toEqualTypeOf<EncounterCondition>();
-    expect(data.name).toBe('swarm');
+    expect(data.name).toBe("swarm");
   });
 
-  it('check if it returns a list of encounter conditions', async () => {
+  it("check if it returns a list of encounter conditions", async () => {
     const data = await client.listEncounterConditions();
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
@@ -64,21 +64,21 @@ describe('Encounter Client', () => {
   });
 
   // Encounter Condition Values
-  it('check if it returns an encounter condition values passig a name', async () => {
-    const data = await client.getEncounterConditionValueByName('swarm-yes');
+  it("check if it returns an encounter condition values passig a name", async () => {
+    const data = await client.getEncounterConditionValueByName("swarm-yes");
 
     expectTypeOf(data).toEqualTypeOf<EncounterConditionValue>();
     expect(data.id).toBe(EncounterConditionValues.SWARM_YES);
   });
 
-  it('check if it returns an encounter condition values passig an id', async () => {
+  it("check if it returns an encounter condition values passig an id", async () => {
     const data = await client.getEncounterConditionValueById(EncounterConditionValues.SWARM_YES);
 
     expectTypeOf(data).toEqualTypeOf<EncounterConditionValue>();
-    expect(data.name).toBe('swarm-yes');
+    expect(data.name).toBe("swarm-yes");
   });
 
-  it('check if it returns a list of encounter condition values', async () => {
+  it("check if it returns a list of encounter condition values", async () => {
     const data = await client.listEncounterConditionValues();
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();

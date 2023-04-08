@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { Endpoints } from "../constants/endpoints";
 import {
   Item,
   ItemAttribute,
@@ -6,9 +6,9 @@ import {
   ItemFlingEffect,
   ItemPocket,
   NamedAPIResourceList,
-} from '../models';
-import { Endpoints } from '../constants/endpoints';
-import { BaseClient, ClientArgs } from '../structures/base';
+} from "../models";
+import { BaseClient, ClientArgs } from "../structures/base";
+import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * ### Item Client
@@ -195,7 +195,7 @@ export class ItemClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.ItemAttribute}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.ItemAttribute}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -212,7 +212,7 @@ export class ItemClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.ItemCategory}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.ItemCategory}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -227,12 +227,12 @@ export class ItemClient extends BaseClient {
    */
   public async listItemFilingEffects(
     offset?: number,
-    limit?: number
+    limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.ItemFlingEffect}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.ItemFlingEffect}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -249,7 +249,7 @@ export class ItemClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.ItemPocket}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.ItemPocket}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));

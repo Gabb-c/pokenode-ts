@@ -1,9 +1,0 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-. "$(dirname "$0")/common.sh"
-
-echo "Linting files 📝"
-pnpm lint:fix
-
-echo "Typecheck 📝"
-pnpm lint:tsc

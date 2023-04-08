@@ -1,4 +1,4 @@
-import { Name, NamedAPIResource } from '../Common';
+import { Name, NamedAPIResource } from "../Common";
 
 /**
  * ## Pokeathlon Stat
@@ -10,7 +10,7 @@ export interface PokeathlonStat {
   /** The identifier for this resource */
   id: number;
   /** The name for this resource */
-  name: 'speed' | 'power' | 'skill' | 'stamina' | 'jump';
+  name: "speed" | "power" | "skill" | "stamina" | "jump";
   /** The name of this resource listed in different languages */
   names: Name[];
   /** A detail of natures which affect this Pokéathlon stat positively or negatively */

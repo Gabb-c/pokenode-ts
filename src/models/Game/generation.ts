@@ -1,4 +1,4 @@
-import { Name, NamedAPIResource } from '../Common';
+import { Name, NamedAPIResource } from "../Common";
 
 /**
  * ## Generation

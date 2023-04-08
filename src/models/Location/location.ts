@@ -1,5 +1,5 @@
-import { GenerationGameIndex, Name, NamedAPIResource } from '../Common';
-import { EncounterMethodRate, PokemonEncounter } from './encounter';
+import { GenerationGameIndex, Name, NamedAPIResource } from "../Common";
+import { EncounterMethodRate, PokemonEncounter } from "./encounter";
 
 /**
  * ## Location

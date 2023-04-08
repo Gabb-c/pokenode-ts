@@ -1,4 +1,4 @@
-import { NamedAPIResource } from './resource';
+import { NamedAPIResource } from "./resource";
 
 /** Information of a pokemon encounter */
 export interface Encounter {
