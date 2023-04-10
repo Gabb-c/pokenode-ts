@@ -95,7 +95,7 @@
     "is-ci": "^3.0.1",
     "lint-staged": "^13.2.1",
     "prettier": "^2.8.7",
-    "rimraf": "^4.4.1",
+    "rimraf": "^5.0.0",
     "semantic-release": "^21.0.1",
     "size-limit": "^8.2.4",
     "sort-package-json": "^2.4.1",
