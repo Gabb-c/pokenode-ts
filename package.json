@@ -74,7 +74,7 @@
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "@vitest/coverage-c8": "^0.29.8",
-    "@vitest/ui": "^0.29.8",
+    "@vitest/ui": "^0.30.0",
     "axios": "^1.3.5",
     "axios-cache-interceptor": "^1.0.1",
     "ci-info": "^3.8.0",
