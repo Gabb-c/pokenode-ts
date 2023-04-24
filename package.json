@@ -101,7 +101,7 @@
     "sort-package-json": "^2.4.1",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4",
-    "vitepress": "1.0.0-alpha.65",
+    "vitepress": "1.0.0-alpha.74",
     "vitest": "^0.29.8",
     "vue": "^3.2.47"
   },
