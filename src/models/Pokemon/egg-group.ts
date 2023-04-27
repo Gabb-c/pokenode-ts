@@ -1,4 +1,4 @@
-import { Name, NamedAPIResource } from '../Common';
+import { Name, NamedAPIResource } from "../Common";
 
 /**
  * ## Egg Group
@@ -11,21 +11,21 @@ export interface EggGroup {
   id: number;
   /** The name for this resource */
   name:
-    | 'monster'
-    | 'water1'
-    | 'water2'
-    | 'water3'
-    | 'bug'
-    | 'flying'
-    | 'ground'
-    | 'fairy'
-    | 'plant'
-    | 'humanshape'
-    | 'mineral'
-    | 'indeterminate'
-    | 'ditto'
-    | 'dragon'
-    | 'no-eggs';
+    | "monster"
+    | "water1"
+    | "water2"
+    | "water3"
+    | "bug"
+    | "flying"
+    | "ground"
+    | "fairy"
+    | "plant"
+    | "humanshape"
+    | "mineral"
+    | "indeterminate"
+    | "ditto"
+    | "dragon"
+    | "no-eggs";
   /** The name of this resource listed in different languages */
   names: Name[];
   /** A list of all Pokémon species that are members of this egg group */

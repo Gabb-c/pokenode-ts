@@ -1,7 +1,7 @@
-import { AxiosError, AxiosResponse } from 'axios';
-import { Machine, NamedAPIResourceList } from '../models';
-import { Endpoints } from '../constants';
-import { BaseClient, ClientArgs } from '../structures/base';
+import { Endpoints } from "../constants";
+import { Machine, NamedAPIResourceList } from "../models";
+import { BaseClient, ClientArgs } from "../structures/base";
+import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * ### Machine Client
@@ -43,7 +43,7 @@ export class MachineClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.Machine}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.Machine}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));

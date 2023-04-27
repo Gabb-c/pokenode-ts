@@ -1,4 +1,11 @@
-import { expect, it, beforeAll, expectTypeOf, describe } from 'vitest';
+import * as Clients from "../clients";
+import {
+  Berries,
+  ContestTypes,
+  EncounterMethods,
+  EvolutionTriggers,
+  Generations,
+} from "../constants";
 import {
   Berry,
   ContestType,
@@ -10,24 +17,17 @@ import {
   Machine,
   Move,
   Pokemon,
-} from '../models';
-import {
-  Berries,
-  ContestTypes,
-  EncounterMethods,
-  EvolutionTriggers,
-  Generations,
-} from '../constants';
-import * as Clients from '../clients';
+} from "../models";
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
-describe('MainClient Client', () => {
+describe("MainClient Client", () => {
   let client: Clients.MainClient;
   beforeAll(() => {
     client = new Clients.MainClient();
   });
 
   // Main Client
-  it('check if the main client was instantiated correctly', () => {
+  it("check if the main client was instantiated correctly", () => {
     expectTypeOf(client).toMatchTypeOf<Clients.MainClient>();
     expectTypeOf(client.berry).toMatchTypeOf<Clients.BerryClient>();
     expectTypeOf(client.contest).toMatchTypeOf<Clients.ContestClient>();
@@ -42,63 +42,63 @@ describe('MainClient Client', () => {
   });
 
   // Berry Client
-  it('check if it returns a berry passig a name', async () => {
-    const data = await client.berry.getBerryByName('cheri');
+  it("check if it returns a berry passig a name", async () => {
+    const data = await client.berry.getBerryByName("cheri");
 
     expectTypeOf(data).toMatchTypeOf<Berry>();
     expect(data.id).toBe(Berries.CHERI);
   });
 
   // Contest Client
-  it('check if it returns a contest type passig a name', async () => {
-    const data = await client.contest.getContestTypeByName('cool');
+  it("check if it returns a contest type passig a name", async () => {
+    const data = await client.contest.getContestTypeByName("cool");
 
     expectTypeOf(data).toMatchTypeOf<ContestType>();
     expect(data.id).toBe(ContestTypes.COOL);
   });
 
   // Encounter Client
-  it('check if it returns an encounter method passig a name', async () => {
-    const data = await client.encounter.getEncounterMethodByName('surf');
+  it("check if it returns an encounter method passig a name", async () => {
+    const data = await client.encounter.getEncounterMethodByName("surf");
 
     expectTypeOf(data).toMatchTypeOf<EncounterMethod>();
     expect(data.id).toBe(EncounterMethods.SURF);
   });
 
   // Evolution Client
-  it('check if it returns an evolution trigger method passig a name', async () => {
-    const data = await client.evolution.getEvolutionTriggerByName('shed');
+  it("check if it returns an evolution trigger method passig a name", async () => {
+    const data = await client.evolution.getEvolutionTriggerByName("shed");
 
     expectTypeOf(data).toMatchTypeOf<EvolutionTrigger>();
     expect(data.id).toBe(EvolutionTriggers.SHED);
   });
 
   // Game Client
-  it('check if it returns a generation method passig a name', async () => {
-    const data = await client.game.getGenerationByName('generation-i');
+  it("check if it returns a generation method passig a name", async () => {
+    const data = await client.game.getGenerationByName("generation-i");
 
     expectTypeOf(data).toMatchTypeOf<Generation>();
     expect(data.id).toBe(Generations.GENERATION_I);
   });
 
   // Item Client
-  it('check if it returns an item passig a name', async () => {
-    const data = await client.item.getItemByName('master-ball');
+  it("check if it returns an item passig a name", async () => {
+    const data = await client.item.getItemByName("master-ball");
 
     expectTypeOf(data).toMatchTypeOf<Item>();
     expect(data.id).toBe(1);
   });
 
   // Location Client
-  it('check if it returns a location passig a name', async () => {
-    const data = await client.location.getLocationByName('canalave-city');
+  it("check if it returns a location passig a name", async () => {
+    const data = await client.location.getLocationByName("canalave-city");
 
     expectTypeOf(data).toMatchTypeOf<Location>();
     expect(data.id).toBe(1);
   });
 
   // Machine Client
-  it('check if it returns a machine passig an ID', async () => {
+  it("check if it returns a machine passig an ID", async () => {
     const data = await client.machine.getMachineById(1);
 
     expectTypeOf(data).toMatchTypeOf<Machine>();
@@ -106,7 +106,7 @@ describe('MainClient Client', () => {
   });
 
   // Move Client
-  it('check if it returns a move passig a name', async () => {
+  it("check if it returns a move passig a name", async () => {
     const data = await client.move.getMoveById(1);
 
     expectTypeOf(data).toMatchTypeOf<Move>();
@@ -114,8 +114,8 @@ describe('MainClient Client', () => {
   });
 
   // Pokemon Client
-  it('check if it returns a pokemon passig a name', async () => {
-    const data = await client.pokemon.getPokemonByName('luxray');
+  it("check if it returns a pokemon passig a name", async () => {
+    const data = await client.pokemon.getPokemonByName("luxray");
 
     expectTypeOf(data).toMatchTypeOf<Pokemon>();
     expect(data.id).toBe(405);

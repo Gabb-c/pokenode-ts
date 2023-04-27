@@ -1,7 +1,7 @@
-import { AxiosError, AxiosResponse } from 'axios';
-import { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from '../models';
-import { Endpoints } from '../constants';
-import { BaseClient, ClientArgs } from '../structures/base';
+import { Endpoints } from "../constants";
+import { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from "../models";
+import { BaseClient, ClientArgs } from "../structures/base";
+import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * ### Location Client
@@ -144,7 +144,7 @@ export class LocationClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.Location}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.Location}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -161,7 +161,7 @@ export class LocationClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.LocationArea}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.LocationArea}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -178,7 +178,7 @@ export class LocationClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.PalParkArea}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.PalParkArea}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));

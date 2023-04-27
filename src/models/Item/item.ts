@@ -8,7 +8,7 @@ import {
   NamedAPIResource,
   VerboseEffect,
   VersionGroupFlavorText,
-} from '../Common';
+} from "../Common";
 
 /**
  * Sprites used to depict the given item in the game

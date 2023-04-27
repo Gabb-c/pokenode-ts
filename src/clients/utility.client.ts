@@ -1,7 +1,7 @@
-import { AxiosError, AxiosResponse } from 'axios';
-import { Language, NamedAPIResourceList } from '../models';
-import { Endpoints } from '../constants';
-import { BaseClient, ClientArgs } from '../structures/base';
+import { Endpoints } from "../constants";
+import { Language, NamedAPIResourceList } from "../models";
+import { BaseClient, ClientArgs } from "../structures/base";
+import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * ### Utility Client
@@ -53,7 +53,7 @@ export class UtilityClient extends BaseClient {
   public async getResourceByUrl<T>(url: string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       this.api
-        .get(url, { baseURL: '' })
+        .get(url, { baseURL: "" })
         .then((response: AxiosResponse<T>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -69,7 +69,7 @@ export class UtilityClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.Language}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.Language}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));

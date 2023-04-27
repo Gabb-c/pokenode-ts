@@ -1,14 +1,14 @@
-import { BaseClient, ClientArgs } from '../structures/base';
-import { BerryClient } from './berry.client';
-import { ContestClient } from './contest.client';
-import { EncounterClient } from './encounter.client';
-import { EvolutionClient } from './evolution.client';
-import { GameClient } from './game.client';
-import { ItemClient } from './item.client';
-import { LocationClient } from './location.client';
-import { MachineClient } from './machine.client';
-import { MoveClient } from './move.client';
-import { PokemonClient } from './pokemon.client';
+import { BaseClient, ClientArgs } from "../structures/base";
+import { BerryClient } from "./berry.client";
+import { ContestClient } from "./contest.client";
+import { EncounterClient } from "./encounter.client";
+import { EvolutionClient } from "./evolution.client";
+import { GameClient } from "./game.client";
+import { ItemClient } from "./item.client";
+import { LocationClient } from "./location.client";
+import { MachineClient } from "./machine.client";
+import { MoveClient } from "./move.client";
+import { PokemonClient } from "./pokemon.client";
 
 /**
  * ### Main Client

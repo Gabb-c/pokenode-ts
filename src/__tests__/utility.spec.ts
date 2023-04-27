@@ -1,33 +1,33 @@
-import { expect, it, beforeAll, describe, expectTypeOf } from 'vitest';
-import { Language, NamedAPIResourceList, Pokemon } from '../models';
-import { Languages } from '../constants';
-import { UtilityClient } from '../clients';
+import { UtilityClient } from "../clients";
+import { Languages } from "../constants";
+import { Language, NamedAPIResourceList, Pokemon } from "../models";
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
-describe('Utility Client', () => {
+describe("Utility Client", () => {
   let client: UtilityClient;
   beforeAll(() => {
     client = new UtilityClient();
   });
 
   // Utility Client
-  it('check if the pokemon client was instantiated correctly', () => {
+  it("check if the pokemon client was instantiated correctly", () => {
     expectTypeOf(client).toEqualTypeOf<UtilityClient>();
   });
 
   // Language
-  it('check if it returns a language passig a name', async () => {
-    const data = await client.getLanguageByName('roomaji');
+  it("check if it returns a language passig a name", async () => {
+    const data = await client.getLanguageByName("roomaji");
 
     expectTypeOf(data).toEqualTypeOf<Language>();
     expect(data.id).toBe(Languages.ROOMAJI);
   });
-  it('check if it returns a language passing an ID', async () => {
+  it("check if it returns a language passing an ID", async () => {
     const data = await client.getLanguageById(Languages.FR);
 
     expectTypeOf(data).toEqualTypeOf<Language>();
-    expect(data.name).toBe('fr');
+    expect(data.name).toBe("fr");
   });
-  it('check if it returns a list of berries', async () => {
+  it("check if it returns a list of berries", async () => {
     const data = await client.listLanguages();
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
@@ -35,8 +35,8 @@ describe('Utility Client', () => {
   });
 
   // Resource (pokemon)
-  it('check if it returns a resource (pokemon) passig an url', async () => {
-    const data = await client.getResourceByUrl<Pokemon>('https://pokeapi.co/api/v2/pokemon/luxray');
+  it("check if it returns a resource (pokemon) passig an url", async () => {
+    const data = await client.getResourceByUrl<Pokemon>("https://pokeapi.co/api/v2/pokemon/luxray");
 
     expectTypeOf(data).toEqualTypeOf<Pokemon>();
     expect(data.id).toBe(405);

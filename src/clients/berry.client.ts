@@ -1,7 +1,7 @@
-import { AxiosError, AxiosResponse } from 'axios';
-import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from '../models';
-import { Endpoints } from '../constants';
-import { BaseClient, ClientArgs } from '../structures/base';
+import { Endpoints } from "../constants";
+import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from "../models";
+import { BaseClient, ClientArgs } from "../structures/base";
+import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * ### Berry Client
@@ -129,7 +129,7 @@ export class BerryClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.BerryFirmness}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.BerryFirmness}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -146,7 +146,7 @@ export class BerryClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.BerryFlavor}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.BerryFlavor}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
