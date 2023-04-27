@@ -1,12 +1,12 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { Endpoints } from "../constants";
 import {
   EncounterCondition,
   EncounterConditionValue,
   EncounterMethod,
   NamedAPIResourceList,
-} from '../models';
-import { Endpoints } from '../constants';
-import { BaseClient, ClientArgs } from '../structures/base';
+} from "../models";
+import { BaseClient, ClientArgs } from "../structures/base";
+import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * ### Encounter Client
@@ -118,12 +118,12 @@ export class EncounterClient extends BaseClient {
    */
   public async listEncounterMethods(
     offset?: number,
-    limit?: number
+    limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.EncouterMethod}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.EncouterMethod}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -138,12 +138,12 @@ export class EncounterClient extends BaseClient {
    */
   public async listEncounterConditions(
     offset?: number,
-    limit?: number
+    limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.EncounterCondition}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.EncounterCondition}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -158,12 +158,12 @@ export class EncounterClient extends BaseClient {
    */
   public async listEncounterConditionValues(
     offset?: number,
-    limit?: number
+    limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.EncouterConditionValue}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.EncouterConditionValue}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));

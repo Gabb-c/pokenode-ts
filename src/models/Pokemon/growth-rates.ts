@@ -1,4 +1,4 @@
-import { Description, NamedAPIResource } from '../Common';
+import { Description, NamedAPIResource } from "../Common";
 
 /**
  * Levels and the amount of experienced needed to atain them based on the given growth rate.
@@ -19,7 +19,7 @@ export interface GrowthRate {
   /** The identifier for this resource */
   id: number;
   /** The name for this resource */
-  name: 'slow' | 'medium' | 'fast' | 'medium-slow' | 'slow-then-very-fast' | 'fast-then-very-slow';
+  name: "slow" | "medium" | "fast" | "medium-slow" | "slow-then-very-fast" | "fast-then-very-slow";
   /** The formula used to calculate the rate at which the Pokémon species gains level */
   formula: string;
   /** The descriptions of this characteristic listed in different languages */

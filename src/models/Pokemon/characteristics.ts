@@ -1,4 +1,4 @@
-import { Description, NamedAPIResource } from '../Common';
+import { Description, NamedAPIResource } from "../Common";
 
 /**
  * ## Characteristic

@@ -1,7 +1,7 @@
-import { AxiosError, AxiosResponse } from 'axios';
-import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from '../models';
-import { Endpoints } from '../constants';
-import { BaseClient, ClientArgs } from '../structures/base';
+import { Endpoints } from "../constants";
+import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "../models";
+import { BaseClient, ClientArgs } from "../structures/base";
+import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * ### Contest Client
@@ -87,7 +87,7 @@ export class ContestClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.ContestType}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.ContestType}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -104,7 +104,7 @@ export class ContestClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.ContestEffect}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.ContestEffect}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -119,12 +119,12 @@ export class ContestClient extends BaseClient {
    */
   public async listSuperContestEffects(
     offset?: number,
-    limit?: number
+    limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.SuperContestEffect}?offset=${offset || 0}&limit=${limit || 20}`
+          `${Endpoints.SuperContestEffect}?offset=${offset || 0}&limit=${limit || 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));

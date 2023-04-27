@@ -1,13 +1,13 @@
-import { expect, describe, it, vi, afterEach, afterAll } from 'vitest';
 import {
   handleRequest,
   handleRequestError,
   handleResponse,
   handleResponseError,
-} from '../config/logger';
+} from "../config/logger";
+import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 
-const consoleLogSpy = vi.spyOn(console, 'log');
-const consoleErrorSpy = vi.spyOn(console, 'error');
+const consoleLogSpy = vi.spyOn(console, "log");
+const consoleErrorSpy = vi.spyOn(console, "error");
 
 afterEach(() => {
   consoleLogSpy.mockClear();
@@ -18,8 +18,8 @@ afterAll(() => {
   vi.clearAllMocks();
 });
 
-describe('Logger', () => {
-  it('should call the request log', () => {
+describe("Logger", () => {
+  it("should call the request log", () => {
     const handleRequestMock = vi.fn().mockImplementation(handleRequest);
 
     expect(handleRequestMock({}, true)).toEqual({});
@@ -27,7 +27,7 @@ describe('Logger', () => {
     expect(handleRequestMock).toHaveBeenCalled();
   });
 
-  it('should not call the request log', () => {
+  it("should not call the request log", () => {
     const handleRequestMock = vi.fn().mockImplementation(handleRequest);
 
     expect(handleRequestMock({})).toEqual({});
@@ -35,7 +35,7 @@ describe('Logger', () => {
     expect(handleRequestMock).toHaveBeenCalled();
   });
 
-  it('should call the request error log', async () => {
+  it("should call the request error log", async () => {
     const handleRequestErrorMock = vi.fn().mockImplementation(handleRequestError);
 
     await expect(handleRequestErrorMock({}, true)).rejects.toThrowError();
@@ -43,7 +43,7 @@ describe('Logger', () => {
     expect(handleRequestErrorMock).toHaveBeenCalled();
   });
 
-  it('should call the response log', () => {
+  it("should call the response log", () => {
     const handleResponseMock = vi.fn().mockImplementation(handleResponse);
 
     expect(handleResponseMock({}, true)).toEqual({});
@@ -51,7 +51,7 @@ describe('Logger', () => {
     expect(handleResponseMock).toHaveBeenCalled();
   });
 
-  it('should not call the response log', () => {
+  it("should not call the response log", () => {
     const handleResponseMock = vi.fn().mockImplementation(handleResponse);
 
     expect(handleResponseMock({})).toEqual({});
@@ -59,7 +59,7 @@ describe('Logger', () => {
     expect(handleResponseMock).toHaveBeenCalled();
   });
 
-  it('should call the request error log', async () => {
+  it("should call the request error log", async () => {
     const handleResponseErrorMock = vi.fn().mockImplementation(handleResponseError);
 
     await expect(handleResponseErrorMock({}, true)).rejects.toThrowError();

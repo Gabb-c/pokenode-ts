@@ -1,13 +1,14 @@
 {
   "recommendations": [
-    "christian-kohler.path-intellisense",
-    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig",
     "eamodio.gitlens",
-    "EditorConfig.EditorConfig",
-    "ms-vscode.vscode-typescript-next",
-    "VisualStudioExptTeam.vscodeintellicode",
     "wix.vscode-import-cost",
-    "xabikos.JavaScriptSnippets",
-    "yzhang.markdown-all-in-one"
+    "visualstudioexptteam.vscodeintellicode",
+    "xabikos.javascriptsnippets",
+    "ms-vscode.vscode-typescript-next",
+    "ms-vscode.js-debug-nightly",
+    "yzhang.markdown-all-in-one",
+    "christian-kohler.path-intellisense",
+    "rome.rome"
   ],
 }

@@ -1,4 +1,4 @@
-import { NamedAPIResource } from './resource';
+import { NamedAPIResource } from "./resource";
 
 /**
  * The generation relevent to this game index

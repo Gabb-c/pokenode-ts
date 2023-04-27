@@ -1,4 +1,4 @@
-import { NamedAPIResource, APIResource } from './resource';
+import { APIResource, NamedAPIResource } from "./resource";
 
 /**
  * The machine that teaches a move from an item

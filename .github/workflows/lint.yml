@@ -35,8 +35,11 @@ jobs:
       - name: Audit installed dependencies
         run: pnpm audit
 
-      - name: Lint (ESLint)
+      - name: Lint (Rome)
         run: pnpm lint
+
+      - name: Format (Rome)
+        run: pnpm format
 
       - name: Typecheck (tsc)
         run: pnpm lint:tsc
