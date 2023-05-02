@@ -113,7 +113,7 @@ export class BerryClient extends BaseClient {
   public listBerries(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get<NamedAPIResourceList>(`${Endpoints.Berry}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(`${Endpoints.Berry}?offset=${offset ?? 0}&limit=${limit ?? 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
