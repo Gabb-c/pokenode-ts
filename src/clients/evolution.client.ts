@@ -72,7 +72,7 @@ export class EvolutionClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.EvolutionChain}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.EvolutionChain}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -92,7 +92,7 @@ export class EvolutionClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.EvolutionTrigger}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.EvolutionTrigger}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));

@@ -484,7 +484,7 @@ export class PokemonClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.Ability}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.Ability}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -501,7 +501,7 @@ export class PokemonClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.Characteristic}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.Characteristic}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -518,7 +518,7 @@ export class PokemonClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.EggGroup}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.EggGroup}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -534,7 +534,7 @@ export class PokemonClient extends BaseClient {
   public async listGenders(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get<NamedAPIResourceList>(`${Endpoints.Gender}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(`${Endpoints.Gender}?offset=${offset ?? 0}&limit=${limit ?? 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -550,7 +550,7 @@ export class PokemonClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.GrowthRate}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.GrowthRate}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -566,7 +566,7 @@ export class PokemonClient extends BaseClient {
   public async listNatures(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get<NamedAPIResourceList>(`${Endpoints.Nature}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(`${Endpoints.Nature}?offset=${offset ?? 0}&limit=${limit ?? 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -582,7 +582,7 @@ export class PokemonClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.PokeathlonStat}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.PokeathlonStat}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -599,7 +599,7 @@ export class PokemonClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.Pokemon}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.Pokemon}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -616,7 +616,7 @@ export class PokemonClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.PokemonColor}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.PokemonColor}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -633,7 +633,7 @@ export class PokemonClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.PokemonForm}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.PokemonForm}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -650,7 +650,7 @@ export class PokemonClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.PokemonHabitat}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.PokemonHabitat}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -667,7 +667,7 @@ export class PokemonClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.PokemonShape}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.PokemonShape}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -684,7 +684,7 @@ export class PokemonClient extends BaseClient {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
         .get<NamedAPIResourceList>(
-          `${Endpoints.PokemonSpecies}?offset=${offset || 0}&limit=${limit || 20}`,
+          `${Endpoints.PokemonSpecies}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
         )
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
@@ -700,7 +700,7 @@ export class PokemonClient extends BaseClient {
   public async listStats(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get<NamedAPIResourceList>(`${Endpoints.Stat}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(`${Endpoints.Stat}?offset=${offset ?? 0}&limit=${limit ?? 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -715,7 +715,7 @@ export class PokemonClient extends BaseClient {
   public async listTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get<NamedAPIResourceList>(`${Endpoints.Type}?offset=${offset || 0}&limit=${limit || 20}`)
+        .get<NamedAPIResourceList>(`${Endpoints.Type}?offset=${offset ?? 0}&limit=${limit ?? 20}`)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
