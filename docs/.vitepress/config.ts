@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import { withPwa } from '@vite-pwa/vitepress'
 import { readFileSync } from "node:fs";
 import { author, license, repository, description as packageDescription } from "../../package.json";
 import { navbarItems, sidebarRoutes } from "./routes";
@@ -10,7 +11,7 @@ dotenv.config();
 
 const readSvg = (path: string): string => readFileSync(require.resolve(path), "utf-8");
 
-export default defineConfig({
+export default withPwa(defineConfig({
   title: "Pokenode-ts",
   description: packageDescription,
   lang: "en-US",
@@ -50,4 +51,5 @@ export default defineConfig({
     },
   },
   cleanUrls: true,
-});
+  pwa: {},
+}));
