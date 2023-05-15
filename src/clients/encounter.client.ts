@@ -5,7 +5,7 @@ import {
   EncounterMethod,
   NamedAPIResourceList,
 } from "../models";
-import { BaseClient, ClientArgs } from "../structures/base";
+import { BaseClient } from "../structures/base";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**

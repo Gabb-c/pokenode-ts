@@ -1,6 +1,6 @@
 import { Endpoints } from "../constants";
 import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "../models";
-import { BaseClient, ClientArgs } from "../structures/base";
+import { BaseClient } from "../structures/base";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**
