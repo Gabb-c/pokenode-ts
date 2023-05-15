@@ -13,13 +13,6 @@ import { AxiosError, AxiosResponse } from "axios";
  */
 export class MachineClient extends BaseClient {
   /**
-   * @argument clientOptions Options for the client.
-   */
-  constructor(clientOptions?: ClientArgs) {
-    super(clientOptions);
-  }
-
-  /**
    * Get a Machine by it's ID
    * @param id The Machine ID
    * @returns A Machine

@@ -28,13 +28,6 @@ import { AxiosError, AxiosResponse } from "axios";
  */
 export class MoveClient extends BaseClient {
   /**
-   * @argument clientOptions Options for the client.
-   */
-  constructor(clientOptions?: ClientArgs) {
-    super(clientOptions);
-  }
-
-  /**
    * Get a Move by it's name
    * @param name The move name
    * @returns A Move

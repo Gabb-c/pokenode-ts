@@ -14,13 +14,6 @@ import { AxiosError, AxiosResponse } from "axios";
  */
 export class EvolutionClient extends BaseClient {
   /**
-   * @argument clientOptions Options for the client.
-   */
-  constructor(clientOptions?: ClientArgs) {
-    super(clientOptions);
-  }
-
-  /**
    * Get an Evolution Chain by it's ID
    * @param id The Evolution Chain ID
    * @returns An Evolution Chain

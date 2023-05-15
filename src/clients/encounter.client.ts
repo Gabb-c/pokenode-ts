@@ -20,13 +20,6 @@ import { AxiosError, AxiosResponse } from "axios";
  */
 export class EncounterClient extends BaseClient {
   /**
-   * @argument clientOptions Options for the client.
-   */
-  constructor(clientOptions?: ClientArgs) {
-    super(clientOptions);
-  }
-
-  /**
    * Get an Encounter Method by it's name
    * @param name The Encounter Method name
    * @returns An Encounter Method

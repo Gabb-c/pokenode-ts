@@ -46,13 +46,6 @@ import { AxiosError, AxiosResponse } from "axios";
  */
 export class PokemonClient extends BaseClient {
   /**
-   * @argument clientOptions Options for the client.
-   */
-  constructor(clientOptions?: ClientArgs) {
-    super(clientOptions);
-  }
-
-  /**
    * Get an Ability by it's name
    * @param name The Ability name
    * @returns An Ability

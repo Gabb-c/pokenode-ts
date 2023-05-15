@@ -24,13 +24,6 @@ import { AxiosError, AxiosResponse } from "axios";
  */
 export class ItemClient extends BaseClient {
   /**
-   * @argument clientOptions Options for the client.
-   */
-  constructor(clientOptions?: ClientArgs) {
-    super(clientOptions);
-  }
-
-  /**
    * Get an Item by it's name
    * @param name The item name
    * @returns An Item

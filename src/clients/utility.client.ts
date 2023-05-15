@@ -13,10 +13,6 @@ import { AxiosError, AxiosResponse } from "axios";
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#utility-section)
  */
 export class UtilityClient extends BaseClient {
-  constructor(clientOptions?: ClientArgs) {
-    super(clientOptions);
-  }
-
   /**
    * Get a Language by it's ID
    * @param id The Language ID

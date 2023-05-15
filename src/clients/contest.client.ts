@@ -15,13 +15,6 @@ import { AxiosError, AxiosResponse } from "axios";
  */
 export class ContestClient extends BaseClient {
   /**
-   * @argument clientOptions Options for the client.
-   */
-  constructor(clientOptions?: ClientArgs) {
-    super(clientOptions);
-  }
-
-  /**
    * Get a Contest Type by it's name
    * @param name  The contest type name
    * @returns A Contest Type

@@ -14,10 +14,6 @@ import { AxiosError, AxiosResponse } from "axios";
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#berries-section)
  */
 export class BerryClient extends BaseClient {
-  constructor(clientOptions?: ClientArgs) {
-    super(clientOptions);
-  }
-
   /**
    * Get a Berry by it's name
    * @param name The berry name

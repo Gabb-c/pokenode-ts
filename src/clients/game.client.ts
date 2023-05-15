@@ -16,13 +16,6 @@ import { AxiosError, AxiosResponse } from "axios";
  */
 export class GameClient extends BaseClient {
   /**
-   * @argument clientOptions Options for the client.
-   */
-  constructor(clientOptions?: ClientArgs) {
-    super(clientOptions);
-  }
-
-  /**
    * Get a Generation by it's name
    * @param name The generation name
    * @returns A Generation

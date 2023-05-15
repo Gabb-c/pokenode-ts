@@ -16,13 +16,6 @@ import { AxiosError, AxiosResponse } from "axios";
  */
 export class LocationClient extends BaseClient {
   /**
-   * @argument clientOptions Options for the client.
-   */
-  constructor(clientOptions?: ClientArgs) {
-    super(clientOptions);
-  }
-
-  /**
    * Get a Location by it's name
    * @param name The Location name
    * @returns A Location
