@@ -30,23 +30,14 @@ import { PokemonClient } from "./pokemon.client";
  */
 export class MainClient extends BaseClient {
   public berry: BerryClient;
-
   public contest: ContestClient;
-
   public encounter: EncounterClient;
-
   public evolution: EvolutionClient;
-
   public game: GameClient;
-
   public item: ItemClient;
-
   public location: LocationClient;
-
   public machine: MachineClient;
-
   public move: MoveClient;
-
   public pokemon: PokemonClient;
 
   constructor(clientOptions?: ClientArgs) {

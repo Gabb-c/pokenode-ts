@@ -2,6 +2,7 @@ import { Endpoints } from "../constants";
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from "../models";
 import { BaseClient } from "../structures/base";
 import { AxiosError, AxiosResponse } from "axios";
+import { getListRequestParams } from "src/utils/request-params";
 
 /**
  * ### Berry Client
@@ -22,7 +23,7 @@ export class BerryClient extends BaseClient {
   public async getBerryByName(name: string): Promise<Berry> {
     return new Promise<Berry>((resolve, reject) => {
       this.api
-        .get<Berry>(`${Endpoints.Berry}/${name}`)
+        .get<Berry>(`${Endpoints.BERRY}/${name}`)
         .then((response: AxiosResponse<Berry>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -36,7 +37,7 @@ export class BerryClient extends BaseClient {
   public async getBerryById(id: number): Promise<Berry> {
     return new Promise<Berry>((resolve, reject) => {
       this.api
-        .get<Berry>(`${Endpoints.Berry}/${id}`)
+        .get<Berry>(`${Endpoints.BERRY}/${id}`)
         .then((response: AxiosResponse<Berry>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -50,7 +51,7 @@ export class BerryClient extends BaseClient {
   public async getBerryFirmnessById(id: number): Promise<BerryFirmness> {
     return new Promise<BerryFirmness>((resolve, reject) => {
       this.api
-        .get<BerryFirmness>(`${Endpoints.BerryFirmness}/${id}`)
+        .get<BerryFirmness>(`${Endpoints.BERRY_FIRMNESS}/${id}`)
         .then((response: AxiosResponse<BerryFirmness>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -64,7 +65,7 @@ export class BerryClient extends BaseClient {
   public async getBerryFirmnessByName(name: string): Promise<BerryFirmness> {
     return new Promise<BerryFirmness>((resolve, reject) => {
       this.api
-        .get<BerryFirmness>(`${Endpoints.BerryFirmness}/${name}`)
+        .get<BerryFirmness>(`${Endpoints.BERRY_FIRMNESS}/${name}`)
         .then((response: AxiosResponse<BerryFirmness>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -79,7 +80,7 @@ export class BerryClient extends BaseClient {
   public async getBerryFlavorById(id: number): Promise<BerryFlavor> {
     return new Promise<BerryFlavor>((resolve, reject) => {
       this.api
-        .get<BerryFlavor>(`${Endpoints.BerryFlavor}/${id}`)
+        .get<BerryFlavor>(`${Endpoints.BERRY_FLAVOR}/${id}`)
         .then((response: AxiosResponse<BerryFlavor>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -94,7 +95,7 @@ export class BerryClient extends BaseClient {
   public async getBerryFlavorByName(name: string): Promise<BerryFlavor> {
     return new Promise<BerryFlavor>((resolve, reject) => {
       this.api
-        .get<BerryFlavor>(`${Endpoints.BerryFlavor}/${name}`)
+        .get<BerryFlavor>(`${Endpoints.BERRY_FLAVOR}/${name}`)
         .then((response: AxiosResponse<BerryFlavor>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -108,8 +109,9 @@ export class BerryClient extends BaseClient {
    */
   public listBerries(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const params = getListRequestParams(offset, limit);
       this.api
-        .get<NamedAPIResourceList>(`${Endpoints.Berry}?offset=${offset ?? 0}&limit=${limit ?? 20}`)
+        .get<NamedAPIResourceList>(Endpoints.BERRY, { params })
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -123,10 +125,9 @@ export class BerryClient extends BaseClient {
    */
   public listBerryFirmnesses(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const params = getListRequestParams(offset, limit);
       this.api
-        .get<NamedAPIResourceList>(
-          `${Endpoints.BerryFirmness}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
-        )
+        .get<NamedAPIResourceList>(Endpoints.BERRY_FIRMNESS, { params })
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -140,10 +141,9 @@ export class BerryClient extends BaseClient {
    */
   public listBerryFlavors(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const params = getListRequestParams(offset, limit);
       this.api
-        .get<NamedAPIResourceList>(
-          `${Endpoints.BerryFlavor}?offset=${offset ?? 0}&limit=${limit ?? 20}`,
-        )
+        .get<NamedAPIResourceList>(Endpoints.BERRY_FLAVOR, { params })
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });

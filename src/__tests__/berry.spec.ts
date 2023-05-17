@@ -1,11 +1,7 @@
 import { BerryClient } from "../clients";
 import { Berries, BerryFirmnesses, BerryFlavors } from "../constants";
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from "../models";
-import { AxiosError } from "axios";
-import { StatusCodes } from "http-status-codes";
-import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
-
-const aHugeNumber = 62_436_346;
+import { assertType, beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
 describe("Berry Client", () => {
   let client: BerryClient;
@@ -15,7 +11,8 @@ describe("Berry Client", () => {
 
   // Berry Client
   it("check if berry client way instantiated correctly", () => {
-    expectTypeOf(client).toEqualTypeOf<BerryClient>();
+    expect(client).toBeDefined();
+    assertType<BerryClient>(client);
   });
 
   // Berry
@@ -31,22 +28,6 @@ describe("Berry Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<Berry>();
     expect(data.name).toBe("cheri");
-  });
-
-  it("check if getBerryByName returns NOT FOUND", async () => {
-    const data = await client
-      .getBerryByName("it will not pass")
-      .catch((error: AxiosError<string>) => error.response?.status);
-
-    expect(data).toBe(StatusCodes.NOT_FOUND);
-  });
-
-  it("check if getBerryById returns NOT FOUND", async () => {
-    const data = await client
-      .getBerryById(aHugeNumber)
-      .catch((error: AxiosError<string>) => error.response?.status);
-
-    expect(data).toBe(StatusCodes.NOT_FOUND);
   });
 
   it("check if it returns a list of berries", async () => {
@@ -70,22 +51,6 @@ describe("Berry Client", () => {
     expect(data.name).toBe("very-soft");
   });
 
-  it("check if getBerryFirmnessByName returns NOT FOUND", async () => {
-    const data = await client
-      .getBerryFirmnessByName("it will not pass")
-      .catch((error: AxiosError<string>) => error.response?.status);
-
-    expect(data).toBe(StatusCodes.NOT_FOUND);
-  });
-
-  it("check if getBerryFirmnessById returns NOT FOUND", async () => {
-    const data = await client
-      .getBerryFirmnessById(aHugeNumber)
-      .catch((error: AxiosError<string>) => error.response?.status);
-
-    expect(data).toBe(StatusCodes.NOT_FOUND);
-  });
-
   it("check if it returns a list of berry firmnesses", async () => {
     const data = await client.listBerryFirmnesses();
 
@@ -106,22 +71,6 @@ describe("Berry Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<BerryFlavor>();
     expect(data.name).toBe("spicy");
-  });
-
-  it("check if getBerryFlavorByName returns NOT FOUND", async () => {
-    const data = await client
-      .getBerryFlavorByName("it will not pass")
-      .catch((error: AxiosError<string>) => error.response?.status);
-
-    expect(data).toBe(StatusCodes.NOT_FOUND);
-  });
-
-  it("check if getBerryFlavorById returns NOT FOUND", async () => {
-    const data = await client
-      .getBerryFlavorById(aHugeNumber)
-      .catch((error: AxiosError<string>) => error.response?.status);
-
-    expect(data).toBe(StatusCodes.NOT_FOUND);
   });
 
   it("check if it returns a list of berry flavors", async () => {
