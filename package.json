@@ -89,7 +89,7 @@
     "sort-package-json": "^2.4.1",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4",
-    "vitepress": "1.0.0-alpha.75",
+    "vitepress": "1.0.0-alpha.76",
     "vitest": "^0.31.0",
     "vue": "^3.3.2"
   },
