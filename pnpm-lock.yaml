@@ -53,8 +53,8 @@ devDependencies:
     specifier: ^1.4.0
     version: 1.4.0
   axios-cache-interceptor:
-    specifier: ^1.0.1
-    version: 1.0.1(axios@1.4.0)
+    specifier: ^1.1.0
+    version: 1.1.0(axios@1.4.0)
   ci-info:
     specifier: ^3.8.0
     version: 3.8.0
@@ -2959,9 +2959,10 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /axios-cache-interceptor@1.0.1(axios@1.4.0):
-    resolution: {integrity: sha512-ClLc3CMA4SBhHL7remPuwlA7jgmUFYrYiw10Ax3g9J5lEKCGTO2lGohuzH/BR4RTFMZS7Kka05gAliLl5L/MeQ==}
+  /axios-cache-interceptor@1.1.0(axios@1.4.0):
+    resolution: {integrity: sha512-nKpv1v/LiA8rj5MbVNZeK7vQp+QdoZdBL80KX8bL1ek8MN+Uuq4u1ISpEKFzX6OljOnIIllDqVbPuX/dOwe5AA==}
     engines: {node: '>=12'}
+    requiresBuild: true
     peerDependencies:
       axios: ^1
     dependencies:

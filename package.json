@@ -76,7 +76,7 @@
     "@vitest/coverage-c8": "^0.31.1",
     "@vitest/ui": "^0.31.1",
     "axios": "^1.4.0",
-    "axios-cache-interceptor": "^1.0.1",
+    "axios-cache-interceptor": "^1.1.0",
     "ci-info": "^3.8.0",
     "dotenv": "^16.0.3",
     "http-status-codes": "^2.2.0",
