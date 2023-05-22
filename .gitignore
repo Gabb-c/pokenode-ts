@@ -146,3 +146,6 @@ lib
 
 # VitePress
 **/.vitepress/cache
+
+# SWC
+.swc
