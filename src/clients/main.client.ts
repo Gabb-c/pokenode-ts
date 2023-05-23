@@ -9,6 +9,7 @@ import { LocationClient } from "./location.client";
 import { MachineClient } from "./machine.client";
 import { MoveClient } from "./move.client";
 import { PokemonClient } from "./pokemon.client";
+import { UtilityClient } from "./utility.client";
 
 /**
  * ### Main Client
@@ -39,6 +40,7 @@ export class MainClient extends BaseClient {
   public machine: MachineClient;
   public move: MoveClient;
   public pokemon: PokemonClient;
+  public utility: UtilityClient;
 
   constructor(clientOptions?: ClientArgs) {
     super(clientOptions);
@@ -53,5 +55,6 @@ export class MainClient extends BaseClient {
     this.machine = new MachineClient(clientOptions);
     this.move = new MoveClient(clientOptions);
     this.pokemon = new PokemonClient(clientOptions);
+    this.utility = new UtilityClient(clientOptions);
   }
 }
