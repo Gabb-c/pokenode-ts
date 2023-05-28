@@ -1,121 +1,121 @@
-import { DefaultTheme } from 'vitepress';
+import { DefaultTheme } from "vitepress";
 
 export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
   {
-    text: 'Guides',
+    text: "Guides",
     collapsed: false,
     items: [
       {
-        text: 'Getting starded',
-        link: '/guides/getting-started',
+        text: "Getting starded",
+        link: "/guides/getting-started",
       },
       {
-        text: 'Logging',
-        link: '/guides/logging',
+        text: "Logging",
+        link: "/guides/logging",
       },
       {
-        text: 'Cache',
-        link: '/guides/cache',
+        text: "Cache",
+        link: "/guides/cache",
       },
       {
-        text: 'Contributing',
-        link: '/guides/contributing',
+        text: "Contributing",
+        link: "/guides/contributing",
       },
     ],
   },
   {
-    text: 'Clients',
+    text: "Clients",
     collapsed: false,
     items: [
       {
-        text: 'Pokemon Client',
-        link: '/clients/pokemon-client',
+        text: "Pokemon Client",
+        link: "/clients/pokemon-client",
       },
       {
-        text: 'Game Client',
-        link: '/clients/game-client',
+        text: "Game Client",
+        link: "/clients/game-client",
       },
       {
-        text: 'Contest Client',
-        link: '/clients/contest-client',
+        text: "Contest Client",
+        link: "/clients/contest-client",
       },
       {
-        text: 'Encounter Client',
-        link: '/clients/encounter-client',
+        text: "Encounter Client",
+        link: "/clients/encounter-client",
       },
       {
-        text: 'Evolution Client',
-        link: '/clients/evolution-client',
+        text: "Evolution Client",
+        link: "/clients/evolution-client",
       },
       {
-        text: 'Item Client',
-        link: '/clients/item-client',
+        text: "Item Client",
+        link: "/clients/item-client",
       },
       {
-        text: 'Location Client',
-        link: '/clients/location-client',
+        text: "Location Client",
+        link: "/clients/location-client",
       },
       {
-        text: 'Machine Client',
-        link: '/clients/machine-client',
+        text: "Machine Client",
+        link: "/clients/machine-client",
       },
       {
-        text: 'Main Client',
-        link: '/clients/main-client',
+        text: "Main Client",
+        link: "/clients/main-client",
       },
       {
-        text: 'Move Client',
-        link: '/clients/move-client',
+        text: "Move Client",
+        link: "/clients/move-client",
       },
       {
-        text: 'Utility Client',
-        link: '/clients/utility-client',
+        text: "Utility Client",
+        link: "/clients/utility-client",
       },
     ],
   },
   {
-    text: 'Typings',
+    text: "Typings",
     collapsed: false,
     items: [
       {
-        text: 'Pokemon',
-        link: '/typings/pokemon-typings',
+        text: "Pokemon",
+        link: "/typings/pokemon-typings",
       },
       {
-        text: 'Game',
-        link: '/typings/game-typings',
+        text: "Game",
+        link: "/typings/game-typings",
       },
       {
-        text: 'Contest',
-        link: '/typings/contest-typings',
+        text: "Contest",
+        link: "/typings/contest-typings",
       },
       {
-        text: 'Encounter',
-        link: '/typings/encounter-typings',
+        text: "Encounter",
+        link: "/typings/encounter-typings",
       },
       {
-        text: 'Evolution',
-        link: '/typings/evolution-typings',
+        text: "Evolution",
+        link: "/typings/evolution-typings",
       },
       {
-        text: 'Item',
-        link: '/typings/item-typings',
+        text: "Item",
+        link: "/typings/item-typings",
       },
       {
-        text: 'Location',
-        link: '/typings/location-typings',
+        text: "Location",
+        link: "/typings/location-typings",
       },
       {
-        text: 'Machine',
-        link: '/typings/machine-typings',
+        text: "Machine",
+        link: "/typings/machine-typings",
       },
       {
-        text: 'Move',
-        link: '/typings/move-typings',
+        text: "Move",
+        link: "/typings/move-typings",
       },
       {
-        text: 'Common',
-        link: '/typings/common-typings',
+        text: "Common",
+        link: "/typings/common-typings",
       },
     ],
   },
@@ -123,117 +123,117 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
 
 export const navbarItems: DefaultTheme.NavItem[] = [
   {
-    text: 'Guides',
+    text: "Guides",
     items: [
       {
-        text: 'Getting Started',
-        link: '/guides/getting-started',
+        text: "Getting Started",
+        link: "/guides/getting-started",
       },
       {
-        text: 'Logging',
-        link: '/guides/logging',
+        text: "Logging",
+        link: "/guides/logging",
       },
       {
-        text: 'Cache',
-        link: '/guides/cache',
+        text: "Cache",
+        link: "/guides/cache",
       },
       {
-        text: 'Contributing',
-        link: '/guides/contributing',
+        text: "Contributing",
+        link: "/guides/contributing",
       },
     ],
   },
   {
-    text: 'Clients',
+    text: "Clients",
     items: [
       {
-        text: 'Pokemon Client',
-        link: '/clients/pokemon-client',
+        text: "Pokemon Client",
+        link: "/clients/pokemon-client",
       },
       {
-        text: 'Game Client',
-        link: '/clients/game-client',
+        text: "Game Client",
+        link: "/clients/game-client",
       },
       {
-        text: 'Contest Client',
-        link: '/clients/contest-client',
+        text: "Contest Client",
+        link: "/clients/contest-client",
       },
       {
-        text: 'Encounter Client',
-        link: '/clients/encounter-client',
+        text: "Encounter Client",
+        link: "/clients/encounter-client",
       },
       {
-        text: 'Evolution Client',
-        link: '/clients/evolution-client',
+        text: "Evolution Client",
+        link: "/clients/evolution-client",
       },
       {
-        text: 'Item Client',
-        link: '/clients/item-client',
+        text: "Item Client",
+        link: "/clients/item-client",
       },
       {
-        text: 'Location Client',
-        link: '/clients/location-client',
+        text: "Location Client",
+        link: "/clients/location-client",
       },
       {
-        text: 'Machine Client',
-        link: '/clients/machine-client',
+        text: "Machine Client",
+        link: "/clients/machine-client",
       },
       {
-        text: 'Main Client',
-        link: '/clients/main-client',
+        text: "Main Client",
+        link: "/clients/main-client",
       },
       {
-        text: 'Move Client',
-        link: '/clients/move-client',
+        text: "Move Client",
+        link: "/clients/move-client",
       },
       {
-        text: 'Utility Client',
-        link: '/clients/utility-client',
+        text: "Utility Client",
+        link: "/clients/utility-client",
       },
     ],
   },
   {
-    text: 'Typings',
+    text: "Typings",
     items: [
       {
-        text: 'Pokemon',
-        link: '/typings/pokemon-typings',
+        text: "Pokemon",
+        link: "/typings/pokemon-typings",
       },
       {
-        text: 'Game',
-        link: '/typings/game-typings',
+        text: "Game",
+        link: "/typings/game-typings",
       },
       {
-        text: 'Contest',
-        link: '/typings/contest-typings',
+        text: "Contest",
+        link: "/typings/contest-typings",
       },
       {
-        text: 'Encounter',
-        link: '/typings/encounter-typings',
+        text: "Encounter",
+        link: "/typings/encounter-typings",
       },
       {
-        text: 'Evolution',
-        link: '/typings/evolution-typings',
+        text: "Evolution",
+        link: "/typings/evolution-typings",
       },
       {
-        text: 'Item',
-        link: '/typings/item-typings',
+        text: "Item",
+        link: "/typings/item-typings",
       },
       {
-        text: 'Location',
-        link: '/typings/location-typings',
+        text: "Location",
+        link: "/typings/location-typings",
       },
       {
-        text: 'Machine',
-        link: '/typings/machine-typings',
+        text: "Machine",
+        link: "/typings/machine-typings",
       },
       {
-        text: 'Move',
-        link: '/typings/move-typings',
+        text: "Move",
+        link: "/typings/move-typings",
       },
       {
-        text: 'Common',
-        link: '/typings/common-typings',
+        text: "Common",
+        link: "/typings/common-typings",
       },
     ],
   },

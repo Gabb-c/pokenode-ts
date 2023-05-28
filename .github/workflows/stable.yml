@@ -27,8 +27,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint
+      - name: Lint (Rome)
         run: pnpm lint
+
+      - name: Format (Rome)
+        run: pnpm format
 
       - name: Build
         run: pnpm build
@@ -56,7 +59,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v3.4.0
+        uses: cycjimmy/semantic-release-action@v3.4.2
         with:
           extra_plugins: |
             @semantic-release/git

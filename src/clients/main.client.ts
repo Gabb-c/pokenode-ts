@@ -1,14 +1,15 @@
-import { BaseClient, ClientArgs } from '../structures/base';
-import { BerryClient } from './berry.client';
-import { ContestClient } from './contest.client';
-import { EncounterClient } from './encounter.client';
-import { EvolutionClient } from './evolution.client';
-import { GameClient } from './game.client';
-import { ItemClient } from './item.client';
-import { LocationClient } from './location.client';
-import { MachineClient } from './machine.client';
-import { MoveClient } from './move.client';
-import { PokemonClient } from './pokemon.client';
+import { BaseClient, ClientArgs } from "../structures/base";
+import { BerryClient } from "./berry.client";
+import { ContestClient } from "./contest.client";
+import { EncounterClient } from "./encounter.client";
+import { EvolutionClient } from "./evolution.client";
+import { GameClient } from "./game.client";
+import { ItemClient } from "./item.client";
+import { LocationClient } from "./location.client";
+import { MachineClient } from "./machine.client";
+import { MoveClient } from "./move.client";
+import { PokemonClient } from "./pokemon.client";
+import { UtilityClient } from "./utility.client";
 
 /**
  * ### Main Client
@@ -30,24 +31,16 @@ import { PokemonClient } from './pokemon.client';
  */
 export class MainClient extends BaseClient {
   public berry: BerryClient;
-
   public contest: ContestClient;
-
   public encounter: EncounterClient;
-
   public evolution: EvolutionClient;
-
   public game: GameClient;
-
   public item: ItemClient;
-
   public location: LocationClient;
-
   public machine: MachineClient;
-
   public move: MoveClient;
-
   public pokemon: PokemonClient;
+  public utility: UtilityClient;
 
   constructor(clientOptions?: ClientArgs) {
     super(clientOptions);
@@ -62,5 +55,6 @@ export class MainClient extends BaseClient {
     this.machine = new MachineClient(clientOptions);
     this.move = new MoveClient(clientOptions);
     this.pokemon = new PokemonClient(clientOptions);
+    this.utility = new UtilityClient(clientOptions);
   }
 }

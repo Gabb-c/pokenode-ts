@@ -1,4 +1,4 @@
-import { Name, NamedAPIResource } from '../Common';
+import { Name, NamedAPIResource } from "../Common";
 
 /**
  * ## Berry
@@ -54,7 +54,7 @@ export interface BerryFlavor {
   /** The identifier for this resource */
   id: number;
   /** The name for this resource */
-  name: 'spicy' | 'dry' | 'sweet' | 'bitter' | 'sour';
+  name: "spicy" | "dry" | "sweet" | "bitter" | "sour";
   /** A list of the berries with this flavor */
   berries: FlavorBerryMap[];
   /** The contest type that correlates with this berry flavor */
@@ -83,7 +83,7 @@ export interface BerryFirmness {
   /** The identifier for this resource */
   id: number;
   /** The name for this resource */
-  name: 'very-soft' | 'soft' | 'hard' | 'very-hard' | 'super-hard';
+  name: "very-soft" | "soft" | "hard" | "very-hard" | "super-hard";
   /** A list of the berries with this firmness */
   berries: NamedAPIResource[];
   /** The name of this resource listed in different languages */

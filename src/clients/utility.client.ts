@@ -1,7 +1,8 @@
-import { AxiosError, AxiosResponse } from 'axios';
-import { Language, NamedAPIResourceList } from '../models';
-import { Endpoints } from '../constants';
-import { BaseClient, ClientArgs } from '../structures/base';
+import { Endpoints } from "../constants";
+import { Language, NamedAPIResourceList } from "../models";
+import { BaseClient } from "../structures/base";
+import { AxiosError, AxiosResponse } from "axios";
+import { getListRequestParams } from "src/utils/request-params";
 
 /**
  * ### Utility Client
@@ -13,10 +14,6 @@ import { BaseClient, ClientArgs } from '../structures/base';
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#utility-section)
  */
 export class UtilityClient extends BaseClient {
-  constructor(clientOptions?: ClientArgs) {
-    super(clientOptions);
-  }
-
   /**
    * Get a Language by it's ID
    * @param id The Language ID
@@ -25,7 +22,7 @@ export class UtilityClient extends BaseClient {
   public async getLanguageById(id: number): Promise<Language> {
     return new Promise<Language>((resolve, reject) => {
       this.api
-        .get<Language>(`${Endpoints.Language}/${id}`)
+        .get<Language>(`${Endpoints.LANGUAGE}/${id}`)
         .then((response: AxiosResponse<Language>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -39,7 +36,7 @@ export class UtilityClient extends BaseClient {
   public async getLanguageByName(name: string): Promise<Language> {
     return new Promise<Language>((resolve, reject) => {
       this.api
-        .get<Language>(`${Endpoints.Language}/${name}`)
+        .get<Language>(`${Endpoints.LANGUAGE}/${name}`)
         .then((response: AxiosResponse<Language>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -53,7 +50,7 @@ export class UtilityClient extends BaseClient {
   public async getResourceByUrl<T>(url: string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       this.api
-        .get(url, { baseURL: '' })
+        .get(url, { baseURL: "" })
         .then((response: AxiosResponse<T>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -66,11 +63,10 @@ export class UtilityClient extends BaseClient {
    * @returns A list of Languages
    */
   public listLanguages(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
       this.api
-        .get<NamedAPIResourceList>(
-          `${Endpoints.Language}?offset=${offset || 0}&limit=${limit || 20}`
-        )
+        .get<NamedAPIResourceList>(Endpoints.LANGUAGE, { params })
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });

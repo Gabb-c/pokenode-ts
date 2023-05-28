@@ -1,4 +1,4 @@
-import { Name, NamedAPIResource } from '../Common';
+import { Name, NamedAPIResource } from "../Common";
 
 /**
  * Evolution Detail
@@ -39,7 +39,7 @@ export interface EvolutionDetail {
   /** The required relation between the Pokémon's Attack and Defense stats. 1 means Attack > Defense. 0 means Attack = Defense. -1 means Attack < Defense. */
   relative_physical_stats: 1 | 0 | -1 | null;
   /** The required time of day. Day or night. */
-  time_of_day: 'Day' | 'Night' | '';
+  time_of_day: "Day" | "Night" | "";
   /** Pokémon species for which this one must be traded. */
   trade_species: NamedAPIResource | null;
   /** Whether or not the 3DS needs to be turned upside-down as this Pokémon levels up. */
@@ -96,7 +96,7 @@ export interface EvolutionTrigger {
   /** The identifier for this resource. */
   id: number;
   /** The name for this resource. */
-  name: 'level-up' | 'trade' | 'use-item' | 'shed' | 'other';
+  name: "level-up" | "trade" | "use-item" | "shed" | "other";
   /** The name of this resource listed in different languages. */
   names: Name[];
   /** A list of pokemon species that result from this evolution trigger. */
