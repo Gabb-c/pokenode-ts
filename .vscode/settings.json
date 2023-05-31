@@ -1,8 +1,11 @@
 {
-    "explorer.confirmDelete": false,
-    "workbench.startupEditor": "none",
-    "typescript.tsserver.log": "off",
-    "editor.defaultFormatter": "rome.rome",
-    "editor.formatOnSave": true,
-    "explorer.confirmDragAndDrop": false
+  "explorer.confirmDelete": false,
+  "workbench.startupEditor": "none",
+  "typescript.tsserver.log": "off",
+  "editor.defaultFormatter": "rome.rome",
+  "editor.formatOnSave": true,
+  "explorer.confirmDragAndDrop": false,
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
   }
+}
