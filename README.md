@@ -4,9 +4,9 @@ A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way 
 
 ## Features
 
-- Built-in typings
-- Axios with auto-cache requests
-- Logging
+- 🛠️ Built-in typings
+- 📦 Axios with auto-cache requests
+- 🌲 Logging
 
 ## Installation
 
