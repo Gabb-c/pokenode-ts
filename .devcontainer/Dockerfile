@@ -2,7 +2,7 @@
 ARG VARIANT=18-bullseye
 FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:${VARIANT}
 
-RUN apt-get update && apt-get upgrade
+RUN apt-get -y update && apt-get -y upgrade
 RUN nvm install
 
 RUN curl -fsSL https://get.pnpm.io/install.sh | sh -
