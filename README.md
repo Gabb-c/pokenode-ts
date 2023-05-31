@@ -23,7 +23,7 @@ pnpm i axios axios-cache-interceptor pokenode-ts
 
 ## Basic Example
 
-Using a client, like [PokemonClient](https://pokenode-ts.vercel.app/clients/pokemon-client):
+Using a client, like PokemonClient:
 
 ```js
 import { PokemonClient } from 'pokenode-ts';
@@ -75,18 +75,6 @@ Every change in this project is analyzed by [SonarCloud](https://sonarcloud.io/)
 
 ## Donate
 
-Please consider donating if you think pokenode-ts is helpful to you or that my work is valuable. I am happy if you can buy me a coffee ❤️
-
-<a href="https://www.buymeacoffee.com/pokenodets">
-  <img alt="bmc-button" src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black">
-</a>
-<a href="https://ko-fi.com/pokenodets">
-  <img alt="kofi-button" src="https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white">
-</a>
-<a href="https://www.paypal.com/donate?business=8TYDGB7874HT2&no_recurring=0&item_name=development&currency_code=USD">
-  <img alt="paypal-button" src="https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white">
-</a>
-
-## Repository Analytics
+Please consider donating if you think pokenode-ts is helpful to you or that my work is valuable. I am happy if you can [buy me a coffee](https://github.com/sponsors/Gabb-c) ❤️
 
 ![Analytics](https://repobeats.axiom.co/api/embed/f71a113e3161e1d054170c94e4ac3fcfc960cdd4.svg 'Repobeats analytics image')
