@@ -1,46 +1,48 @@
 {
-    "name": "Pokenode-ts (Node.js & TypeScript)",
-    "build": {
-        "dockerfile": "Dockerfile",
-        // Update 'VARIANT' to pick a Node version: 18, 16, 14.
-        // Append -bullseye or -buster to pin to an OS version.
-        // Use -bullseye variants on local on arm64/Apple Silicon.
-        "args": {
-            "VARIANT": "18-bullseye"
-        }
-    },
-    // Configure tool-specific properties.
-    "customizations": {
-        // Configure properties specific to VS Code.
-        "vscode": {
-            // Add the IDs of extensions you want installed when the container is created.
-            "extensions": [
-                "editorconfig.editorconfig",
-                "eamodio.gitlens",
-                "wix.vscode-import-cost",
-                "visualstudioexptteam.vscodeintellicode",
-                "xabikos.javascriptsnippets",
-                "ms-vscode.vscode-typescript-next",
-                "ms-vscode.js-debug-nightly",
-                "yzhang.markdown-all-in-one",
-                "christian-kohler.path-intellisense",
-                "rome.rome"
-            ],
-            "settings": {
-                "explorer.confirmDelete": false,
-                "security.workspace.trust.untrustedFiles": "open",
-                "workbench.startupEditor": "none",
-                "typescript.tsserver.log": "off",
-                "editor.defaultFormatter": "rome.rome",
-                "editor.formatOnSave": true,
-                "explorer.confirmDragAndDrop": false
-            }
-        }
-    },
-    // Use 'forwardPorts' to make a list of ports inside the container available locally.
-    // "forwardPorts": [],
-    // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "pnpm install",
-    // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-    "remoteUser": "node"
+  "name": "Pokenode-ts (Node.js & TypeScript)",
+  "build": {
+    "dockerfile": "Dockerfile",
+    // Update 'VARIANT' to pick a Node version: 18, 16, 14.
+    // Append -bullseye or -buster to pin to an OS version.
+    // Use -bullseye variants on local on arm64/Apple Silicon.
+    "args": {
+      "VARIANT": "18-bullseye"
+    }
+  },
+  // Configure tool-specific properties.
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "editorconfig.editorconfig",
+        "eamodio.gitlens",
+        "wix.vscode-import-cost",
+        "visualstudioexptteam.vscodeintellicode",
+        "xabikos.javascriptsnippets",
+        "ms-vscode.vscode-typescript-next",
+        "ms-vscode.js-debug-nightly",
+        "yzhang.markdown-all-in-one",
+        "christian-kohler.path-intellisense",
+        "rome.rome"
+      ],
+      "settings": {
+        "explorer.confirmDelete": false,
+        "security.workspace.trust.untrustedFiles": "open",
+        "workbench.startupEditor": "none",
+        "typescript.tsserver.log": "off",
+        "editor.defaultFormatter": "rome.rome",
+        "editor.formatOnSave": true,
+        "explorer.confirmDragAndDrop": false
+      }
+    }
+  },
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [
+    5173
+  ],
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "pnpm install",
+  // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "node"
 }
