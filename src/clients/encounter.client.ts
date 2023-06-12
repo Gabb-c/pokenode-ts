@@ -6,8 +6,8 @@ import {
   NamedAPIResourceList,
 } from "../models";
 import { BaseClient } from "../structures/base";
+import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
-import { getListRequestParams } from "src/utils/request-params";
 
 /**
  * ### Encounter Client
@@ -115,9 +115,9 @@ export class EncounterClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.ENCOUNTER_METHOD, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.ENCOUNTER_METHOD, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -134,9 +134,9 @@ export class EncounterClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.ENCOUNTER_CONDITION, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.ENCOUNTER_CONDITION, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -153,9 +153,9 @@ export class EncounterClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.ENCOUNTER_CONDITION_VALUE, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.ENCOUNTER_CONDITION_VALUE, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
