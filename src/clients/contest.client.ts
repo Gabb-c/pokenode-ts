@@ -1,8 +1,8 @@
 import { Endpoints } from "../constants";
 import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "../models";
 import { BaseClient } from "../structures/base";
+import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
-import { getListRequestParams } from "src/utils/request-params";
 
 /**
  * ### Contest Client
@@ -79,9 +79,9 @@ export class ContestClient extends BaseClient {
    */
   public async listContestTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.CONTEST_TYPE, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.CONTEST_TYPE, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -95,9 +95,9 @@ export class ContestClient extends BaseClient {
    */
   public async listContestEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.CONTEST_EFFECT, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.CONTEST_EFFECT, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -114,9 +114,9 @@ export class ContestClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.SUPER_CONTEST_EFFECT, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.SUPER_CONTEST_EFFECT, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });

@@ -10,8 +10,8 @@ import {
   NamedAPIResourceList,
 } from "../models";
 import { BaseClient } from "../structures/base";
+import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
-import { getListRequestParams } from "src/utils/request-params";
 
 /**
  * ### Move Client
@@ -232,9 +232,9 @@ export class MoveClient extends BaseClient {
    */
   public async listMoves(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.MOVE, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.MOVE, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -248,9 +248,9 @@ export class MoveClient extends BaseClient {
    */
   public async listMoveAilments(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.MOVE_AILMENT, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.MOVE_AILMENT, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -267,9 +267,9 @@ export class MoveClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.MOVE_BATTLE_STYLE, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.MOVE_BATTLE_STYLE, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -283,9 +283,9 @@ export class MoveClient extends BaseClient {
    */
   public async listMoveCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.MOVE_CATEGORY, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.MOVE_CATEGORY, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -302,9 +302,9 @@ export class MoveClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.MOVE_DAMAGE_CLASS, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.MOVE_DAMAGE_CLASS, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -321,9 +321,9 @@ export class MoveClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.MOVE_LEARN_METHOD, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.MOVE_LEARN_METHOD, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -336,10 +336,10 @@ export class MoveClient extends BaseClient {
    * @returns A list of Move Targets
    */
   public async listMoveTargets(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.MOVE_TARGET, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.MOVE_TARGET, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });

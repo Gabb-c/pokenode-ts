@@ -1,8 +1,8 @@
 import { Endpoints } from "../constants";
 import { Generation, NamedAPIResourceList, Pokedex, Version, VersionGroup } from "../models";
 import { BaseClient } from "../structures/base";
+import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
-import { getListRequestParams } from "src/utils/request-params";
 
 /**
  * ### Game Client
@@ -135,10 +135,10 @@ export class GameClient extends BaseClient {
    * @returns A list of Generations
    */
   public async listGenerations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.GENERATION, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.GENERATION, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -151,10 +151,10 @@ export class GameClient extends BaseClient {
    * @returns A list of Pokedexes
    */
   public async listPokedexes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.POKEDEX, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.POKEDEX, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -167,10 +167,10 @@ export class GameClient extends BaseClient {
    * @returns A list of Versions
    */
   public async listVersions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.VERSION, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.VERSION, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -183,10 +183,10 @@ export class GameClient extends BaseClient {
    * @returns A list of Version Groups
    */
   public async listVersionGroups(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.VERSION_GROUP, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.VERSION_GROUP, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });

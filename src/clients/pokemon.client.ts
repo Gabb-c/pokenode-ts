@@ -19,8 +19,8 @@ import {
   Type,
 } from "../models";
 import { BaseClient } from "../structures/base";
+import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
-import { getListRequestParams } from "src/utils/request-params";
 
 /**
  * ### Pokemon Client
@@ -475,10 +475,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Abilities
    */
   public async listAbilities(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.ABILITY, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.ABILITY, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -491,10 +491,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Characteristics
    */
   public async listCharacteristics(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.CHARACTERISTIC, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.CHARACTERISTIC, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -507,10 +507,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Egg Groups
    */
   public async listEggGroups(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.EGG_GROUP, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.EGG_GROUP, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -523,10 +523,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Genders
    */
   public async listGenders(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.GENDER, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.GENDER, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -539,10 +539,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Growth Rates
    */
   public async listGrowthRates(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.GROWTH_RATE, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.GROWTH_RATE, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -555,10 +555,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Natures
    */
   public async listNatures(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.NATURE, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.NATURE, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -571,10 +571,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Pokeathlon Stats
    */
   public async listPokeathlonStats(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.POKEATHLON_STAT, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.POKEATHLON_STAT, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -587,10 +587,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Pokemons
    */
   public async listPokemons(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.POKEMON, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.POKEMON, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -603,10 +603,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Pokemon Colors
    */
   public async listPokemonColors(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.POKEMON_COLOR, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.POKEMON_COLOR, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -619,10 +619,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Pokemon Forms
    */
   public async listPokemonForms(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.POKEMON_FORM, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.POKEMON_FORM, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -635,10 +635,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Pokemon Habitats
    */
   public async listPokemonHabitats(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.POKEMON_HABITAT, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.POKEMON_HABITAT, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -651,10 +651,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Pokemon Shapes
    */
   public async listPokemonShapes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.POKEMON_SHAPE, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.POKEMON_SHAPE, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -667,10 +667,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Pokemon Species
    */
   public async listPokemonSpecies(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.POKEMON_SPECIES, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.POKEMON_SPECIES, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -683,10 +683,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Stats
    */
   public async listStats(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.STAT, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.STAT, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -699,10 +699,10 @@ export class PokemonClient extends BaseClient {
    * @returns A list of Types
    */
   public async listTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    const params = getListRequestParams(offset, limit);
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
+      const url = getListURL(Endpoints.TYPE, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.TYPE, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });

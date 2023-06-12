@@ -17,13 +17,29 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "@clients/*": ["src/clients/*"],
-      "@config/*": ["src/config/*"],
-      "@constants/*": ["src/constants/*"],
-      "@models/*": ["src/models/*"],
-      "@structures/*": ["src/structures/*"]
+      "@clients/*": [
+        "src/clients/*"
+      ],
+      "@config/*": [
+        "src/config/*"
+      ],
+      "@constants/*": [
+        "src/constants/*"
+      ],
+      "@models/*": [
+        "src/models/*"
+      ],
+      "@structures/*": [
+        "src/structures/*"
+      ]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
 }
