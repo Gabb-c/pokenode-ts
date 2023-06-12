@@ -1,6 +1,5 @@
-export const getListRequestParams = (offset = 0, limit = 20): URLSearchParams => {
-  return new URLSearchParams({
-    offset: offset.toString(),
-    limit: limit.toString(),
-  });
+import { Endpoints } from "../constants";
+
+export const getListURL = (endpoint: Endpoints, offset?: number, limit?: number): string => {
+  return `${endpoint}?offset=${offset ?? 0}&limit=${limit ?? 20}`;
 };

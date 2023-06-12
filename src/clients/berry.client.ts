@@ -1,8 +1,8 @@
 import { Endpoints } from "../constants";
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from "../models";
 import { BaseClient } from "../structures/base";
+import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
-import { getListRequestParams } from "src/utils/request-params";
 
 /**
  * ### Berry Client
@@ -109,9 +109,9 @@ export class BerryClient extends BaseClient {
    */
   public listBerries(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.BERRY, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.BERRY, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -125,9 +125,9 @@ export class BerryClient extends BaseClient {
    */
   public listBerryFirmnesses(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.BERRY_FIRMNESS, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.BERRY_FIRMNESS, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -141,9 +141,9 @@ export class BerryClient extends BaseClient {
    */
   public listBerryFlavors(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const params = getListRequestParams(offset, limit);
+      const url = getListURL(Endpoints.BERRY_FLAVOR, offset, limit);
       this.api
-        .get<NamedAPIResourceList>(Endpoints.BERRY_FLAVOR, { params })
+        .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });

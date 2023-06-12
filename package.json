@@ -97,7 +97,7 @@
   },
   "peerDependencies": {
     "axios": "^1.4.0",
-    "axios-cache-interceptor": "^1.0.1"
+    "axios-cache-interceptor": "^1.2.0"
   },
   "engines": {
     "node": ">=14"
