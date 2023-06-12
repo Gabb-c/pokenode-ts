@@ -1,3 +1,5 @@
-# Vulnerability report
+# Reporting a Vulnerability
 
-If you find a security issue (code, dependency, etc...) you can report that at gdgabrieldacunha71@gmail.com
+To report a vulnerability, please open a private vulnerability report at <https://github.com/Gabb-c/pokenode-ts/security>.
+
+While the discovery of new vulnerabilities is rare, we also recommend always using the latest versions of Pokenode-ts to ensure your application remains as secure as possible.

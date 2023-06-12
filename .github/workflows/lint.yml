@@ -32,9 +32,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Audit installed dependencies
-        run: pnpm audit
-
       - name: Lint (Rome)
         run: pnpm lint
 

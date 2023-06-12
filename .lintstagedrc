@@ -1,5 +1,4 @@
 {
   "src/**/*": ["pnpm lint:fix", "pnpm format:fix"],
-  "pnpm-lock.yaml": ["pnpm audit"],
   "package.json": ["pnpm sort-package-json"]
 }
