@@ -49,7 +49,7 @@
     "lint": "rome check src",
     "lint:fix": "rome check --apply-unsafe ./src",
     "lint:pkg": "sort-package-json",
-    "lint:tsc": "tsc --diagnostics",
+    "lint:tsc": "tsc --extendedDiagnostics",
     "prepare": "is-ci || husky install",
     "prepublishOnly": "pnpm build",
     "size": "pnpm build && size-limit",
