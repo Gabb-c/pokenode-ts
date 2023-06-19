@@ -15,7 +15,7 @@ export interface Pokemon {
   name: string;
   /** The base experience gained for defeating this Pokémon */
   base_experience: number;
-  /** The height of this Pokémon in decimetres */
+  /** The height of this Pokémon in decimeters */
   height: number;
   /** Set for exactly one Pokémon used as the default for each species */
   is_default: boolean;
@@ -27,7 +27,7 @@ export interface Pokemon {
   abilities: PokemonAbility[];
   /** A list of forms this Pokémon can take on */
   forms: NamedAPIResource[];
-  /** A list of game indices relevent to Pokémon item by generation */
+  /** A list of game indices relevant to Pokémon item by generation */
   game_indices: VersionGameIndex[];
   /** A list of items this Pokémon may be holding when encountered */
   held_items: PokemonHeldItem[];
@@ -50,7 +50,7 @@ export interface Pokemon {
 
 > Check out [Bulbapedia](<https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_(species)>) for greater detail.
 
-## Pokmeon Ability
+## Pokemon Ability
 
 Abilities the given pokémon could potentially have
 
@@ -147,7 +147,7 @@ export interface PokemonStat {
 }
 ```
 
-## Pokmeon Sprites
+## Pokemon Sprites
 
 A set of sprites used to depict this Pokémon in the game.
 
@@ -356,7 +356,7 @@ export interface PokemonSpecies {
   /** The shape of this Pokémon for Pokédex search */
   shape: NamedAPIResource;
   /** The Pokémon species that evolves into this Pokemon_species */
-  envolves_from_species: NamedAPIResource;
+  evolves_from_species: NamedAPIResource;
   /** The evolution chain this Pokémon species is a member of */
   evolution_chain: APIResource;
   /** The habitat this Pokémon species can be encountered in */
@@ -771,7 +771,7 @@ export interface NatureStatAffectSets {
 }
 ```
 
-## Mmove Stat Affect
+## Move Stat Affect
 
 Move and how it change the referenced stat.
 
@@ -860,7 +860,7 @@ export interface Type {
   damage_relations: TypeRelations;
   /** A list of details of how effective this type was toward others and vice versa in previous generations */
   past_damage_relations: TypeRelationsPast[];
-  /** A list of game indices relevent to this item by generation */
+  /** A list of game indices relevant to this item by generation */
   game_indices: GenerationGameIndex[];
   /** The generation this type was introduced in */
   generation: NamedAPIResource;
