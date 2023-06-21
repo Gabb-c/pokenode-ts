@@ -34,6 +34,7 @@ describe("Game Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Pokedex
@@ -56,6 +57,7 @@ describe("Game Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Version
@@ -78,6 +80,7 @@ describe("Game Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Version Groups
@@ -100,5 +103,6 @@ describe("Game Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 });

@@ -34,6 +34,7 @@ describe("Location Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Location Area
@@ -56,6 +57,7 @@ describe("Location Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Pal Park Area
@@ -78,6 +80,7 @@ describe("Location Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Regions
@@ -100,5 +103,6 @@ describe("Location Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 });

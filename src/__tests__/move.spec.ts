@@ -50,6 +50,7 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Move Ailment
@@ -72,6 +73,7 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Move Battle Style
@@ -94,6 +96,7 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Move Category
@@ -116,6 +119,7 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Move Damage Class
@@ -138,6 +142,7 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Move Learn Method
@@ -160,6 +165,7 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Move Target
@@ -182,6 +188,7 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   it("check if it returns a list of move targets", async () => {
@@ -189,5 +196,6 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 });

@@ -39,6 +39,7 @@ describe("Encounter Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Encounter Condition
@@ -61,6 +62,7 @@ describe("Encounter Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Encounter Condition Values
@@ -83,5 +85,6 @@ describe("Encounter Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 });

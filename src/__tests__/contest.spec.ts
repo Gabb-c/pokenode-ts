@@ -34,6 +34,7 @@ describe("Contest Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Contest Effect
@@ -49,6 +50,7 @@ describe("Contest Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Super Contest Effect
@@ -58,10 +60,12 @@ describe("Contest Client", () => {
     expectTypeOf(data).toEqualTypeOf<SuperContestEffect>();
     expect(data.flavor_text_entries.length).toBeGreaterThan(0);
   });
+
   it("check if it returns a list of super contest effects", async () => {
     const data = await client.listSuperContestEffects();
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 });

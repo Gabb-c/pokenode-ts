@@ -33,7 +33,9 @@ describe("Berry Client", () => {
   it("check if it returns a list of berries", async () => {
     const data = await client.listBerries().then((response: NamedAPIResourceList) => response);
 
+    expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Berry Firmness
@@ -79,5 +81,6 @@ describe("Berry Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 });
