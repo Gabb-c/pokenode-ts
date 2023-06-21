@@ -1,5 +1,5 @@
 import { EncounterClient } from "../clients";
-import { EncounterConditionValues, EncounterConditions, EncounterMethods } from "../constants";
+import { ENCOUNTER_CONDITIONS, ENCOUNTER_CONDITION_VALUES, ENCOUNTER_METHODS } from "../constants";
 import {
   EncounterCondition,
   EncounterConditionValue,
@@ -24,11 +24,11 @@ describe("Encounter Client", () => {
     const data = await client.getEncounterMethodByName("walk");
 
     expectTypeOf(data).toEqualTypeOf<EncounterMethod>();
-    expect(data.id).toBe(EncounterMethods.WALK);
+    expect(data.id).toBe(ENCOUNTER_METHODS.WALK);
   });
 
   it("check if it returns an encounter method passig an id", async () => {
-    const data = await client.getEncounterMethodById(EncounterMethods.WALK);
+    const data = await client.getEncounterMethodById(ENCOUNTER_METHODS.WALK);
 
     expectTypeOf(data).toEqualTypeOf<EncounterMethod>();
     expect(data.name).toBe("walk");
@@ -46,11 +46,11 @@ describe("Encounter Client", () => {
     const data = await client.getEncounterConditionByName("swarm");
 
     expectTypeOf(data).toEqualTypeOf<EncounterCondition>();
-    expect(data.id).toBe(EncounterConditions.SWARM);
+    expect(data.id).toBe(ENCOUNTER_CONDITIONS.SWARM);
   });
 
   it("check if it returns an encounter condition passig an id", async () => {
-    const data = await client.getEncounterConditionById(EncounterConditions.SWARM);
+    const data = await client.getEncounterConditionById(ENCOUNTER_CONDITIONS.SWARM);
 
     expectTypeOf(data).toEqualTypeOf<EncounterCondition>();
     expect(data.name).toBe("swarm");
@@ -68,11 +68,11 @@ describe("Encounter Client", () => {
     const data = await client.getEncounterConditionValueByName("swarm-yes");
 
     expectTypeOf(data).toEqualTypeOf<EncounterConditionValue>();
-    expect(data.id).toBe(EncounterConditionValues.SWARM_YES);
+    expect(data.id).toBe(ENCOUNTER_CONDITION_VALUES.SWARM_YES);
   });
 
   it("check if it returns an encounter condition values passig an id", async () => {
-    const data = await client.getEncounterConditionValueById(EncounterConditionValues.SWARM_YES);
+    const data = await client.getEncounterConditionValueById(ENCOUNTER_CONDITION_VALUES.SWARM_YES);
 
     expectTypeOf(data).toEqualTypeOf<EncounterConditionValue>();
     expect(data.name).toBe("swarm-yes");

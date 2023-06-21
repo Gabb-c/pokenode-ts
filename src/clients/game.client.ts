@@ -1,4 +1,4 @@
-import { Endpoints } from "../constants";
+import { ENDPOINTS } from "../constants";
 import { Generation, NamedAPIResourceList, Pokedex, Version, VersionGroup } from "../models";
 import { BaseClient } from "../structures/base";
 import { getListURL } from "../utils/request-params";
@@ -24,7 +24,7 @@ export class GameClient extends BaseClient {
   public async getGenerationByName(name: string): Promise<Generation> {
     return new Promise<Generation>((resolve, reject) => {
       this.api
-        .get<Generation>(`${Endpoints.GENERATION}/${name}`)
+        .get<Generation>(`${ENDPOINTS.GENERATION}/${name}`)
         .then((response: AxiosResponse<Generation>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -38,7 +38,7 @@ export class GameClient extends BaseClient {
   public async getGenerationById(id: number): Promise<Generation> {
     return new Promise<Generation>((resolve, reject) => {
       this.api
-        .get<Generation>(`${Endpoints.GENERATION}/${id}`)
+        .get<Generation>(`${ENDPOINTS.GENERATION}/${id}`)
         .then((response: AxiosResponse<Generation>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -52,7 +52,7 @@ export class GameClient extends BaseClient {
   public async getPokedexByName(name: string): Promise<Pokedex> {
     return new Promise<Pokedex>((resolve, reject) => {
       this.api
-        .get<Pokedex>(`${Endpoints.POKEDEX}/${name}`)
+        .get<Pokedex>(`${ENDPOINTS.POKEDEX}/${name}`)
         .then((response: AxiosResponse<Pokedex>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -66,7 +66,7 @@ export class GameClient extends BaseClient {
   public async getPokedexById(id: number): Promise<Pokedex> {
     return new Promise<Pokedex>((resolve, reject) => {
       this.api
-        .get<Pokedex>(`${Endpoints.POKEDEX}/${id}`)
+        .get<Pokedex>(`${ENDPOINTS.POKEDEX}/${id}`)
         .then((response: AxiosResponse<Pokedex>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -80,7 +80,7 @@ export class GameClient extends BaseClient {
   public async getVersionByName(name: string): Promise<Version> {
     return new Promise<Version>((resolve, reject) => {
       this.api
-        .get<Version>(`${Endpoints.VERSION}/${name}`)
+        .get<Version>(`${ENDPOINTS.VERSION}/${name}`)
         .then((response: AxiosResponse<Version>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -94,7 +94,7 @@ export class GameClient extends BaseClient {
   public async getVersionById(id: number): Promise<Version> {
     return new Promise<Version>((resolve, reject) => {
       this.api
-        .get<Version>(`${Endpoints.VERSION}/${id}`)
+        .get<Version>(`${ENDPOINTS.VERSION}/${id}`)
         .then((response: AxiosResponse<Version>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -108,7 +108,7 @@ export class GameClient extends BaseClient {
   public async getVersionGroupByName(name: string): Promise<VersionGroup> {
     return new Promise<VersionGroup>((resolve, reject) => {
       this.api
-        .get<VersionGroup>(`${Endpoints.VERSION_GROUP}/${name}`)
+        .get<VersionGroup>(`${ENDPOINTS.VERSION_GROUP}/${name}`)
         .then((response: AxiosResponse<VersionGroup>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -122,7 +122,7 @@ export class GameClient extends BaseClient {
   public async getVersionGroupById(id: number): Promise<VersionGroup> {
     return new Promise<VersionGroup>((resolve, reject) => {
       this.api
-        .get<VersionGroup>(`${Endpoints.VERSION_GROUP}/${id}`)
+        .get<VersionGroup>(`${ENDPOINTS.VERSION_GROUP}/${id}`)
         .then((response: AxiosResponse<VersionGroup>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -136,7 +136,7 @@ export class GameClient extends BaseClient {
    */
   public async listGenerations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(Endpoints.GENERATION, offset, limit);
+      const url = getListURL(ENDPOINTS.GENERATION, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -152,7 +152,7 @@ export class GameClient extends BaseClient {
    */
   public async listPokedexes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(Endpoints.POKEDEX, offset, limit);
+      const url = getListURL(ENDPOINTS.POKEDEX, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -168,7 +168,7 @@ export class GameClient extends BaseClient {
    */
   public async listVersions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(Endpoints.VERSION, offset, limit);
+      const url = getListURL(ENDPOINTS.VERSION, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -184,7 +184,7 @@ export class GameClient extends BaseClient {
    */
   public async listVersionGroups(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(Endpoints.VERSION_GROUP, offset, limit);
+      const url = getListURL(ENDPOINTS.VERSION_GROUP, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))

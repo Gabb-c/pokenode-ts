@@ -1,4 +1,4 @@
-import { Endpoints } from "../constants";
+import { ENDPOINTS } from "../constants";
 import { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from "../models";
 import { BaseClient } from "../structures/base";
 import { getListURL } from "../utils/request-params";
@@ -24,7 +24,7 @@ export class LocationClient extends BaseClient {
   public async getLocationByName(name: string): Promise<Location> {
     return new Promise<Location>((resolve, reject) => {
       this.api
-        .get<Location>(`${Endpoints.LOCATION}/${name}`)
+        .get<Location>(`${ENDPOINTS.LOCATION}/${name}`)
         .then((response: AxiosResponse<Location>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -38,7 +38,7 @@ export class LocationClient extends BaseClient {
   public async getLocationById(id: number): Promise<Location> {
     return new Promise<Location>((resolve, reject) => {
       this.api
-        .get<Location>(`${Endpoints.LOCATION}/${id}`)
+        .get<Location>(`${ENDPOINTS.LOCATION}/${id}`)
         .then((response: AxiosResponse<Location>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -52,7 +52,7 @@ export class LocationClient extends BaseClient {
   public async getLocationAreaByName(name: string): Promise<LocationArea> {
     return new Promise<LocationArea>((resolve, reject) => {
       this.api
-        .get<LocationArea>(`${Endpoints.LOCATION_AREA}/${name}`)
+        .get<LocationArea>(`${ENDPOINTS.LOCATION_AREA}/${name}`)
         .then((response: AxiosResponse<LocationArea>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -66,7 +66,7 @@ export class LocationClient extends BaseClient {
   public async getLocationAreaById(id: number): Promise<LocationArea> {
     return new Promise<LocationArea>((resolve, reject) => {
       this.api
-        .get<LocationArea>(`${Endpoints.LOCATION_AREA}/${id}`)
+        .get<LocationArea>(`${ENDPOINTS.LOCATION_AREA}/${id}`)
         .then((response: AxiosResponse<LocationArea>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -80,7 +80,7 @@ export class LocationClient extends BaseClient {
   public async getPalParkAreaByName(name: string): Promise<PalParkArea> {
     return new Promise<PalParkArea>((resolve, reject) => {
       this.api
-        .get<PalParkArea>(`${Endpoints.PALPARK_AREA}/${name}`)
+        .get<PalParkArea>(`${ENDPOINTS.PALPARK_AREA}/${name}`)
         .then((response: AxiosResponse<PalParkArea>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -94,7 +94,7 @@ export class LocationClient extends BaseClient {
   public async getPalParkAreaById(id: number): Promise<PalParkArea> {
     return new Promise<PalParkArea>((resolve, reject) => {
       this.api
-        .get<PalParkArea>(`${Endpoints.PALPARK_AREA}/${id}`)
+        .get<PalParkArea>(`${ENDPOINTS.PALPARK_AREA}/${id}`)
         .then((response: AxiosResponse<PalParkArea>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -108,7 +108,7 @@ export class LocationClient extends BaseClient {
   public async getRegionByName(name: string): Promise<Region> {
     return new Promise<Region>((resolve, reject) => {
       this.api
-        .get<Region>(`${Endpoints.REGION}/${name}`)
+        .get<Region>(`${ENDPOINTS.REGION}/${name}`)
         .then((response: AxiosResponse<Region>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -122,7 +122,7 @@ export class LocationClient extends BaseClient {
   public async getRegionById(id: number): Promise<Region> {
     return new Promise<Region>((resolve, reject) => {
       this.api
-        .get<Region>(`${Endpoints.REGION}/${id}`)
+        .get<Region>(`${ENDPOINTS.REGION}/${id}`)
         .then((response: AxiosResponse<Region>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -136,7 +136,7 @@ export class LocationClient extends BaseClient {
    */
   public async listLocations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(Endpoints.LOCATION, offset, limit);
+      const url = getListURL(ENDPOINTS.LOCATION, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -152,7 +152,7 @@ export class LocationClient extends BaseClient {
    */
   public async listLocationAreas(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(Endpoints.LOCATION_AREA, offset, limit);
+      const url = getListURL(ENDPOINTS.LOCATION_AREA, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -168,7 +168,7 @@ export class LocationClient extends BaseClient {
    */
   public async listPalParkAreas(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(Endpoints.PALPARK_AREA, offset, limit);
+      const url = getListURL(ENDPOINTS.PALPARK_AREA, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -184,7 +184,7 @@ export class LocationClient extends BaseClient {
    */
   public async listRegions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(Endpoints.REGION, offset, limit);
+      const url = getListURL(ENDPOINTS.REGION, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))

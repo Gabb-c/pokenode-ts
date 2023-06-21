@@ -1,15 +1,15 @@
 import { PokemonClient } from "../clients";
 import {
-  EggGroups,
-  Genders,
-  GrowthRates,
-  Natures,
-  PokeathlonStats,
-  PokemonColors,
-  PokemonHabitats,
-  PokemonShapes,
-  Stats,
-  Types,
+  EGG_GROUPS,
+  GENDERS,
+  GROWTH_RATES,
+  NATURES,
+  POKEATHLON_STATS,
+  POKEMON_COLORS,
+  POKEMON_HABITATS,
+  POKEMON_SHAPES,
+  STATS,
+  TYPES,
 } from "../constants";
 import {
   Ability,
@@ -80,10 +80,10 @@ describe("Pokemon Client", () => {
     const data = await client.getEggGroupByName("dragon");
 
     expectTypeOf(data).toEqualTypeOf<EggGroup>();
-    expect(data.id).toBe(EggGroups.DRAGON);
+    expect(data.id).toBe(EGG_GROUPS.DRAGON);
   });
   it("check if it returns an Egg Group passing an ID", async () => {
-    const data = await client.getEggGroupById(EggGroups.DITTO);
+    const data = await client.getEggGroupById(EGG_GROUPS.DITTO);
 
     expectTypeOf(data).toEqualTypeOf<EggGroup>();
     expect(data.name).toBe("ditto");
@@ -99,10 +99,10 @@ describe("Pokemon Client", () => {
     const data = await client.getGenderByName("male");
 
     expectTypeOf(data).toEqualTypeOf<Gender>();
-    expect(data.id).toBe(Genders.MALE);
+    expect(data.id).toBe(GENDERS.MALE);
   });
   it("check if it returns a Gender passing an ID", async () => {
-    const data = await client.getGenderById(Genders.FEMALE);
+    const data = await client.getGenderById(GENDERS.FEMALE);
 
     expectTypeOf(data).toEqualTypeOf<Gender>();
     expect(data.name).toBe("female");
@@ -118,10 +118,10 @@ describe("Pokemon Client", () => {
     const data = await client.getGrowthRateByName("medium");
 
     expectTypeOf(data).toEqualTypeOf<GrowthRate>();
-    expect(data.id).toBe(GrowthRates.MEDIUM);
+    expect(data.id).toBe(GROWTH_RATES.MEDIUM);
   });
   it("check if it returns a Growth Rate passing an ID", async () => {
-    const data = await client.getGrowthRateById(GrowthRates.SLOW);
+    const data = await client.getGrowthRateById(GROWTH_RATES.SLOW);
 
     expectTypeOf(data).toEqualTypeOf<GrowthRate>();
     expect(data.name).toBe("slow");
@@ -137,16 +137,16 @@ describe("Pokemon Client", () => {
     const data = await client.getNatureByName("bashful");
 
     expectTypeOf(data).toEqualTypeOf<Nature>();
-    expect(data.id).toBe(Natures.BASHFUL);
+    expect(data.id).toBe(NATURES.BASHFUL);
   });
   it("check if it returns a Nature passing an ID", async () => {
     const data = await client.getNatureById(13);
 
     expectTypeOf(data).toEqualTypeOf<Nature>();
-    expect(data.id).toBe(Natures.BASHFUL);
+    expect(data.id).toBe(NATURES.BASHFUL);
   });
   it("check if it returns a Nature passing an ID", async () => {
-    const data = await client.getGrowthRateById(GrowthRates.SLOW);
+    const data = await client.getGrowthRateById(GROWTH_RATES.SLOW);
 
     expectTypeOf(data).toEqualTypeOf<GrowthRate>();
     expect(data.name).toBe("slow");
@@ -162,10 +162,10 @@ describe("Pokemon Client", () => {
     const data = await client.getPokeathlonStatByName("power");
 
     expectTypeOf(data).toEqualTypeOf<PokeathlonStat>();
-    expect(data.id).toBe(PokeathlonStats.POWER);
+    expect(data.id).toBe(POKEATHLON_STATS.POWER);
   });
   it("check if it returns a Pokeathlon Stat passing an ID", async () => {
-    const data = await client.getPokeathlonStatById(PokeathlonStats.JUMP);
+    const data = await client.getPokeathlonStatById(POKEATHLON_STATS.JUMP);
 
     expectTypeOf(data).toEqualTypeOf<PokeathlonStat>();
     expect(data.name).toBe("jump");
@@ -190,7 +190,7 @@ describe("Pokemon Client", () => {
     expect(data.id).toBe(1);
   });
   it("check if it returns a Pokemon passing an ID", async () => {
-    const data = await client.getPokeathlonStatById(PokeathlonStats.JUMP);
+    const data = await client.getPokeathlonStatById(POKEATHLON_STATS.JUMP);
 
     expectTypeOf(data).toEqualTypeOf<PokeathlonStat>();
     expect(data.name).toBe("jump");
@@ -213,10 +213,10 @@ describe("Pokemon Client", () => {
     const data = await client.getPokemonColorByName("pink");
 
     expectTypeOf(data).toEqualTypeOf<PokemonColor>();
-    expect(data.id).toBe(PokemonColors.PINK);
+    expect(data.id).toBe(POKEMON_COLORS.PINK);
   });
   it("check if it returns a Pokemon Color passing an ID", async () => {
-    const data = await client.getPokemonColorById(PokemonColors.BLUE);
+    const data = await client.getPokemonColorById(POKEMON_COLORS.BLUE);
 
     expectTypeOf(data).toEqualTypeOf<PokemonColor>();
     expect(data.name).toBe("blue");
@@ -255,11 +255,11 @@ describe("Pokemon Client", () => {
       .then((response: PokemonHabitat) => response);
 
     expectTypeOf(data).toEqualTypeOf<PokemonHabitat>();
-    expect(data.id).toBe(PokemonHabitats.FOREST);
+    expect(data.id).toBe(POKEMON_HABITATS.FOREST);
   });
   it("check if it returns a Pokemon Habitat passing an ID", async () => {
     const data = await client
-      .getPokemonHabitatById(PokemonHabitats.GRASSLAND)
+      .getPokemonHabitatById(POKEMON_HABITATS.GRASSLAND)
       .then((response: PokemonHabitat) => response);
 
     expectTypeOf(data).toEqualTypeOf<PokemonHabitat>();
@@ -278,11 +278,11 @@ describe("Pokemon Client", () => {
       .then((response: PokemonShape) => response);
 
     expectTypeOf(data).toEqualTypeOf<PokemonShape>();
-    expect(data.id).toBe(PokemonShapes.ARMOR);
+    expect(data.id).toBe(POKEMON_SHAPES.ARMOR);
   });
   it("check if it returns a Pokemon Shape passing an ID", async () => {
     const data = await client
-      .getPokemonShapeById(PokemonShapes.BLOB)
+      .getPokemonShapeById(POKEMON_SHAPES.BLOB)
       .then((response: PokemonShape) => response);
 
     expectTypeOf(data).toEqualTypeOf<PokemonShape>();
@@ -318,10 +318,10 @@ describe("Pokemon Client", () => {
     const data = await client.getStatByName("attack");
 
     expectTypeOf(data).toEqualTypeOf<Stat>();
-    expect(data.id).toBe(Stats.ATTACK);
+    expect(data.id).toBe(STATS.ATTACK);
   });
   it("check if it returns a Stat passing an ID", async () => {
-    const data = await client.getStatById(Stats.DEFENSE);
+    const data = await client.getStatById(STATS.DEFENSE);
 
     expectTypeOf(data).toEqualTypeOf<Stat>();
     expect(data.name).toBe("defense");
@@ -337,10 +337,10 @@ describe("Pokemon Client", () => {
     const data = await client.getTypeByName("dark");
 
     expectTypeOf(data).toEqualTypeOf<Type>();
-    expect(data.id).toBe(Types.DARK);
+    expect(data.id).toBe(TYPES.DARK);
   });
   it("check if it returns a Type passing an ID", async () => {
-    const data = await client.getTypeById(Types.ELECTRIC);
+    const data = await client.getTypeById(TYPES.ELECTRIC);
 
     expectTypeOf(data).toEqualTypeOf<Type>();
     expect(data.name).toBe("electric");

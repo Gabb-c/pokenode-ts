@@ -1,5 +1,5 @@
 import { EvolutionClient } from "../clients";
-import { EvolutionTriggers } from "../constants";
+import { EVOLUTION_TRIGGERS } from "../constants";
 import { EvolutionChain, EvolutionTrigger, NamedAPIResourceList } from "../models";
 import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
@@ -16,7 +16,7 @@ describe("Evolution Client", () => {
 
   // Evolution Trigger
   it("check if it returns an evolution trigger passig an ID", async () => {
-    const data = await client.getEvolutionTriggerById(EvolutionTriggers.LEVEL_UP);
+    const data = await client.getEvolutionTriggerById(EVOLUTION_TRIGGERS.LEVEL_UP);
 
     expectTypeOf(data).toEqualTypeOf<EvolutionTrigger>();
     expect(data.name).toBe("level-up");
@@ -26,7 +26,7 @@ describe("Evolution Client", () => {
     const data = await client.getEvolutionTriggerByName("level-up");
 
     expectTypeOf(data).toEqualTypeOf<EvolutionTrigger>();
-    expect(data.id).toBe(EvolutionTriggers.LEVEL_UP);
+    expect(data.id).toBe(EVOLUTION_TRIGGERS.LEVEL_UP);
   });
 
   it("check if it returns a list of evolution triggers", async () => {

@@ -1,4 +1,4 @@
-import { Endpoints } from "../constants";
+import { ENDPOINTS } from "../constants";
 import { Language, NamedAPIResourceList } from "../models";
 import { BaseClient } from "../structures/base";
 import { getListURL } from "../utils/request-params";
@@ -22,7 +22,7 @@ export class UtilityClient extends BaseClient {
   public async getLanguageById(id: number): Promise<Language> {
     return new Promise<Language>((resolve, reject) => {
       this.api
-        .get<Language>(`${Endpoints.LANGUAGE}/${id}`)
+        .get<Language>(`${ENDPOINTS.LANGUAGE}/${id}`)
         .then((response: AxiosResponse<Language>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -36,7 +36,7 @@ export class UtilityClient extends BaseClient {
   public async getLanguageByName(name: string): Promise<Language> {
     return new Promise<Language>((resolve, reject) => {
       this.api
-        .get<Language>(`${Endpoints.LANGUAGE}/${name}`)
+        .get<Language>(`${ENDPOINTS.LANGUAGE}/${name}`)
         .then((response: AxiosResponse<Language>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -64,7 +64,7 @@ export class UtilityClient extends BaseClient {
    */
   public listLanguages(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(Endpoints.LANGUAGE, offset, limit);
+      const url = getListURL(ENDPOINTS.LANGUAGE, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))

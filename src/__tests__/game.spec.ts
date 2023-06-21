@@ -1,5 +1,5 @@
 import { GameClient } from "../clients";
-import { Generations, Pokedexes, VersionGroups, Versions } from "../constants";
+import { GENERATIONS, POKEDEXES, VERSIONS, VERSION_GROUPS } from "../constants";
 import { Generation, NamedAPIResourceList, Pokedex, Version, VersionGroup } from "../models";
 import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
@@ -19,22 +19,21 @@ describe("Game Client", () => {
     const data = await client.getGenerationByName("generation-i");
 
     expectTypeOf(data).toEqualTypeOf<Generation>();
-    expect(data.id).toBe(Generations.GENERATION_I);
+    expect(data.id).toBe(GENERATIONS.GENERATION_I);
   });
 
   it("check if it returns a generation passing an ID", async () => {
-    const data = await client.getGenerationById(Generations.GENERATION_I);
+    const data = await client.getGenerationById(GENERATIONS.GENERATION_I);
 
     expectTypeOf(data).toEqualTypeOf<Generation>();
     expect(data.name).toBe("generation-i");
   });
 
-  it("check if it returns a list of generations", async (ctx) => {
+  it("check if it returns a list of generations", async () => {
     const data = await client.listGenerations();
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
-    ctx.onTestFailed((error) => console.error(error));
   });
 
   // Pokedex
@@ -42,11 +41,11 @@ describe("Game Client", () => {
     const data = await client.getPokedexByName("national");
 
     expectTypeOf(data).toEqualTypeOf<Pokedex>();
-    expect(data.id).toBe(Pokedexes.NATIONAL);
+    expect(data.id).toBe(POKEDEXES.NATIONAL);
   });
 
   it("check if it returns a pokedex passing an ID", async () => {
-    const data = await client.getPokedexById(Pokedexes.NATIONAL);
+    const data = await client.getPokedexById(POKEDEXES.NATIONAL);
 
     expectTypeOf(data).toEqualTypeOf<Pokedex>();
     expect(data.name).toBe("national");
@@ -64,11 +63,11 @@ describe("Game Client", () => {
     const data = await client.getVersionByName("red");
 
     expectTypeOf(data).toEqualTypeOf<Version>();
-    expect(data.id).toBe(Versions.RED);
+    expect(data.id).toBe(VERSIONS.RED);
   });
 
   it("check if it returns a version passing an ID", async () => {
-    const data = await client.getVersionById(Versions.RED);
+    const data = await client.getVersionById(VERSIONS.RED);
 
     expectTypeOf(data).toEqualTypeOf<Version>();
     expect(data.name).toBe("red");
@@ -86,11 +85,11 @@ describe("Game Client", () => {
     const data = await client.getVersionGroupByName("red-blue");
 
     expectTypeOf(data).toEqualTypeOf<VersionGroup>();
-    expect(data.id).toBe(VersionGroups.RED_BLUE);
+    expect(data.id).toBe(VERSION_GROUPS.RED_BLUE);
   });
 
   it("check if it returns a version group passing an ID", async () => {
-    const data = await client.getVersionGroupById(VersionGroups.RED_BLUE);
+    const data = await client.getVersionGroupById(VERSION_GROUPS.RED_BLUE);
 
     expectTypeOf(data).toEqualTypeOf<VersionGroup>();
     expect(data.name).toBe("red-blue");
