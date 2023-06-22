@@ -14,6 +14,11 @@ import {
   setupCache,
 } from "axios-cache-interceptor";
 
+import { ENDPOINTS } from "../constants";
+
+type ObjectValue<T> = T[keyof T];
+type Endpoint = ObjectValue<typeof ENDPOINTS>;
+
 /**
  * ## Client Args
  * Used to pass optional configuration for logging and cache to the clients.
@@ -62,5 +67,9 @@ export class BaseClient {
       (response: CacheAxiosResponse) => handleResponse(response, clientOptions?.logs),
       (error: AxiosError<string>) => handleResponseError(error, clientOptions?.logs),
     );
+  }
+
+  protected getListURL(endpoint: Endpoint, offset?: number, limit?: number): string {
+    return `${endpoint}?offset=${offset ?? 0}&limit=${limit ?? 20}`;
   }
 }

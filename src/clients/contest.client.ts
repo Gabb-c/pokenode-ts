@@ -1,7 +1,6 @@
 import { ENDPOINTS } from "../constants";
 import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "../models";
 import { BaseClient } from "../structures/base";
-import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**
@@ -79,7 +78,7 @@ export class ContestClient extends BaseClient {
    */
   public async listContestTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.CONTEST_TYPE, offset, limit);
+      const url = this.getListURL(ENDPOINTS.CONTEST_TYPE, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -95,7 +94,7 @@ export class ContestClient extends BaseClient {
    */
   public async listContestEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.CONTEST_EFFECT, offset, limit);
+      const url = this.getListURL(ENDPOINTS.CONTEST_EFFECT, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -114,7 +113,7 @@ export class ContestClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.SUPER_CONTEST_EFFECT, offset, limit);
+      const url = this.getListURL(ENDPOINTS.SUPER_CONTEST_EFFECT, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))

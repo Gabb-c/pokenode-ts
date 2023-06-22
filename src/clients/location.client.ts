@@ -1,7 +1,6 @@
 import { ENDPOINTS } from "../constants";
 import { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from "../models";
 import { BaseClient } from "../structures/base";
-import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**
@@ -136,7 +135,7 @@ export class LocationClient extends BaseClient {
    */
   public async listLocations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.LOCATION, offset, limit);
+      const url = this.getListURL(ENDPOINTS.LOCATION, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -152,7 +151,7 @@ export class LocationClient extends BaseClient {
    */
   public async listLocationAreas(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.LOCATION_AREA, offset, limit);
+      const url = this.getListURL(ENDPOINTS.LOCATION_AREA, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -168,7 +167,7 @@ export class LocationClient extends BaseClient {
    */
   public async listPalParkAreas(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.PALPARK_AREA, offset, limit);
+      const url = this.getListURL(ENDPOINTS.PALPARK_AREA, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -184,7 +183,7 @@ export class LocationClient extends BaseClient {
    */
   public async listRegions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.REGION, offset, limit);
+      const url = this.getListURL(ENDPOINTS.REGION, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))

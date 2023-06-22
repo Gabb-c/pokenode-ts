@@ -1,7 +1,6 @@
 import { ENDPOINTS } from "../constants";
 import { EvolutionChain, EvolutionTrigger, NamedAPIResourceList } from "../models";
 import { BaseClient } from "../structures/base";
-import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**
@@ -64,7 +63,7 @@ export class EvolutionClient extends BaseClient {
    */
   public async listEvolutionChains(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.EVOLUTION_CHAIN, offset, limit);
+      const url = this.getListURL(ENDPOINTS.EVOLUTION_CHAIN, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -83,7 +82,7 @@ export class EvolutionClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.EVOLUTION_TRIGGER, offset, limit);
+      const url = this.getListURL(ENDPOINTS.EVOLUTION_TRIGGER, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))

@@ -1,7 +1,6 @@
 import { ENDPOINTS } from "../constants";
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from "../models";
 import { BaseClient } from "../structures/base";
-import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**
@@ -109,7 +108,7 @@ export class BerryClient extends BaseClient {
    */
   public listBerries(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.BERRY, offset, limit);
+      const url = this.getListURL(ENDPOINTS.BERRY, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -125,7 +124,7 @@ export class BerryClient extends BaseClient {
    */
   public listBerryFirmnesses(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.BERRY_FIRMNESS, offset, limit);
+      const url = this.getListURL(ENDPOINTS.BERRY_FIRMNESS, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -141,7 +140,7 @@ export class BerryClient extends BaseClient {
    */
   public listBerryFlavors(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.BERRY_FLAVOR, offset, limit);
+      const url = this.getListURL(ENDPOINTS.BERRY_FLAVOR, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))

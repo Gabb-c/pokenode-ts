@@ -1,7 +1,6 @@
 import { ENDPOINTS } from "../constants";
 import { Generation, NamedAPIResourceList, Pokedex, Version, VersionGroup } from "../models";
 import { BaseClient } from "../structures/base";
-import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**
@@ -136,7 +135,7 @@ export class GameClient extends BaseClient {
    */
   public async listGenerations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.GENERATION, offset, limit);
+      const url = this.getListURL(ENDPOINTS.GENERATION, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -152,7 +151,7 @@ export class GameClient extends BaseClient {
    */
   public async listPokedexes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.POKEDEX, offset, limit);
+      const url = this.getListURL(ENDPOINTS.POKEDEX, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -168,7 +167,7 @@ export class GameClient extends BaseClient {
    */
   public async listVersions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.VERSION, offset, limit);
+      const url = this.getListURL(ENDPOINTS.VERSION, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -184,7 +183,7 @@ export class GameClient extends BaseClient {
    */
   public async listVersionGroups(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.VERSION_GROUP, offset, limit);
+      const url = this.getListURL(ENDPOINTS.VERSION_GROUP, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))

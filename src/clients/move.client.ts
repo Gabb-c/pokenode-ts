@@ -10,7 +10,6 @@ import {
   NamedAPIResourceList,
 } from "../models";
 import { BaseClient } from "../structures/base";
-import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**
@@ -232,7 +231,7 @@ export class MoveClient extends BaseClient {
    */
   public async listMoves(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.MOVE, offset, limit);
+      const url = this.getListURL(ENDPOINTS.MOVE, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -248,7 +247,7 @@ export class MoveClient extends BaseClient {
    */
   public async listMoveAilments(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.MOVE_AILMENT, offset, limit);
+      const url = this.getListURL(ENDPOINTS.MOVE_AILMENT, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -267,7 +266,7 @@ export class MoveClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.MOVE_BATTLE_STYLE, offset, limit);
+      const url = this.getListURL(ENDPOINTS.MOVE_BATTLE_STYLE, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -283,7 +282,7 @@ export class MoveClient extends BaseClient {
    */
   public async listMoveCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.MOVE_CATEGORY, offset, limit);
+      const url = this.getListURL(ENDPOINTS.MOVE_CATEGORY, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -302,7 +301,7 @@ export class MoveClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.MOVE_DAMAGE_CLASS, offset, limit);
+      const url = this.getListURL(ENDPOINTS.MOVE_DAMAGE_CLASS, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -321,7 +320,7 @@ export class MoveClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.MOVE_LEARN_METHOD, offset, limit);
+      const url = this.getListURL(ENDPOINTS.MOVE_LEARN_METHOD, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -337,7 +336,7 @@ export class MoveClient extends BaseClient {
    */
   public async listMoveTargets(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.MOVE_TARGET, offset, limit);
+      const url = this.getListURL(ENDPOINTS.MOVE_TARGET, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))

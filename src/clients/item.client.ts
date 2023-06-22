@@ -8,7 +8,6 @@ import {
   NamedAPIResourceList,
 } from "../models";
 import { BaseClient } from "../structures/base";
-import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**
@@ -172,7 +171,7 @@ export class ItemClient extends BaseClient {
    */
   public async listItems(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.ITEM, offset, limit);
+      const url = this.getListURL(ENDPOINTS.ITEM, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -188,7 +187,7 @@ export class ItemClient extends BaseClient {
    */
   public async listItemAttributes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.ITEM_ATTRIBUTE, offset, limit);
+      const url = this.getListURL(ENDPOINTS.ITEM_ATTRIBUTE, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -204,7 +203,7 @@ export class ItemClient extends BaseClient {
    */
   public async listItemCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.ITEM_CATEGORY, offset, limit);
+      const url = this.getListURL(ENDPOINTS.ITEM_CATEGORY, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -223,7 +222,7 @@ export class ItemClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.ITEM_FLING_EFFECT, offset, limit);
+      const url = this.getListURL(ENDPOINTS.ITEM_FLING_EFFECT, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -239,7 +238,7 @@ export class ItemClient extends BaseClient {
    */
   public async listItemPockets(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.ITEM_POCKET, offset, limit);
+      const url = this.getListURL(ENDPOINTS.ITEM_POCKET, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))

@@ -6,7 +6,6 @@ import {
   NamedAPIResourceList,
 } from "../models";
 import { BaseClient } from "../structures/base";
-import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**
@@ -115,7 +114,7 @@ export class EncounterClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.ENCOUNTER_METHOD, offset, limit);
+      const url = this.getListURL(ENDPOINTS.ENCOUNTER_METHOD, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -134,7 +133,7 @@ export class EncounterClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.ENCOUNTER_CONDITION, offset, limit);
+      const url = this.getListURL(ENDPOINTS.ENCOUNTER_CONDITION, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
@@ -153,7 +152,7 @@ export class EncounterClient extends BaseClient {
     limit?: number,
   ): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.ENCOUNTER_CONDITION_VALUE, offset, limit);
+      const url = this.getListURL(ENDPOINTS.ENCOUNTER_CONDITION_VALUE, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))

@@ -1,7 +1,6 @@
 import { ENDPOINTS } from "../constants";
 import { Language, NamedAPIResourceList } from "../models";
 import { BaseClient } from "../structures/base";
-import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**
@@ -64,7 +63,7 @@ export class UtilityClient extends BaseClient {
    */
   public listLanguages(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(ENDPOINTS.LANGUAGE, offset, limit);
+      const url = this.getListURL(ENDPOINTS.LANGUAGE, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
