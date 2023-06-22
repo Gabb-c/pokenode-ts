@@ -1,5 +1,5 @@
 import { ItemClient } from "../clients";
-import { ItemCategories, ItemFlingEffects, ItemPockets } from "../constants";
+import { ITEM_CATEGORIES, ITEM_FLING_EFFECTS, ITEM_POCKETS } from "../constants";
 import {
   Item,
   ItemAttribute,
@@ -41,6 +41,7 @@ describe("Item Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Item Attribute
@@ -63,6 +64,7 @@ describe("Item Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Item Category
@@ -75,7 +77,7 @@ describe("Item Client", () => {
   });
 
   it("check if it returns an item category passing an ID", async () => {
-    const data = await client.getItemCategoryById(ItemCategories.CHOICE);
+    const data = await client.getItemCategoryById(ITEM_CATEGORIES.CHOICE);
 
     expectTypeOf(data).toEqualTypeOf<ItemCategory>();
     expect(data.name).toBe("choice");
@@ -86,6 +88,7 @@ describe("Item Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Item Fling Effects
@@ -93,11 +96,11 @@ describe("Item Client", () => {
     const data = await client.getItemFlingEffectByName("flinch");
 
     expectTypeOf(data).toEqualTypeOf<ItemFlingEffect>();
-    expect(data.id).toBe(ItemFlingEffects.FLINCH);
+    expect(data.id).toBe(ITEM_FLING_EFFECTS.FLINCH);
   });
 
   it("check if it returns an item fling effect passing an ID", async () => {
-    const data = await client.getItemFlingEffectById(ItemFlingEffects.FLINCH);
+    const data = await client.getItemFlingEffectById(ITEM_FLING_EFFECTS.FLINCH);
 
     expectTypeOf(data).toEqualTypeOf<ItemFlingEffect>();
     expect(data.name).toBe("flinch");
@@ -108,6 +111,7 @@ describe("Item Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Item Pocket
@@ -115,11 +119,11 @@ describe("Item Client", () => {
     const data = await client.getItemPocketByName("battle");
 
     expectTypeOf(data).toEqualTypeOf<ItemPocket>();
-    expect(data.id).toBe(ItemPockets.BATTLE);
+    expect(data.id).toBe(ITEM_POCKETS.BATTLE);
   });
 
   it("check if it returns an item pocket passing an ID", async () => {
-    const data = await client.getItemPocketById(ItemPockets.BATTLE);
+    const data = await client.getItemPocketById(ITEM_POCKETS.BATTLE);
 
     expectTypeOf(data).toEqualTypeOf<ItemPocket>();
     expect(data.name).toBe("battle");
@@ -130,5 +134,6 @@ describe("Item Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 });

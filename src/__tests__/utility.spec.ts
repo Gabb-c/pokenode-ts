@@ -1,5 +1,5 @@
 import { UtilityClient } from "../clients";
-import { Languages } from "../constants";
+import { LANGUAGES } from "../constants";
 import { Language, NamedAPIResourceList, Pokemon } from "../models";
 import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
@@ -19,10 +19,10 @@ describe("Utility Client", () => {
     const data = await client.getLanguageByName("roomaji");
 
     expectTypeOf(data).toEqualTypeOf<Language>();
-    expect(data.id).toBe(Languages.ROOMAJI);
+    expect(data.id).toBe(LANGUAGES.ROOMAJI);
   });
   it("check if it returns a language passing an ID", async () => {
-    const data = await client.getLanguageById(Languages.FR);
+    const data = await client.getLanguageById(LANGUAGES.FR);
 
     expectTypeOf(data).toEqualTypeOf<Language>();
     expect(data.name).toBe("fr");
@@ -32,6 +32,7 @@ describe("Utility Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Resource (pokemon)

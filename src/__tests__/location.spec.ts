@@ -1,5 +1,5 @@
 import { LocationClient } from "../clients";
-import { PalParkAreas, Regions } from "../constants";
+import { PAL_PARK_AREAS, REGIONS } from "../constants";
 import { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from "../models";
 import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
@@ -34,6 +34,7 @@ describe("Location Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Location Area
@@ -56,6 +57,7 @@ describe("Location Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Pal Park Area
@@ -63,11 +65,11 @@ describe("Location Client", () => {
     const data = await client.getPalParkAreaByName("forest");
 
     expectTypeOf(data).toEqualTypeOf<PalParkArea>();
-    expect(data.id).toBe(PalParkAreas.FOREST);
+    expect(data.id).toBe(PAL_PARK_AREAS.FOREST);
   });
 
   it("check if it returns a pal park area passing an ID", async () => {
-    const data = await client.getPalParkAreaById(PalParkAreas.FOREST);
+    const data = await client.getPalParkAreaById(PAL_PARK_AREAS.FOREST);
 
     expectTypeOf(data).toEqualTypeOf<PalParkArea>();
     expect(data.name).toBe("forest");
@@ -78,6 +80,7 @@ describe("Location Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Regions
@@ -85,11 +88,11 @@ describe("Location Client", () => {
     const data = await client.getRegionByName("kanto");
 
     expectTypeOf(data).toEqualTypeOf<Region>();
-    expect(data.id).toBe(Regions.KANTO);
+    expect(data.id).toBe(REGIONS.KANTO);
   });
 
   it("check if it returns a region passing an ID", async () => {
-    const data = await client.getRegionById(Regions.KANTO);
+    const data = await client.getRegionById(REGIONS.KANTO);
 
     expectTypeOf(data).toEqualTypeOf<Region>();
     expect(data.name).toBe("kanto");
@@ -100,5 +103,6 @@ describe("Location Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 });
