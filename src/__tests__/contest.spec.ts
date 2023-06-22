@@ -1,5 +1,5 @@
 import { ContestClient } from "../clients";
-import { ContestTypes } from "../constants";
+import { CONTEST_TYPES } from "../constants";
 import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "../models";
 import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
@@ -19,11 +19,11 @@ describe("Contest Client", () => {
     const data = await client.getContestTypeByName("cool");
 
     expectTypeOf(data).toEqualTypeOf<ContestType>();
-    expect(data.id).toBe(ContestTypes.COOL);
+    expect(data.id).toBe(CONTEST_TYPES.COOL);
   });
 
   it("check if it returns a contest type passing an ID", async () => {
-    const data = await client.getContestTypeById(ContestTypes.COOL);
+    const data = await client.getContestTypeById(CONTEST_TYPES.COOL);
 
     expectTypeOf(data).toEqualTypeOf<ContestType>();
     expect(data.name).toBe("cool");
@@ -34,6 +34,7 @@ describe("Contest Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Contest Effect
@@ -49,6 +50,7 @@ describe("Contest Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Super Contest Effect
@@ -58,10 +60,12 @@ describe("Contest Client", () => {
     expectTypeOf(data).toEqualTypeOf<SuperContestEffect>();
     expect(data.flavor_text_entries.length).toBeGreaterThan(0);
   });
+
   it("check if it returns a list of super contest effects", async () => {
     const data = await client.listSuperContestEffects();
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 });

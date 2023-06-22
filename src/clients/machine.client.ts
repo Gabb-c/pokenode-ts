@@ -1,7 +1,6 @@
-import { Endpoints } from "../constants";
+import { ENDPOINTS } from "../constants";
 import { Machine, NamedAPIResourceList } from "../models";
 import { BaseClient } from "../structures/base";
-import { getListURL } from "../utils/request-params";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**
@@ -21,7 +20,7 @@ export class MachineClient extends BaseClient {
   public async getMachineById(id: number): Promise<Machine> {
     return new Promise<Machine>((resolve, reject) => {
       this.api
-        .get<Machine>(`${Endpoints.MACHINE}/${id}`)
+        .get<Machine>(`${ENDPOINTS.MACHINE}/${id}`)
         .then((response: AxiosResponse<Machine>) => resolve(response.data))
         .catch((error: AxiosError<string>) => reject(error));
     });
@@ -35,7 +34,7 @@ export class MachineClient extends BaseClient {
    */
   public async listMachines(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = getListURL(Endpoints.MACHINE, offset, limit);
+      const url = this.getListURL(ENDPOINTS.MACHINE, offset, limit);
       this.api
         .get<NamedAPIResourceList>(url)
         .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))

@@ -1,10 +1,10 @@
 import * as Clients from "../clients";
 import {
-  Berries,
-  ContestTypes,
-  EncounterMethods,
-  EvolutionTriggers,
-  Generations,
+  BERRIES,
+  CONTEST_TYPES,
+  ENCOUNTER_METHODS,
+  EVOLUTION_TRIGGERS,
+  GENERATIONS,
 } from "../constants";
 import {
   Berry,
@@ -46,7 +46,7 @@ describe("MainClient Client", () => {
     const data = await client.berry.getBerryByName("cheri");
 
     expectTypeOf(data).toMatchTypeOf<Berry>();
-    expect(data.id).toBe(Berries.CHERI);
+    expect(data.id).toBe(BERRIES.CHERI);
   });
 
   // Contest Client
@@ -54,7 +54,7 @@ describe("MainClient Client", () => {
     const data = await client.contest.getContestTypeByName("cool");
 
     expectTypeOf(data).toMatchTypeOf<ContestType>();
-    expect(data.id).toBe(ContestTypes.COOL);
+    expect(data.id).toBe(CONTEST_TYPES.COOL);
   });
 
   // Encounter Client
@@ -62,7 +62,7 @@ describe("MainClient Client", () => {
     const data = await client.encounter.getEncounterMethodByName("surf");
 
     expectTypeOf(data).toMatchTypeOf<EncounterMethod>();
-    expect(data.id).toBe(EncounterMethods.SURF);
+    expect(data.id).toBe(ENCOUNTER_METHODS.SURF);
   });
 
   // Evolution Client
@@ -70,7 +70,7 @@ describe("MainClient Client", () => {
     const data = await client.evolution.getEvolutionTriggerByName("shed");
 
     expectTypeOf(data).toMatchTypeOf<EvolutionTrigger>();
-    expect(data.id).toBe(EvolutionTriggers.SHED);
+    expect(data.id).toBe(EVOLUTION_TRIGGERS.SHED);
   });
 
   // Game Client
@@ -78,7 +78,7 @@ describe("MainClient Client", () => {
     const data = await client.game.getGenerationByName("generation-i");
 
     expectTypeOf(data).toMatchTypeOf<Generation>();
-    expect(data.id).toBe(Generations.GENERATION_I);
+    expect(data.id).toBe(GENERATIONS.GENERATION_I);
   });
 
   // Item Client

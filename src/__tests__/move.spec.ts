@@ -1,11 +1,11 @@
 import { MoveClient } from "../clients";
 import {
-  MoveAilmtents,
-  MoveBattleStyles,
-  MoveCategories,
-  MoveDamageClasses,
-  MoveLearnMethods,
-  MoveTargets,
+  MOVE_AILMENTS,
+  MOVE_BATTLE_STYLES,
+  MOVE_CATEGORIES,
+  MOVE_DAMAGE_CLASSES,
+  MOVE_LEARN_METHODS,
+  MOVE_TARGETS,
 } from "../constants";
 import {
   Move,
@@ -50,11 +50,12 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Move Ailment
   it("check if it returns a move ailment passing an ID", async () => {
-    const data = await client.getMoveAilmentById(MoveAilmtents.CONFUSION);
+    const data = await client.getMoveAilmentById(MOVE_AILMENTS.CONFUSION);
 
     expectTypeOf(data).toEqualTypeOf<MoveAilment>();
     expect(data.id).toBe(6);
@@ -64,7 +65,7 @@ describe("Move Client", () => {
     const data = await client.getMoveAilmentByName("confusion");
 
     expectTypeOf(data).toEqualTypeOf<MoveAilment>();
-    expect(data.id).toBe(MoveAilmtents.CONFUSION);
+    expect(data.id).toBe(MOVE_AILMENTS.CONFUSION);
   });
 
   it("check if it returns a list of move ailments", async () => {
@@ -72,11 +73,12 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Move Battle Style
   it("check if it returns a move battle style passing an ID", async () => {
-    const data = await client.getMoveBattleStyleById(MoveBattleStyles.ATTACK);
+    const data = await client.getMoveBattleStyleById(MOVE_BATTLE_STYLES.ATTACK);
 
     expectTypeOf(data).toEqualTypeOf<MoveBattleStyle>();
     expect(data.id).toBe(1);
@@ -86,7 +88,7 @@ describe("Move Client", () => {
     const data = await client.getMoveBattleStyleByName("attack");
 
     expectTypeOf(data).toEqualTypeOf<MoveBattleStyle>();
-    expect(data.id).toBe(MoveBattleStyles.ATTACK);
+    expect(data.id).toBe(MOVE_BATTLE_STYLES.ATTACK);
   });
 
   it("check if it returns a list of move battle styles", async () => {
@@ -94,11 +96,12 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Move Category
   it("check if it returns a move category passing an ID", async () => {
-    const data = await client.getMoveCategoryById(MoveCategories.DAMAGE);
+    const data = await client.getMoveCategoryById(MOVE_CATEGORIES.DAMAGE);
 
     expectTypeOf(data).toEqualTypeOf<MoveCategory>();
     expect(data.name).toBe("damage");
@@ -108,7 +111,7 @@ describe("Move Client", () => {
     const data = await client.getMoveCategoryByName("damage+heal");
 
     expectTypeOf(data).toEqualTypeOf<MoveCategory>();
-    expect(data.id).toBe(MoveCategories.DAMAGE_HEAL);
+    expect(data.id).toBe(MOVE_CATEGORIES.DAMAGE_HEAL);
   });
 
   it("check if it returns a list of move categories", async () => {
@@ -116,11 +119,12 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Move Damage Class
   it("check if it returns a move damage class passing an ID", async () => {
-    const data = await client.getMoveDamageClassById(MoveDamageClasses.PHYSICAL);
+    const data = await client.getMoveDamageClassById(MOVE_DAMAGE_CLASSES.PHYSICAL);
 
     expectTypeOf(data).toEqualTypeOf<MoveDamageClass>();
     expect(data.name).toBe("physical");
@@ -130,7 +134,7 @@ describe("Move Client", () => {
     const data = await client.getMoveDamageClassByName("special");
 
     expectTypeOf(data).toEqualTypeOf<MoveDamageClass>();
-    expect(data.id).toBe(MoveDamageClasses.SPECIAL);
+    expect(data.id).toBe(MOVE_DAMAGE_CLASSES.SPECIAL);
   });
 
   it("check if it returns a list of move damage classes", async () => {
@@ -138,11 +142,12 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Move Learn Method
   it("check if it returns a move learn method passing an ID", async () => {
-    const data = await client.getMoveLearnMethodById(MoveLearnMethods.MACHINE);
+    const data = await client.getMoveLearnMethodById(MOVE_LEARN_METHODS.MACHINE);
 
     expectTypeOf(data).toEqualTypeOf<MoveLearnMethod>();
     expect(data.name).toBe("machine");
@@ -152,7 +157,7 @@ describe("Move Client", () => {
     const data = await client.getMoveLearnMethodByName("machine");
 
     expectTypeOf(data).toEqualTypeOf<MoveLearnMethod>();
-    expect(data.id).toBe(MoveLearnMethods.MACHINE);
+    expect(data.id).toBe(MOVE_LEARN_METHODS.MACHINE);
   });
 
   it("check if it returns a list of move learn methods", async () => {
@@ -160,11 +165,12 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Move Target
   it("check if it returns a move target passing an ID", async () => {
-    const data = await client.getMoveTargetById(MoveTargets.ALLY);
+    const data = await client.getMoveTargetById(MOVE_TARGETS.ALLY);
 
     expectTypeOf(data).toEqualTypeOf<MoveTarget>();
     expect(data.name).toBe("ally");
@@ -174,7 +180,7 @@ describe("Move Client", () => {
     const data = await client.getMoveTargetByName("ally");
 
     expectTypeOf(data).toEqualTypeOf<MoveTarget>();
-    expect(data.id).toBe(MoveTargets.ALLY);
+    expect(data.id).toBe(MOVE_TARGETS.ALLY);
   });
 
   it("check if it returns a list of move targets", async () => {
@@ -182,6 +188,7 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   it("check if it returns a list of move targets", async () => {
@@ -189,5 +196,6 @@ describe("Move Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 });

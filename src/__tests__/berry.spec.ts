@@ -1,5 +1,5 @@
 import { BerryClient } from "../clients";
-import { Berries, BerryFirmnesses, BerryFlavors } from "../constants";
+import { BERRIES, BERRY_FIRMNESSES, BERRY_FLAVORS } from "../constants";
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from "../models";
 import { assertType, beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
@@ -20,11 +20,11 @@ describe("Berry Client", () => {
     const data = await client.getBerryByName("cheri");
 
     expectTypeOf(data).toEqualTypeOf<Berry>();
-    expect(data.id).toBe(Berries.CHERI);
+    expect(data.id).toBe(BERRIES.CHERI);
   });
 
   it("check if it returns a berry passing an ID", async () => {
-    const data = await client.getBerryById(Berries.CHERI);
+    const data = await client.getBerryById(BERRIES.CHERI);
 
     expectTypeOf(data).toEqualTypeOf<Berry>();
     expect(data.name).toBe("cheri");
@@ -33,7 +33,9 @@ describe("Berry Client", () => {
   it("check if it returns a list of berries", async () => {
     const data = await client.listBerries().then((response: NamedAPIResourceList) => response);
 
+    expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Berry Firmness
@@ -45,7 +47,7 @@ describe("Berry Client", () => {
   });
 
   it("check if it returns a berry firmness passing an ID", async () => {
-    const data = await client.getBerryFirmnessById(BerryFirmnesses.VERY_SOFT);
+    const data = await client.getBerryFirmnessById(BERRY_FIRMNESSES.VERY_SOFT);
 
     expectTypeOf(data).toEqualTypeOf<BerryFirmness>();
     expect(data.name).toBe("very-soft");
@@ -56,6 +58,7 @@ describe("Berry Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 
   // Berry Flavor
@@ -63,11 +66,11 @@ describe("Berry Client", () => {
     const data = await client.getBerryFlavorByName("spicy");
 
     expectTypeOf(data).toEqualTypeOf<BerryFlavor>();
-    expect(data.id).toBe(BerryFlavors.SPICY);
+    expect(data.id).toBe(BERRY_FLAVORS.SPICY);
   });
 
   it("check if it returns a berry flavor passing an ID", async () => {
-    const data = await client.getBerryFlavorById(BerryFlavors.SPICY);
+    const data = await client.getBerryFlavorById(BERRY_FLAVORS.SPICY);
 
     expectTypeOf(data).toEqualTypeOf<BerryFlavor>();
     expect(data.name).toBe("spicy");
@@ -78,5 +81,6 @@ describe("Berry Client", () => {
 
     expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
+    expect(data.results.length).toBeLessThanOrEqual(20);
   });
 });
