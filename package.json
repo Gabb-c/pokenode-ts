@@ -3,12 +3,7 @@
   "version": "1.19.0",
   "private": false,
   "description": "A lightweight Node.js wrapper for the PokéAPI with built-in types.",
-  "keywords": [
-    "pokeapi",
-    "PokéAPI",
-    "pokemon",
-    "pokedex"
-  ],
+  "keywords": ["pokeapi", "PokéAPI", "pokemon", "pokedex"],
   "homepage": "https://pokenode-ts.vercel.app/",
   "bugs": {
     "url": "https://github.com/Gabb-c/pokenode-ts/issues"
@@ -37,9 +32,7 @@
   "main": "lib/index.cjs",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": [
-    "lib"
-  ],
+  "files": ["lib"],
   "scripts": {
     "build": "tsup --config tsup.config.ts",
     "docs:build": "vitepress build docs",
