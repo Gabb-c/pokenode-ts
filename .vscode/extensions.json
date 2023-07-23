@@ -9,6 +9,7 @@
     "ms-vscode.js-debug-nightly",
     "yzhang.markdown-all-in-one",
     "christian-kohler.path-intellisense",
-    "rome.rome"
+    "rome.rome",
+    "zixuanchen.vitest-explorer"
   ],
 }

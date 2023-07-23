@@ -10,5 +10,6 @@
   },
   "[markdown]": {
     "editor.defaultFormatter": "yzhang.markdown-all-in-one"
-  }
+  },
+  "testing.automaticallyOpenPeekView": "never"
 }
