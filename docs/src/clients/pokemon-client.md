@@ -2,7 +2,7 @@
 
 ## Usage
 
-The Pokemon Client provide methods to access the [Pokémon Endpoinds](https://pokeapi.co/docs/v2#pokemon-section):
+The Pokemon Client provides methods to access the [Pokémon Endpoints](https://pokeapi.co/docs/v2#pokemon-section):
 
 - `getAbilityByName`
 - `getAbilityById`
