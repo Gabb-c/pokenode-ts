@@ -24,7 +24,6 @@
     "url": "https://github.com/Gabb-c"
   },
   "sideEffects": false,
-  "type": "module",
   "exports": {
     ".": {
       "import": "./lib/index.mjs",
