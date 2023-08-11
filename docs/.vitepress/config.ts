@@ -9,7 +9,7 @@ import { headConfig } from "./head-config";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const readSvg = (path: string): string => readFileSync(require.resolve(path), "utf-8");
+// const readSvg = (path: string): string => readFileSync(require.resolve(path), "utf-8");
 
 export default withPwa(
   defineConfig({
@@ -30,16 +30,16 @@ export default withPwa(
       },
       socialLinks: [
         { icon: "github", link: SOCIAL_LINKS.GITHUB },
-        { icon: { svg: readSvg("../src/public/npm-icon.svg") }, link: SOCIAL_LINKS.NPM },
-        { icon: { svg: readSvg("../src/public/jsdelivr-icon.svg") }, link: SOCIAL_LINKS.JSDELIVR },
-        {
-          icon: { svg: readSvg("../src/public/bundlephobia-icon.svg") },
-          link: SOCIAL_LINKS.BUNDLEPHOBIA,
-        },
-        {
-          icon: { svg: readSvg("../src/public/packagephobia-icon.svg") },
-          link: SOCIAL_LINKS.PACKAGEPHOBIA,
-        },
+        // { icon: { svg: readSvg("../src/public/npm-icon.svg") }, link: SOCIAL_LINKS.NPM },
+        // { icon: { svg: readSvg("../src/public/jsdelivr-icon.svg") }, link: SOCIAL_LINKS.JSDELIVR },
+        // {
+        //   icon: { svg: readSvg("../src/public/bundlephobia-icon.svg") },
+        //   link: SOCIAL_LINKS.BUNDLEPHOBIA,
+        // },
+        // {
+        //   icon: { svg: readSvg("../src/public/packagephobia-icon.svg") },
+        //   link: SOCIAL_LINKS.PACKAGEPHOBIA,
+        // },
       ],
       editLink: {
         pattern: `${repository.url}/vitepress/edit/main/docs/src/:path`,
