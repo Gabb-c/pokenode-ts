@@ -19,7 +19,7 @@ jobs:
           run_install: false
 
       - name: Set up Node
-        uses: actions/setup-node@v3.7.0
+        uses: actions/setup-node@v3.8.0
         with:
           node-version: lts/gallium
           cache: pnpm
