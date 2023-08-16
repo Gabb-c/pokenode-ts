@@ -5,9 +5,13 @@ import { SOCIAL_LINKS } from "./social-links";
 import { headConfig } from "./head-config";
 
 import * as dotenv from "dotenv";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
 dotenv.config();
 
-// const readSvg = (path: string): string => readFileSync(require.resolve(path), "utf-8");
+const readSvg = (fileName: string): string =>
+  readFileSync(resolve(`./docs/.vitepress/assets/${fileName}`), "utf-8");
 
 export default defineConfig({
   title: "Pokenode-ts",
@@ -27,16 +31,19 @@ export default defineConfig({
     },
     socialLinks: [
       { icon: "github", link: SOCIAL_LINKS.GITHUB },
-      // { icon: { svg: readSvg("../src/public/npm-icon.svg") }, link: SOCIAL_LINKS.NPM },
-      // { icon: { svg: readSvg("../src/public/jsdelivr-icon.svg") }, link: SOCIAL_LINKS.JSDELIVR },
-      // {
-      //   icon: { svg: readSvg("../src/public/bundlephobia-icon.svg") },
-      //   link: SOCIAL_LINKS.BUNDLEPHOBIA,
-      // },
-      // {
-      //   icon: { svg: readSvg("../src/public/packagephobia-icon.svg") },
-      //   link: SOCIAL_LINKS.PACKAGEPHOBIA,
-      // },
+      { icon: { svg: readSvg("npm-icon.svg") }, link: SOCIAL_LINKS.NPM },
+      {
+        icon: { svg: readSvg("jsdelivr-icon.svg") },
+        link: SOCIAL_LINKS.JSDELIVR,
+      },
+      {
+        icon: { svg: readSvg("bundlephobia-icon.svg") },
+        link: SOCIAL_LINKS.BUNDLEPHOBIA,
+      },
+      {
+        icon: { svg: readSvg("packagephobia-icon.svg") },
+        link: SOCIAL_LINKS.PACKAGEPHOBIA,
+      },
     ],
     editLink: {
       pattern: `${repository.url}/vitepress/edit/main/docs/src/:path`,
