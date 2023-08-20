@@ -1,10 +1,3 @@
-import {
-  handleRequest,
-  handleRequestError,
-  handleResponse,
-  handleResponseError,
-} from "../config/logger";
-import { BaseURL } from "../constants";
 import axios, { AxiosError } from "axios";
 import {
   AxiosCacheInstance,
@@ -14,6 +7,13 @@ import {
   setupCache,
 } from "axios-cache-interceptor";
 
+import {
+  handleRequest,
+  handleRequestError,
+  handleResponse,
+  handleResponseError,
+} from "../config/logger";
+import { BASE_URL } from "../constants";
 import { ENDPOINTS } from "../constants";
 
 type ObjectValue<T> = T[keyof T];
@@ -50,7 +50,7 @@ export class BaseClient {
   constructor(clientOptions?: ClientArgs) {
     this.api = setupCache(
       axios.create({
-        baseURL: clientOptions?.baseURL ?? BaseURL.REST,
+        baseURL: clientOptions?.baseURL ?? BASE_URL.REST,
         headers: {
           "Content-Type": "application/json",
         },
