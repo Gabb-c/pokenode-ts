@@ -16,22 +16,22 @@ devDependencies:
     version: 17.7.0
   '@semantic-release/changelog':
     specifier: ^6.0.3
-    version: 6.0.3(semantic-release@21.0.9)
+    version: 6.0.3(semantic-release@21.1.1)
   '@semantic-release/commit-analyzer':
     specifier: ^10.0.1
-    version: 10.0.1(semantic-release@21.0.9)
+    version: 10.0.1(semantic-release@21.1.1)
   '@semantic-release/git':
     specifier: ^10.0.1
-    version: 10.0.1(semantic-release@21.0.9)
+    version: 10.0.1(semantic-release@21.1.1)
   '@semantic-release/github':
     specifier: ^9.0.4
-    version: 9.0.4(semantic-release@21.0.9)
+    version: 9.0.4(semantic-release@21.1.1)
   '@semantic-release/npm':
     specifier: ^10.0.5
-    version: 10.0.5(semantic-release@21.0.9)
+    version: 10.0.5(semantic-release@21.1.1)
   '@semantic-release/release-notes-generator':
     specifier: ^11.0.4
-    version: 11.0.4(semantic-release@21.0.9)
+    version: 11.0.4(semantic-release@21.1.1)
   '@size-limit/preset-small-lib':
     specifier: ^8.2.6
     version: 8.2.6(size-limit@8.2.6)
@@ -42,8 +42,8 @@ devDependencies:
     specifier: ^3.0.0
     version: 3.0.0
   '@types/node':
-    specifier: ^20.5.1
-    version: 20.5.1
+    specifier: ^20.5.4
+    version: 20.5.4
   '@vitest/coverage-c8':
     specifier: ^0.33.0
     version: 0.33.0(vitest@0.34.2)
@@ -75,14 +75,14 @@ devDependencies:
     specifier: ^3.0.1
     version: 3.0.1
   lint-staged:
-    specifier: ^14.0.0
-    version: 14.0.0
+    specifier: ^14.0.1
+    version: 14.0.1
   rome:
     specifier: ^12.1.3
     version: 12.1.3
   semantic-release:
-    specifier: ^21.0.9
-    version: 21.0.9
+    specifier: ^21.1.1
+    version: 21.1.1
   size-limit:
     specifier: ^8.2.6
     version: 8.2.6
@@ -91,16 +91,16 @@ devDependencies:
     version: 2.5.1
   tsup:
     specifier: ^7.2.0
-    version: 7.2.0(@swc/core@1.3.78)(ts-node@10.9.1)(typescript@5.1.6)
+    version: 7.2.0(@swc/core@1.3.78)(ts-node@10.9.1)(typescript@5.2.2)
   typescript:
-    specifier: ^5.1.6
-    version: 5.1.6
+    specifier: ^5.2.2
+    version: 5.2.2
   vite-tsconfig-paths:
     specifier: ^4.2.0
-    version: 4.2.0(typescript@5.1.6)(vite@4.4.9)
+    version: 4.2.0(typescript@5.2.2)(vite@4.4.9)
   vitepress:
     specifier: 1.0.0-rc.4
-    version: 1.0.0-rc.4(@algolia/client-search@4.19.1)(@types/node@20.5.1)(axios@1.4.0)(search-insights@2.7.0)
+    version: 1.0.0-rc.4(@algolia/client-search@4.19.1)(@types/node@20.5.4)(axios@1.4.0)(search-insights@2.7.0)
   vitest:
     specifier: ^0.34.2
     version: 0.34.2(@vitest/ui@0.34.2)
@@ -394,13 +394,13 @@ packages:
       '@types/node': 20.4.7
       chalk: 4.1.2
       cosmiconfig: 8.2.0
-      cosmiconfig-typescript-loader: 4.4.0(@types/node@20.4.7)(cosmiconfig@8.2.0)(ts-node@10.9.1)(typescript@5.1.6)
+      cosmiconfig-typescript-loader: 4.4.0(@types/node@20.4.7)(cosmiconfig@8.2.0)(ts-node@10.9.1)(typescript@5.2.2)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
       resolve-from: 5.0.0
-      ts-node: 10.9.1(@swc/core@1.3.78)(@types/node@20.5.1)(typescript@5.1.6)
-      typescript: 5.1.6
+      ts-node: 10.9.1(@swc/core@1.3.78)(@types/node@20.5.4)(typescript@5.2.2)
+      typescript: 5.2.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -960,7 +960,7 @@ packages:
     dev: true
     optional: true
 
-  /@semantic-release/changelog@6.0.3(semantic-release@21.0.9):
+  /@semantic-release/changelog@6.0.3(semantic-release@21.1.1):
     resolution: {integrity: sha512-dZuR5qByyfe3Y03TpmCvAxCyTnp7r5XwtHRf/8vD9EAn4ZWbavUX8adMtXYzE86EVh0gyLA7lm5yW4IV30XUag==}
     engines: {node: '>=14.17'}
     peerDependencies:
@@ -970,10 +970,10 @@ packages:
       aggregate-error: 3.1.0
       fs-extra: 11.1.1
       lodash: 4.17.21
-      semantic-release: 21.0.9
+      semantic-release: 21.1.1
     dev: true
 
-  /@semantic-release/commit-analyzer@10.0.1(semantic-release@21.0.9):
+  /@semantic-release/commit-analyzer@10.0.1(semantic-release@21.1.1):
     resolution: {integrity: sha512-9ejHzTAijYs9z246sY/dKBatmOPcd0GQ7lH4MgLCkv1q4GCiDZRkjHJkaQZXZVaK7mJybS+sH3Ng6G8i3pYMGQ==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -986,7 +986,7 @@ packages:
       import-from: 4.0.0
       lodash-es: 4.17.21
       micromatch: 4.0.5
-      semantic-release: 21.0.9
+      semantic-release: 21.1.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1001,7 +1001,7 @@ packages:
     engines: {node: '>=18'}
     dev: true
 
-  /@semantic-release/git@10.0.1(semantic-release@21.0.9):
+  /@semantic-release/git@10.0.1(semantic-release@21.1.1):
     resolution: {integrity: sha512-eWrx5KguUcU2wUPaO6sfvZI0wPafUKAMNC18aXY4EnNcrZL86dEmpNVnC9uMpGZkmZJ9EfCVJBQx4pV4EMGT1w==}
     engines: {node: '>=14.17'}
     peerDependencies:
@@ -1015,12 +1015,12 @@ packages:
       lodash: 4.17.21
       micromatch: 4.0.5
       p-reduce: 2.1.0
-      semantic-release: 21.0.9
+      semantic-release: 21.1.1
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@semantic-release/github@9.0.4(semantic-release@21.0.9):
+  /@semantic-release/github@9.0.4(semantic-release@21.1.1):
     resolution: {integrity: sha512-kQCGFAsBErvCR6hzNuzu63cj4erQN2krm9zQlg8vl4j5X0mL0d/Ras0wmL5Gkr1TuSS2lweME7M4J5zvtDDDSA==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -1041,13 +1041,13 @@ packages:
       lodash-es: 4.17.21
       mime: 3.0.0
       p-filter: 3.0.0
-      semantic-release: 21.0.9
+      semantic-release: 21.1.1
       url-join: 5.0.0
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@semantic-release/npm@10.0.5(semantic-release@21.0.9):
+  /@semantic-release/npm@10.0.5(semantic-release@21.1.1):
     resolution: {integrity: sha512-cJnQ2M5pxJRwZEkb0A/+U3TG4UNmjrrLwV2PxJKljn5OPT0yJB8GzGgWbbKACayvxrT06YdTa4Amtq/piJcOIA==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -1064,12 +1064,12 @@ packages:
       rc: 1.2.8
       read-pkg: 8.0.0
       registry-auth-token: 5.0.2
-      semantic-release: 21.0.9
+      semantic-release: 21.1.1
       semver: 7.5.4
       tempy: 3.1.0
     dev: true
 
-  /@semantic-release/release-notes-generator@11.0.4(semantic-release@21.0.9):
+  /@semantic-release/release-notes-generator@11.0.4(semantic-release@21.1.1):
     resolution: {integrity: sha512-j0Znnwq9IdWTCGzqSlkLv4MpALTsVDZxcVESzJCNN8pK2BYQlYaKsdZ1Ea/+7RlppI3vjhEi33ZKmjSGY1FLKw==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -1085,7 +1085,7 @@ packages:
       into-stream: 7.0.0
       lodash-es: 4.17.21
       read-pkg-up: 10.0.0
-      semantic-release: 21.0.9
+      semantic-release: 21.1.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1281,8 +1281,8 @@ packages:
     resolution: {integrity: sha512-bUBrPjEry2QUTsnuEjzjbS7voGWCc30W0qzgMf90GPeDGFRakvrz47ju+oqDAKCXLUCe39u57/ORMl/O/04/9g==}
     dev: true
 
-  /@types/node@20.5.1:
-    resolution: {integrity: sha512-4tT2UrL5LBqDwoed9wZ6N3umC4Yhz3W3FloMmiiG4JwmUJWpie0c7lcnUNd4gtMKuDEO4wRVS8B6Xa0uMRsMKg==}
+  /@types/node@20.5.4:
+    resolution: {integrity: sha512-Y9vbIAoM31djQZrPYjpTLo0XlaSwOIsrlfE3LpulZeRblttsLQRFRlBAppW0LOxyT3ALj2M5vU1ucQQayQH3jA==}
     dev: true
 
   /@types/normalize-package-data@2.4.1:
@@ -1300,7 +1300,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.9(@types/node@20.5.1)
+      vite: 4.4.9(@types/node@20.5.4)
       vue: 3.3.4
     dev: true
 
@@ -2076,7 +2076,7 @@ packages:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
     dev: true
 
-  /cosmiconfig-typescript-loader@4.4.0(@types/node@20.4.7)(cosmiconfig@8.2.0)(ts-node@10.9.1)(typescript@5.1.6):
+  /cosmiconfig-typescript-loader@4.4.0(@types/node@20.4.7)(cosmiconfig@8.2.0)(ts-node@10.9.1)(typescript@5.2.2):
     resolution: {integrity: sha512-BabizFdC3wBHhbI4kJh0VkQP9GkBfoHPydD0COMce1nJ1kJAB3F2TmJ/I7diULBKtmEWSwEbuN/KDtgnmUUVmw==}
     engines: {node: '>=v14.21.3'}
     peerDependencies:
@@ -2087,8 +2087,8 @@ packages:
     dependencies:
       '@types/node': 20.4.7
       cosmiconfig: 8.2.0
-      ts-node: 10.9.1(@swc/core@1.3.78)(@types/node@20.5.1)(typescript@5.1.6)
-      typescript: 5.1.6
+      ts-node: 10.9.1(@swc/core@1.3.78)(@types/node@20.5.4)(typescript@5.2.2)
+      typescript: 5.2.2
     dev: true
 
   /cosmiconfig@8.2.0:
@@ -3021,8 +3021,8 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: true
 
-  /lint-staged@14.0.0:
-    resolution: {integrity: sha512-0tLf0pqZYkar/wu3nTctk4rVIG+d7PanDYv4/IQR4qwdqfQkTDziLRFnqMcLuLBTuUqmcLwsHPD2EjQ18d/oaA==}
+  /lint-staged@14.0.1:
+    resolution: {integrity: sha512-Mw0cL6HXnHN1ag0mN/Dg4g6sr8uf8sn98w2Oc1ECtFto9tvRF7nkXGJRbx8gPlHyoR0pLyBr2lQHbWwmUHe1Sw==}
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
       chalk: 5.3.0
@@ -3801,7 +3801,7 @@ packages:
         optional: true
     dependencies:
       lilconfig: 2.1.0
-      ts-node: 10.9.1(@swc/core@1.3.78)(@types/node@20.5.1)(typescript@5.1.6)
+      ts-node: 10.9.1(@swc/core@1.3.78)(@types/node@20.5.4)(typescript@5.2.2)
       yaml: 2.3.1
     dev: true
 
@@ -4050,15 +4050,15 @@ packages:
     engines: {node: '>=8.16.0'}
     dev: true
 
-  /semantic-release@21.0.9:
-    resolution: {integrity: sha512-EnylO0+UcKbVFaHeMbCjJpxqpgJPnze4zoOwmj34Kv4GnuyTV9MkNKrwmdZPFbmom9PpMj+9JN/8eyZzKkKyZQ==}
+  /semantic-release@21.1.1:
+    resolution: {integrity: sha512-OCIazQnaCHdq1F6zfmKS0P7jZakYq0weiqW2mxUWo4H2CDnxelUoa/0Bs/dQatoHc6JFh6lG2HWpusdl93bFcw==}
     engines: {node: '>=18'}
     dependencies:
-      '@semantic-release/commit-analyzer': 10.0.1(semantic-release@21.0.9)
+      '@semantic-release/commit-analyzer': 10.0.1(semantic-release@21.1.1)
       '@semantic-release/error': 4.0.0
-      '@semantic-release/github': 9.0.4(semantic-release@21.0.9)
-      '@semantic-release/npm': 10.0.5(semantic-release@21.0.9)
-      '@semantic-release/release-notes-generator': 11.0.4(semantic-release@21.0.9)
+      '@semantic-release/github': 9.0.4(semantic-release@21.1.1)
+      '@semantic-release/npm': 10.0.5(semantic-release@21.1.1)
+      '@semantic-release/release-notes-generator': 11.0.4(semantic-release@21.1.1)
       aggregate-error: 4.0.1
       cosmiconfig: 8.2.0
       debug: 4.3.4
@@ -4529,7 +4529,7 @@ packages:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
     dev: true
 
-  /ts-node@10.9.1(@swc/core@1.3.78)(@types/node@20.5.1)(typescript@5.1.6):
+  /ts-node@10.9.1(@swc/core@1.3.78)(@types/node@20.5.4)(typescript@5.2.2):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     peerDependencies:
       '@swc/core': '>=1.2.50'
@@ -4548,19 +4548,19 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 20.5.1
+      '@types/node': 20.5.4
       acorn: 8.10.0
       acorn-walk: 8.2.0
       arg: 4.1.3
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
-      typescript: 5.1.6
+      typescript: 5.2.2
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: true
 
-  /tsconfck@2.1.2(typescript@5.1.6):
+  /tsconfck@2.1.2(typescript@5.2.2):
     resolution: {integrity: sha512-ghqN1b0puy3MhhviwO2kGF8SeMDNhEbnKxjK7h6+fvY9JAxqvXi8y5NAHSQv687OVboS2uZIByzGd45/YxrRHg==}
     engines: {node: ^14.13.1 || ^16 || >=18}
     peerDependencies:
@@ -4569,10 +4569,10 @@ packages:
       typescript:
         optional: true
     dependencies:
-      typescript: 5.1.6
+      typescript: 5.2.2
     dev: true
 
-  /tsup@7.2.0(@swc/core@1.3.78)(ts-node@10.9.1)(typescript@5.1.6):
+  /tsup@7.2.0(@swc/core@1.3.78)(ts-node@10.9.1)(typescript@5.2.2):
     resolution: {integrity: sha512-vDHlczXbgUvY3rWvqFEbSqmC1L7woozbzngMqTtL2PGBODTtWlRwGDDawhvWzr5c1QjKe4OAKqJGfE1xeXUvtQ==}
     engines: {node: '>=16.14'}
     peerDependencies:
@@ -4602,7 +4602,7 @@ packages:
       source-map: 0.8.0-beta.0
       sucrase: 3.34.0
       tree-kill: 1.2.2
-      typescript: 5.1.6
+      typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -4643,8 +4643,8 @@ packages:
     engines: {node: '>=14.16'}
     dev: true
 
-  /typescript@5.1.6:
-    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
+  /typescript@5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     dev: true
 
@@ -4710,7 +4710,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite-node@0.34.2(@types/node@20.5.1):
+  /vite-node@0.34.2(@types/node@20.5.4):
     resolution: {integrity: sha512-JtW249Zm3FB+F7pQfH56uWSdlltCo1IOkZW5oHBzeQo0iX4jtC7o1t9aILMGd9kVekXBP2lfJBEQt9rBh07ebA==}
     engines: {node: '>=v14.18.0'}
     dependencies:
@@ -4719,7 +4719,7 @@ packages:
       mlly: 1.4.0
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 4.4.9(@types/node@20.5.1)
+      vite: 4.4.9(@types/node@20.5.4)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4731,7 +4731,7 @@ packages:
       - terser
     dev: true
 
-  /vite-tsconfig-paths@4.2.0(typescript@5.1.6)(vite@4.4.9):
+  /vite-tsconfig-paths@4.2.0(typescript@5.2.2)(vite@4.4.9):
     resolution: {integrity: sha512-jGpus0eUy5qbbMVGiTxCL1iB9ZGN6Bd37VGLJU39kTDD6ZfULTTb1bcc5IeTWqWJKiWV5YihCaibeASPiGi8kw==}
     peerDependencies:
       vite: '*'
@@ -4741,14 +4741,14 @@ packages:
     dependencies:
       debug: 4.3.4
       globrex: 0.1.2
-      tsconfck: 2.1.2(typescript@5.1.6)
-      vite: 4.4.9(@types/node@20.5.1)
+      tsconfck: 2.1.2(typescript@5.2.2)
+      vite: 4.4.9(@types/node@20.5.4)
     transitivePeerDependencies:
       - supports-color
       - typescript
     dev: true
 
-  /vite@4.4.9(@types/node@20.5.1):
+  /vite@4.4.9(@types/node@20.5.4):
     resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -4775,7 +4775,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.5.1
+      '@types/node': 20.5.4
       esbuild: 0.18.20
       postcss: 8.4.27
       rollup: 3.28.0
@@ -4783,7 +4783,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitepress@1.0.0-rc.4(@algolia/client-search@4.19.1)(@types/node@20.5.1)(axios@1.4.0)(search-insights@2.7.0):
+  /vitepress@1.0.0-rc.4(@algolia/client-search@4.19.1)(@types/node@20.5.4)(axios@1.4.0)(search-insights@2.7.0):
     resolution: {integrity: sha512-JCQ89Bm6ECUTnyzyas3JENo00UDJeK8q1SUQyJYou+4Yz5BKEc/F3O21cu++DnUT2zXc0kvQ2Aj4BZCc/nioXQ==}
     dependencies:
       '@docsearch/css': 3.5.1
@@ -4797,7 +4797,7 @@ packages:
       mark.js: 8.11.1
       minisearch: 6.1.0
       shiki: 0.14.3
-      vite: 4.4.9(@types/node@20.5.1)
+      vite: 4.4.9(@types/node@20.5.4)
       vue: 3.3.4
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -4858,7 +4858,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.5
       '@types/chai-subset': 1.3.3
-      '@types/node': 20.5.1
+      '@types/node': 20.5.4
       '@vitest/expect': 0.34.2
       '@vitest/runner': 0.34.2
       '@vitest/snapshot': 0.34.2
@@ -4878,8 +4878,8 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.5.0
       tinypool: 0.7.0
-      vite: 4.4.9(@types/node@20.5.1)
-      vite-node: 0.34.2(@types/node@20.5.1)
+      vite: 4.4.9(@types/node@20.5.4)
+      vite-node: 0.34.2(@types/node@20.5.4)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
