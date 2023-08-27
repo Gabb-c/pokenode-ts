@@ -39,3 +39,6 @@ jobs:
 
       - name: Build
         run: pnpm size
+
+      - name: Build Docs
+        run: pnpm docs:build
