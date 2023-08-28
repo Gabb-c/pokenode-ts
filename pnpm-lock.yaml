@@ -19,7 +19,7 @@ devDependencies:
     version: 6.0.3(semantic-release@21.1.1)
   '@semantic-release/commit-analyzer':
     specifier: ^10.0.3
-    version: 10.0.3(semantic-release@21.1.1)
+    version: 10.0.4(semantic-release@21.1.1)
   '@semantic-release/git':
     specifier: ^10.0.1
     version: 10.0.1(semantic-release@21.1.1)
@@ -976,15 +976,15 @@ packages:
       semantic-release: 21.1.1
     dev: true
 
-  /@semantic-release/commit-analyzer@10.0.3(semantic-release@21.1.1):
-    resolution: {integrity: sha512-pe45eTjaJBsZbJrT6AvcTzYYS9OJF3MGABTPFSpwmnfSXVmyfFuloO92pj6EVTbx6JGEUgpoipnITbWn+zyvaw==}
+  /@semantic-release/commit-analyzer@10.0.4(semantic-release@21.1.1):
+    resolution: {integrity: sha512-pFGn99fn8w4/MHE0otb2A/l5kxgOuxaaauIh4u30ncoTJuqWj4hXTgEJ03REqjS+w1R2vPftSsO26WC61yOcpw==}
     engines: {node: '>=18'}
     peerDependencies:
       semantic-release: '>=20.1.0'
     dependencies:
       conventional-changelog-angular: 6.0.0
       conventional-commits-filter: 3.0.0
-      conventional-commits-parser: 4.0.0
+      conventional-commits-parser: 5.0.0
       debug: 4.3.4
       import-from: 4.0.0
       lodash-es: 4.17.21
@@ -4079,7 +4079,7 @@ packages:
     resolution: {integrity: sha512-OCIazQnaCHdq1F6zfmKS0P7jZakYq0weiqW2mxUWo4H2CDnxelUoa/0Bs/dQatoHc6JFh6lG2HWpusdl93bFcw==}
     engines: {node: '>=18'}
     dependencies:
-      '@semantic-release/commit-analyzer': 10.0.3(semantic-release@21.1.1)
+      '@semantic-release/commit-analyzer': 10.0.4(semantic-release@21.1.1)
       '@semantic-release/error': 4.0.0
       '@semantic-release/github': 9.0.4(semantic-release@21.1.1)
       '@semantic-release/npm': 10.0.5(semantic-release@21.1.1)
@@ -4569,6 +4569,7 @@ packages:
 
   /ts-node@10.9.1(@swc/core@1.3.80)(@types/node@20.5.7)(typescript@5.2.2):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
     peerDependencies:
       '@swc/core': '>=1.2.50'
       '@swc/wasm': '>=1.2.50'
@@ -4601,6 +4602,7 @@ packages:
   /tsconfck@2.1.2(typescript@5.2.2):
     resolution: {integrity: sha512-ghqN1b0puy3MhhviwO2kGF8SeMDNhEbnKxjK7h6+fvY9JAxqvXi8y5NAHSQv687OVboS2uZIByzGd45/YxrRHg==}
     engines: {node: ^14.13.1 || ^16 || >=18}
+    hasBin: true
     peerDependencies:
       typescript: ^4.3.5 || ^5.0.0
     peerDependenciesMeta:
@@ -4613,6 +4615,7 @@ packages:
   /tsup@7.2.0(@swc/core@1.3.80)(ts-node@10.9.1)(typescript@5.2.2):
     resolution: {integrity: sha512-vDHlczXbgUvY3rWvqFEbSqmC1L7woozbzngMqTtL2PGBODTtWlRwGDDawhvWzr5c1QjKe4OAKqJGfE1xeXUvtQ==}
     engines: {node: '>=16.14'}
+    hasBin: true
     peerDependencies:
       '@swc/core': ^1
       postcss: ^8.4.12
@@ -4867,6 +4870,7 @@ packages:
   /vitest@0.34.3(@vitest/ui@0.34.3):
     resolution: {integrity: sha512-7+VA5Iw4S3USYk+qwPxHl8plCMhA5rtfwMjgoQXMT7rO5ldWcdsdo3U1QD289JgglGK4WeOzgoLTsGFu6VISyQ==}
     engines: {node: '>=v14.18.0'}
+    hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
       '@vitest/browser': '*'
