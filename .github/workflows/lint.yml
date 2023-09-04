@@ -32,11 +32,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint (Rome)
-        run: pnpm lint
+      - name: Lint
+        run: pnpm lint:ci
 
-      - name: Format (Rome)
-        run: pnpm format
-
-      - name: Typecheck (tsc)
+      - name: Typecheck
         run: pnpm lint:tsc

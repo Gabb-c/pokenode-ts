@@ -48,6 +48,7 @@
     "format": "rome format ./src",
     "format:fix": "rome format --write ./src",
     "lint": "rome check src",
+    "lint:ci": "rome ci",
     "lint:fix": "rome check --apply-unsafe ./src",
     "lint:pkg": "sort-package-json",
     "lint:tsc": "tsc --extendedDiagnostics",
