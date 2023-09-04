@@ -1,4 +1,4 @@
-import { BaseClient, ClientArgs } from "../structures/base";
+import { BaseClient, ClientArgs } from "./base";
 import { BerryClient } from "./berry.client";
 import { ContestClient } from "./contest.client";
 import { EncounterClient } from "./encounter.client";

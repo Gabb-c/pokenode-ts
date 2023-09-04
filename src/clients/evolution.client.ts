@@ -1,6 +1,6 @@
 import { ENDPOINTS } from "../constants";
 import { EvolutionChain, EvolutionTrigger, NamedAPIResourceList } from "../models";
-import { BaseClient } from "../structures/base";
+import { BaseClient } from "./base";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**

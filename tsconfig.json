@@ -32,9 +32,6 @@
       "@models/*": [
         "src/models/*"
       ],
-      "@structures/*": [
-        "src/structures/*"
-      ]
     }
   },
   "include": [

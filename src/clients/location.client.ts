@@ -1,6 +1,6 @@
 import { ENDPOINTS } from "../constants";
 import { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from "../models";
-import { BaseClient } from "../structures/base";
+import { BaseClient } from "./base";
 import { AxiosError, AxiosResponse } from "axios";
 
 /**

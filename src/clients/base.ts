@@ -13,8 +13,8 @@ import {
   handleResponse,
   handleResponseError,
 } from "../config/logger";
-import { BASE_URL } from "../constants";
-import { ENDPOINTS } from "../constants";
+import { BASE_URL, ENDPOINTS } from "../constants";
+import { NamedAPIResourceList } from "../models/Common/resource";
 
 type ObjectValue<T> = T[keyof T];
 type Endpoint = ObjectValue<typeof ENDPOINTS>;
@@ -71,5 +71,18 @@ export class BaseClient {
 
   protected getListURL(endpoint: Endpoint, offset?: number, limit?: number): string {
     return `${endpoint}?offset=${offset ?? 0}&limit=${limit ?? 20}`;
+  }
+
+  protected async getResource<T>(endpoint: string, identifier: string | number): Promise<T> {
+    return (await this.api.get<T>(`${endpoint}/${identifier}`)).data;
+  }
+
+  protected async getListResource(
+    endpoint: Endpoint,
+    offset = 0,
+    limit = 20,
+  ): Promise<NamedAPIResourceList> {
+    return (await this.api.get<NamedAPIResourceList>(`${endpoint}?offset=${offset}&limit=${limit}`))
+      .data;
   }
 }

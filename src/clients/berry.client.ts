@@ -1,7 +1,6 @@
 import { ENDPOINTS } from "../constants";
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from "../models";
-import { BaseClient } from "../structures/base";
-import { AxiosError, AxiosResponse } from "axios";
+import { BaseClient } from "./base";
 
 /**
  * ### Berry Client
@@ -20,12 +19,7 @@ export class BerryClient extends BaseClient {
    * @returns A Berry
    */
   public async getBerryByName(name: string): Promise<Berry> {
-    return new Promise<Berry>((resolve, reject) => {
-      this.api
-        .get<Berry>(`${ENDPOINTS.BERRY}/${name}`)
-        .then((response: AxiosResponse<Berry>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.BERRY, name);
   }
 
   /**
@@ -34,12 +28,7 @@ export class BerryClient extends BaseClient {
    * @returns A Berry
    */
   public async getBerryById(id: number): Promise<Berry> {
-    return new Promise<Berry>((resolve, reject) => {
-      this.api
-        .get<Berry>(`${ENDPOINTS.BERRY}/${id}`)
-        .then((response: AxiosResponse<Berry>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.BERRY, id);
   }
 
   /**
@@ -48,12 +37,7 @@ export class BerryClient extends BaseClient {
    * @returns Berry Firmness
    */
   public async getBerryFirmnessById(id: number): Promise<BerryFirmness> {
-    return new Promise<BerryFirmness>((resolve, reject) => {
-      this.api
-        .get<BerryFirmness>(`${ENDPOINTS.BERRY_FIRMNESS}/${id}`)
-        .then((response: AxiosResponse<BerryFirmness>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.BERRY_FIRMNESS, id);
   }
 
   /**
@@ -62,12 +46,7 @@ export class BerryClient extends BaseClient {
    * @returns Berry Firmness
    */
   public async getBerryFirmnessByName(name: string): Promise<BerryFirmness> {
-    return new Promise<BerryFirmness>((resolve, reject) => {
-      this.api
-        .get<BerryFirmness>(`${ENDPOINTS.BERRY_FIRMNESS}/${name}`)
-        .then((response: AxiosResponse<BerryFirmness>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.BERRY_FIRMNESS, name);
   }
 
   /**
@@ -77,12 +56,7 @@ export class BerryClient extends BaseClient {
    * @returns Berry Flavor
    */
   public async getBerryFlavorById(id: number): Promise<BerryFlavor> {
-    return new Promise<BerryFlavor>((resolve, reject) => {
-      this.api
-        .get<BerryFlavor>(`${ENDPOINTS.BERRY_FLAVOR}/${id}`)
-        .then((response: AxiosResponse<BerryFlavor>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.BERRY_FLAVOR, id);
   }
 
   /**
@@ -92,12 +66,7 @@ export class BerryClient extends BaseClient {
    * @returns Berry Flavor
    */
   public async getBerryFlavorByName(name: string): Promise<BerryFlavor> {
-    return new Promise<BerryFlavor>((resolve, reject) => {
-      this.api
-        .get<BerryFlavor>(`${ENDPOINTS.BERRY_FLAVOR}/${name}`)
-        .then((response: AxiosResponse<BerryFlavor>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.BERRY_FLAVOR, name);
   }
 
   /**
@@ -107,13 +76,7 @@ export class BerryClient extends BaseClient {
    * @returns A list of berries
    */
   public listBerries(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.BERRY, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.BERRY, offset, limit);
   }
 
   /**
@@ -123,13 +86,7 @@ export class BerryClient extends BaseClient {
    * @returns A list of berry firmnesses
    */
   public listBerryFirmnesses(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.BERRY_FIRMNESS, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.BERRY_FIRMNESS, offset, limit);
   }
 
   /**
@@ -139,12 +96,6 @@ export class BerryClient extends BaseClient {
    * @returns A list of Berry Flavors
    */
   public listBerryFlavors(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.BERRY_FLAVOR, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.BERRY_FLAVOR, offset, limit);
   }
 }
