@@ -18,10 +18,10 @@ jobs:
           version: latest
           run_install: false
 
-      - name: Set up Node
+      - name: Setup Node.js lts/hydrogen
         uses: actions/setup-node@v3.8.1
         with:
-          node-version: lts/gallium
+          node-version: lts/hydrogen
           cache: pnpm
 
       - name: Install dependencies
