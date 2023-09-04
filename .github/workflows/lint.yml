@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node lts/gallium
         uses: actions/setup-node@v3.8.1
         with:
-          node-version: lts/gallium
+          node-version: lts/hydrogen
           cache: pnpm
 
       - name: Install dependencies
