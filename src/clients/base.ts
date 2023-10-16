@@ -70,7 +70,9 @@ export class BaseClient {
   }
 
   protected async getResource<T>(endpoint: string, identifier?: string | number): Promise<T> {
-    return (await this.api.get<T>(`${endpoint}/${identifier ? identifier : ""}`)).data;
+    return (
+      await this.api.get<T>(`${endpoint}/${identifier || identifier === 0 ? identifier : ""}`)
+    ).data;
   }
 
   protected async getListResource(
