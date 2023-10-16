@@ -10,7 +10,6 @@ import {
   NamedAPIResourceList,
 } from "../models";
 import { BaseClient } from "./base";
-import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * ### Move Client
@@ -33,12 +32,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move
    */
   public async getMoveByName(name: string): Promise<Move> {
-    return new Promise<Move>((resolve, reject) => {
-      this.api
-        .get<Move>(`${ENDPOINTS.MOVE}/${name}`)
-        .then((response: AxiosResponse<Move>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE, name);
   }
 
   /**
@@ -47,12 +41,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move
    */
   public async getMoveById(id: number): Promise<Move> {
-    return new Promise<Move>((resolve, reject) => {
-      this.api
-        .get<Move>(`${ENDPOINTS.MOVE}/${id}`)
-        .then((response: AxiosResponse<Move>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE, id);
   }
 
   /**
@@ -61,12 +50,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Ailment
    */
   public async getMoveAilmentByName(name: string): Promise<MoveAilment> {
-    return new Promise<MoveAilment>((resolve, reject) => {
-      this.api
-        .get<MoveAilment>(`${ENDPOINTS.MOVE_AILMENT}/${name}`)
-        .then((response: AxiosResponse<MoveAilment>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE_AILMENT, name);
   }
 
   /**
@@ -75,12 +59,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Ailment
    */
   public async getMoveAilmentById(id: number): Promise<MoveAilment> {
-    return new Promise<MoveAilment>((resolve, reject) => {
-      this.api
-        .get<MoveAilment>(`${ENDPOINTS.MOVE_AILMENT}/${id}`)
-        .then((response: AxiosResponse<MoveAilment>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE_AILMENT, id);
   }
 
   /**
@@ -89,12 +68,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Battle Style
    */
   public async getMoveBattleStyleByName(name: string): Promise<MoveBattleStyle> {
-    return new Promise<MoveBattleStyle>((resolve, reject) => {
-      this.api
-        .get<MoveBattleStyle>(`${ENDPOINTS.MOVE_BATTLE_STYLE}/${name}`)
-        .then((response: AxiosResponse<MoveBattleStyle>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE_BATTLE_STYLE, name);
   }
 
   /**
@@ -103,12 +77,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Battle Style
    */
   public async getMoveBattleStyleById(id: number): Promise<MoveBattleStyle> {
-    return new Promise<MoveBattleStyle>((resolve, reject) => {
-      this.api
-        .get<MoveBattleStyle>(`${ENDPOINTS.MOVE_BATTLE_STYLE}/${id}`)
-        .then((response: AxiosResponse<MoveBattleStyle>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE_BATTLE_STYLE, id);
   }
 
   /**
@@ -117,12 +86,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Category
    */
   public async getMoveCategoryByName(name: string): Promise<MoveCategory> {
-    return new Promise<MoveCategory>((resolve, reject) => {
-      this.api
-        .get<MoveCategory>(`${ENDPOINTS.MOVE_CATEGORY}/${name}`)
-        .then((response: AxiosResponse<MoveCategory>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE_CATEGORY, name);
   }
 
   /**
@@ -131,12 +95,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Category
    */
   public async getMoveCategoryById(id: number): Promise<MoveCategory> {
-    return new Promise<MoveCategory>((resolve, reject) => {
-      this.api
-        .get<MoveCategory>(`${ENDPOINTS.MOVE_CATEGORY}/${id}`)
-        .then((response: AxiosResponse<MoveCategory>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE_CATEGORY, id);
   }
 
   /**
@@ -145,12 +104,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Damage Class
    */
   public async getMoveDamageClassByName(name: string): Promise<MoveDamageClass> {
-    return new Promise<MoveDamageClass>((resolve, reject) => {
-      this.api
-        .get<MoveDamageClass>(`${ENDPOINTS.MOVE_DAMAGE_CLASS}/${name}`)
-        .then((response: AxiosResponse<MoveDamageClass>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE_DAMAGE_CLASS, name);
   }
 
   /**
@@ -159,12 +113,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Damage Class
    */
   public async getMoveDamageClassById(id: number): Promise<MoveDamageClass> {
-    return new Promise<MoveDamageClass>((resolve, reject) => {
-      this.api
-        .get<MoveDamageClass>(`${ENDPOINTS.MOVE_DAMAGE_CLASS}/${id}`)
-        .then((response: AxiosResponse<MoveDamageClass>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE_DAMAGE_CLASS, id);
   }
 
   /**
@@ -173,12 +122,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Learn Method
    */
   public async getMoveLearnMethodByName(name: string): Promise<MoveLearnMethod> {
-    return new Promise<MoveLearnMethod>((resolve, reject) => {
-      this.api
-        .get<MoveLearnMethod>(`${ENDPOINTS.MOVE_LEARN_METHOD}/${name}`)
-        .then((response: AxiosResponse<MoveLearnMethod>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE_LEARN_METHOD, name);
   }
 
   /**
@@ -187,12 +131,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Learn Method
    */
   public async getMoveLearnMethodById(id: number): Promise<MoveLearnMethod> {
-    return new Promise<MoveLearnMethod>((resolve, reject) => {
-      this.api
-        .get<MoveLearnMethod>(`${ENDPOINTS.MOVE_LEARN_METHOD}/${id}`)
-        .then((response: AxiosResponse<MoveLearnMethod>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE_LEARN_METHOD, id);
   }
 
   /**
@@ -201,12 +140,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Target
    */
   public async getMoveTargetByName(name: string): Promise<MoveTarget> {
-    return new Promise<MoveTarget>((resolve, reject) => {
-      this.api
-        .get<MoveTarget>(`${ENDPOINTS.MOVE_TARGET}/${name}`)
-        .then((response: AxiosResponse<MoveTarget>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE_TARGET, name);
   }
 
   /**
@@ -215,12 +149,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Target
    */
   public async getMoveTargetById(id: number): Promise<MoveTarget> {
-    return new Promise<MoveTarget>((resolve, reject) => {
-      this.api
-        .get<MoveTarget>(`${ENDPOINTS.MOVE_TARGET}/${id}`)
-        .then((response: AxiosResponse<MoveTarget>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.MOVE_TARGET, id);
   }
 
   /**
@@ -230,13 +159,7 @@ export class MoveClient extends BaseClient {
    * @returns A list of Moves
    */
   public async listMoves(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.MOVE, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.MOVE, offset, limit);
   }
 
   /**
@@ -246,13 +169,7 @@ export class MoveClient extends BaseClient {
    * @returns A list of Move Ailments
    */
   public async listMoveAilments(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.MOVE_AILMENT, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.MOVE_AILMENT, offset, limit);
   }
 
   /**
@@ -265,13 +182,7 @@ export class MoveClient extends BaseClient {
     offset?: number,
     limit?: number,
   ): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.MOVE_BATTLE_STYLE, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.MOVE_BATTLE_STYLE, offset, limit);
   }
 
   /**
@@ -281,13 +192,7 @@ export class MoveClient extends BaseClient {
    * @returns A list of Move Categories
    */
   public async listMoveCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.MOVE_CATEGORY, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.MOVE_CATEGORY, offset, limit);
   }
 
   /**
@@ -300,13 +205,7 @@ export class MoveClient extends BaseClient {
     offset?: number,
     limit?: number,
   ): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.MOVE_DAMAGE_CLASS, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.MOVE_DAMAGE_CLASS, offset, limit);
   }
 
   /**
@@ -319,13 +218,7 @@ export class MoveClient extends BaseClient {
     offset?: number,
     limit?: number,
   ): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.MOVE_LEARN_METHOD, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.MOVE_LEARN_METHOD, offset, limit);
   }
 
   /**
@@ -335,12 +228,6 @@ export class MoveClient extends BaseClient {
    * @returns A list of Move Targets
    */
   public async listMoveTargets(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.MOVE_TARGET, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.MOVE_TARGET, offset, limit);
   }
 }

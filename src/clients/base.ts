@@ -45,7 +45,7 @@ export interface ClientArgs {
  * ### Base Client
  */
 export class BaseClient {
-  protected api: AxiosCacheInstance;
+  private api: AxiosCacheInstance;
 
   constructor(clientOptions?: ClientArgs) {
     this.api = setupCache(
@@ -69,12 +69,8 @@ export class BaseClient {
     );
   }
 
-  protected getListURL(endpoint: Endpoint, offset?: number, limit?: number): string {
-    return `${endpoint}?offset=${offset ?? 0}&limit=${limit ?? 20}`;
-  }
-
-  protected async getResource<T>(endpoint: string, identifier: string | number): Promise<T> {
-    return (await this.api.get<T>(`${endpoint}/${identifier}`)).data;
+  protected async getResource<T>(endpoint: string, identifier?: string | number): Promise<T> {
+    return (await this.api.get<T>(`${endpoint}/${identifier ? identifier : ""}`)).data;
   }
 
   protected async getListResource(

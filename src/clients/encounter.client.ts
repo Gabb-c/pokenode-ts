@@ -6,7 +6,6 @@ import {
   NamedAPIResourceList,
 } from "../models";
 import { BaseClient } from "./base";
-import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * ### Encounter Client
@@ -25,12 +24,7 @@ export class EncounterClient extends BaseClient {
    * @returns An Encounter Method
    */
   public async getEncounterMethodByName(name: string): Promise<EncounterMethod> {
-    return new Promise<EncounterMethod>((resolve, reject) => {
-      this.api
-        .get<EncounterMethod>(`${ENDPOINTS.ENCOUNTER_METHOD}/${name}`)
-        .then((response: AxiosResponse<EncounterMethod>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource<EncounterMethod>(ENDPOINTS.ENCOUNTER_METHOD, name);
   }
 
   /**
@@ -39,12 +33,7 @@ export class EncounterClient extends BaseClient {
    * @returns An Encounter Method
    */
   public async getEncounterMethodById(id: number): Promise<EncounterMethod> {
-    return new Promise<EncounterMethod>((resolve, reject) => {
-      this.api
-        .get<EncounterMethod>(`${ENDPOINTS.ENCOUNTER_METHOD}/${id}`)
-        .then((response: AxiosResponse<EncounterMethod>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource<EncounterMethod>(ENDPOINTS.ENCOUNTER_METHOD, id);
   }
 
   /**
@@ -53,12 +42,7 @@ export class EncounterClient extends BaseClient {
    * @returns An Encounter Condition
    */
   public async getEncounterConditionById(id: number): Promise<EncounterCondition> {
-    return new Promise<EncounterCondition>((resolve, reject) => {
-      this.api
-        .get<EncounterCondition>(`${ENDPOINTS.ENCOUNTER_CONDITION}/${id}`)
-        .then((response: AxiosResponse<EncounterCondition>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource<EncounterCondition>(ENDPOINTS.ENCOUNTER_CONDITION, id);
   }
 
   /**
@@ -67,12 +51,7 @@ export class EncounterClient extends BaseClient {
    * @returns An Encounter Condition
    */
   public async getEncounterConditionByName(name: string): Promise<EncounterCondition> {
-    return new Promise<EncounterCondition>((resolve, reject) => {
-      this.api
-        .get<EncounterCondition>(`${ENDPOINTS.ENCOUNTER_CONDITION}/${name}`)
-        .then((response: AxiosResponse<EncounterCondition>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource<EncounterCondition>(ENDPOINTS.ENCOUNTER_CONDITION, name);
   }
 
   /**
@@ -81,12 +60,7 @@ export class EncounterClient extends BaseClient {
    * @returns An Encounter Condition Value
    */
   public async getEncounterConditionValueByName(name: string): Promise<EncounterConditionValue> {
-    return new Promise<EncounterConditionValue>((resolve, reject) => {
-      this.api
-        .get<EncounterConditionValue>(`${ENDPOINTS.ENCOUNTER_CONDITION_VALUE}/${name}`)
-        .then((response: AxiosResponse<EncounterConditionValue>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource<EncounterConditionValue>(ENDPOINTS.ENCOUNTER_CONDITION_VALUE, name);
   }
 
   /**
@@ -95,12 +69,7 @@ export class EncounterClient extends BaseClient {
    * @returns An Encounter Condition Value
    */
   public async getEncounterConditionValueById(id: number): Promise<EncounterConditionValue> {
-    return new Promise<EncounterConditionValue>((resolve, reject) => {
-      this.api
-        .get<EncounterConditionValue>(`${ENDPOINTS.ENCOUNTER_CONDITION_VALUE}/${id}`)
-        .then((response: AxiosResponse<EncounterConditionValue>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource<EncounterConditionValue>(ENDPOINTS.ENCOUNTER_CONDITION_VALUE, id);
   }
 
   /**
@@ -113,13 +82,7 @@ export class EncounterClient extends BaseClient {
     offset?: number,
     limit?: number,
   ): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.ENCOUNTER_METHOD, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.ENCOUNTER_METHOD, offset, limit);
   }
 
   /**
@@ -132,13 +95,7 @@ export class EncounterClient extends BaseClient {
     offset?: number,
     limit?: number,
   ): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.ENCOUNTER_CONDITION, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.ENCOUNTER_CONDITION, offset, limit);
   }
 
   /**
@@ -151,12 +108,6 @@ export class EncounterClient extends BaseClient {
     offset?: number,
     limit?: number,
   ): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.ENCOUNTER_CONDITION_VALUE, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.ENCOUNTER_CONDITION_VALUE, offset, limit);
   }
 }

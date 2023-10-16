@@ -1,7 +1,6 @@
 import { ENDPOINTS } from "../constants";
 import { Language, NamedAPIResourceList } from "../models";
 import { BaseClient } from "./base";
-import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * ### Utility Client
@@ -19,12 +18,7 @@ export class UtilityClient extends BaseClient {
    * @returns Language
    */
   public async getLanguageById(id: number): Promise<Language> {
-    return new Promise<Language>((resolve, reject) => {
-      this.api
-        .get<Language>(`${ENDPOINTS.LANGUAGE}/${id}`)
-        .then((response: AxiosResponse<Language>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.LANGUAGE, id);
   }
 
   /**
@@ -33,12 +27,7 @@ export class UtilityClient extends BaseClient {
    * @returns Language
    */
   public async getLanguageByName(name: string): Promise<Language> {
-    return new Promise<Language>((resolve, reject) => {
-      this.api
-        .get<Language>(`${ENDPOINTS.LANGUAGE}/${name}`)
-        .then((response: AxiosResponse<Language>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.LANGUAGE, name);
   }
 
   /**
@@ -47,12 +36,7 @@ export class UtilityClient extends BaseClient {
    * @returns Resource
    */
   public async getResourceByUrl<T>(url: string): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
-      this.api
-        .get(url, { baseURL: "" })
-        .then((response: AxiosResponse<T>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(url);
   }
 
   /**
@@ -62,12 +46,6 @@ export class UtilityClient extends BaseClient {
    * @returns A list of Languages
    */
   public listLanguages(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.LANGUAGE, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.LANGUAGE, offset, limit);
   }
 }

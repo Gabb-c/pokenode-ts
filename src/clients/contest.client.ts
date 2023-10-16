@@ -1,7 +1,6 @@
 import { ENDPOINTS } from "../constants";
 import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "../models";
 import { BaseClient } from "./base";
-import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * ### Contest Client
@@ -20,12 +19,7 @@ export class ContestClient extends BaseClient {
    * @returns A Contest Type
    */
   public async getContestTypeByName(name: string): Promise<ContestType> {
-    return new Promise<ContestType>((resolve, reject) => {
-      this.api
-        .get<ContestType>(`${ENDPOINTS.CONTEST_TYPE}/${name}`)
-        .then((response: AxiosResponse<ContestType>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.CONTEST_TYPE, name);
   }
 
   /**
@@ -34,12 +28,7 @@ export class ContestClient extends BaseClient {
    * @returns A Contest Type
    */
   public async getContestTypeById(id: number): Promise<ContestType> {
-    return new Promise<ContestType>((resolve, reject) => {
-      this.api
-        .get<ContestType>(`${ENDPOINTS.CONTEST_TYPE}/${id}`)
-        .then((response: AxiosResponse<ContestType>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.CONTEST_TYPE, id);
   }
 
   /**
@@ -48,12 +37,7 @@ export class ContestClient extends BaseClient {
    * @returns Contest Effect
    */
   public async getContestEffectById(id: number): Promise<ContestEffect> {
-    return new Promise<ContestEffect>((resolve, reject) => {
-      this.api
-        .get<ContestEffect>(`${ENDPOINTS.CONTEST_EFFECT}/${id}`)
-        .then((response: AxiosResponse<ContestEffect>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.CONTEST_EFFECT, id);
   }
 
   /**
@@ -62,12 +46,7 @@ export class ContestClient extends BaseClient {
    * @returns Super Contest Effect
    */
   public async getSuperContestEffectById(id: number): Promise<SuperContestEffect> {
-    return new Promise<SuperContestEffect>((resolve, reject) => {
-      this.api
-        .get<SuperContestEffect>(`${ENDPOINTS.SUPER_CONTEST_EFFECT}/${id}`)
-        .then((response: AxiosResponse<SuperContestEffect>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getResource(ENDPOINTS.SUPER_CONTEST_EFFECT, id);
   }
 
   /**
@@ -77,13 +56,7 @@ export class ContestClient extends BaseClient {
    * @returns A list of contest types
    */
   public async listContestTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.CONTEST_TYPE, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.CONTEST_TYPE, offset, limit);
   }
 
   /**
@@ -93,13 +66,7 @@ export class ContestClient extends BaseClient {
    * @returns A list of contest effects
    */
   public async listContestEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.CONTEST_EFFECT, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.CONTEST_EFFECT, offset, limit);
   }
 
   /**
@@ -112,12 +79,6 @@ export class ContestClient extends BaseClient {
     offset?: number,
     limit?: number,
   ): Promise<NamedAPIResourceList> {
-    return new Promise<NamedAPIResourceList>((resolve, reject) => {
-      const url = this.getListURL(ENDPOINTS.SUPER_CONTEST_EFFECT, offset, limit);
-      this.api
-        .get<NamedAPIResourceList>(url)
-        .then((response: AxiosResponse<NamedAPIResourceList>) => resolve(response.data))
-        .catch((error: AxiosError<string>) => reject(error));
-    });
+    return this.getListResource(ENDPOINTS.SUPER_CONTEST_EFFECT, offset, limit);
   }
 }
