@@ -91,7 +91,7 @@
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "vite-tsconfig-paths": "^4.2.1",
-    "vitepress": "1.0.0-rc.23",
+    "vitepress": "1.0.0-rc.24",
     "vitest": "^0.34.6",
     "vue": "^3.3.6"
   },
