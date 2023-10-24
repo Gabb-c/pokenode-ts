@@ -20,7 +20,7 @@ jobs:
           run_install: false
 
       - name: Setup Node.js lts/hydrogen
-        uses: actions/setup-node@v3.8.1
+        uses: actions/setup-node@v4.0.0
         with:
           node-version: lts/hydrogen
           cache: pnpm
