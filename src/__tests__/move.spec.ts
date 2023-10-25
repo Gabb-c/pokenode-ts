@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { MoveClient } from "../clients";
 import {
   MOVE_AILMENTS,
@@ -17,7 +18,6 @@ import {
   MoveTarget,
   NamedAPIResourceList,
 } from "../models";
-import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
 describe("Move Client", () => {
   let client: MoveClient;

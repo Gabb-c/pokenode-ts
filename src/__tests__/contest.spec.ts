@@ -1,7 +1,7 @@
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { ContestClient } from "../clients";
 import { CONTEST_TYPES } from "../constants";
 import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "../models";
-import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
 describe("Contest Client", () => {
   let client: ContestClient;

@@ -1,7 +1,7 @@
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { GameClient } from "../clients";
 import { GENERATIONS, POKEDEXES, VERSIONS, VERSION_GROUPS } from "../constants";
 import { Generation, NamedAPIResourceList, Pokedex, Version, VersionGroup } from "../models";
-import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
 describe("Game Client", () => {
   let client: GameClient;

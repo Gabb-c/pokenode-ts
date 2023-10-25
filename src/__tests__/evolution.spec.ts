@@ -1,7 +1,7 @@
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { EvolutionClient } from "../clients";
 import { EVOLUTION_TRIGGERS } from "../constants";
 import { EvolutionChain, EvolutionTrigger, NamedAPIResourceList } from "../models";
-import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
 describe("Evolution Client", () => {
   let client: EvolutionClient;

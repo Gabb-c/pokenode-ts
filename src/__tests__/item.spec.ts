@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { ItemClient } from "../clients";
 import { ITEM_CATEGORIES, ITEM_FLING_EFFECTS, ITEM_POCKETS } from "../constants";
 import {
@@ -8,7 +9,6 @@ import {
   ItemPocket,
   NamedAPIResourceList,
 } from "../models";
-import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
 describe("Item Client", () => {
   let client: ItemClient;

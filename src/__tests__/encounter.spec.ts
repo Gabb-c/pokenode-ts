@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { EncounterClient } from "../clients";
 import { ENCOUNTER_CONDITIONS, ENCOUNTER_CONDITION_VALUES, ENCOUNTER_METHODS } from "../constants";
 import {
@@ -6,7 +7,6 @@ import {
   EncounterMethod,
   NamedAPIResourceList,
 } from "../models";
-import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
 describe("Encounter Client", () => {
   let client: EncounterClient;

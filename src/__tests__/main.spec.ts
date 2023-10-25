@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import * as Clients from "../clients";
 import {
   BERRIES,
@@ -18,7 +19,6 @@ import {
   Move,
   Pokemon,
 } from "../models";
-import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
 describe("MainClient Client", () => {
   let client: Clients.MainClient;

@@ -1,7 +1,7 @@
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { LocationClient } from "../clients";
 import { PAL_PARK_AREAS, REGIONS } from "../constants";
 import { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from "../models";
-import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
 describe("Location Client", () => {
   let client: LocationClient;

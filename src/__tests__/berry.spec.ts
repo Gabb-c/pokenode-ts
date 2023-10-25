@@ -1,7 +1,7 @@
+import { assertType, beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { BerryClient } from "../clients";
 import { BERRIES, BERRY_FIRMNESSES, BERRY_FLAVORS } from "../constants";
 import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from "../models";
-import { assertType, beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
 describe("Berry Client", () => {
   let client: BerryClient;

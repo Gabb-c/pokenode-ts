@@ -1,7 +1,7 @@
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { UtilityClient } from "../clients";
 import { LANGUAGES } from "../constants";
 import { Language, NamedAPIResourceList, Pokemon } from "../models";
-import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
 describe("Utility Client", () => {
   let client: UtilityClient;

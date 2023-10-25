@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { PokemonClient } from "../clients";
 import {
   EGG_GROUPS,
@@ -30,7 +31,6 @@ import {
   Stat,
   Type,
 } from "../models";
-import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 
 describe("Pokemon Client", () => {
   let client: PokemonClient;
