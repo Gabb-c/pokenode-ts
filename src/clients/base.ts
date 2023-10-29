@@ -75,6 +75,11 @@ export class BaseClient {
     ).data;
   }
 
+  protected async getResourceByURL<T>(url: string, baseURL = BASE_URL.REST): Promise<T> {
+    const ENDPOINT = url.split("v2")[1] as string;
+    return (await this.api.get<T>(ENDPOINT, { baseURL })).data;
+  }
+
   protected async getListResource(
     endpoint: Endpoint,
     offset = 0,

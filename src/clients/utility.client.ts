@@ -36,7 +36,7 @@ export class UtilityClient extends BaseClient {
    * @returns Resource
    */
   public async getResourceByUrl<T>(url: string): Promise<T> {
-    return this.getResource(url);
+    return this.getResourceByURL<T>(url);
   }
 
   /**
