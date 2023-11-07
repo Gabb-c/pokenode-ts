@@ -1,10 +1,10 @@
-import { ENDPOINTS } from "../constants";
+import { ENDPOINTS } from "@constants";
 import {
   EncounterCondition,
   EncounterConditionValue,
   EncounterMethod,
   NamedAPIResourceList,
-} from "../models";
+} from "@models";
 import { BaseClient } from "./base";
 
 /**

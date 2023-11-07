@@ -1,4 +1,4 @@
-import { ENDPOINTS } from "../constants";
+import { ENDPOINTS } from "@constants";
 import {
   Ability,
   Characteristic,
@@ -17,7 +17,7 @@ import {
   PokemonSpecies,
   Stat,
   Type,
-} from "../models";
+} from "@models";
 import { BaseClient } from "./base";
 
 /**

@@ -1,5 +1,5 @@
-import { ENDPOINTS } from "../constants";
-import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from "../models";
+import { ENDPOINTS } from "@constants";
+import { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from "@models";
 import { BaseClient } from "./base";
 
 /**

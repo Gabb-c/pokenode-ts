@@ -1,4 +1,4 @@
-import { ENDPOINTS } from "../constants";
+import { ENDPOINTS } from "@constants";
 import {
   Item,
   ItemAttribute,
@@ -6,7 +6,7 @@ import {
   ItemFlingEffect,
   ItemPocket,
   NamedAPIResourceList,
-} from "../models";
+} from "@models";
 import { BaseClient } from "./base";
 
 /**

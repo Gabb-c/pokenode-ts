@@ -1,5 +1,5 @@
-import { ENDPOINTS } from "../constants";
-import { EvolutionChain, EvolutionTrigger, NamedAPIResourceList } from "../models";
+import { ENDPOINTS } from "@constants";
+import { EvolutionChain, EvolutionTrigger, NamedAPIResourceList } from "@models";
 import { BaseClient } from "./base";
 
 /**

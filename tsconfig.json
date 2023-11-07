@@ -20,17 +20,17 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "@clients/*": [
-        "src/clients/*"
+      "@clients": [
+        "src/clients/index.ts"
       ],
-      "@config/*": [
-        "src/config/*"
+      "@config": [
+        "src/config/index.ts"
       ],
-      "@constants/*": [
-        "src/constants/*"
+      "@constants": [
+        "src/constants/index.ts"
       ],
-      "@models/*": [
-        "src/models/*"
+      "@models": [
+        "src/models/index.ts"
       ],
     }
   },

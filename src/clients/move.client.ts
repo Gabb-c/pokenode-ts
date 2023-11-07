@@ -1,4 +1,4 @@
-import { ENDPOINTS } from "../constants";
+import { ENDPOINTS } from "@constants";
 import {
   Move,
   MoveAilment,
@@ -8,7 +8,7 @@ import {
   MoveLearnMethod,
   MoveTarget,
   NamedAPIResourceList,
-} from "../models";
+} from "@models";
 import { BaseClient } from "./base";
 
 /**
