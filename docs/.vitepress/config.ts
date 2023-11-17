@@ -1,12 +1,12 @@
 import { defineConfig } from "vitepress";
-import { author, license, repository, description as packageDescription } from "../../package.json";
+import { author, description as packageDescription, license, repository } from "../../package.json";
+import { headConfig } from "./head-config";
 import { navbarItems, sidebarRoutes } from "./routes";
 import { SOCIAL_LINKS } from "./social-links";
-import { headConfig } from "./head-config";
 
-import * as dotenv from "dotenv";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import * as dotenv from "dotenv";
 
 dotenv.config();
 
@@ -30,19 +30,19 @@ export default defineConfig({
       copyright: `Copyright © 2021-${new Date().getFullYear()} ${author.name}`,
     },
     socialLinks: [
-      { icon: "github", link: SOCIAL_LINKS.GITHUB },
-      { icon: { svg: readSvg("npm-icon.svg") }, link: SOCIAL_LINKS.NPM },
+      { icon: "github", link: SOCIAL_LINKS.GITHUB.link },
+      { icon: { svg: readSvg(SOCIAL_LINKS.NPM.path) }, link: SOCIAL_LINKS.NPM.link },
       {
-        icon: { svg: readSvg("jsdelivr-icon.svg") },
-        link: SOCIAL_LINKS.JSDELIVR,
+        icon: { svg: readSvg(SOCIAL_LINKS.JSDELIVR.path) },
+        link: SOCIAL_LINKS.JSDELIVR.link,
       },
       {
-        icon: { svg: readSvg("bundlephobia-icon.svg") },
-        link: SOCIAL_LINKS.BUNDLEPHOBIA,
+        icon: { svg: readSvg(SOCIAL_LINKS.BUNDLEPHOBIA.path) },
+        link: SOCIAL_LINKS.BUNDLEPHOBIA.link,
       },
       {
-        icon: { svg: readSvg("packagephobia-icon.svg") },
-        link: SOCIAL_LINKS.PACKAGEPHOBIA,
+        icon: { svg: readSvg(SOCIAL_LINKS.PACKAGEPHOBIA.path) },
+        link: SOCIAL_LINKS.PACKAGEPHOBIA.link,
       },
     ],
     editLink: {
