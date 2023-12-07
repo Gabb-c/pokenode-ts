@@ -31,6 +31,7 @@
         "typescript.tsserver.log": "off",
         "editor.defaultFormatter": "biomejs.biome",
         "editor.formatOnSave": true,
+        "files.autoSave": "off",
         "explorer.confirmDragAndDrop": false,
         "workbench.colorTheme": "Catppuccin Mocha",
         "workbench.iconTheme": "catppuccin-mocha"
