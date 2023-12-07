@@ -9,7 +9,7 @@
     "ms-vscode.js-debug-nightly",
     "yzhang.markdown-all-in-one",
     "christian-kohler.path-intellisense",
-    "rome.rome",
-    "zixuanchen.vitest-explorer"
-  ],
+    "biomejs.biome",
+    "ms-azuretools.vscode-docker"
+  ]
 }
