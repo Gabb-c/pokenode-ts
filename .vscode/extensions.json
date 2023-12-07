@@ -10,6 +10,7 @@
     "yzhang.markdown-all-in-one",
     "christian-kohler.path-intellisense",
     "biomejs.biome",
-    "ms-azuretools.vscode-docker"
+    "ms-azuretools.vscode-docker",
+    "tamasfe.even-better-toml"
   ]
 }

@@ -19,7 +19,10 @@
         "yzhang.markdown-all-in-one",
         "christian-kohler.path-intellisense",
         "biomejs.biome",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "tamasfe.even-better-toml",
+        "Catppuccin.catppuccin-vsc",
+        "Catppuccin.catppuccin-vsc-icons"
       ],
       "settings": {
         "explorer.confirmDelete": false,
@@ -28,13 +31,13 @@
         "typescript.tsserver.log": "off",
         "editor.defaultFormatter": "biomejs.biome",
         "editor.formatOnSave": true,
-        "explorer.confirmDragAndDrop": false
+        "explorer.confirmDragAndDrop": false,
+        "workbench.colorTheme": "Catppuccin Mocha",
+        "workbench.iconTheme": "catppuccin-mocha"
       }
     }
   },
-  "forwardPorts": [
-    5173
-  ],
+  "forwardPorts": [5173],
   "postCreateCommand": "pnpm install",
   "remoteUser": "node"
 }
