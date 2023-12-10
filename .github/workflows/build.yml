@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [lts/gallium, lts/hydrogen, latest]
+        node-version: [lts/hydrogen, lts/iron, latest]
 
     steps:
       - name: Checkout Repository

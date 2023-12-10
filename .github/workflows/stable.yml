@@ -1,4 +1,5 @@
 name: Publish
+
 on:
   push:
     branches: [stable]
@@ -18,10 +19,10 @@ jobs:
           version: latest
           run_install: false
 
-      - name: Setup Node.js lts/hydrogen
+      - name: Setup Node.js lts/iron
         uses: actions/setup-node@v4.0.0
         with:
-          node-version: lts/hydrogen
+          node-version: lts/iron
           cache: pnpm
 
       - name: Install dependencies

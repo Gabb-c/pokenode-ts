@@ -1,28 +1,35 @@
 name: Feature Request
-description: Create a feature request for pokenode-ts
+description: Create a feature request for Pokenode-ts
 labels: "template: story"
 body:
   - type: markdown
     attributes:
-      value: Thanks for taking the time to file a feature request! Please fill out this form as completely as possible.
+      value: |
+        **Feature Request Form**
+        Thank you for contributing to Pokenode-ts by submitting a feature request! Please fill out the following form with as much detail as possible.
+
   - type: markdown
     attributes:
-      value: "Feature requests will be converted to Issues, labeled as Improvements"
+      value: |
+        **Note:** Feature requests will be converted to issues and labeled as Improvements.
+
   - type: textarea
     attributes:
-      label: Describe the feature you'd like to request
-      description: A clear and concise description of what you want and what your use case is.
+      label: Feature Description
+      description: A clear and concise description of the feature you'd like to request and your use case.
     validations:
       required: true
+
   - type: textarea
     attributes:
-      label: Describe the solution you'd like
-      description: A clear and concise description of what you want to happen.
+      label: Proposed Solution
+      description: A clear and concise description of the solution you envision.
     validations:
       required: true
+
   - type: textarea
     attributes:
-      label: Describe alternatives you've considered
-      description: A clear and concise description of any alternative solutions or features you've considered.
+      label: Alternatives Considered
+      description: Describe any alternative solutions or features you've considered.
     validations:
       required: true

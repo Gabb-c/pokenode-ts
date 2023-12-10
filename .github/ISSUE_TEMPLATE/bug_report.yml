@@ -1,55 +1,83 @@
 name: Bug Report
-description: Create a bug report for pokenode-ts
+description: Create a bug report for Pokenode-ts
 labels: "template: bug"
 body:
   - type: markdown
     attributes:
-      value: Thanks for taking the time to file a bug report! Please fill out this form as completely as possible.
+      value: |
+        Thank you for contributing to Pokenode-ts by reporting a bug! Please fill out the following details as thoroughly as possible.
   - type: markdown
     attributes:
-      value: "Please first verify if your issue exists"
+      value: |
+        ## Before You Begin
+        - [ ] Verify that your issue doesn't already exist.
+
   - type: input
     attributes:
-      label: What version of pokenode-ts are you using?
-      description: "For example: 1.0.1"
+      label: Version of Pokenode-ts
+      description: |
+        Provide the version of Pokenode-ts where you encountered the bug. For example: 1.0.1-beta or commit hash.
     validations:
       required: true
+
   - type: input
     attributes:
-      label: What version of Node.js are you using?
-      description: "For example: 12.0.0"
+      label: Node.js Version
+      description: |
+        Specify the version of Node.js you are using (e.g., 12.0.0).
     validations:
       required: true
+
   - type: input
     attributes:
-      label: What operating system are you using?
-      description: "For example: macOS, Windows"
+      label: Operating System
+      description: |
+        Mention the operating system you are using (e.g., macOS, Windows).
     validations:
       required: true
+
   - type: textarea
     attributes:
-      label: Describe the Bug
-      description: A clear and concise description of what the bug is.
+      label: Bug Description
+      description: |
+        Provide a clear and concise description of the bug.
+
     validations:
       required: true
+
   - type: textarea
     attributes:
       label: Expected Behavior
-      description: A clear and concise description of what you expected to happen.
+      description: |
+        Describe what you expected to happen.
+
     validations:
       required: true
+
   - type: textarea
     attributes:
-      label: To Reproduce
-      description: Steps to reproduce the behavior, please provide a clear code snippets that always reproduces the issue or a GitHub repository. Screenshots can be provided in the issue body below.
+      label: Steps to Reproduce
+      description: |
+        Outline the steps to reproduce the bug. Include code snippets or a link to a GitHub repository. Screenshots can be attached below.
+
     validations:
       required: true
+
+  - type: attachments
+    attributes:
+      label: Attachments
+      description: |
+        Attach any relevant files, logs, or screenshots that help understand the issue.
+
   - type: markdown
     attributes:
-      value: Before posting the issue go through the steps you've written down to make sure the steps provided are detailed and clear.
+      value: |
+        ## Checklist Before Submitting
+        - [ ] Verify that the steps you've provided are detailed and clear.
+        - [ ] Ensure that contributors can follow the steps to reproduce the bug.
+        - [ ] Your steps will be used to add integration tests to prevent the issue from recurring.
+
   - type: markdown
     attributes:
-      value: Contributors should be able to follow the steps provided in order to reproduce the bug.
-  - type: markdown
-    attributes:
-      value: These steps are used to add integration tests to ensure the same issue does not happen again. Thanks in advance!
+      value: |
+        Thank you for your contribution to improving Pokenode-ts!
