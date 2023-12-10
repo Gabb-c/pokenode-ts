@@ -63,12 +63,6 @@ body:
     validations:
       required: true
 
-  - type: attachments
-    attributes:
-      label: Attachments
-      description: |
-        Attach any relevant files, logs, or screenshots that help understand the issue.
-
   - type: markdown
     attributes:
       value: |
