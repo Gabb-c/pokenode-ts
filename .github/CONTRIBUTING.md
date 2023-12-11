@@ -5,6 +5,7 @@ Ensure you have Node.js installed; we recommend using the [latest LTS version](h
 1. **Fork and Clone the Repository:**
    - [Fork this repository](https://help.github.com/articles/fork-a-repo/) to your GitHub account.
    - [Clone the forked repository](https://help.github.com/articles/cloning-a-repository/) to your local device.
+   - [Codespaces configuration](https://github.com/Gabb-c/pokenode-ts/tree/main/.devcontainer) is available.
 
 2. **Create a New Branch:**
    - Create a new branch for your changes: `git checkout -b MY_BRANCH_NAME`.
