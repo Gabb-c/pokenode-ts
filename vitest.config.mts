@@ -6,7 +6,9 @@ export default defineConfig({
     testTimeout: 10_000,
     coverage: {
       provider: "v8",
+      exclude: ["src/models/*", "/.*", "docs"],
     },
+    logHeapUsage: true,
   },
   plugins: [tsconfigPaths()],
 });

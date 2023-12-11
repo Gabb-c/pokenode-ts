@@ -5,10 +5,10 @@
   "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnSave": true,
   "git.autofetch": true,
+  "workbench.iconTheme": "catppuccin-mocha",
   "workbench.colorTheme": "Catppuccin Mocha",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "githubPullRequests.pullBranch": "never",
-  "workbench.iconTheme": "catppuccin-mocha",
   "git.confirmSync": false,
   "explorer.confirmDragAndDrop": false,
   "[markdown]": {

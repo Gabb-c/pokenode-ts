@@ -54,6 +54,9 @@ export default defineConfig({
       appId: process.env.APP_ID as string,
       indexName: process.env.INDEX_NAME as string,
     },
+    search: {
+      provider: "local",
+    },
   },
   cleanUrls: true,
 });

@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
   "name": "Pokenode-ts (Node.js & TypeScript)",
   "build": {
     "dockerfile": "Dockerfile",
@@ -7,6 +8,9 @@
     }
   },
   "customizations": {
+    "codespaces": {
+      "openFiles": ["README.md"]
+    },
     "vscode": {
       "extensions": [
         "editorconfig.editorconfig",
@@ -22,7 +26,8 @@
         "ms-azuretools.vscode-docker",
         "tamasfe.even-better-toml",
         "Catppuccin.catppuccin-vsc",
-        "Catppuccin.catppuccin-vsc-icons"
+        "Catppuccin.catppuccin-vsc-icons",
+        "github.vscode-github-actions"
       ],
       "settings": {
         "explorer.confirmDelete": false,
@@ -38,7 +43,13 @@
       }
     }
   },
-  "forwardPorts": [5173],
-  "postCreateCommand": "pnpm install",
+  "forwardPorts": [9527],
+  "postCreateCommand": [
+    "nvm install lts/iron",
+    "nvm use iron",
+    "nvm alias default lts/iron",
+    "pnpm setup",
+    "pnpm install --frozen-lockfile"
+  ],
   "remoteUser": "node"
 }

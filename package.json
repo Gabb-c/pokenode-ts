@@ -62,7 +62,7 @@
     "update-deps": "ncu -u && pnpm i --fix-lockfile"
   },
   "devDependencies": {
-    "@algolia/client-search": "^4.20.0",
+    "@algolia/client-search": "^4.21.0",
     "@biomejs/biome": "^1.4.1",
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",

@@ -11,6 +11,7 @@
     "christian-kohler.path-intellisense",
     "biomejs.biome",
     "ms-azuretools.vscode-docker",
-    "tamasfe.even-better-toml"
+    "tamasfe.even-better-toml",
+    "github.vscode-github-actions"
   ]
 }
