@@ -58,8 +58,7 @@
     "test:ci": "vitest --silent --run",
     "test:coverage": "vitest run --coverage",
     "test:dev": "vitest -w",
-    "test:ui": "vitest --ui --api 9527",
-    "update-deps": "ncu -u && pnpm i --fix-lockfile"
+    "test:ui": "vitest --ui --api 9527"
   },
   "devDependencies": {
     "@algolia/client-search": "^4.21.0",
@@ -86,8 +85,7 @@
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
     "lint-staged": "^15.2.0",
-    "npm-check-updates": "^16.14.11",
-    "semantic-release": "^22.0.10",
+    "semantic-release": "^22.0.12",
     "size-limit": "^11.0.1",
     "sort-package-json": "^2.6.0",
     "tsup": "^8.0.1",
