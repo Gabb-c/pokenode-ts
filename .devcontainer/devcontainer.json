@@ -44,12 +44,6 @@
     }
   },
   "forwardPorts": [9527],
-  "postCreateCommand": [
-    "nvm install lts/iron",
-    "nvm use iron",
-    "nvm alias default lts/iron",
-    "pnpm setup",
-    "pnpm install --frozen-lockfile"
-  ],
+  "postCreateCommand": "nvm install lts/iron && nvm use iron && nvm alias default lts/iron && pnpm setup && pnpm install --frozen-lockfile",
   "remoteUser": "node"
 }
