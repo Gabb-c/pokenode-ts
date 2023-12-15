@@ -8,4 +8,6 @@ export interface FlavorText {
   flavor_text: string;
   /** The language this name is in */
   language: NamedAPIResource;
+  /** The game version this flavor text appears in */
+  version: NamedAPIResource;
 }
