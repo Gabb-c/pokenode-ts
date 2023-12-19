@@ -3,7 +3,7 @@
 ## Gabriel (Gabb-c)
 
 - **GitHub:** [Gabb-c](https://github.com/Gabb-c)
-- **Email:** [gabriel@example.com](mailto:gdgabrieldacunha71@gmail.com)
+- **Email:** [gdgabrieldacunha71@gmail.com](mailto:gdgabrieldacunha71@gmail.com)
 
 ---
 
