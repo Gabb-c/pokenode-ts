@@ -27,10 +27,6 @@
           {
             "path": "lib/index.d.ts",
             "label": "Typings"
-          },
-          {
-            "path": "lib/index.global.js",
-            "Label": "Web"
           }
         ]
       }

@@ -1,41 +1,44 @@
 # pokenode-ts
 
-A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way to integrate your app with the PokéAPI.
+**A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way to integrate your app with the PokéAPI.**
 
 ## Features
 
-- 🛠️ Built-in typings
-- 📦 Axios with auto-cache requests
-- 🌲 Logging
+- 🛠️ **Built-in typings**: TypeScript support with pre-defined types.
+- 📦 **Axios with auto-cache requests**: Efficiently manage API requests with automatic caching.
+- 🌲 **Logging**: Easily log and track your API interactions.
 
 ## Installation
 
 ```bash
 # NPM
-npm i axios axios-cache-interceptor pokenode-ts
+npm install axios axios-cache-interceptor pokenode-ts
 
 # Yarn
 yarn add axios axios-cache-interceptor pokenode-ts
 
 # Pnpm
-pnpm i axios axios-cache-interceptor pokenode-ts
+pnpm install axios axios-cache-interceptor pokenode-ts
 ```
 
 ## Basic Example
 
 Using a client, like PokemonClient:
 
-```js
+```ts
 import { PokemonClient } from 'pokenode-ts';
 
 (async () => {
   const api = new PokemonClient();
 
-  await api
-    .getPokemonByName('luxray')
-    .then((data) => console.log(data.name)) // will output "Luxray"
-    .catch((error) => console.error(error));
+  try {
+    const pokemonData = await api.getPokemonByName('luxray');
+    console.log(pokemonData.name); // Outputs "Luxray"
+  } catch (error) {
+    console.error(error);
+  }
 })();
+
 ```
 
 Or, using the MainClient:
@@ -46,10 +49,12 @@ import { MainClient } from 'pokenode-ts';
 (async () => {
   const api = new MainClient();
 
-  await api.pokemon
-    .getPokemonByName('luxray')
-    .then((data) => console.log(data.name)) // will output "Luxray"
-    .catch((error) => console.error(error));
+  try {
+    const pokemonData = await api.pokemon.getPokemonByName('luxray');
+    console.log(pokemonData.name); // Outputs "Luxray"
+  } catch (error) {
+    console.error(error);
+  }
 })();
 ```
 
@@ -61,11 +66,11 @@ Check out our [Documentation page](https://pokenode-ts.vercel.app/)!
 
 Every change in this project is analyzed by [SonarCloud](https://sonarcloud.io/)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
-[![codecov](https://codecov.io/gh/Gabb-c/pokenode-ts/branch/master/graph/badge.svg?token=whfY8GNSpS)](https://codecov.io/gh/Gabb-c/pokenode-ts)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts 'Sonar Quality Gate Status')
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts 'Sonar Bugs')
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts 'Sonar Code Smells')
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts 'Sonar Quality Gate Status')
+[![codecov](https://codecov.io/gh/Gabb-c/pokenode-ts/branch/master/graph/badge.svg?token=whfY8GNSpS)](https://codecov.io/gh/Gabb-c/pokenode-ts 'Codecov Coverage Reports')
 
 ## Leave your feedback
 
@@ -75,6 +80,6 @@ Every change in this project is analyzed by [SonarCloud](https://sonarcloud.io/)
 
 ## Donate
 
-Please consider donating if you think pokenode-ts is helpful to you or that my work is valuable. I am happy if you can [buy me a coffee](https://github.com/sponsors/Gabb-c) ❤️
+If pokenode-ts is valuable to you, please consider [buying me a coffee](https://github.com/sponsors/Gabb-c) ❤️
 
 ![Analytics](https://repobeats.axiom.co/api/embed/f71a113e3161e1d054170c94e4ac3fcfc960cdd4.svg 'Repobeats analytics image')
