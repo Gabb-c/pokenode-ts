@@ -12,8 +12,8 @@ pnpm lint-staged
 
 # Check the exit status of the previous command
 if [ $? -ne 0 ]; then
-  echo "❌ lint-staged check failed. Please fix the issues before committing."
+  echo "lint-staged check failed. Please fix the issues before committing."
   exit 1
 else
-  echo "✅ lint-staged check passed. Proceeding with the commit."
+  echo "lint-staged check passed. Proceeding with the commit."
 fi
