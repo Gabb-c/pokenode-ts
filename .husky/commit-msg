@@ -15,5 +15,5 @@ if [ $? -ne 0 ]; then
   echo "❌ Commit message check failed. Please follow the commit message conventions."
   exit 1
 else
-  echo "::check:: Commit message check passed. Proceeding with the commit."
+  echo ":check: Commit message check passed. Proceeding with the commit."
 fi
