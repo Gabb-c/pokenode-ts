@@ -52,7 +52,7 @@ devDependencies:
     version: 1.1.1(vitest@1.1.1)
   '@vitest/ui':
     specifier: ^1.1.1
-    version: 1.1.1(vitest@1.1.1)
+    version: 1.1.2(vitest@1.1.1)
   axios:
     specifier: ^1.6.3
     version: 1.6.3
@@ -100,7 +100,7 @@ devDependencies:
     version: 1.0.0-rc.35(@algolia/client-search@4.22.0)(@types/node@20.10.6)(axios@1.6.3)(search-insights@2.13.0)(typescript@5.3.3)
   vitest:
     specifier: ^1.1.1
-    version: 1.1.1(@types/node@20.10.6)(@vitest/ui@1.1.1)
+    version: 1.1.1(@types/node@20.10.6)(@vitest/ui@1.1.2)
   vue:
     specifier: ^3.4.3
     version: 3.4.3(typescript@5.3.3)
@@ -1391,6 +1391,10 @@ packages:
     resolution: {integrity: sha512-myfUej5naTBWnqOCc/MdVOLVjXUXtIA+NpDrDBKJtLLg2shUjBu3cZmB/85RyitKc55+lUUyl7oRfLOvkr2hsw==}
     dev: true
 
+  /@types/estree@1.0.5:
+    resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
+    dev: true
+
   /@types/is-ci@3.0.4:
     resolution: {integrity: sha512-AkCYCmwlXeuH89DagDCzvCAyltI2v9lh3U3DqSg/GrBYoReAaWwxfXCqMx9UV5MajLZ4ZFwZzV4cABGIxk2XRw==}
     dependencies:
@@ -1469,7 +1473,7 @@ packages:
       std-env: 3.7.0
       test-exclude: 6.0.0
       v8-to-istanbul: 9.2.0
-      vitest: 1.1.1(@types/node@20.10.6)(@vitest/ui@1.1.1)
+      vitest: 1.1.1(@types/node@20.10.6)(@vitest/ui@1.1.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1504,25 +1508,34 @@ packages:
       tinyspy: 2.2.0
     dev: true
 
-  /@vitest/ui@1.1.1(vitest@1.1.1):
-    resolution: {integrity: sha512-BibaJ/Ry01XIK4Ctg02omnxt1CbpKcq/jY/o/0UMak543dxtaENdLNz+3rGC2y8kYOEV9AVRhuL2NvZlQEv7xQ==}
+  /@vitest/ui@1.1.2(vitest@1.1.1):
+    resolution: {integrity: sha512-l+fPKIJWEwBHP1TUnBKkCVxWG26/LAc5VIkXFOyKaz/NWoHQBuNa4OArLMsREHYo5EhozzbKQMdZiJVPxjcajA==}
     peerDependencies:
       vitest: ^1.0.0
     dependencies:
-      '@vitest/utils': 1.1.1
+      '@vitest/utils': 1.1.2
       fast-glob: 3.3.2
       fflate: 0.8.1
       flatted: 3.2.9
       pathe: 1.1.1
       picocolors: 1.0.0
       sirv: 2.0.4
-      vitest: 1.1.1(@types/node@20.10.6)(@vitest/ui@1.1.1)
+      vitest: 1.1.1(@types/node@20.10.6)(@vitest/ui@1.1.2)
     dev: true
 
   /@vitest/utils@1.1.1:
     resolution: {integrity: sha512-E9LedH093vST/JuBSyHLFMpxJKW3dLhe/flUSPFedoyj4wKiFX7Jm8gYLtOIiin59dgrssfmFv0BJ1u8P/LC/A==}
     dependencies:
       diff-sequences: 29.6.3
+      loupe: 2.3.7
+      pretty-format: 29.7.0
+    dev: true
+
+  /@vitest/utils@1.1.2:
+    resolution: {integrity: sha512-QrXfDieptshDkTkXnA+HmlVQto1h0jengbkSKcJjlbCMeXbSCr3AcALPPzozRQxEOKvFjqx9WHjljz62uxrGew==}
+    dependencies:
+      diff-sequences: 29.6.3
+      estree-walker: 3.0.3
       loupe: 2.3.7
       pretty-format: 29.7.0
     dev: true
@@ -2483,6 +2496,12 @@ packages:
 
   /estree-walker@2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
+    dev: true
+
+  /estree-walker@3.0.3:
+    resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
+    dependencies:
+      '@types/estree': 1.0.5
     dev: true
 
   /eventemitter3@5.0.1:
@@ -5071,7 +5090,7 @@ packages:
       - universal-cookie
     dev: true
 
-  /vitest@1.1.1(@types/node@20.10.6)(@vitest/ui@1.1.1):
+  /vitest@1.1.1(@types/node@20.10.6)(@vitest/ui@1.1.2):
     resolution: {integrity: sha512-Ry2qs4UOu/KjpXVfOCfQkTnwSXYGrqTbBZxw6reIYEFjSy1QUARRg5pxiI5BEXy+kBVntxUYNMlq4Co+2vD3fQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -5101,7 +5120,7 @@ packages:
       '@vitest/runner': 1.1.1
       '@vitest/snapshot': 1.1.1
       '@vitest/spy': 1.1.1
-      '@vitest/ui': 1.1.1(vitest@1.1.1)
+      '@vitest/ui': 1.1.2(vitest@1.1.1)
       '@vitest/utils': 1.1.1
       acorn-walk: 8.3.1
       cac: 6.7.14
