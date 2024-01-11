@@ -198,6 +198,8 @@ export interface OtherPokemonSprites {
   "official-artwork": OfficialArtwork;
   /** Home Artwork Sprites of this Pokémon */
   home: Home;
+  /** Pokemon Showdown animated sprites of this Pokémon */
+  showdown: Showdown;
 }
 
 /** Dream World sprites */
@@ -209,7 +211,7 @@ export interface DreamWorld {
 }
 
 /** Official Artwork sprites */
-interface OfficialArtwork {
+export interface OfficialArtwork {
   /** The default depiction of this Pokémon from the front in battle */
   front_default: string | null;
 }
@@ -222,8 +224,28 @@ export interface Home {
   front_female: string | null;
   /** The shiny depiction of this Pokémon from the front in battle */
   front_shiny: string | null;
-  /** The shiny female depiction of this Pokémon from the back in battle */
+  /** The shiny female depiction of this Pokémon from the front in battle */
   front_shiny_female: string | null;
+}
+
+/** Showdown Sprites */
+export interface Showdown {
+  /** The default depiction of this Pokémon from the front in battle */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the front in battle */
+  front_shiny_female: string | null;
+  /** The default depiction of this Pokémon from the back in battle */
+  back_default: string | null;
+  /** The female depiction of this Pokémon from the back in battle */
+  back_female: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle */
+  back_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle */
+  back_shiny_female: string | null;
 }
 
 /** Generation-I Srites */
@@ -310,7 +332,7 @@ export interface Gold {
 }
 
 /** Silver sprites */
-interface Silver {
+export interface Silver {
   /** The default depiction of this Pokémon from the back in battle */
   back_default: string | null;
   /** The shiny depiction of this Pokémon from the back in battle */
