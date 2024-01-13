@@ -85,7 +85,7 @@
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
     "lint-staged": "^15.2.0",
-    "semantic-release": "^22.0.12",
+    "semantic-release": "^23.0.0",
     "size-limit": "^11.0.1",
     "sort-package-json": "^2.6.0",
     "tsup": "^8.0.1",
@@ -93,7 +93,7 @@
     "vite-tsconfig-paths": "^4.2.3",
     "vitepress": "1.0.0-rc.36",
     "vitest": "^1.2.0",
-    "vue": "^3.4.11"
+    "vue": "^3.4.13"
   },
   "peerDependencies": {
     "axios": "^1.6.5",
