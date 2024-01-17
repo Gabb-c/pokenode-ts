@@ -13,7 +13,7 @@ devDependencies:
     version: 1.5.2
   '@commitlint/cli':
     specifier: ^18.4.4
-    version: 18.4.4(@types/node@20.11.4)(typescript@5.3.3)
+    version: 18.4.4(@types/node@20.11.5)(typescript@5.3.3)
   '@commitlint/config-conventional':
     specifier: ^18.4.4
     version: 18.4.4
@@ -46,7 +46,7 @@ devDependencies:
     version: 3.0.4
   '@types/node':
     specifier: ^20.11.4
-    version: 20.11.4
+    version: 20.11.5
   '@vitest/coverage-v8':
     specifier: ^1.2.0
     version: 1.2.0(vitest@1.2.0)
@@ -97,10 +97,10 @@ devDependencies:
     version: 4.3.0(typescript@5.3.3)(vite@5.0.11)
   vitepress:
     specifier: 1.0.0-rc.39
-    version: 1.0.0-rc.39(@algolia/client-search@4.22.1)(@types/node@20.11.4)(axios@1.6.5)(search-insights@2.13.0)(typescript@5.3.3)
+    version: 1.0.0-rc.39(@algolia/client-search@4.22.1)(@types/node@20.11.5)(axios@1.6.5)(search-insights@2.13.0)(typescript@5.3.3)
   vitest:
     specifier: ^1.2.0
-    version: 1.2.0(@types/node@20.11.4)(@vitest/ui@1.2.0)
+    version: 1.2.0(@types/node@20.11.5)(@vitest/ui@1.2.0)
   vue:
     specifier: ^3.4.14
     version: 3.4.14(typescript@5.3.3)
@@ -427,13 +427,13 @@ packages:
     dev: true
     optional: true
 
-  /@commitlint/cli@18.4.4(@types/node@20.11.4)(typescript@5.3.3):
+  /@commitlint/cli@18.4.4(@types/node@20.11.5)(typescript@5.3.3):
     resolution: {integrity: sha512-Ro3wIo//fV3XiV1EkdpHog6huaEyNcUAVrSmtgKqYM5g982wOWmP4FXvEDFwRMVgz878CNBvvCc33dMZ5AQJ/g==}
     engines: {node: '>=v18'}
     dependencies:
       '@commitlint/format': 18.4.4
       '@commitlint/lint': 18.4.4
-      '@commitlint/load': 18.4.4(@types/node@20.11.4)(typescript@5.3.3)
+      '@commitlint/load': 18.4.4(@types/node@20.11.5)(typescript@5.3.3)
       '@commitlint/read': 18.4.4
       '@commitlint/types': 18.4.4
       execa: 5.1.1
@@ -504,7 +504,7 @@ packages:
       '@commitlint/types': 18.4.4
     dev: true
 
-  /@commitlint/load@18.4.4(@types/node@20.11.4)(typescript@5.3.3):
+  /@commitlint/load@18.4.4(@types/node@20.11.5)(typescript@5.3.3):
     resolution: {integrity: sha512-RaDIa9qwOw2xRJ3Jr2DBXd14rmnHJIX2XdZF4kmoF1rgsg/+7cvrExLSUNAkQUNimyjCn1b/bKX2Omm+GdY0XQ==}
     engines: {node: '>=v18'}
     dependencies:
@@ -514,7 +514,7 @@ packages:
       '@commitlint/types': 18.4.4
       chalk: 4.1.2
       cosmiconfig: 8.3.6(typescript@5.3.3)
-      cosmiconfig-typescript-loader: 5.0.0(@types/node@20.11.4)(cosmiconfig@8.3.6)(typescript@5.3.3)
+      cosmiconfig-typescript-loader: 5.0.0(@types/node@20.11.5)(cosmiconfig@8.3.6)(typescript@5.3.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -1478,8 +1478,8 @@ packages:
     resolution: {integrity: sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==}
     dev: true
 
-  /@types/node@20.11.4:
-    resolution: {integrity: sha512-6I0fMH8Aoy2lOejL3s4LhyIYX34DPwY8bl5xlNjBvUEk8OHrcuzsFt+Ied4LvJihbtXPM+8zUqdydfIti86v9g==}
+  /@types/node@20.11.5:
+    resolution: {integrity: sha512-g557vgQjUUfN76MZAN/dt1z3dzcUsimuysco0KeluHgrPdJXkP/XdAURgyO2W9fZWHRtRBiVKzKn8vyOAwlG+w==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -1499,7 +1499,7 @@ packages:
       vite: ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.0.11(@types/node@20.11.4)
+      vite: 5.0.11(@types/node@20.11.5)
       vue: 3.4.14(typescript@5.3.3)
     dev: true
 
@@ -1521,7 +1521,7 @@ packages:
       std-env: 3.7.0
       test-exclude: 6.0.0
       v8-to-istanbul: 9.2.0
-      vitest: 1.2.0(@types/node@20.11.4)(@vitest/ui@1.2.0)
+      vitest: 1.2.0(@types/node@20.11.5)(@vitest/ui@1.2.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1568,7 +1568,7 @@ packages:
       pathe: 1.1.1
       picocolors: 1.0.0
       sirv: 2.0.4
-      vitest: 1.2.0(@types/node@20.11.4)(@vitest/ui@1.2.0)
+      vitest: 1.2.0(@types/node@20.11.5)(@vitest/ui@1.2.0)
     dev: true
 
   /@vitest/utils@1.2.0:
@@ -2224,7 +2224,7 @@ packages:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
     dev: true
 
-  /cosmiconfig-typescript-loader@5.0.0(@types/node@20.11.4)(cosmiconfig@8.3.6)(typescript@5.3.3):
+  /cosmiconfig-typescript-loader@5.0.0(@types/node@20.11.5)(cosmiconfig@8.3.6)(typescript@5.3.3):
     resolution: {integrity: sha512-+8cK7jRAReYkMwMiG+bxhcNKiHJDM6bR9FD/nGBXOWdMLuYawjF5cGrtLilJ+LGd3ZjCXnJjR5DkfWPoIVlqJA==}
     engines: {node: '>=v16'}
     peerDependencies:
@@ -2232,7 +2232,7 @@ packages:
       cosmiconfig: '>=8.2'
       typescript: '>=4'
     dependencies:
-      '@types/node': 20.11.4
+      '@types/node': 20.11.5
       cosmiconfig: 8.3.6(typescript@5.3.3)
       jiti: 1.21.0
       typescript: 5.3.3
@@ -4920,7 +4920,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite-node@1.2.0(@types/node@20.11.4):
+  /vite-node@1.2.0(@types/node@20.11.5):
     resolution: {integrity: sha512-ETnQTHeAbbOxl7/pyBck9oAPZZZo+kYnFt1uQDD+hPReOc+wCjXw4r4jHriBRuVDB5isHmPXxrfc1yJnfBERqg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     dependencies:
@@ -4928,7 +4928,7 @@ packages:
       debug: 4.3.4
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 5.0.11(@types/node@20.11.4)
+      vite: 5.0.11(@types/node@20.11.5)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4951,13 +4951,13 @@ packages:
       debug: 4.3.4
       globrex: 0.1.2
       tsconfck: 3.0.1(typescript@5.3.3)
-      vite: 5.0.11(@types/node@20.11.4)
+      vite: 5.0.11(@types/node@20.11.5)
     transitivePeerDependencies:
       - supports-color
       - typescript
     dev: true
 
-  /vite@5.0.11(@types/node@20.11.4):
+  /vite@5.0.11(@types/node@20.11.5):
     resolution: {integrity: sha512-XBMnDjZcNAw/G1gEiskiM1v6yzM4GE5aMGvhWTlHAYYhxb7S3/V1s3m2LDHa8Vh6yIWYYB0iJwsEaS523c4oYA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -4985,7 +4985,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.11.4
+      '@types/node': 20.11.5
       esbuild: 0.19.11
       postcss: 8.4.33
       rollup: 4.9.2
@@ -4993,7 +4993,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitepress@1.0.0-rc.39(@algolia/client-search@4.22.1)(@types/node@20.11.4)(axios@1.6.5)(search-insights@2.13.0)(typescript@5.3.3):
+  /vitepress@1.0.0-rc.39(@algolia/client-search@4.22.1)(@types/node@20.11.5)(axios@1.6.5)(search-insights@2.13.0)(typescript@5.3.3):
     resolution: {integrity: sha512-EcgoRlAAp37WOxUOYv45oxyhLrcy3Upey+mKpqW3ldsg6Ol4trPndRBk2GO0QiSvEKlb9BMerk49D/bFICN6kg==}
     hasBin: true
     peerDependencies:
@@ -5018,7 +5018,7 @@ packages:
       shikiji: 0.9.19
       shikiji-core: 0.9.19
       shikiji-transformers: 0.9.19
-      vite: 5.0.11(@types/node@20.11.4)
+      vite: 5.0.11(@types/node@20.11.5)
       vue: 3.4.14(typescript@5.3.3)
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -5048,7 +5048,7 @@ packages:
       - universal-cookie
     dev: true
 
-  /vitest@1.2.0(@types/node@20.11.4)(@vitest/ui@1.2.0):
+  /vitest@1.2.0(@types/node@20.11.5)(@vitest/ui@1.2.0):
     resolution: {integrity: sha512-Ixs5m7BjqvLHXcibkzKRQUvD/XLw0E3rvqaCMlrm/0LMsA0309ZqYvTlPzkhh81VlEyVZXFlwWnkhb6/UMtcaQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -5073,7 +5073,7 @@ packages:
       jsdom:
         optional: true
     dependencies:
-      '@types/node': 20.11.4
+      '@types/node': 20.11.5
       '@vitest/expect': 1.2.0
       '@vitest/runner': 1.2.0
       '@vitest/snapshot': 1.2.0
@@ -5093,8 +5093,8 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.5.1
       tinypool: 0.8.1
-      vite: 5.0.11(@types/node@20.11.4)
-      vite-node: 1.2.0(@types/node@20.11.4)
+      vite: 5.0.11(@types/node@20.11.5)
+      vite-node: 1.2.0(@types/node@20.11.5)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
