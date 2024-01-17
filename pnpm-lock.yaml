@@ -94,7 +94,7 @@ devDependencies:
     version: 5.3.3
   vite-tsconfig-paths:
     specifier: ^4.3.0
-    version: 4.3.0(typescript@5.3.3)(vite@5.0.11)
+    version: 4.3.1(typescript@5.3.3)(vite@5.0.11)
   vitepress:
     specifier: 1.0.0-rc.39
     version: 1.0.0-rc.39(@algolia/client-search@4.22.1)(@types/node@20.11.4)(axios@1.6.5)(search-insights@2.13.0)(typescript@5.3.3)
@@ -4940,8 +4940,8 @@ packages:
       - terser
     dev: true
 
-  /vite-tsconfig-paths@4.3.0(typescript@5.3.3)(vite@5.0.11):
-    resolution: {integrity: sha512-isTU7WydwdRBsQ/TIJek5kovKBHFn71ZoUK+ik/PeWWh1BGsjC3aCTP7REKFCHpRs6gqTEJgsQB7HafthCGLiQ==}
+  /vite-tsconfig-paths@4.3.1(typescript@5.3.3)(vite@5.0.11):
+    resolution: {integrity: sha512-cfgJwcGOsIxXOLU/nELPny2/LUD/lcf1IbfyeKTv2bsupVbTH/xpFtdQlBmIP1GEK2CjjLxYhFfB+QODFAx5aw==}
     peerDependencies:
       vite: '*'
     peerDependenciesMeta:
