@@ -6,7 +6,7 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
     collapsed: false,
     items: [
       {
-        text: "Getting starded",
+        text: "Getting started",
         link: "/guides/getting-started",
       },
       {
