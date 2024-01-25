@@ -82,7 +82,7 @@
     "ci-info": "^4.0.0",
     "dotenv": "^16.4.0",
     "http-status-codes": "^2.3.0",
-    "husky": "^8.0.3",
+    "husky": "^9.0.5",
     "is-ci": "^3.0.1",
     "lint-staged": "^15.2.0",
     "semantic-release": "^23.0.0",
