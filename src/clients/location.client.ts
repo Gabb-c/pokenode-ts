@@ -1,5 +1,5 @@
 import { ENDPOINTS } from "@constants";
-import { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from "@models";
+import type { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from "@models";
 import { BaseClient } from "./base";
 
 /**

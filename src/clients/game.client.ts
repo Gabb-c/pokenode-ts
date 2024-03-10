@@ -1,5 +1,5 @@
 import { ENDPOINTS } from "@constants";
-import { Generation, NamedAPIResourceList, Pokedex, Version, VersionGroup } from "@models";
+import type { Generation, NamedAPIResourceList, Pokedex, Version, VersionGroup } from "@models";
 import { BaseClient } from "./base";
 
 /**

@@ -12,7 +12,7 @@ import {
   STATS,
   TYPES,
 } from "../constants";
-import {
+import type {
   Ability,
   Characteristic,
   EggGroup,

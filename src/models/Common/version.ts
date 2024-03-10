@@ -1,5 +1,5 @@
-import { Encounter } from "./encounter";
-import { NamedAPIResource } from "./resource";
+import type { Encounter } from "./encounter";
+import type { NamedAPIResource } from "./resource";
 
 /**
  * Encounters and their specifics details

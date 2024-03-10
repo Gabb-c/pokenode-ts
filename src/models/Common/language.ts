@@ -1,4 +1,4 @@
-import { Name } from "./name";
+import type { Name } from "./name";
 
 /**
  * Languages for translations of API resource information

@@ -43,7 +43,7 @@ import { PokemonClient } from 'pokenode-ts';
 
 Or, using the MainClient:
 
-```js
+```ts
 import { MainClient } from 'pokenode-ts';
 
 (async () => {

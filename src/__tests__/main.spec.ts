@@ -7,7 +7,7 @@ import {
   EVOLUTION_TRIGGERS,
   GENERATIONS,
 } from "../constants";
-import {
+import type {
   Berry,
   ContestType,
   EncounterMethod,

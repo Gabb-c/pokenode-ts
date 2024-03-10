@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { EncounterClient } from "../clients";
 import { ENCOUNTER_CONDITIONS, ENCOUNTER_CONDITION_VALUES, ENCOUNTER_METHODS } from "../constants";
-import {
+import type {
   EncounterCondition,
   EncounterConditionValue,
   EncounterMethod,

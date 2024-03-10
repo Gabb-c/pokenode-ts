@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { MachineClient } from "../clients";
-import { Machine, NamedAPIResourceList } from "../models";
+import type { Machine, NamedAPIResourceList } from "../models";
 
 describe("Machine Client", () => {
   let client: MachineClient;

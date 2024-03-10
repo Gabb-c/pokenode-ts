@@ -1,7 +1,12 @@
 import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { ContestClient } from "../clients";
 import { CONTEST_TYPES } from "../constants";
-import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "../models";
+import type {
+  ContestEffect,
+  ContestType,
+  NamedAPIResourceList,
+  SuperContestEffect,
+} from "../models";
 
 describe("Contest Client", () => {
   let client: ContestClient;
@@ -32,7 +37,7 @@ describe("Contest Client", () => {
   it("check if it returns a list of contest types", async () => {
     const data = await client.listContestTypes();
 
-    expectTypeOf(data).toEqualTypeOf<NamedAPIResourceList>();
+    expectTypeOf(data).toMatchTypeOf<NamedAPIResourceList>();
     expect(data.results.length).toBeGreaterThan(0);
     expect(data.results.length).toBeLessThanOrEqual(20);
   });

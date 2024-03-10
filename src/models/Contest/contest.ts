@@ -1,4 +1,4 @@
-import { Effect, FlavorText, NamedAPIResource } from "../Common";
+import type { Effect, FlavorText, NamedAPIResource } from "../Common";
 
 /**
  * ## Contest Type

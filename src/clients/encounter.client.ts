@@ -1,5 +1,5 @@
 import { ENDPOINTS } from "@constants";
-import {
+import type {
   EncounterCondition,
   EncounterConditionValue,
   EncounterMethod,

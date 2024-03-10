@@ -1,4 +1,4 @@
-import { Effect, Name, NamedAPIResource, VerboseEffect } from "../Common";
+import type { Effect, Name, NamedAPIResource, VerboseEffect } from "../Common";
 
 /**
  * ## Ability

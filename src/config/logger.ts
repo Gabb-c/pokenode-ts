@@ -1,5 +1,5 @@
-import { AxiosError } from "axios";
-import { CacheAxiosResponse, InternalCacheRequestConfig } from "axios-cache-interceptor";
+import type { AxiosError } from "axios";
+import type { CacheAxiosResponse, InternalCacheRequestConfig } from "axios-cache-interceptor";
 
 export const handleRequest = (
   config: InternalCacheRequestConfig,

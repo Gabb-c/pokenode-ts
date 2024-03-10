@@ -1,4 +1,4 @@
-import {
+import type {
   APIResource,
   Description,
   MachineVersionDetail,
@@ -6,7 +6,7 @@ import {
   NamedAPIResource,
   VerboseEffect,
 } from "../Common";
-import { AbilityEffectChange } from "../Pokemon";
+import type { AbilityEffectChange } from "../Pokemon";
 
 /**
  * ## Move Target

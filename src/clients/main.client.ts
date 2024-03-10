@@ -11,7 +11,7 @@ import {
   PokemonClient,
   UtilityClient,
 } from "@clients";
-import { BaseClient, ClientArgs } from "./base";
+import { BaseClient, type ClientArgs } from "./base";
 
 /**
  * ### Main Client

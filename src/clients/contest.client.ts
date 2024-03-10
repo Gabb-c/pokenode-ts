@@ -1,5 +1,5 @@
 import { ENDPOINTS } from "@constants";
-import { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "@models";
+import type { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "@models";
 import { BaseClient } from "./base";
 
 /**

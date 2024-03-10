@@ -8,7 +8,7 @@ import {
   MOVE_LEARN_METHODS,
   MOVE_TARGETS,
 } from "../constants";
-import {
+import type {
   Move,
   MoveAilment,
   MoveBattleStyle,

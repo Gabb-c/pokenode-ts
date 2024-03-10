@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
 import { ItemClient } from "../clients";
 import { ITEM_CATEGORIES, ITEM_FLING_EFFECTS, ITEM_POCKETS } from "../constants";
-import {
+import type {
   Item,
   ItemAttribute,
   ItemCategory,

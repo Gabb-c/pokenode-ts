@@ -1,4 +1,4 @@
-import { APIResource, Name, NamedAPIResource } from "../Common";
+import type { APIResource, Name, NamedAPIResource } from "../Common";
 
 /**
  * ## Stat

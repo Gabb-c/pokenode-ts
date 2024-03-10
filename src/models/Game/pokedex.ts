@@ -1,5 +1,5 @@
-import { Description, Name, NamedAPIResource } from "../Common";
-import { PokemonEntry } from "./pokemon-entry";
+import type { Description, Name, NamedAPIResource } from "../Common";
+import type { PokemonEntry } from "./pokemon-entry";
 
 /**
  * ## Pokedex

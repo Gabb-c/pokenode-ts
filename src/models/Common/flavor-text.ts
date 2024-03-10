@@ -1,4 +1,4 @@
-import { NamedAPIResource } from "./resource";
+import type { NamedAPIResource } from "./resource";
 
 /**
  * The localized flavor text for an API resource in a specific language

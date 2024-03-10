@@ -1,9 +1,9 @@
-import axios, { AxiosError } from "axios";
+import axios, { type AxiosError } from "axios";
 import {
-  AxiosCacheInstance,
-  CacheAxiosResponse,
-  CacheOptions,
-  InternalCacheRequestConfig,
+  type AxiosCacheInstance,
+  type CacheAxiosResponse,
+  type CacheOptions,
+  type InternalCacheRequestConfig,
   setupCache,
 } from "axios-cache-interceptor";
 
@@ -13,8 +13,8 @@ import {
   handleResponse,
   handleResponseError,
 } from "../config/logger";
-import { BASE_URL, ENDPOINTS } from "../constants";
-import { NamedAPIResourceList } from "../models/Common/resource";
+import { BASE_URL, type ENDPOINTS } from "../constants";
+import type { NamedAPIResourceList } from "../models/Common/resource";
 
 type ObjectValue<T> = T[keyof T];
 type Endpoint = ObjectValue<typeof ENDPOINTS>;

@@ -1,5 +1,5 @@
 import { ENDPOINTS } from "@constants";
-import { Language, NamedAPIResourceList } from "@models";
+import type { Language, NamedAPIResourceList } from "@models";
 import { BaseClient } from "./base";
 
 /**

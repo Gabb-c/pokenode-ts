@@ -1,4 +1,4 @@
-import { Name, NamedAPIResource } from "../Common";
+import type { Name, NamedAPIResource } from "../Common";
 
 /**
  * ## Pokeathlon Stat
