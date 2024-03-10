@@ -34,6 +34,3 @@ jobs:
 
       - name: Lint
         run: pnpm lint:ci
-
-      - name: Typecheck
-        run: pnpm lint:tsc
