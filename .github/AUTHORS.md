@@ -7,8 +7,8 @@
 
 ---
 
-This project, pokenode-ts, is primarily authored by Gabriel, known as Gabb-c on GitHub. Feel free to reach out to Gabriel for any inquiries or collaboration opportunities.
+Pokenode-ts is mostly created by [Gabriel](mailto:gdgabrieldacunha71@gmail.com), also known as [Gabb-c](https://github.com/Gabb-c) on GitHub. Feel free to contact Gabriel with any questions or collaborative opportunities.
 
 ## Contributing
 
-If you would like to contribute to this project, please follow our [contribution guidelines](CONTRIBUTING.md).
+If you wish to contribute to this project, please see our [contribution guidelines](CONTRIBUTING.md).
