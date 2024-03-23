@@ -9,6 +9,7 @@ export default defineConfig({
       exclude: ["src/models/*", "/.*", "docs"],
     },
     logHeapUsage: true,
+    name: "Pokenode-ts",
   },
   plugins: [tsconfigPaths()],
 });

@@ -1,5 +1,5 @@
-import { HeadConfig } from "vitepress";
-import { description as packageDescription, name } from "../../package.json";
+import type { HeadConfig } from "vitepress";
+import { name, description as packageDescription } from "../../package.json";
 
 export const headConfig: HeadConfig[] = [
   ["link", { rel: "icon", href: "/siteLogo.svg", type: "image/svg+xml" }],

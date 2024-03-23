@@ -16,11 +16,11 @@ hero:
 features:
   - icon: 🛠️
     title: Built-in Typings
-    details: Pokenode-ts contains up-to-date typings, based in the PokéAPI Documentation.
+    details: Pokenode-ts contains up-to-date typings, based on the PokéAPI Documentation.
   - icon: 📦
     title: Request Cache
-    details: Axios auto-cache feature can make your app requests blazing fast! You can store request results to prevent unneeded network requests.
+    details: Utilize Axios auto-cache feature to optimize your app's performance. Store request results to prevent unnecessary network requests.
   - icon: 🌲
     title: Logs
-    details: Display logs for development
+    details: Display logs for development purposes.
 ---

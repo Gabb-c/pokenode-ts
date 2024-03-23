@@ -1,5 +1,5 @@
 import { defineConfig } from "vitepress";
-import { author, description as packageDescription, license, repository } from "../../package.json";
+import { author, license, description as packageDescription, repository } from "../../package.json";
 import { headConfig } from "./head-config";
 import { navbarItems, sidebarRoutes } from "./routes";
 import { SOCIAL_LINKS } from "./social-links";
@@ -49,13 +49,13 @@ export default defineConfig({
       pattern: `${repository.url}/vitepress/edit/main/docs/src/:path`,
       text: "Edit this page on GitHub",
     },
-    algolia: {
-      apiKey: process.env.API_KEY as string,
-      appId: process.env.APP_ID as string,
-      indexName: process.env.INDEX_NAME as string,
-    },
     search: {
-      provider: "local",
+      provider: "algolia",
+      options: {
+        apiKey: process.env.API_KEY as string,
+        appId: process.env.APP_ID as string,
+        indexName: process.env.INDEX_NAME as string,
+      },
     },
   },
   cleanUrls: true,

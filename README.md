@@ -1,6 +1,6 @@
-# pokenode-ts
+# Pokenode-ts
 
-**A lightweight Node.js wrapper for the PokéAPI with built-in types. An easy way to integrate your app with the PokéAPI.**
+**Pokenode-ts** is a lightweight Node.js wrapper for the PokéAPI with built-in types. It provides an easy way to integrate your application with the PokéAPI.
 
 ## Features
 
@@ -18,7 +18,7 @@ npm install axios axios-cache-interceptor pokenode-ts
 yarn add axios axios-cache-interceptor pokenode-ts
 
 # Pnpm
-pnpm install axios axios-cache-interceptor pokenode-ts
+pnpm add axios axios-cache-interceptor pokenode-ts
 ```
 
 ## Basic Example
