@@ -49,8 +49,8 @@
     "test:ui": "vitest --ui --api 9527"
   },
   "devDependencies": {
-    "@algolia/client-search": "^4.22.1",
-    "@biomejs/biome": "^1.6.2",
+    "@algolia/client-search": "^4.23.2",
+    "@biomejs/biome": "^1.6.3",
     "@commitlint/cli": "^19.2.1",
     "@commitlint/config-conventional": "^19.1.0",
     "@semantic-release/changelog": "^6.0.3",
@@ -60,7 +60,7 @@
     "@semantic-release/npm": "^12.0.0",
     "@semantic-release/release-notes-generator": "^13.0.0",
     "@size-limit/preset-small-lib": "^11.1.2",
-    "@swc/core": "^1.4.8",
+    "@swc/core": "^1.4.11",
     "@types/is-ci": "^3.0.4",
     "@types/node": "^20.11.30",
     "@vitest/coverage-v8": "^1.4.0",
@@ -75,7 +75,7 @@
     "lint-staged": "^15.2.2",
     "semantic-release": "^23.0.6",
     "size-limit": "^11.1.2",
-    "sort-package-json": "^2.8.0",
+    "sort-package-json": "^2.9.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.3",
     "vite-tsconfig-paths": "^4.3.2",
