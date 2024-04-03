@@ -7,8 +7,6 @@ import { SOCIAL_LINKS } from "./social-links";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-import { ENV_VARIABLES } from "../../env";
-
 const readSvg = (fileName: string): string =>
   readFileSync(resolve(`./docs/.vitepress/assets/${fileName}`), "utf-8");
 
@@ -49,12 +47,7 @@ export default defineConfig({
       text: "Edit this page on GitHub",
     },
     search: {
-      provider: "algolia",
-      options: {
-        apiKey: ENV_VARIABLES.API_KEY,
-        appId: ENV_VARIABLES.APP_ID,
-        indexName: ENV_VARIABLES.INDEX_NAME,
-      },
+      provider: "local",
     },
   },
   cleanUrls: true,
