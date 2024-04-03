@@ -6,9 +6,8 @@ import { SOCIAL_LINKS } from "./social-links";
 
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import * as dotenv from "dotenv";
 
-dotenv.config();
+import { ENV_VARIABLES } from "../../env";
 
 const readSvg = (fileName: string): string =>
   readFileSync(resolve(`./docs/.vitepress/assets/${fileName}`), "utf-8");
@@ -52,9 +51,9 @@ export default defineConfig({
     search: {
       provider: "algolia",
       options: {
-        apiKey: process.env.API_KEY as string,
-        appId: process.env.APP_ID as string,
-        indexName: process.env.INDEX_NAME as string,
+        apiKey: ENV_VARIABLES.API_KEY,
+        appId: ENV_VARIABLES.APP_ID,
+        indexName: ENV_VARIABLES.INDEX_NAME,
       },
     },
   },

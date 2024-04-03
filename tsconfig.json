@@ -39,7 +39,8 @@
       "@clients": ["src/clients/index.ts"],
       "@config": ["src/config/index.ts"],
       "@constants": ["src/constants/index.ts"],
-      "@models": ["src/models/index.ts"]
+      "@models": ["src/models/index.ts"],
+      "@package": ["package.json"]
     }
   },
   // Specifies the files to include in the compilation.

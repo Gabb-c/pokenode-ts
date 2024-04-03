@@ -1,13 +1,13 @@
-import { h } from 'vue'
-import Theme from 'vitepress/theme'
+import Theme from "vitepress/theme";
+import { h } from "vue";
 
-import ReloadPrompt from './components/ReloadPrompt.vue'
+import ReloadPrompt from "./components/ReloadPrompt.vue";
 
 export default {
   ...Theme,
   Layout() {
     return h(Theme.Layout, null, {
-      'layout-bottom': () => h(ReloadPrompt)
-    })
-  }
-}
+      "layout-bottom": () => h(ReloadPrompt),
+    });
+  },
+};

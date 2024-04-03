@@ -1,6 +1,6 @@
 import isCI from "is-ci";
 import { defineConfig } from "tsup";
-import { peerDependencies, author, version, license, description } from "./package.json";
+import { author, description, license, peerDependencies, version } from "./package.json";
 
 // Extract peerDependencies from package.json
 const EXTERNAL_DEPS = Object.keys(peerDependencies as Record<string, string>);
@@ -8,17 +8,16 @@ const EXTERNAL_DEPS = Object.keys(peerDependencies as Record<string, string>);
 // Custom banner with improved formatting
 const myBanner = `
 /**
- * ${description}
- * Version: ${version} | Build Date: ${new Date().toLocaleDateString("en-us")}
- * Build Environment: Node ${process.version}
- * License: ${license}
- *
  *  _
  * |_) _  |   _   _   _   _|  _  __  _|_  _
  * |  (_) |< (/_ | | (_) (_| (/_      |_ _>
  *
- * ${author.name} <${author.url}>
- */
+ * ${description}
+ * Author: ${author.name} <${author.url}>
+ * Version: ${version} | Build Date: ${new Date().toLocaleDateString("en-us")}
+ * Build Environment: Node ${process.version}
+ * License: ${license}
+ **/
 `;
 
 export default defineConfig({
