@@ -1,8 +1,8 @@
-import tsPaths from "vite-tsconfig-paths";
+import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  plugins: [tsPaths()],
+  plugins: [tsconfigPaths()],
   test: {
     testTimeout: 10_000,
     coverage: {
@@ -10,7 +10,7 @@ export default defineConfig({
       exclude: ["src/models/*", "/.*", "docs"],
     },
     name: "Pokenode-ts",
-    // setupFiles: "tests/setup.ts",
+    setupFiles: "tests/utils/setup.ts",
     include: ["tests/**/*.{test,spec}.?(c|m)[jt]s?(x)"],
   },
 });

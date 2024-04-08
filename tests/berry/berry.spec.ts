@@ -11,11 +11,12 @@ describe("Berry Client", () => {
   });
 
   // Client
-  it("(client) should be instantiated correctly", () => expect(client).toBeDefined());
+  it("should be instantiated correctly", () => expect(client).toBeDefined());
 
   // Berry Tests
   it("should fetch a berry by name and return the correct data", async () => {
     const berry = await client.getBerryByName("cheri");
+
     expect(berry.name).toBe("cheri");
   });
 

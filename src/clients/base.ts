@@ -13,11 +13,8 @@ import {
   handleResponse,
   handleResponseError,
 } from "../config/logger";
-import { BASE_URL, type ENDPOINTS } from "../constants";
+import { BASE_URL, type Endpoint } from "../constants";
 import type { NamedAPIResourceList } from "../models/Common/resource";
-
-type ObjectValue<T> = T[keyof T];
-type Endpoint = ObjectValue<typeof ENDPOINTS>;
 
 /**
  * ## Client Args

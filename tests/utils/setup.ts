@@ -1,11 +1,11 @@
 import { setupServer } from "msw/node";
 import { afterAll, afterEach, beforeAll } from "vitest";
 
-import { berryHandlers } from "./berry/mocks";
+import { BERRY_HANDLERS } from "../berry/mocks/handlers";
 
-const handlers = [...berryHandlers];
+const HANDLERS = [...BERRY_HANDLERS];
 
-const server = setupServer(...handlers);
+const server = setupServer(...HANDLERS);
 
 beforeAll(() => server.listen({ onUnhandledRequest: "warn" }));
 afterAll(() => server.close());
