@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: Pokenode-ts
-  text: Type-safe Configurable Lightweight
-  tagline: A lightweight Node.js wrapper for the PokéAPI with built-in types.
+  text: Type-Safe, Configurable, Lightweight
+  tagline: A powerful Node.js wrapper for the PokéAPI with built-in types.
   actions:
     - theme: brand
       text: Get Started
@@ -15,12 +15,12 @@ hero:
 
 features:
   - icon: 🛠️
-    title: Built-in Typings
-    details: Pokenode-ts contains up-to-date typings, based on the PokéAPI Documentation.
+    title: Built-in Types
+    details: Pokenode-ts includes up-to-date type definitions based on the PokéAPI documentation, ensuring type safety and improved developer experience.
   - icon: 📦
     title: Request Cache
-    details: Utilize Axios auto-cache feature to optimize your app's performance. Store request results to prevent unnecessary network requests.
+    details: Leverages Axios auto-cache feature to optimize performance. Store API responses to minimize unnecessary network requests.
   - icon: 🌲
-    title: Logs
-    details: Display logs for development purposes.
+    title: Logging
+    details: Provides logging functionality for development and debugging purposes.
 ---

@@ -4,7 +4,7 @@ import {
   handleRequestError,
   handleResponse,
   handleResponseError,
-} from "../config/logger";
+} from "../../src/config/logger";
 
 const consoleLogSpy = vi.spyOn(console, "log");
 const consoleErrorSpy = vi.spyOn(console, "error");

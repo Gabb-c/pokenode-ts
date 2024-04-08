@@ -34,7 +34,7 @@
   "types": "lib/index.d.ts",
   "files": ["lib"],
   "scripts": {
-    "build": "tsup --config tsup.config.ts",
+    "build": "tsup --config tsup.config.ts && size-limit",
     "docs:build": "vitepress build docs",
     "docs:dev": "vitepress dev docs --force",
     "docs:preview": "vitepress preview docs",
@@ -42,10 +42,8 @@
     "lint:ci": "biome ci src",
     "prepare": "is-ci || husky install",
     "prepublishOnly": "pnpm build",
-    "size": "pnpm build && size-limit",
-    "test:ci": "vitest --silent --run",
+    "test": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:dev": "vitest -w",
     "test:ui": "vitest --ui --api 9527"
   },
   "devDependencies": {
@@ -72,6 +70,7 @@
     "husky": "^9.0.11",
     "is-ci": "^3.0.1",
     "lint-staged": "^15.2.2",
+    "msw": "^2.2.13",
     "semantic-release": "^23.0.7",
     "size-limit": "^11.1.2",
     "tsup": "^8.0.2",

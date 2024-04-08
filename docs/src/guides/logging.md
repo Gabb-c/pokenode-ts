@@ -8,7 +8,7 @@ Every client in Pokenode-ts can display logs from requests and responses.
 
 To enable logs just pass `logs: true`:
 
-```js
+```ts
 import { BerryClient } from 'pokenode-ts';
 
 const api = new BerryClient({ logs: true }); // Enable logs
@@ -16,7 +16,7 @@ const api = new BerryClient({ logs: true }); // Enable logs
 
 Will output:
 
-```log
+```
 // success
 [ Request Config ] GET | /berry/cheri
 [ Response ] STATUS 200 | CACHED
