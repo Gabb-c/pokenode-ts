@@ -17,6 +17,9 @@ export default defineConfig({
   srcDir: "./src",
   lastUpdated: true,
   head: headConfig,
+  sitemap: {
+    hostname: "https://pokenode-ts.vercel.app",
+  },
   themeConfig: {
     nav: navbarItems,
     sidebar: sidebarRoutes,

@@ -1,4 +1,4 @@
-import { http, type DefaultBodyType, HttpResponse, type PathParams } from "msw";
+import { http, type DefaultBodyType, type HttpHandler, HttpResponse, type PathParams } from "msw";
 
 import { BASE_URL, type Endpoint } from "../../src/constants";
 
@@ -22,7 +22,7 @@ type PokeApiListRequestParams = {
  * @template P - The expected path parameters type, defaulting to PokeApiListRequestParams.
  * @template B - The expected request body type, defaulting to DefaultBodyType.
  * @template R - The expected response body type, defaulting to DefaultBodyType.
- * @returns {MockedResponse<P, B, R>} The mocked response object.
+ * @returns {HttpHandler} The mocked response object.
  */
 export const baseHandler = <
   P extends PathParams<keyof P> = PokeApiListRequestParams,
@@ -32,7 +32,7 @@ export const baseHandler = <
   endpoint: Endpoint,
   mockResponse: R,
   identifier = "",
-) => {
+): HttpHandler => {
   // Constructs the full URL for the mock request, including any identifier.
   const url = `${BASE_URL.REST}${endpoint}${identifier ? `/${identifier}` : ""}`;
 
