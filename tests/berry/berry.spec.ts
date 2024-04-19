@@ -1,7 +1,5 @@
-import { beforeAll, describe, expect, it } from "vitest";
-import { BerryClient } from "../../src/clients";
-
-import { BERRIES, BERRY_FIRMNESSES, BERRY_FLAVORS } from "../../src/constants";
+import { BerryClient } from "@clients";
+import { BERRIES, BERRY_FIRMNESSES, BERRY_FLAVORS } from "@constants";
 
 describe("Berry Client", () => {
   let client: BerryClient;

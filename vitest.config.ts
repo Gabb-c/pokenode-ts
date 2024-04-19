@@ -3,6 +3,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [tsconfigPaths()],
+  esbuild: { target: "ESNext" },
   test: {
     testTimeout: 10_000,
     coverage: {

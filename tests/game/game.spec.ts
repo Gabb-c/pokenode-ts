@@ -1,6 +1,5 @@
-import { beforeAll, describe, expect, expectTypeOf, it } from "vitest";
-import { GameClient } from "../../src/clients";
-import { GENERATIONS, POKEDEXES, VERSIONS, VERSION_GROUPS } from "../../src/constants";
+import { GameClient } from "@clients";
+import { GENERATIONS, POKEDEXES, VERSIONS, VERSION_GROUPS } from "@constants";
 
 describe("Game Client", () => {
   let client: GameClient;

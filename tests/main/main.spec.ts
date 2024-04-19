@@ -1,13 +1,11 @@
-import { beforeAll, describe, expect, it } from "vitest";
-
-import { MainClient } from "../../src/clients";
+import { MainClient } from "@clients";
 import {
   BERRIES,
   CONTEST_TYPES,
   ENCOUNTER_METHODS,
   EVOLUTION_TRIGGERS,
   GENERATIONS,
-} from "../../src/constants";
+} from "@constants";
 
 describe("MainClient Client", () => {
   let client: MainClient;

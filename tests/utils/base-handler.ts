@@ -1,6 +1,6 @@
 import { http, type DefaultBodyType, type HttpHandler, HttpResponse, type PathParams } from "msw";
 
-import { BASE_URL, type Endpoint } from "../../src/constants";
+import { BASE_URL, type Endpoint } from "@constants";
 
 type PokeApiListRequestParams = {
   limit: string;

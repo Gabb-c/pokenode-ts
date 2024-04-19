@@ -1,10 +1,9 @@
-import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import {
   handleRequest,
   handleRequestError,
   handleResponse,
   handleResponseError,
-} from "../../src/config/logger";
+} from "@config/logger";
 
 const consoleLogSpy = vi.spyOn(console, "log");
 const consoleErrorSpy = vi.spyOn(console, "error");

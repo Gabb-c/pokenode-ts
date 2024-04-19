@@ -4,6 +4,8 @@
     "target": "ESNext",
     // An array of library files to include in the compilation.
     "lib": ["ESNext"],
+    // Vitest globals
+    "types": ["vitest/globals"],
     // Allows JavaScript files to be included in the project.
     "allowJs": true,
     // Skips type checking of declaration files.
@@ -37,14 +39,14 @@
     // Defines path mappings for module names.
     "paths": {
       "@clients": ["src/clients/index.ts"],
-      "@config": ["src/config/index.ts"],
+      "@config/*": ["src/config/*"],
       "@constants": ["src/constants/index.ts"],
       "@models": ["src/models/index.ts"],
       "@package": ["package.json"]
     }
   },
   // Specifies the files to include in the compilation.
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
   // Specifies files to be excluded from the compilation.
-  "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts"]
+  "exclude": ["node_modules"]
 }
