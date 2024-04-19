@@ -5,13 +5,13 @@ export default defineConfig({
   plugins: [tsconfigPaths()],
   esbuild: { target: "ESNext" },
   test: {
+    name: "Pokenode-ts",
+    setupFiles: "tests/utils/setup.ts",
     globals: true,
     testTimeout: 10_000,
     coverage: {
       provider: "v8",
       exclude: ["src/models/*", "/.*", "docs"],
     },
-    name: "Pokenode-ts",
-    setupFiles: "tests/utils/setup.ts",
   },
 });

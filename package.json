@@ -40,6 +40,7 @@
     "prepare": "is-ci || husky install",
     "prepublishOnly": "pnpm build",
     "test": "vitest",
+    "test:types": "vitest --typecheck.only",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui --api 9527"
   },

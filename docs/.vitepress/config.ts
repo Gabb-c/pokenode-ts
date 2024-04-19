@@ -24,7 +24,7 @@ export default defineConfig({
     nav: navbarItems,
     sidebar: sidebarRoutes,
     siteTitle: "Pokenode-ts",
-    logo: "/siteLogo.svg",
+    logo: { src: "/site-logo.svg", width: 24, height: 24 },
     footer: {
       message: `Made with ❤️<br/>Released under the ${license} License`,
       copyright: `Copyright © 2021-${new Date().getFullYear()} ${author.name}`,
