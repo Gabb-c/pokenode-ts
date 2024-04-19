@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [tsconfigPaths()],
   esbuild: { target: "ESNext" },
   test: {
+    globals: true,
     testTimeout: 10_000,
     coverage: {
       provider: "v8",
@@ -12,6 +13,5 @@ export default defineConfig({
     },
     name: "Pokenode-ts",
     setupFiles: "tests/utils/setup.ts",
-    include: ["tests/**/*.{test,spec}.?(c|m)[jt]s?(x)"],
   },
 });
