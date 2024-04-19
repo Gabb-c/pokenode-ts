@@ -1,5 +1,5 @@
 import type { HeadConfig } from "vitepress";
-import { name, description as packageDescription } from "../../package.json";
+import { name, description as packageDescription } from "../../../package.json";
 
 export const headConfig: HeadConfig[] = [
   ["link", { rel: "icon", href: "/site-logo.svg", type: "image/svg+xml" }],
@@ -104,6 +104,7 @@ export const headConfig: HeadConfig[] = [
   ["meta", { name: "theme-color", content: "#FF3962" }],
   ["meta", { property: "og:locale", content: "en" }],
   ["meta", { property: "og:title", content: `${name} | ${packageDescription}` }],
+  ["meta", { property: "og:url", content: "https://pokenode-ts.vercel.app/" }],
   ["meta", { property: "og:description", content: packageDescription }],
   ["meta", { property: "og:image", content: "/cover.jpg" }],
 ];

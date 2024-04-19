@@ -28,24 +28,45 @@ features:
     details: Provides logging functionality for development and debugging purposes.
 ---
 
-<style>
-:root {
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #FF3962 30%, #D3D3D3);
+<script setup>
+import {
+  VPTeamPage,
+  VPTeamPageTitle,
+  VPTeamMembers
+} from 'vitepress/theme';
 
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #FF3962 50%, #D3D3D3 50%);
-  --vp-home-hero-image-filter: blur(44px);
-}
+ 
+const members = [
+ {
+    avatar: 'https://github.com/Gabb-c.png',
+    name: 'Gabriel (Gabb-c)',
+    title: 'Creator',
+    links: [
+      { icon: 'github', link: 'https://github.com/Gabb-c' },
 
-@media (min-width: 640px) {
-  :root {
-    --vp-home-hero-image-filter: blur(56px);
-  }
-}
+    ]
+  },
+  {
+    avatar: 'https://github.com/moyzlevi.png',
+    name: 'Moysés (moyzlevi)',
+    title: 'Creator',
+    links: [
+      { icon: 'github', link: 'https://github.com/moyzlevi' },
+    ]
+  },
+]
+</script>
 
-@media (min-width: 960px) {
-  :root {
-    --vp-home-hero-image-filter: blur(68px);
-  }
-}
-</style>
+<VPTeamPage>
+  <VPTeamPageTitle>
+    <template #title>
+      Our Team
+    </template>
+    <template #lead>
+      Composed of a diverse group of people from all over the world through our open source community.
+    </template>
+  </VPTeamPageTitle>
+  <VPTeamMembers
+    :members="members"
+  />
+</VPTeamPage>

@@ -1,11 +1,11 @@
-import { defineConfig } from "vitepress";
-import { author, license, description as packageDescription, repository } from "../../package.json";
-import { headConfig } from "./head-config";
-import { navbarItems, sidebarRoutes } from "./routes";
-import { SOCIAL_LINKS } from "./social-links";
-
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { defineConfig } from "vitepress";
+
+import { author, license, description as packageDescription, repository } from "../../package.json";
+import { headConfig } from "./meta/head-config";
+import { navbarItems, sidebarRoutes } from "./meta/routes";
+import { SOCIAL_LINKS } from "./meta/social-links";
 
 const readSvg = (fileName: string): string =>
   readFileSync(resolve(`./docs/.vitepress/assets/${fileName}`), "utf-8");
@@ -51,6 +51,10 @@ export default defineConfig({
     },
     search: {
       provider: "local",
+    },
+    carbonAds: {
+      code: "CEBDT27Y",
+      placement: "vuejsorg",
     },
   },
   cleanUrls: true,

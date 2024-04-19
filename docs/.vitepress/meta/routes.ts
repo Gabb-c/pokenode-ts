@@ -25,7 +25,7 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
   },
   {
     text: "Clients",
-    collapsed: false,
+    collapsed: true,
     items: [
       {
         text: "Pokemon Client",
@@ -75,7 +75,7 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
   },
   {
     text: "Typings",
-    collapsed: false,
+    collapsed: true,
     items: [
       {
         text: "Pokemon",
