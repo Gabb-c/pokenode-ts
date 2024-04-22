@@ -1,5 +1,13 @@
 import { BerryClient } from "@clients";
 import { BERRIES, BERRY_FIRMNESSES, BERRY_FLAVORS } from "@constants";
+import {
+  MOCK_BERRY,
+  MOCK_BERRY_FIRMNESS,
+  MOCK_BERRY_FIRMNESS_LIST,
+  MOCK_BERRY_FLAVOR,
+  MOCK_BERRY_FLAVOR_LIST,
+  MOCK_BERRY_LIST,
+} from "./mocks/data";
 
 describe("Berry Client", () => {
   let client: BerryClient;
@@ -11,65 +19,37 @@ describe("Berry Client", () => {
   // Client
   it("should be instantiated correctly", () => expect(client).toBeDefined());
 
-  // Berry Tests
-  it("should fetch a berry by name and return the correct data", async () => {
-    const berry = await client.getBerryByName("cheri");
-
-    expect(berry.name).toBe("cheri");
-  });
-
-  it("should fetch a berry by ID and return the correct data", async () => {
-    const data = await client.getBerryById(BERRIES.CHERI);
-
-    expect(data.name).toBe("cheri");
+  it("should fetch a berry by ID/Name and return the correct data", async () => {
+    await expect(client.getBerryByName("cheri")).resolves.toEqual(MOCK_BERRY);
+    await expect(client.getBerryById(BERRIES.CHERI)).resolves.toEqual(MOCK_BERRY);
   });
 
   it("should fetch a list of berries and return valid results", async () => {
-    const data = await client.listBerries();
-
-    expect(data.results.length).toBeGreaterThan(0);
-    expect(data.results.length).toBeLessThanOrEqual(20);
+    await expect(client.listBerries()).resolves.toEqual(MOCK_BERRY_LIST);
   });
 
   // Berry Firmness Tests
   it("should fetch a berry firmness by name and return the correct data", async () => {
-    const data = await client.getBerryFirmnessByName("very-soft");
-
-    expect(data.name).toBe("very-soft");
-  });
-
-  it("should fetch a berry firmness by ID and return the correct data", async () => {
-    const data = await client.getBerryFirmnessById(BERRY_FIRMNESSES.VERY_SOFT);
-
-    expect(data.name).toBe("very-soft");
+    await expect(client.getBerryFirmnessById(BERRY_FIRMNESSES.VERY_SOFT)).resolves.toEqual(
+      MOCK_BERRY_FIRMNESS,
+    );
+    await expect(client.getBerryFirmnessByName("very-soft")).resolves.toEqual(MOCK_BERRY_FIRMNESS);
   });
 
   it("should fetch a list of berry firmnesses and return valid results", async () => {
-    const data = await client.listBerryFirmnesses();
-
-    expect(data.results.length).toBeGreaterThan(0);
-    expect(data.results.length).toBeLessThanOrEqual(20);
+    await expect(client.listBerryFirmnesses()).resolves.toEqual(MOCK_BERRY_FIRMNESS_LIST);
   });
 
-  // Berry Flavor Tests:
-
+  // Berry Flavor Tests
   it("should fetch a berry flavor by name and return the correct data", async () => {
-    const data = await client.getBerryFlavorByName("spicy");
-
-    expect(data.id).toBe(BERRY_FLAVORS.SPICY);
-  });
-
-  it("should fetch a berry flavor by ID and return the correct data", async () => {
-    const data = await client.getBerryFlavorById(BERRY_FLAVORS.SPICY);
-
-    expect(data.name).toBe("spicy");
+    await expect(client.getBerryFlavorById(BERRY_FLAVORS.SPICY)).resolves.toEqual(
+      MOCK_BERRY_FLAVOR,
+    );
+    await expect(client.getBerryFlavorByName("spicy")).resolves.toEqual(MOCK_BERRY_FLAVOR);
   });
 
   it("should fetch a list of berry flavors and return valid results", async () => {
-    const data = await client.listBerryFlavors();
-
-    expect(data.results.length).toBeGreaterThan(0);
-    expect(data.results.length).toBeLessThanOrEqual(20);
+    await expect(client.listBerryFlavors()).resolves.toEqual(MOCK_BERRY_FLAVOR_LIST);
   });
 
   // Berry - Edge Cases and Errors

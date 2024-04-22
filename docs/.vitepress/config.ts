@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { defineConfig } from "vitepress";
 
-import { author, license, description as packageDescription, repository } from "../../package.json";
+import { author, license, description as packageDescription } from "../../package.json";
 import { headConfig } from "./meta/head-config";
 import { navbarItems, sidebarRoutes } from "./meta/routes";
 import { SOCIAL_LINKS } from "./meta/social-links";
@@ -46,8 +46,8 @@ export default defineConfig({
       },
     ],
     editLink: {
-      pattern: `${repository.url}/vitepress/edit/main/docs/src/:path`,
-      text: "Edit this page on GitHub",
+      pattern: "https://github.com/Gabb-c/pokenode-ts/edit/main/docs/src/:path",
+      text: "Suggest changes to this page",
     },
     search: {
       provider: "local",
