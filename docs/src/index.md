@@ -35,7 +35,6 @@ import {
   VPTeamMembers
 } from 'vitepress/theme';
 
- 
 const members = [
  {
     avatar: 'https://github.com/Gabb-c.png',
@@ -43,7 +42,7 @@ const members = [
     title: 'Creator',
     links: [
       { icon: 'github', link: 'https://github.com/Gabb-c' },
-
+      { icon: 'linkedin', link: 'https://www.linkedin.com/in/gabriel-da-cunha/' }
     ]
   },
   {
@@ -52,6 +51,8 @@ const members = [
     title: 'Creator',
     links: [
       { icon: 'github', link: 'https://github.com/moyzlevi' },
+      { icon: 'linkedin', link: 'https://www.linkedin.com/in/moyses-p-73b88b1a5/' },
+      { icon: 'x', link: 'https://twitter.com/moyzlevi1' }
     ]
   },
 ]
@@ -63,7 +64,8 @@ const members = [
       Our Team
     </template>
     <template #lead>
-      Composed of a diverse group of people from all over the world through our open source community.
+      The development of this project is guided by an international
+      team, some of whom have chosen to be featured below.
     </template>
   </VPTeamPageTitle>
   <VPTeamMembers
