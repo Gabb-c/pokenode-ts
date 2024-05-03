@@ -57,9 +57,9 @@
     "@size-limit/preset-small-lib": "^11.1.2",
     "@swc/core": "^1.5.0",
     "@types/is-ci": "^3.0.4",
-    "@types/node": "^20.12.7",
-    "@vitest/coverage-v8": "^1.5.3",
-    "@vitest/ui": "^1.5.3",
+    "@types/node": "^20.12.8",
+    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/ui": "^1.6.0",
     "axios": "^1.6.8",
     "axios-cache-interceptor": "^1.5.2",
     "ci-info": "^4.0.0",
@@ -72,15 +72,15 @@
     "size-limit": "^11.1.2",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5",
-    "vite": "^5.2.10",
+    "vite": "^5.2.11",
     "vite-tsconfig-paths": "^4.3.2",
     "vitepress": "1.1.4",
-    "vitest": "^1.5.3",
+    "vitest": "^1.6.0",
     "vue": "^3.4.26"
   },
   "peerDependencies": {
     "axios": "^1.6.8",
-    "axios-cache-interceptor": "^1.5.1"
+    "axios-cache-interceptor": "^1.5.2"
   },
   "engines": {
     "node": ">=16"

@@ -2,5 +2,5 @@
   "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
     "biome check --staged --apply-unsafe --no-errors-on-unmatched"
   ],
-  "src/*.ts": ["tsc --noEmit"]
+  "src/**/*.ts": ["tsc --noEmit"]
 }
