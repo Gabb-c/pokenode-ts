@@ -15,14 +15,6 @@ type PokeApiListRequestParams = {
  *
  * It constructs a GET request handler for the specified endpoint and response data,
  * optionally including a dynamic path segment for flexibility.
- *
- * @param {Endpoint} endpoint - The endpoint to mock, as a string.
- * @param {R} mockResponse - The response data to return for the mocked request.
- * @param {string} [identifier] - An optional identifier to append to the endpoint path.
- * @template P - The expected path parameters type, defaulting to PokeApiListRequestParams.
- * @template B - The expected request body type, defaulting to DefaultBodyType.
- * @template R - The expected response body type, defaulting to DefaultBodyType.
- * @returns {HttpHandler} The mocked response object.
  */
 export const baseHandler = <
   P extends PathParams<keyof P> = PokeApiListRequestParams,
