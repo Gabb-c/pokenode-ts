@@ -67,7 +67,7 @@
     "husky": "^9.0.11",
     "is-ci": "^3.0.1",
     "lint-staged": "^15.2.2",
-    "msw": "^2.2.14",
+    "msw": "^2.3.0",
     "semantic-release": "^23.0.8",
     "size-limit": "^11.1.2",
     "tsup": "^8.0.2",
