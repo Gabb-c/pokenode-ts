@@ -60,7 +60,7 @@
     "@types/node": "^20.12.12",
     "@vitest/coverage-v8": "^1.6.0",
     "@vitest/ui": "^1.6.0",
-    "axios": "^1.6.8",
+    "axios": "^1.7.1",
     "axios-cache-interceptor": "^1.5.2",
     "ci-info": "^4.0.0",
     "http-status-codes": "^2.3.0",
@@ -74,12 +74,12 @@
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vite-tsconfig-paths": "^4.3.2",
-    "vitepress": "1.2.0",
+    "vitepress": "1.2.2",
     "vitest": "^1.6.0",
     "vue": "^3.4.27"
   },
   "peerDependencies": {
-    "axios": "^1.6.8",
+    "axios": "^1.7.1",
     "axios-cache-interceptor": "^1.5.2"
   },
   "engines": {
