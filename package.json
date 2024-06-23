@@ -68,7 +68,7 @@
     "is-ci": "^3.0.1",
     "lint-staged": "^15.2.2",
     "msw": "^2.3.0",
-    "semantic-release": "^23.1.1",
+    "semantic-release": "^24.0.0",
     "size-limit": "^11.1.4",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5",
