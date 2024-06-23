@@ -32,7 +32,7 @@
 
 html {
   scroll-behavior: smooth;
-  overflow: auto;
+  overflow-x: hidden;
 }
 
 /* Define scrollbar track */
