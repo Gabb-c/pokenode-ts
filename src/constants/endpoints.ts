@@ -52,3 +52,6 @@ export const ENDPOINTS = {
   TYPE: "/type",
   LANGUAGE: "/language",
 } as const;
+
+type ObjectValue<T> = T[keyof T];
+export type Endpoint = ObjectValue<typeof ENDPOINTS>;

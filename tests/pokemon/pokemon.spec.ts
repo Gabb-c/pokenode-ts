@@ -1,6 +1,4 @@
-import { beforeAll, describe, expect, it } from "vitest";
-
-import { PokemonClient } from "../../src/clients";
+import { PokemonClient } from "@clients";
 import {
   EGG_GROUPS,
   GENDERS,
@@ -12,7 +10,7 @@ import {
   POKEMON_SHAPES,
   STATS,
   TYPES,
-} from "../../src/constants";
+} from "@constants";
 
 describe("Pokemon Client", () => {
   let client: PokemonClient;

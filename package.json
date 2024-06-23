@@ -21,13 +21,10 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": {
-      "import": "./lib/index.mjs",
-      "require": "./lib/index.js",
-      "types": "./lib/index.d.ts"
-    },
-    "./package.json": "./package.json",
-    "./*": "./*"
+    "import": "./lib/index.js",
+    "require": "./lib/index.cjs",
+    "types": "./lib/index.d.ts",
+    "default": "./lib/index.cjs"
   },
   "main": "lib/index.cjs",
   "module": "lib/index.js",
@@ -43,47 +40,47 @@
     "prepare": "is-ci || husky install",
     "prepublishOnly": "pnpm build",
     "test": "vitest",
+    "test:types": "vitest --typecheck.only",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui --api 9527"
   },
   "devDependencies": {
-    "@algolia/client-search": "^4.23.2",
-    "@biomejs/biome": "^1.6.4",
-    "@commitlint/cli": "^19.2.1",
-    "@commitlint/config-conventional": "^19.1.0",
+    "@biomejs/biome": "^1.7.3",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^12.0.0",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^10.0.3",
-    "@semantic-release/npm": "^12.0.0",
+    "@semantic-release/github": "^10.0.4",
+    "@semantic-release/npm": "^12.0.1",
     "@semantic-release/release-notes-generator": "^13.0.0",
-    "@size-limit/preset-small-lib": "^11.1.2",
-    "@swc/core": "^1.4.12",
+    "@size-limit/preset-small-lib": "^11.1.4",
+    "@swc/core": "^1.5.7",
     "@types/is-ci": "^3.0.4",
-    "@types/node": "^20.12.5",
-    "@vitest/coverage-v8": "^1.4.0",
-    "@vitest/ui": "^1.4.0",
-    "axios": "^1.6.8",
-    "axios-cache-interceptor": "^1.5.1",
+    "@types/node": "^20.12.12",
+    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/ui": "^1.6.0",
+    "axios": "^1.7.1",
+    "axios-cache-interceptor": "^1.5.2",
     "ci-info": "^4.0.0",
     "http-status-codes": "^2.3.0",
     "husky": "^9.0.11",
     "is-ci": "^3.0.1",
     "lint-staged": "^15.2.2",
-    "msw": "^2.2.13",
-    "semantic-release": "^23.0.7",
-    "size-limit": "^11.1.2",
+    "msw": "^2.3.0",
+    "semantic-release": "^23.1.1",
+    "size-limit": "^11.1.4",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11",
     "vite-tsconfig-paths": "^4.3.2",
-    "vitepress": "1.0.2",
-    "vitest": "^1.4.0",
-    "vue": "^3.4.21",
-    "zod": "^3.22.4"
+    "vitepress": "1.2.2",
+    "vitest": "^1.6.0",
+    "vue": "^3.4.27"
   },
   "peerDependencies": {
-    "axios": "^1.6.8",
-    "axios-cache-interceptor": "^1.5.1"
+    "axios": "^1.7.1",
+    "axios-cache-interceptor": "^1.5.2"
   },
   "engines": {
     "node": ">=16"
@@ -92,5 +89,10 @@
     {
       "path": "lib/index.js"
     }
-  ]
+  ],
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": ["@algolia/client-search", "search-insights"]
+    }
+  }
 }

@@ -1,6 +1,4 @@
-import { beforeAll, describe, expect, it } from "vitest";
-
-import { MoveClient } from "../../src/clients";
+import { MoveClient } from "@clients";
 import {
   MOVE_AILMENTS,
   MOVE_BATTLE_STYLES,
@@ -8,7 +6,7 @@ import {
   MOVE_DAMAGE_CLASSES,
   MOVE_LEARN_METHODS,
   MOVE_TARGETS,
-} from "../../src/constants";
+} from "@constants";
 
 describe("Move Client", () => {
   let client: MoveClient;

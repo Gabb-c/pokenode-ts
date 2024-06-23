@@ -1,7 +1,5 @@
-import { beforeAll, describe, expect, it } from "vitest";
-
-import { LocationClient } from "../../src/clients";
-import { PAL_PARK_AREAS, REGIONS } from "../../src/constants";
+import { LocationClient } from "@clients";
+import { PAL_PARK_AREAS, REGIONS } from "@constants";
 
 describe("Location Client", () => {
   let client: LocationClient;

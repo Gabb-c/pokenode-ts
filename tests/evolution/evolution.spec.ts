@@ -1,7 +1,5 @@
-import { beforeAll, describe, expect, it } from "vitest";
-
-import { EvolutionClient } from "../../src/clients";
-import { EVOLUTION_TRIGGERS } from "../../src/constants";
+import { EvolutionClient } from "@clients";
+import { EVOLUTION_TRIGGERS } from "@constants";
 
 describe("Evolution Client", () => {
   let client: EvolutionClient;

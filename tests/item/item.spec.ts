@@ -1,6 +1,5 @@
-import { beforeAll, describe, expect, it } from "vitest";
-import { ItemClient } from "../../src/clients";
-import { ITEM_CATEGORIES, ITEM_FLING_EFFECTS, ITEM_POCKETS } from "../../src/constants";
+import { ItemClient } from "@clients";
+import { ITEM_CATEGORIES, ITEM_FLING_EFFECTS, ITEM_POCKETS } from "@constants";
 
 describe("Item Client", () => {
   let client: ItemClient;

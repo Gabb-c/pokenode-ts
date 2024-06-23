@@ -41,4 +41,5 @@ export default defineConfig({
   minify: isCI,
   // Add a custom banner to the top of each bundled file
   banner: { js: myBanner },
+  tsconfig: "./tsconfig.build.json",
 });

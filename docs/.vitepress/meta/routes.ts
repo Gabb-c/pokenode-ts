@@ -6,7 +6,7 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
     collapsed: false,
     items: [
       {
-        text: "Getting starded",
+        text: "Getting started",
         link: "/guides/getting-started",
       },
       {
@@ -25,7 +25,7 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
   },
   {
     text: "Clients",
-    collapsed: false,
+    collapsed: true,
     items: [
       {
         text: "Pokemon Client",
@@ -75,7 +75,7 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
   },
   {
     text: "Typings",
-    collapsed: false,
+    collapsed: true,
     items: [
       {
         text: "Pokemon",

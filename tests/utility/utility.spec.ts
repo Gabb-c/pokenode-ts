@@ -1,8 +1,6 @@
-import { beforeAll, describe, expect, it } from "vitest";
-
-import { UtilityClient } from "../../src/clients";
-import { LANGUAGES } from "../../src/constants";
-import type { Pokemon } from "../../src/models";
+import { UtilityClient } from "@clients";
+import { LANGUAGES } from "@constants";
+import type { Pokemon } from "@models";
 
 describe("Utility Client", () => {
   let client: UtilityClient;
