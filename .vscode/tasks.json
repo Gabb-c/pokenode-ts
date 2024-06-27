@@ -3,21 +3,21 @@
   "tasks": [
     {
       "type": "npm",
-      "script": "size",
+      "script": "build",
       "group": {
         "kind": "build",
         "isDefault": true
       },
       "problemMatcher": [],
       "label": "Build",
-      "detail": "pnpm size"
+      "detail": "pnpm build"
     },
     {
       "type": "npm",
-      "script": "test:dev",
+      "script": "test",
       "problemMatcher": [],
       "label": "Test (development)",
-      "detail": "pnpm test:dev",
+      "detail": "pnpm test",
       "group": {
         "kind": "test",
         "isDefault": true

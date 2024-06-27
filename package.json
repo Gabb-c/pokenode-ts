@@ -45,7 +45,7 @@
     "test:ui": "vitest --ui --api 9527"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.2",
+    "@biomejs/biome": "^1.8.3",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@semantic-release/changelog": "^6.0.3",
@@ -57,7 +57,7 @@
     "@size-limit/preset-small-lib": "^11.1.4",
     "@swc/core": "^1.6.5",
     "@types/is-ci": "^3.0.4",
-    "@types/node": "^20.14.8",
+    "@types/node": "^20.14.9",
     "@vitest/coverage-v8": "^1.6.0",
     "@vitest/ui": "^1.6.0",
     "axios": "^1.7.2",
@@ -72,7 +72,7 @@
     "size-limit": "^11.1.4",
     "tsup": "^8.1.0",
     "typescript": "^5.5.2",
-    "vite": "^5.3.1",
+    "vite": "^5.3.2",
     "vite-tsconfig-paths": "^4.3.2",
     "vitepress": "1.2.3",
     "vitest": "^1.6.0",
