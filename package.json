@@ -51,11 +51,11 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.0",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^10.0.6",
+    "@semantic-release/github": "^10.0.7",
     "@semantic-release/npm": "^12.0.1",
     "@semantic-release/release-notes-generator": "^14.0.1",
     "@size-limit/preset-small-lib": "^11.1.4",
-    "@swc/core": "^1.6.5",
+    "@swc/core": "^1.6.6",
     "@types/is-ci": "^3.0.4",
     "@types/node": "^20.14.9",
     "@vitest/coverage-v8": "^1.6.0",
@@ -71,12 +71,12 @@
     "semantic-release": "^24.0.0",
     "size-limit": "^11.1.4",
     "tsup": "^8.1.0",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "vite": "^5.3.2",
     "vite-tsconfig-paths": "^4.3.2",
     "vitepress": "1.2.3",
     "vitest": "^1.6.0",
-    "vue": "^3.4.30"
+    "vue": "^3.4.31"
   },
   "peerDependencies": {
     "axios": "^1.7.2",
