@@ -1,0 +1,70 @@
+{
+	"info": {
+		"_postman_id": "61ccb207-5024-47f2-a54f-b53a1b6bf494",
+		"name": "PokéAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "11862234-61ccb207-5024-47f2-a54f-b53a1b6bf494"
+	},
+	"item": [
+		{
+			"name": "Pokémon",
+			"item": [
+				{
+					"name": "Pokémon",
+					"id": "8e46b503-50d3-4e15-a9dd-95dc1393701d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/pokemon/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"pokemon",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "2d9f6ff6-5287-4d24-8c36-f870d0855098"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "51f42acb-d20d-488e-bfa1-9dbeb99e1472",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "424730a1-cda1-44b2-89c7-c26ddaa1f276",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "1be9faee-74fc-4ea5-8bc5-0de3223cbfc7",
+			"key": "BASE_URL",
+			"value": "https://pokeapi.co/api/v2",
+			"type": "string"
+		}
+	]
+}
