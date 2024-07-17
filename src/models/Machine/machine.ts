@@ -7,7 +7,7 @@ import type { NamedAPIResource } from "../Common";
  * [TM (Technical Machine)](https://bulbapedia.bulbagarden.net/wiki/TM) or
  * [HM (Hidden Machine)](https://bulbapedia.bulbagarden.net/wiki/HM) corresponds to a single Machine.
  */
-export interface Machine {
+export type Machine = {
   /** The identifier for this resource */
   id: number;
   /** The TM or HM item that corresponds to this machine */
@@ -16,4 +16,4 @@ export interface Machine {
   move: NamedAPIResource;
   /** The version group that this machine applies to */
   version_group: NamedAPIResource;
-}
+};

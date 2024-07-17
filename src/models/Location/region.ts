@@ -7,7 +7,7 @@ import type { Name, NamedAPIResource } from "../Common";
  * the species of Pokémon that can be encountered within them.
  * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Region) for greater details.
  */
-export interface Region {
+export type Region = {
   /** The identifier for this resource */
   id: number;
   /** A list of locations that can be found in this region */
@@ -22,4 +22,4 @@ export interface Region {
   pokedexes: NamedAPIResource[];
   /** A list of version groups where this region can be visited */
   version_groups: NamedAPIResource[];
-}
+};

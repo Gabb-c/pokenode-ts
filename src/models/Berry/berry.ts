@@ -7,7 +7,7 @@ import type { Name, NamedAPIResource } from "../Common";
  *
  * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Berry) for greater detail
  */
-export interface Berry {
+export type Berry = {
   /** The identifier for this resource */
   id: number;
   /** The name for this resource */
@@ -32,17 +32,17 @@ export interface Berry {
   item: NamedAPIResource;
   /** The type inherited by "Natural Gift" when used with this Berry */
   natural_gift_type: NamedAPIResource;
-}
+};
 
 /**
  * Reference to the flavor a berry can have and the potency of each of those flavors in regard to this berry
  */
-export interface BerryFlavorMap {
+export type BerryFlavorMap = {
   /** How powerful the referenced flavor is for this berry */
   potency: number;
   /** The referenced berry flavor */
   flavor: NamedAPIResource;
-}
+};
 
 /**
  * ## Berry Flavor
@@ -50,7 +50,7 @@ export interface BerryFlavorMap {
  *
  * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Flavor) for greater detail.
  */
-export interface BerryFlavor {
+export type BerryFlavor = {
   /** The identifier for this resource */
   id: number;
   /** The name for this resource */
@@ -61,17 +61,17 @@ export interface BerryFlavor {
   contest_type: NamedAPIResource;
   /** The name of this resource listed in different languages */
   names: Name[];
-}
+};
 
 /**
  * Berry with the given flavor
  */
-export interface FlavorBerryMap {
+export type FlavorBerryMap = {
   /** How powerful the referenced flavor is for this berry */
   potency: number;
   /** The berry with the referenced flavor */
   berry: NamedAPIResource;
-}
+};
 
 /**
  * ## Berry Firmness
@@ -79,7 +79,7 @@ export interface FlavorBerryMap {
  *
  * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Category:Berries_by_firmness) for greater detail
  */
-export interface BerryFirmness {
+export type BerryFirmness = {
   /** The identifier for this resource */
   id: number;
   /** The name for this resource */
@@ -88,4 +88,4 @@ export interface BerryFirmness {
   berries: NamedAPIResource[];
   /** The name of this resource listed in different languages */
   names: Name[];
-}
+};
