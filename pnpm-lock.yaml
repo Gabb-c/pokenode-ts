@@ -76,7 +76,7 @@ importers:
         version: 15.2.10
       msw:
         specifier: ^2.4.1
-        version: 2.4.1(graphql@16.9.0)(typescript@5.5.4)
+        version: 2.4.2(graphql@16.9.0)(typescript@5.5.4)
       semantic-release:
         specifier: ^24.1.0
         version: 24.1.0(typescript@5.5.4)
@@ -2463,13 +2463,13 @@ packages:
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
 
-  msw@2.4.1:
-    resolution: {integrity: sha512-HXcoQPzYTwEmVk+BGIcRa0vLabBT+J20SSSeYh/QfajaK5ceA6dlD4ZZjfz2dqGEq4vRNCPLP6eXsB94KllPFg==}
+  msw@2.4.2:
+    resolution: {integrity: sha512-GImSQGhn19czhVpxPdiUDK8CMZ6jbBcvOhzfJd8KFErjEER2wDKWs1UYaetJs2GSNlAqt6heZYm7g3eLatTcog==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
       graphql: '>= 16.8.x'
-      typescript: '>= 4.7.x'
+      typescript: '>= 4.8.x'
     peerDependenciesMeta:
       graphql:
         optional: true
@@ -5899,7 +5899,7 @@ snapshots:
 
   ms@2.1.2: {}
 
-  msw@2.4.1(graphql@16.9.0)(typescript@5.5.4):
+  msw@2.4.2(graphql@16.9.0)(typescript@5.5.4):
     dependencies:
       '@bundled-es-modules/cookie': 2.0.0
       '@bundled-es-modules/statuses': 1.0.1
