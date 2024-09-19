@@ -24,7 +24,7 @@ jobs:
           run_install: false
 
       - name: Setup Node.js lts/iron
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v4.0.4
         with:
           node-version: lts/iron
           cache: pnpm
