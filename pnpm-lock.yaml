@@ -76,7 +76,7 @@ importers:
         version: 15.2.10
       msw:
         specifier: ^2.4.1
-        version: 2.4.1(graphql@16.9.0)(typescript@5.5.4)
+        version: 2.4.10(typescript@5.5.4)
       semantic-release:
         specifier: ^24.1.0
         version: 24.1.0(typescript@5.5.4)
@@ -686,8 +686,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@mswjs/interceptors@0.29.1':
-    resolution: {integrity: sha512-3rDakgJZ77+RiQUuSK69t1F0m8BQKA8Vh5DCS5V0DWvNY67zob2JhhQrhCO0AKLGINTRSFd1tBaHcJTkhefoSw==}
+  '@mswjs/interceptors@0.35.9':
+    resolution: {integrity: sha512-SSnyl/4ni/2ViHKkiZb8eajA/eN1DNFaHjhGiLUdZvDz6PKF4COSf/17xqSz64nOo2Ia29SA6B2KNCsyCbVmaQ==}
     engines: {node: '>=18'}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -2463,16 +2463,13 @@ packages:
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
 
-  msw@2.4.1:
-    resolution: {integrity: sha512-HXcoQPzYTwEmVk+BGIcRa0vLabBT+J20SSSeYh/QfajaK5ceA6dlD4ZZjfz2dqGEq4vRNCPLP6eXsB94KllPFg==}
+  msw@2.4.10:
+    resolution: {integrity: sha512-bDQh9b25JK4IKMs5hnamwAkcNZ9RwA4mR/4YcgWkzwHOxj7UICbVJfmChJvY1UCAAMraPpvjHdxjoUDpc3F+Qw==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
-      graphql: '>= 16.8.x'
-      typescript: '>= 4.7.x'
+      typescript: '>= 4.8.x'
     peerDependenciesMeta:
-      graphql:
-        optional: true
       typescript:
         optional: true
 
@@ -2631,8 +2628,8 @@ packages:
     resolution: {integrity: sha512-VXJjc87FScF88uafS3JllDgvAm+c/Slfz06lorj2uAY34rlUu0Nt+v8wreiImcrgAjjIHp1rXpTDlLOGw29WwQ==}
     engines: {node: '>=18'}
 
-  outvariant@1.4.2:
-    resolution: {integrity: sha512-Ou3dJ6bA/UJ5GVHxah4LnqDwZRwAmWxrG3wtrHrbGnP4RnLCtA64A4F+ae7Y8ww660JaddSoArUR5HjipWSHAQ==}
+  outvariant@1.4.3:
+    resolution: {integrity: sha512-+Sl2UErvtsoajRDKCE5/dBz4DIvHXQQnAxtQTF04OJxY0+DyZXSo5P5Bb7XYWOh81syohlYL24hbDwxedPUJCA==}
 
   p-each-series@3.0.0:
     resolution: {integrity: sha512-lastgtAdoH9YaLyDa5i5z64q+kzOcQHsQ5SsZJD3q0VEyI8mq872S3geuNbRUQLVAE9siMfgKrpj7MloKFHruw==}
@@ -2730,8 +2727,8 @@ packages:
     resolution: {integrity: sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA==}
     engines: {node: '>=16 || 14 >=14.18'}
 
-  path-to-regexp@6.2.2:
-    resolution: {integrity: sha512-GQX3SSMokngb36+whdpRXE+3f9V8UzyAorlYvOGx87ufGHehNTn5lCxrKtLyZ4Yl/wEKnNnr98ZzOwwDZV5ogw==}
+  path-to-regexp@6.3.0:
+    resolution: {integrity: sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ==}
 
   path-type@4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
@@ -4041,13 +4038,13 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@mswjs/interceptors@0.29.1':
+  '@mswjs/interceptors@0.35.9':
     dependencies:
       '@open-draft/deferred-promise': 2.2.0
       '@open-draft/logger': 0.3.0
       '@open-draft/until': 2.1.0
       is-node-process: 1.2.0
-      outvariant: 1.4.2
+      outvariant: 1.4.3
       strict-event-emitter: 0.5.1
 
   '@nodelib/fs.scandir@2.1.5':
@@ -4125,7 +4122,7 @@ snapshots:
   '@open-draft/logger@0.3.0':
     dependencies:
       is-node-process: 1.2.0
-      outvariant: 1.4.2
+      outvariant: 1.4.3
 
   '@open-draft/until@2.1.0': {}
 
@@ -5448,8 +5445,7 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  graphql@16.9.0:
-    optional: true
+  graphql@16.9.0: {}
 
   handlebars@4.7.8:
     dependencies:
@@ -5899,26 +5895,26 @@ snapshots:
 
   ms@2.1.2: {}
 
-  msw@2.4.1(graphql@16.9.0)(typescript@5.5.4):
+  msw@2.4.10(typescript@5.5.4):
     dependencies:
       '@bundled-es-modules/cookie': 2.0.0
       '@bundled-es-modules/statuses': 1.0.1
       '@bundled-es-modules/tough-cookie': 0.1.6
       '@inquirer/confirm': 3.1.10
-      '@mswjs/interceptors': 0.29.1
+      '@mswjs/interceptors': 0.35.9
       '@open-draft/until': 2.1.0
       '@types/cookie': 0.6.0
       '@types/statuses': 2.0.5
       chalk: 4.1.2
+      graphql: 16.9.0
       headers-polyfill: 4.0.3
       is-node-process: 1.2.0
-      outvariant: 1.4.2
-      path-to-regexp: 6.2.2
+      outvariant: 1.4.3
+      path-to-regexp: 6.3.0
       strict-event-emitter: 0.5.1
       type-fest: 4.20.1
       yargs: 17.7.2
     optionalDependencies:
-      graphql: 16.9.0
       typescript: 5.5.4
 
   mute-stream@1.0.0: {}
@@ -5996,7 +5992,7 @@ snapshots:
     dependencies:
       mimic-function: 5.0.1
 
-  outvariant@1.4.2: {}
+  outvariant@1.4.3: {}
 
   p-each-series@3.0.0: {}
 
@@ -6077,7 +6073,7 @@ snapshots:
       lru-cache: 10.2.2
       minipass: 7.1.2
 
-  path-to-regexp@6.2.2: {}
+  path-to-regexp@6.3.0: {}
 
   path-type@4.0.0: {}
 
