@@ -49,7 +49,7 @@ importers:
         version: 22.9.0
       '@vitest/coverage-v8':
         specifier: ^2.1.5
-        version: 2.1.5(vitest@2.1.5)
+        version: 2.1.5(vitest@2.1.5(@types/node@22.9.0)(@vitest/ui@2.1.5)(msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3)))
       '@vitest/ui':
         specifier: ^2.1.5
         version: 2.1.5(vitest@2.1.5)
@@ -67,7 +67,7 @@ importers:
         version: 2.3.0
       husky:
         specifier: ^9.1.6
-        version: 9.1.6
+        version: 9.1.7
       is-ci:
         specifier: ^3.0.1
         version: 3.0.1
@@ -2136,8 +2136,8 @@ packages:
     resolution: {integrity: sha512-74kytxOUSvNbjrT9KisAbaTZ/eJwD/LrbM/kh5j0IhPuJzwuA19dWvniFGwBzN9rVjg+O/e+F310PjObDXS+9Q==}
     engines: {node: '>=18.18.0'}
 
-  husky@9.1.6:
-    resolution: {integrity: sha512-sqbjZKK7kf44hfdE94EoX8MZNk0n7HeW37O4YrVGCF4wzgQjp+akPAkfUK5LZ6KuR/6sqeAVuXHji+RzQgOn5A==}
+  husky@9.1.7:
+    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -4712,7 +4712,7 @@ snapshots:
       vite: 5.4.11(@types/node@22.9.0)
       vue: 3.5.13(typescript@5.6.3)
 
-  '@vitest/coverage-v8@2.1.5(vitest@2.1.5)':
+  '@vitest/coverage-v8@2.1.5(vitest@2.1.5(@types/node@22.9.0)(@vitest/ui@2.1.5)(msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3)))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -5786,7 +5786,7 @@ snapshots:
 
   human-signals@7.0.0: {}
 
-  husky@9.1.6: {}
+  husky@9.1.7: {}
 
   ignore@5.3.1: {}
 
