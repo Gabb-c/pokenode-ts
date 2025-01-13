@@ -25,10 +25,12 @@ export const baseHandler = <
   mockResponse: R,
   identifier = "",
 ): HttpHandler => {
-  // Constructs the full URL for the mock request, including any identifier.
-  const url = `${BASE_URL.REST}${endpoint}${identifier ? `/${identifier}` : ""}`;
+  let url = `${BASE_URL.REST}${endpoint}`;
 
-  // Defines a mocked GET request handler that returns the provided mockResponse.
+  if (identifier) {
+    url = `${url}/${identifier}`;
+  }
+
   return http.get<P, B, R>(url, async () => {
     return HttpResponse.json(mockResponse);
   });
