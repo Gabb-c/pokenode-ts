@@ -1,5 +1,5 @@
-import { ENDPOINTS } from "@constants";
-import type { Generation, NamedAPIResourceList, Pokedex, Version, VersionGroup } from "@models";
+import { ENDPOINTS } from "../constants";
+import type { Generation, NamedAPIResourceList, Pokedex, Version, VersionGroup } from "../models";
 import { BaseClient } from "./base";
 
 /**
@@ -20,7 +20,7 @@ export class GameClient extends BaseClient {
    * @returns A Generation
    */
   public async getGenerationByName(name: string): Promise<Generation> {
-    return this.getResource(ENDPOINTS.GENERATION, name);
+    return this.getResource<Generation>(ENDPOINTS.GENERATION, name);
   }
 
   /**
@@ -29,7 +29,7 @@ export class GameClient extends BaseClient {
    * @returns A Generation
    */
   public async getGenerationById(id: number): Promise<Generation> {
-    return this.getResource(ENDPOINTS.GENERATION, id);
+    return this.getResource<Generation>(ENDPOINTS.GENERATION, id);
   }
 
   /**
@@ -38,7 +38,7 @@ export class GameClient extends BaseClient {
    * @returns A Pokedex
    */
   public async getPokedexByName(name: string): Promise<Pokedex> {
-    return this.getResource(ENDPOINTS.POKEDEX, name);
+    return this.getResource<Pokedex>(ENDPOINTS.POKEDEX, name);
   }
 
   /**
@@ -47,7 +47,7 @@ export class GameClient extends BaseClient {
    * @returns A Pokedex
    */
   public async getPokedexById(id: number): Promise<Pokedex> {
-    return this.getResource(ENDPOINTS.POKEDEX, id);
+    return this.getResource<Pokedex>(ENDPOINTS.POKEDEX, id);
   }
 
   /**
@@ -56,7 +56,7 @@ export class GameClient extends BaseClient {
    * @returns A Version
    */
   public async getVersionByName(name: string): Promise<Version> {
-    return this.getResource(ENDPOINTS.VERSION, name);
+    return this.getResource<Version>(ENDPOINTS.VERSION, name);
   }
 
   /**
@@ -65,7 +65,7 @@ export class GameClient extends BaseClient {
    * @returns A Version
    */
   public async getVersionById(id: number): Promise<Version> {
-    return this.getResource(ENDPOINTS.VERSION, id);
+    return this.getResource<Version>(ENDPOINTS.VERSION, id);
   }
 
   /**
@@ -74,7 +74,7 @@ export class GameClient extends BaseClient {
    * @returns A Version Group
    */
   public async getVersionGroupByName(name: string): Promise<VersionGroup> {
-    return this.getResource(ENDPOINTS.VERSION_GROUP, name);
+    return this.getResource<VersionGroup>(ENDPOINTS.VERSION_GROUP, name);
   }
 
   /**
@@ -83,7 +83,7 @@ export class GameClient extends BaseClient {
    * @returns A Version Group
    */
   public async getVersionGroupById(id: number): Promise<VersionGroup> {
-    return this.getResource(ENDPOINTS.VERSION_GROUP, id);
+    return this.getResource<VersionGroup>(ENDPOINTS.VERSION_GROUP, id);
   }
 
   /**
