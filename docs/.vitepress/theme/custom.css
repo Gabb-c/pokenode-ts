@@ -1,0 +1,63 @@
+:root {
+  --vp-c-brand-1: hsl(346, 100%, 58%);
+  --vp-c-brand-2: hsl(346, 100%, 75%);
+
+  --vp-button-brand-bg: hsl(346, 100%, 58%);
+  --vp-button-brand-active-bg: hsla(346, 100%, 58%, 0.365);
+  --vp-button-brand-hover-bg: hsl(346, 100%, 75%);
+
+  --vp-c-brand-light: hsla(346, 100%, 58%, 0.365);
+  --vp-c-brand-lighter: hsla(346, 100%, 75%, 0.365);
+  --vp-c-brand-dark: hsl(346, 100%, 58%);
+  --vp-c-brand-darker: hsl(346, 100%, 58%);
+
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #FF3962 30%, #D3D3D3);
+
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #FF3962 50%, #D3D3D3 50%);
+  --vp-home-hero-image-filter: blur(44px);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --vp-home-hero-image-filter: blur(56px);
+  }
+}
+
+@media (min-width: 960px) {
+  :root {
+    --vp-home-hero-image-filter: blur(72px);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/* Define scrollbar track */
+::-webkit-scrollbar {
+  width: 10px; /* Adjust as needed */
+}
+
+/* Define scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #FF3962; /* Match the main color */
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Define scrollbar track on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #FF3962; /* Match the main color */
+}
+
+/* Define scrollbar track */
+::-webkit-scrollbar-track {
+  background-color: transparent; /* Make scrollbar background transparent */
+  border-radius: 5px; /* Rounded corners */
+}
+
+::selection {
+  background-color: #FF3962; /* Change to the desired color */
+  color: #FFFFFF; /* Change to the desired text color */
+}

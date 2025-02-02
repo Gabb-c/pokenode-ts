@@ -1,11 +1,5 @@
-import { beforeAll, describe, expect, it } from "vitest";
-
-import { EncounterClient } from "../../src/clients";
-import {
-  ENCOUNTER_CONDITIONS,
-  ENCOUNTER_CONDITION_VALUES,
-  ENCOUNTER_METHODS,
-} from "../../src/constants";
+import { EncounterClient } from "@clients";
+import { ENCOUNTER_CONDITIONS, ENCOUNTER_CONDITION_VALUES, ENCOUNTER_METHODS } from "@constants";
 
 describe("Encounter Client", () => {
   let client: EncounterClient;

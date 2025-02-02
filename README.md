@@ -23,39 +23,13 @@ pnpm add axios axios-cache-interceptor pokenode-ts
 
 ## Basic Example
 
-Using a client, like PokemonClient:
-
 ```ts
-import { PokemonClient } from 'pokenode-ts';
+import { PokemonClient } from 'pokenode-ts'; // Import the Client
 
-(async () => {
-  const api = new PokemonClient();
+const pokemon = await api.getPokemonByName('luxray') // Make the request
+  .catch(() => console.log("Oops!"));
 
-  try {
-    const pokemonData = await api.getPokemonByName('luxray');
-    console.log(pokemonData.name); // Outputs "Luxray"
-  } catch (error) {
-    console.error(error);
-  }
-})();
-
-```
-
-Or, using the MainClient:
-
-```ts
-import { MainClient } from 'pokenode-ts';
-
-(async () => {
-  const api = new MainClient();
-
-  try {
-    const pokemonData = await api.pokemon.getPokemonByName('luxray');
-    console.log(pokemonData.name); // Outputs "Luxray"
-  } catch (error) {
-    console.error(error);
-  }
-})();
+console.log(pokemon.name); // Typesafe response ✨ (Outputs "Luxray")
 ```
 
 ## Documentation

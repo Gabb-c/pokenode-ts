@@ -1,5 +1,5 @@
-import { ENDPOINTS } from "@constants";
-import type { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from "@models";
+import { ENDPOINTS } from "../constants";
+import type { Location, LocationArea, NamedAPIResourceList, PalParkArea, Region } from "../models";
 import { BaseClient } from "./base";
 
 /**
@@ -20,7 +20,7 @@ export class LocationClient extends BaseClient {
    * @returns A Location
    */
   public async getLocationByName(name: string): Promise<Location> {
-    return this.getResource(ENDPOINTS.LOCATION, name);
+    return this.getResource<Location>(ENDPOINTS.LOCATION, name);
   }
 
   /**
@@ -29,7 +29,7 @@ export class LocationClient extends BaseClient {
    * @returns A location
    */
   public async getLocationById(id: number): Promise<Location> {
-    return this.getResource(ENDPOINTS.LOCATION, id);
+    return this.getResource<Location>(ENDPOINTS.LOCATION, id);
   }
 
   /**
@@ -38,7 +38,7 @@ export class LocationClient extends BaseClient {
    * @returns A Location Area
    */
   public async getLocationAreaByName(name: string): Promise<LocationArea> {
-    return this.getResource(ENDPOINTS.LOCATION_AREA, name);
+    return this.getResource<LocationArea>(ENDPOINTS.LOCATION_AREA, name);
   }
 
   /**
@@ -47,7 +47,7 @@ export class LocationClient extends BaseClient {
    * @returns A Location Area
    */
   public async getLocationAreaById(id: number): Promise<LocationArea> {
-    return this.getResource(ENDPOINTS.LOCATION_AREA, id);
+    return this.getResource<LocationArea>(ENDPOINTS.LOCATION_AREA, id);
   }
 
   /**
@@ -56,7 +56,7 @@ export class LocationClient extends BaseClient {
    * @returns A Pal Park Area
    */
   public async getPalParkAreaByName(name: string): Promise<PalParkArea> {
-    return this.getResource(ENDPOINTS.PALPARK_AREA, name);
+    return this.getResource<PalParkArea>(ENDPOINTS.PALPARK_AREA, name);
   }
 
   /**
@@ -65,7 +65,7 @@ export class LocationClient extends BaseClient {
    * @returns A Pal Park Area
    */
   public async getPalParkAreaById(id: number): Promise<PalParkArea> {
-    return this.getResource(ENDPOINTS.PALPARK_AREA, id);
+    return this.getResource<PalParkArea>(ENDPOINTS.PALPARK_AREA, id);
   }
 
   /**
@@ -74,7 +74,7 @@ export class LocationClient extends BaseClient {
    * @returns A Region
    */
   public async getRegionByName(name: string): Promise<Region> {
-    return this.getResource(ENDPOINTS.REGION, name);
+    return this.getResource<Region>(ENDPOINTS.REGION, name);
   }
 
   /**
@@ -83,7 +83,7 @@ export class LocationClient extends BaseClient {
    * @returns A Region
    */
   public async getRegionById(id: number): Promise<Region> {
-    return this.getResource(ENDPOINTS.REGION, id);
+    return this.getResource<Region>(ENDPOINTS.REGION, id);
   }
 
   /**

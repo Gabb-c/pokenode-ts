@@ -146,6 +146,7 @@ lib
 
 # VitePress
 **/.vitepress/cache
+tsconfig.vitest-temp.json
 
 # SWC
 .swc

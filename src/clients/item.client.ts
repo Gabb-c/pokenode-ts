@@ -1,4 +1,4 @@
-import { ENDPOINTS } from "@constants";
+import { ENDPOINTS } from "../constants";
 import type {
   Item,
   ItemAttribute,
@@ -6,7 +6,7 @@ import type {
   ItemFlingEffect,
   ItemPocket,
   NamedAPIResourceList,
-} from "@models";
+} from "../models";
 import { BaseClient } from "./base";
 
 /**
@@ -28,7 +28,7 @@ export class ItemClient extends BaseClient {
    * @returns An Item
    */
   public async getItemByName(name: string): Promise<Item> {
-    return this.getResource(ENDPOINTS.ITEM, name);
+    return this.getResource<Item>(ENDPOINTS.ITEM, name);
   }
 
   /**
@@ -37,7 +37,7 @@ export class ItemClient extends BaseClient {
    * @returns An Item
    */
   public async getItemById(id: number): Promise<Item> {
-    return this.getResource(ENDPOINTS.ITEM, id);
+    return this.getResource<Item>(ENDPOINTS.ITEM, id);
   }
 
   /**
@@ -46,7 +46,7 @@ export class ItemClient extends BaseClient {
    * @returns An Item Attribute
    */
   public async getItemAttributeByName(name: string): Promise<ItemAttribute> {
-    return this.getResource(ENDPOINTS.ITEM_ATTRIBUTE, name);
+    return this.getResource<ItemAttribute>(ENDPOINTS.ITEM_ATTRIBUTE, name);
   }
 
   /**
@@ -55,7 +55,7 @@ export class ItemClient extends BaseClient {
    * @returns An Item Attribute
    */
   public async getItemAttributeById(id: number): Promise<ItemAttribute> {
-    return this.getResource(ENDPOINTS.ITEM_ATTRIBUTE, id);
+    return this.getResource<ItemAttribute>(ENDPOINTS.ITEM_ATTRIBUTE, id);
   }
 
   /**
@@ -64,7 +64,7 @@ export class ItemClient extends BaseClient {
    * @returns An Item Category
    */
   public async getItemCategoryByName(name: string): Promise<ItemCategory> {
-    return this.getResource(ENDPOINTS.ITEM_CATEGORY, name);
+    return this.getResource<ItemCategory>(ENDPOINTS.ITEM_CATEGORY, name);
   }
 
   /**
@@ -73,7 +73,7 @@ export class ItemClient extends BaseClient {
    * @returns An Item Category
    */
   public async getItemCategoryById(id: number): Promise<ItemCategory> {
-    return this.getResource(ENDPOINTS.ITEM_CATEGORY, id);
+    return this.getResource<ItemCategory>(ENDPOINTS.ITEM_CATEGORY, id);
   }
 
   /**
@@ -82,7 +82,7 @@ export class ItemClient extends BaseClient {
    * @returns An Item Filing Effect
    */
   public async getItemFlingEffectByName(name: string): Promise<ItemFlingEffect> {
-    return this.getResource(ENDPOINTS.ITEM_FLING_EFFECT, name);
+    return this.getResource<ItemFlingEffect>(ENDPOINTS.ITEM_FLING_EFFECT, name);
   }
 
   /**
@@ -91,7 +91,7 @@ export class ItemClient extends BaseClient {
    * @returns An Item Filing Effect
    */
   public async getItemFlingEffectById(id: number): Promise<ItemFlingEffect> {
-    return this.getResource(ENDPOINTS.ITEM_FLING_EFFECT, id);
+    return this.getResource<ItemFlingEffect>(ENDPOINTS.ITEM_FLING_EFFECT, id);
   }
 
   /**
@@ -100,7 +100,7 @@ export class ItemClient extends BaseClient {
    * @returns An Item Pocket
    */
   public async getItemPocketByName(name: string): Promise<ItemPocket> {
-    return this.getResource(ENDPOINTS.ITEM_POCKET, name);
+    return this.getResource<ItemPocket>(ENDPOINTS.ITEM_POCKET, name);
   }
 
   /**
@@ -109,7 +109,7 @@ export class ItemClient extends BaseClient {
    * @returns An Item Pocket
    */
   public async getItemPocketById(id: number): Promise<ItemPocket> {
-    return this.getResource(ENDPOINTS.ITEM_POCKET, id);
+    return this.getResource<ItemPocket>(ENDPOINTS.ITEM_POCKET, id);
   }
 
   /**

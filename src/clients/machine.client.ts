@@ -1,5 +1,5 @@
-import { ENDPOINTS } from "@constants";
-import type { Machine, NamedAPIResourceList } from "@models";
+import { ENDPOINTS } from "../constants";
+import type { Machine, NamedAPIResourceList } from "../models";
 import { BaseClient } from "./base";
 
 /**
@@ -17,7 +17,7 @@ export class MachineClient extends BaseClient {
    * @returns A Machine
    */
   public async getMachineById(id: number): Promise<Machine> {
-    return this.getResource(ENDPOINTS.MACHINE, id);
+    return this.getResource<Machine>(ENDPOINTS.MACHINE, id);
   }
 
   /**

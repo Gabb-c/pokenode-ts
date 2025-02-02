@@ -1,5 +1,10 @@
-import { ENDPOINTS } from "@constants";
-import type { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "@models";
+import { ENDPOINTS } from "../constants";
+import type {
+  ContestEffect,
+  ContestType,
+  NamedAPIResourceList,
+  SuperContestEffect,
+} from "../models";
 import { BaseClient } from "./base";
 
 /**
@@ -19,7 +24,7 @@ export class ContestClient extends BaseClient {
    * @returns A Contest Type
    */
   public async getContestTypeByName(name: string): Promise<ContestType> {
-    return this.getResource(ENDPOINTS.CONTEST_TYPE, name);
+    return this.getResource<ContestType>(ENDPOINTS.CONTEST_TYPE, name);
   }
 
   /**
@@ -28,7 +33,7 @@ export class ContestClient extends BaseClient {
    * @returns A Contest Type
    */
   public async getContestTypeById(id: number): Promise<ContestType> {
-    return this.getResource(ENDPOINTS.CONTEST_TYPE, id);
+    return this.getResource<ContestType>(ENDPOINTS.CONTEST_TYPE, id);
   }
 
   /**
@@ -37,7 +42,7 @@ export class ContestClient extends BaseClient {
    * @returns Contest Effect
    */
   public async getContestEffectById(id: number): Promise<ContestEffect> {
-    return this.getResource(ENDPOINTS.CONTEST_EFFECT, id);
+    return this.getResource<ContestEffect>(ENDPOINTS.CONTEST_EFFECT, id);
   }
 
   /**
@@ -46,7 +51,7 @@ export class ContestClient extends BaseClient {
    * @returns Super Contest Effect
    */
   public async getSuperContestEffectById(id: number): Promise<SuperContestEffect> {
-    return this.getResource(ENDPOINTS.SUPER_CONTEST_EFFECT, id);
+    return this.getResource<SuperContestEffect>(ENDPOINTS.SUPER_CONTEST_EFFECT, id);
   }
 
   /**

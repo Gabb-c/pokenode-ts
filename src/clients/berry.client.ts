@@ -1,5 +1,5 @@
-import { ENDPOINTS } from "@constants";
-import type { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from "@models";
+import { ENDPOINTS } from "../constants";
+import type { Berry, BerryFirmness, BerryFlavor, NamedAPIResourceList } from "../models";
 import { BaseClient } from "./base";
 
 /**
@@ -19,7 +19,7 @@ export class BerryClient extends BaseClient {
    * @returns A Berry
    */
   public async getBerryByName(name: string): Promise<Berry> {
-    return this.getResource(ENDPOINTS.BERRY, name);
+    return this.getResource<Berry>(ENDPOINTS.BERRY, name);
   }
 
   /**
@@ -28,7 +28,7 @@ export class BerryClient extends BaseClient {
    * @returns A Berry
    */
   public async getBerryById(id: number): Promise<Berry> {
-    return this.getResource(ENDPOINTS.BERRY, id);
+    return this.getResource<Berry>(ENDPOINTS.BERRY, id);
   }
 
   /**
@@ -37,7 +37,7 @@ export class BerryClient extends BaseClient {
    * @returns Berry Firmness
    */
   public async getBerryFirmnessById(id: number): Promise<BerryFirmness> {
-    return this.getResource(ENDPOINTS.BERRY_FIRMNESS, id);
+    return this.getResource<BerryFirmness>(ENDPOINTS.BERRY_FIRMNESS, id);
   }
 
   /**
@@ -45,7 +45,7 @@ export class BerryClient extends BaseClient {
    * @param name The Berry name
    * @returns Berry Firmness
    */
-  public async getBerryFirmnessByName(name: string) {
+  public async getBerryFirmnessByName(name: string): Promise<BerryFirmness> {
     return this.getResource<BerryFirmness>(ENDPOINTS.BERRY_FIRMNESS, name);
   }
 
@@ -56,7 +56,7 @@ export class BerryClient extends BaseClient {
    * @returns Berry Flavor
    */
   public async getBerryFlavorById(id: number): Promise<BerryFlavor> {
-    return this.getResource(ENDPOINTS.BERRY_FLAVOR, id);
+    return this.getResource<BerryFlavor>(ENDPOINTS.BERRY_FLAVOR, id);
   }
 
   /**
@@ -66,7 +66,7 @@ export class BerryClient extends BaseClient {
    * @returns Berry Flavor
    */
   public async getBerryFlavorByName(name: string): Promise<BerryFlavor> {
-    return this.getResource(ENDPOINTS.BERRY_FLAVOR, name);
+    return this.getResource<BerryFlavor>(ENDPOINTS.BERRY_FLAVOR, name);
   }
 
   /**

@@ -43,10 +43,10 @@ export interface Pokemon {
   location_area_encounters: string;
   /** A list of moves along with learn methods and level details pertaining to specific version groups */
   moves: PokemonMove[];
-  /** A set of sprites used to depict this Pokémon in the game.
-   * A visual representation of the various sprites can be found at [PokeAPI/sprites](https://github.com/PokeAPI/sprites#sprites)
-   */
+  /** A set of sprites used to depict this Pokémon in the game. */
   sprites: PokemonSprites;
+  /** A set of cries used to depict this Pokémon in the game. */
+  cries: PokemonCries;
   /** The species this Pokémon belongs to */
   species: NamedAPIResource;
   /** A list of base stat values for this Pokémon */
@@ -56,6 +56,13 @@ export interface Pokemon {
   /** Data describing a Pokemon's types in a previous generation. */
   past_types: PokemonPastType[];
 }
+
+export type PokemonCries = {
+  /** The legacy depiction of this Pokémon's cry. */
+  legacy: string;
+  /** The latest depiction of this Pokémon's cry. */
+  latest: string;
+};
 
 /**
  * Abilities the given pokémon could potentially have

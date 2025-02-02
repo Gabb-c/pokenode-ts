@@ -1,5 +1,5 @@
-import { ENDPOINTS } from "@constants";
-import type { EvolutionChain, EvolutionTrigger, NamedAPIResourceList } from "@models";
+import { ENDPOINTS } from "../constants";
+import type { EvolutionChain, EvolutionTrigger, NamedAPIResourceList } from "../models";
 import { BaseClient } from "./base";
 
 /**
@@ -18,7 +18,7 @@ export class EvolutionClient extends BaseClient {
    * @returns An Evolution Chain
    */
   public async getEvolutionChainById(id: number): Promise<EvolutionChain> {
-    return this.getResource(ENDPOINTS.EVOLUTION_CHAIN, id);
+    return this.getResource<EvolutionChain>(ENDPOINTS.EVOLUTION_CHAIN, id);
   }
 
   /**
@@ -27,7 +27,7 @@ export class EvolutionClient extends BaseClient {
    * @returns An Evolution Trigger
    */
   public async getEvolutionTriggerById(id: number): Promise<EvolutionTrigger> {
-    return this.getResource(ENDPOINTS.EVOLUTION_TRIGGER, id);
+    return this.getResource<EvolutionTrigger>(ENDPOINTS.EVOLUTION_TRIGGER, id);
   }
 
   /**
@@ -36,7 +36,7 @@ export class EvolutionClient extends BaseClient {
    * @returns An Evolution Trigger
    */
   public async getEvolutionTriggerByName(name: string): Promise<EvolutionTrigger> {
-    return this.getResource(ENDPOINTS.EVOLUTION_TRIGGER, name);
+    return this.getResource<EvolutionTrigger>(ENDPOINTS.EVOLUTION_TRIGGER, name);
   }
 
   /**

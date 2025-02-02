@@ -10,7 +10,7 @@ import {
   MoveClient,
   PokemonClient,
   UtilityClient,
-} from "@clients";
+} from "../clients";
 import { BaseClient, type ClientArgs } from "./base";
 
 /**

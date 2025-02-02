@@ -1,6 +1,5 @@
-import { beforeAll, describe, expect, it } from "vitest";
-import { ContestClient } from "../../src/clients";
-import { CONTEST_TYPES } from "../../src/constants";
+import { ContestClient } from "@clients";
+import { CONTEST_TYPES } from "@constants";
 
 describe("Contest Client", () => {
   let client: ContestClient;

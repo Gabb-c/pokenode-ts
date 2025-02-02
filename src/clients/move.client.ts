@@ -1,4 +1,4 @@
-import { ENDPOINTS } from "@constants";
+import { ENDPOINTS } from "../constants";
 import type {
   Move,
   MoveAilment,
@@ -8,7 +8,7 @@ import type {
   MoveLearnMethod,
   MoveTarget,
   NamedAPIResourceList,
-} from "@models";
+} from "../models";
 import { BaseClient } from "./base";
 
 /**
@@ -32,7 +32,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move
    */
   public async getMoveByName(name: string): Promise<Move> {
-    return this.getResource(ENDPOINTS.MOVE, name);
+    return this.getResource<Move>(ENDPOINTS.MOVE, name);
   }
 
   /**
@@ -41,7 +41,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move
    */
   public async getMoveById(id: number): Promise<Move> {
-    return this.getResource(ENDPOINTS.MOVE, id);
+    return this.getResource<Move>(ENDPOINTS.MOVE, id);
   }
 
   /**
@@ -50,7 +50,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Ailment
    */
   public async getMoveAilmentByName(name: string): Promise<MoveAilment> {
-    return this.getResource(ENDPOINTS.MOVE_AILMENT, name);
+    return this.getResource<MoveAilment>(ENDPOINTS.MOVE_AILMENT, name);
   }
 
   /**
@@ -59,7 +59,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Ailment
    */
   public async getMoveAilmentById(id: number): Promise<MoveAilment> {
-    return this.getResource(ENDPOINTS.MOVE_AILMENT, id);
+    return this.getResource<MoveAilment>(ENDPOINTS.MOVE_AILMENT, id);
   }
 
   /**
@@ -68,7 +68,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Battle Style
    */
   public async getMoveBattleStyleByName(name: string): Promise<MoveBattleStyle> {
-    return this.getResource(ENDPOINTS.MOVE_BATTLE_STYLE, name);
+    return this.getResource<MoveBattleStyle>(ENDPOINTS.MOVE_BATTLE_STYLE, name);
   }
 
   /**
@@ -77,7 +77,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Battle Style
    */
   public async getMoveBattleStyleById(id: number): Promise<MoveBattleStyle> {
-    return this.getResource(ENDPOINTS.MOVE_BATTLE_STYLE, id);
+    return this.getResource<MoveBattleStyle>(ENDPOINTS.MOVE_BATTLE_STYLE, id);
   }
 
   /**
@@ -86,7 +86,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Category
    */
   public async getMoveCategoryByName(name: string): Promise<MoveCategory> {
-    return this.getResource(ENDPOINTS.MOVE_CATEGORY, name);
+    return this.getResource<MoveCategory>(ENDPOINTS.MOVE_CATEGORY, name);
   }
 
   /**
@@ -95,7 +95,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Category
    */
   public async getMoveCategoryById(id: number): Promise<MoveCategory> {
-    return this.getResource(ENDPOINTS.MOVE_CATEGORY, id);
+    return this.getResource<MoveCategory>(ENDPOINTS.MOVE_CATEGORY, id);
   }
 
   /**
@@ -104,7 +104,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Damage Class
    */
   public async getMoveDamageClassByName(name: string): Promise<MoveDamageClass> {
-    return this.getResource(ENDPOINTS.MOVE_DAMAGE_CLASS, name);
+    return this.getResource<MoveDamageClass>(ENDPOINTS.MOVE_DAMAGE_CLASS, name);
   }
 
   /**
@@ -113,7 +113,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Damage Class
    */
   public async getMoveDamageClassById(id: number): Promise<MoveDamageClass> {
-    return this.getResource(ENDPOINTS.MOVE_DAMAGE_CLASS, id);
+    return this.getResource<MoveDamageClass>(ENDPOINTS.MOVE_DAMAGE_CLASS, id);
   }
 
   /**
@@ -122,7 +122,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Learn Method
    */
   public async getMoveLearnMethodByName(name: string): Promise<MoveLearnMethod> {
-    return this.getResource(ENDPOINTS.MOVE_LEARN_METHOD, name);
+    return this.getResource<MoveLearnMethod>(ENDPOINTS.MOVE_LEARN_METHOD, name);
   }
 
   /**
@@ -131,7 +131,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Learn Method
    */
   public async getMoveLearnMethodById(id: number): Promise<MoveLearnMethod> {
-    return this.getResource(ENDPOINTS.MOVE_LEARN_METHOD, id);
+    return this.getResource<MoveLearnMethod>(ENDPOINTS.MOVE_LEARN_METHOD, id);
   }
 
   /**
@@ -140,7 +140,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Target
    */
   public async getMoveTargetByName(name: string): Promise<MoveTarget> {
-    return this.getResource(ENDPOINTS.MOVE_TARGET, name);
+    return this.getResource<MoveTarget>(ENDPOINTS.MOVE_TARGET, name);
   }
 
   /**
@@ -149,7 +149,7 @@ export class MoveClient extends BaseClient {
    * @returns A Move Target
    */
   public async getMoveTargetById(id: number): Promise<MoveTarget> {
-    return this.getResource(ENDPOINTS.MOVE_TARGET, id);
+    return this.getResource<MoveTarget>(ENDPOINTS.MOVE_TARGET, id);
   }
 
   /**

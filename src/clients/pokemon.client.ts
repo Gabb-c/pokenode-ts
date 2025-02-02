@@ -1,4 +1,4 @@
-import { ENDPOINTS } from "@constants";
+import { ENDPOINTS } from "../constants";
 import type {
   Ability,
   Characteristic,
@@ -17,7 +17,7 @@ import type {
   PokemonSpecies,
   Stat,
   Type,
-} from "@models";
+} from "../models";
 import { BaseClient } from "./base";
 
 /**
@@ -50,7 +50,7 @@ export class PokemonClient extends BaseClient {
    * @returns An Ability
    */
   public async getAbilityByName(name: string): Promise<Ability> {
-    return this.getResource(ENDPOINTS.ABILITY, name);
+    return this.getResource<Ability>(ENDPOINTS.ABILITY, name);
   }
 
   /**
@@ -59,7 +59,7 @@ export class PokemonClient extends BaseClient {
    * @returns An Ability
    */
   public async getAbilityById(id: number): Promise<Ability> {
-    return this.getResource(ENDPOINTS.ABILITY, id);
+    return this.getResource<Ability>(ENDPOINTS.ABILITY, id);
   }
 
   /**
@@ -68,7 +68,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Characteristic
    */
   public async getCharacteristicById(id: number): Promise<Characteristic> {
-    return this.getResource(ENDPOINTS.CHARACTERISTIC, id);
+    return this.getResource<Characteristic>(ENDPOINTS.CHARACTERISTIC, id);
   }
 
   /**
@@ -77,7 +77,7 @@ export class PokemonClient extends BaseClient {
    * @returns An Egg Group
    */
   public async getEggGroupByName(name: string): Promise<EggGroup> {
-    return this.getResource(ENDPOINTS.EGG_GROUP, name);
+    return this.getResource<EggGroup>(ENDPOINTS.EGG_GROUP, name);
   }
 
   /**
@@ -86,7 +86,7 @@ export class PokemonClient extends BaseClient {
    * @returns An Egg Group
    */
   public async getEggGroupById(id: number): Promise<EggGroup> {
-    return this.getResource(ENDPOINTS.EGG_GROUP, id);
+    return this.getResource<EggGroup>(ENDPOINTS.EGG_GROUP, id);
   }
 
   /**
@@ -95,7 +95,7 @@ export class PokemonClient extends BaseClient {
    * @returns An Egg Group
    */
   public async getGenderByName(name: string): Promise<Gender> {
-    return this.getResource(ENDPOINTS.GENDER, name);
+    return this.getResource<Gender>(ENDPOINTS.GENDER, name);
   }
 
   /**
@@ -104,7 +104,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Gender
    */
   public async getGenderById(id: number): Promise<Gender> {
-    return this.getResource(ENDPOINTS.GENDER, id);
+    return this.getResource<Gender>(ENDPOINTS.GENDER, id);
   }
 
   /**
@@ -113,7 +113,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Growth Rate
    */
   public async getGrowthRateByName(name: string): Promise<GrowthRate> {
-    return this.getResource(ENDPOINTS.GROWTH_RATE, name);
+    return this.getResource<GrowthRate>(ENDPOINTS.GROWTH_RATE, name);
   }
 
   /**
@@ -122,7 +122,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Growth Rate
    */
   public async getGrowthRateById(id: number): Promise<GrowthRate> {
-    return this.getResource(ENDPOINTS.GROWTH_RATE, id);
+    return await this.getResource<GrowthRate>(ENDPOINTS.GROWTH_RATE, id);
   }
 
   /**
@@ -131,7 +131,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Nature
    */
   public async getNatureByName(name: string): Promise<Nature> {
-    return this.getResource(ENDPOINTS.NATURE, name);
+    return this.getResource<Nature>(ENDPOINTS.NATURE, name);
   }
 
   /**
@@ -140,7 +140,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Nature
    */
   public async getNatureById(id: number): Promise<Nature> {
-    return this.getResource(ENDPOINTS.NATURE, id);
+    return this.getResource<Nature>(ENDPOINTS.NATURE, id);
   }
 
   /**
@@ -149,7 +149,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokeathlon Stat
    */
   public async getPokeathlonStatByName(name: string): Promise<PokeathlonStat> {
-    return this.getResource(ENDPOINTS.POKEATHLON_STAT, name);
+    return this.getResource<PokeathlonStat>(ENDPOINTS.POKEATHLON_STAT, name);
   }
 
   /**
@@ -158,7 +158,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokeathlon Stat
    */
   public async getPokeathlonStatById(id: number): Promise<PokeathlonStat> {
-    return this.getResource(ENDPOINTS.POKEATHLON_STAT, id);
+    return this.getResource<PokeathlonStat>(ENDPOINTS.POKEATHLON_STAT, id);
   }
 
   /**
@@ -167,7 +167,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon Stat
    */
   public async getPokemonByName(name: string): Promise<Pokemon> {
-    return this.getResource(ENDPOINTS.POKEMON, name);
+    return this.getResource<Pokemon>(ENDPOINTS.POKEMON, name);
   }
 
   /**
@@ -176,7 +176,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon
    */
   public async getPokemonById(id: number): Promise<Pokemon> {
-    return this.getResource(ENDPOINTS.POKEMON, id);
+    return this.getResource<Pokemon>(ENDPOINTS.POKEMON, id);
   }
 
   /**
@@ -185,7 +185,9 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon Location Area
    */
   public async getPokemonLocationAreaById(id: number): Promise<LocationAreaEncounter[]> {
-    return this.getResource(ENDPOINTS.POKEMON_LOCATION_AREA.replace(":id", id.toString()));
+    return this.getResource<LocationAreaEncounter[]>(
+      ENDPOINTS.POKEMON_LOCATION_AREA.replace(":id", id.toString()),
+    );
   }
 
   /**
@@ -194,7 +196,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon Color
    */
   public async getPokemonColorByName(name: string): Promise<PokemonColor> {
-    return this.getResource(ENDPOINTS.POKEMON_COLOR, name);
+    return this.getResource<PokemonColor>(ENDPOINTS.POKEMON_COLOR, name);
   }
 
   /**
@@ -203,7 +205,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon Color
    */
   public async getPokemonColorById(id: number): Promise<PokemonColor> {
-    return this.getResource(ENDPOINTS.POKEMON_COLOR, id);
+    return this.getResource<PokemonColor>(ENDPOINTS.POKEMON_COLOR, id);
   }
 
   /**
@@ -212,7 +214,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon Form
    */
   public async getPokemonFormByName(name: string): Promise<PokemonForm> {
-    return this.getResource(ENDPOINTS.POKEMON_FORM, name);
+    return this.getResource<PokemonForm>(ENDPOINTS.POKEMON_FORM, name);
   }
 
   /**
@@ -221,7 +223,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon Form
    */
   public async getPokemonFormById(id: number): Promise<PokemonForm> {
-    return this.getResource(ENDPOINTS.POKEMON_FORM, id);
+    return this.getResource<PokemonForm>(ENDPOINTS.POKEMON_FORM, id);
   }
 
   /**
@@ -230,7 +232,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon Habitat
    */
   public async getPokemonHabitatByName(name: string): Promise<PokemonHabitat> {
-    return this.getResource(ENDPOINTS.POKEMON_HABITAT, name);
+    return this.getResource<PokemonHabitat>(ENDPOINTS.POKEMON_HABITAT, name);
   }
 
   /**
@@ -239,7 +241,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon Habitat
    */
   public async getPokemonHabitatById(id: number): Promise<PokemonHabitat> {
-    return this.getResource(ENDPOINTS.POKEMON_HABITAT, id);
+    return this.getResource<PokemonHabitat>(ENDPOINTS.POKEMON_HABITAT, id);
   }
 
   /**
@@ -248,7 +250,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon Shape
    */
   public async getPokemonShapeByName(name: string): Promise<PokemonShape> {
-    return this.getResource(ENDPOINTS.POKEMON_SHAPE, name);
+    return this.getResource<PokemonShape>(ENDPOINTS.POKEMON_SHAPE, name);
   }
 
   /**
@@ -257,7 +259,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon Shape
    */
   public async getPokemonShapeById(id: number): Promise<PokemonShape> {
-    return this.getResource(ENDPOINTS.POKEMON_SHAPE, id);
+    return this.getResource<PokemonShape>(ENDPOINTS.POKEMON_SHAPE, id);
   }
 
   /**
@@ -266,7 +268,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon Species
    */
   public async getPokemonSpeciesByName(name: string): Promise<PokemonSpecies> {
-    return this.getResource(ENDPOINTS.POKEMON_SPECIES, name);
+    return this.getResource<PokemonSpecies>(ENDPOINTS.POKEMON_SPECIES, name);
   }
 
   /**
@@ -275,7 +277,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Pokemon Species
    */
   public async getPokemonSpeciesById(id: number): Promise<PokemonSpecies> {
-    return this.getResource(ENDPOINTS.POKEMON_SPECIES, id);
+    return this.getResource<PokemonSpecies>(ENDPOINTS.POKEMON_SPECIES, id);
   }
 
   /**
@@ -284,7 +286,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Stat
    */
   public async getStatByName(name: string): Promise<Stat> {
-    return this.getResource(ENDPOINTS.STAT, name);
+    return this.getResource<Stat>(ENDPOINTS.STAT, name);
   }
 
   /**
@@ -293,7 +295,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Stat
    */
   public async getStatById(id: number): Promise<Stat> {
-    return this.getResource(ENDPOINTS.STAT, id);
+    return this.getResource<Stat>(ENDPOINTS.STAT, id);
   }
 
   /**
@@ -302,7 +304,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Type
    */
   public async getTypeByName(name: string): Promise<Type> {
-    return this.getResource(ENDPOINTS.TYPE, name);
+    return this.getResource<Type>(ENDPOINTS.TYPE, name);
   }
 
   /**
@@ -311,7 +313,7 @@ export class PokemonClient extends BaseClient {
    * @returns A Type
    */
   public async getTypeById(id: number): Promise<Type> {
-    return this.getResource(ENDPOINTS.TYPE, id);
+    return this.getResource<Type>(ENDPOINTS.TYPE, id);
   }
 
   /**

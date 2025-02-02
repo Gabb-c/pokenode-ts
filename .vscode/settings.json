@@ -8,7 +8,6 @@
   "workbench.iconTheme": "catppuccin-mocha",
   "workbench.colorTheme": "Catppuccin Mocha",
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "githubPullRequests.pullBranch": "never",
   "git.confirmSync": false,
   "explorer.confirmDragAndDrop": false,
   "[markdown]": {

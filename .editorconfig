@@ -12,17 +12,5 @@ insert_final_newline = true
 curly_bracket_next_line = false
 spaces_around_operators = true
 
-[*.bat]
-end_of_line = crlf
-
-[*.cs]
-curly_bracket_next_line = true
-
-[*.{cpp,cs,gradle,java,kt,py,rs}]
-indent_size = 4
-
 [*.md]
 trim_trailing_whitespace = false
-
-[*.tsv]
-indent_style = tab

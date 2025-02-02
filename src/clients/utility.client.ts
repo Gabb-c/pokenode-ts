@@ -1,5 +1,5 @@
-import { ENDPOINTS } from "@constants";
-import type { Language, NamedAPIResourceList } from "@models";
+import { ENDPOINTS } from "../constants";
+import type { Language, NamedAPIResourceList } from "../models";
 import { BaseClient } from "./base";
 
 /**
@@ -18,7 +18,7 @@ export class UtilityClient extends BaseClient {
    * @returns Language
    */
   public async getLanguageById(id: number): Promise<Language> {
-    return this.getResource(ENDPOINTS.LANGUAGE, id);
+    return this.getResource<Language>(ENDPOINTS.LANGUAGE, id);
   }
 
   /**
@@ -27,7 +27,7 @@ export class UtilityClient extends BaseClient {
    * @returns Language
    */
   public async getLanguageByName(name: string): Promise<Language> {
-    return this.getResource(ENDPOINTS.LANGUAGE, name);
+    return this.getResource<Language>(ENDPOINTS.LANGUAGE, name);
   }
 
   /**
