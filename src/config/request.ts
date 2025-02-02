@@ -4,7 +4,7 @@
  */
 export class RequestClient {
   /** The in memory cache to store responses. */
-  private cache: Map<string, unknown>;
+  private readonly cache: Map<string, unknown>;
   /** The base URL for the PokéAPI. */
   private readonly baseUrl: string;
   /** The headers to be sent with each request. */
@@ -44,7 +44,7 @@ export class RequestClient {
         if (this.logging) {
           console.error(`[ Request Error ] CODE ${error.code || "UNKNOWN"} | ${error.message}`);
         }
-        return Promise.reject(error);
+        return Promise.reject(error as Error);
       });
 
     const data: T = (await response.json()) as T;
