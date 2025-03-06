@@ -39,6 +39,8 @@ export interface Pokemon {
    * A visual representation of the various sprites can be found at [PokeAPI/sprites](https://github.com/PokeAPI/sprites#sprites)
    */
   sprites: PokemonSprites;
+  /** A set of cries used to depict this Pokémon in the game. */
+  cries: PokemonCries;
   /** The species this Pokémon belongs to */
   species: NamedAPIResource;
   /** A list of base stat values for this Pokémon */
@@ -46,6 +48,19 @@ export interface Pokemon {
   /** A list of details showing types this Pokémon has */
   types: PokemonType[];
 }
+```
+
+## Pokemon Cries
+
+Cries used to depict this Pokémon in the game.
+
+```ts
+export type PokemonCries = {
+  /** The legacy depiction of this Pokémon's cry. */
+  legacy: string;
+  /** The latest depiction of this Pokémon's cry. */
+  latest: string;
+};
 ```
 
 > Check out [Bulbapedia](<https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_(species)>) for greater detail.
