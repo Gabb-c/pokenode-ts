@@ -124,6 +124,8 @@ export interface PokemonMove {
   move: NamedAPIResource;
   /** The details of the version in which the Pokémon can learn the move */
   version_group_details: PokemonMoveVersion[];
+  /** Order by which the pokemon will learn the move. A newly learnt move will replace the move with lowest order */
+  order: number | null;
 }
 
 /**
