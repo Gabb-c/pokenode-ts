@@ -17,7 +17,7 @@ export class EvolutionClient extends BaseClient {
    * @param id The Evolution Chain ID
    * @returns An Evolution Chain
    */
-  public async getEvolutionChainById(id: number): Promise<EvolutionChain> {
+  public async getEvolutionChainById(id: number): Promise<EvolutionChain | undefined> {
     return this.getResource<EvolutionChain>(ENDPOINTS.EVOLUTION_CHAIN, id);
   }
 
@@ -26,7 +26,7 @@ export class EvolutionClient extends BaseClient {
    * @param id The Evolution Trigger ID
    * @returns An Evolution Trigger
    */
-  public async getEvolutionTriggerById(id: number): Promise<EvolutionTrigger> {
+  public async getEvolutionTriggerById(id: number): Promise<EvolutionTrigger | undefined> {
     return this.getResource<EvolutionTrigger>(ENDPOINTS.EVOLUTION_TRIGGER, id);
   }
 
@@ -35,7 +35,7 @@ export class EvolutionClient extends BaseClient {
    * @param name The Evolution Trigger name
    * @returns An Evolution Trigger
    */
-  public async getEvolutionTriggerByName(name: string): Promise<EvolutionTrigger> {
+  public async getEvolutionTriggerByName(name: string): Promise<EvolutionTrigger | undefined> {
     return this.getResource<EvolutionTrigger>(ENDPOINTS.EVOLUTION_TRIGGER, name);
   }
 
@@ -45,7 +45,10 @@ export class EvolutionClient extends BaseClient {
    * @param limit How many Evolution Chains per page
    * @returns A list of Evolution Chains
    */
-  public async listEvolutionChains(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listEvolutionChains(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.EVOLUTION_CHAIN, offset, limit);
   }
 
@@ -58,7 +61,7 @@ export class EvolutionClient extends BaseClient {
   public async listEvolutionTriggers(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.EVOLUTION_TRIGGER, offset, limit);
   }
 }

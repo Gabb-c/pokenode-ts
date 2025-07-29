@@ -17,7 +17,7 @@ export class UtilityClient extends BaseClient {
    * @param id The Language ID
    * @returns Language
    */
-  public async getLanguageById(id: number): Promise<Language> {
+  public async getLanguageById(id: number): Promise<Language | undefined> {
     return this.getResource<Language>(ENDPOINTS.LANGUAGE, id);
   }
 
@@ -26,7 +26,7 @@ export class UtilityClient extends BaseClient {
    * @param name The Language name
    * @returns Language
    */
-  public async getLanguageByName(name: string): Promise<Language> {
+  public async getLanguageByName(name: string): Promise<Language | undefined> {
     return this.getResource<Language>(ENDPOINTS.LANGUAGE, name);
   }
 
@@ -35,7 +35,7 @@ export class UtilityClient extends BaseClient {
    * @param url The Resource url
    * @returns Resource
    */
-  public async getResourceByUrl<T>(url: string): Promise<T> {
+  public async getResourceByUrl<T>(url: string): Promise<T | undefined> {
     return this.getResourceByURL<T>(url);
   }
 
@@ -45,7 +45,7 @@ export class UtilityClient extends BaseClient {
    * @param limit How many Languages per page
    * @returns A list of Languages
    */
-  public listLanguages(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public listLanguages(offset?: number, limit?: number): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.LANGUAGE, offset, limit);
   }
 }

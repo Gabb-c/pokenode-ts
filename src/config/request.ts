@@ -1,3 +1,5 @@
+import { tryCatch } from "@spongesoftware/trycatch";
+
 /**
  * ## Request Client
  * Request class leverageing the Fetch API to interact with the PokéAPI.
@@ -24,31 +26,38 @@ export class RequestClient {
    * Get a resource from the PokéAPI
    * @param endpoint The endpoint to fetch
    * @param config Optional configuration for the request
-   * @returns The desired resource
+   * @returns The desired resource or undefined if there is an error
    */
-  public async get<T>(endpoint: string, config?: { baseURL: string }): Promise<T> {
+  public async get<T>(endpoint: string, config?: { baseURL: string }): Promise<T | undefined> {
     if (this.cache.has(endpoint)) {
       return this.cache.get(endpoint) as T;
     }
-    const response = await fetch(`${config?.baseURL ?? this.baseUrl}${endpoint}`, {
-      method: "GET",
-      headers: this.headers,
-    })
-      .then((response) => {
-        if (this.logging) {
-          console.log(`[ Request Config ] GET | ${response.url}`);
-        }
-        return response;
-      })
-      .catch((error) => {
-        if (this.logging) {
-          console.error(`[ Request Error ] CODE ${error.code || "UNKNOWN"} | ${error.message}`);
-        }
-        return Promise.reject(error as Error);
-      });
+    const response = await tryCatch(
+      fetch(`${config?.baseURL ?? this.baseUrl}${endpoint}`, {
+        method: "GET",
+        headers: this.headers,
+      }),
+    );
 
-    const data: T = (await response.json()) as T;
-    this.cache.set(endpoint, data);
-    return data;
+    if (!response.success) {
+      if (this.logging) {
+        console.error(`ERROR: ${response.error.message}`);
+      }
+
+      return undefined;
+    }
+
+    const data = await tryCatch(response.data.json());
+
+    if (!data.success) {
+      if (this.logging) {
+        console.error(`ERROR: ${data.error.message}`);
+      }
+
+      return undefined;
+    }
+
+    this.cache.set(endpoint, data.data as T);
+    return data.data as T;
   }
 }

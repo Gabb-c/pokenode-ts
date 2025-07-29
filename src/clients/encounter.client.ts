@@ -23,7 +23,7 @@ export class EncounterClient extends BaseClient {
    * @param name The Encounter Method name
    * @returns An Encounter Method
    */
-  public async getEncounterMethodByName(name: string): Promise<EncounterMethod> {
+  public async getEncounterMethodByName(name: string): Promise<EncounterMethod | undefined> {
     return this.getResource<EncounterMethod>(ENDPOINTS.ENCOUNTER_METHOD, name);
   }
 
@@ -32,7 +32,7 @@ export class EncounterClient extends BaseClient {
    * @param id The Encounter Method ID
    * @returns An Encounter Method
    */
-  public async getEncounterMethodById(id: number): Promise<EncounterMethod> {
+  public async getEncounterMethodById(id: number): Promise<EncounterMethod | undefined> {
     return this.getResource<EncounterMethod>(ENDPOINTS.ENCOUNTER_METHOD, id);
   }
 
@@ -41,7 +41,7 @@ export class EncounterClient extends BaseClient {
    * @param id The Encounter Condition ID
    * @returns An Encounter Condition
    */
-  public async getEncounterConditionById(id: number): Promise<EncounterCondition> {
+  public async getEncounterConditionById(id: number): Promise<EncounterCondition | undefined> {
     return this.getResource<EncounterCondition>(ENDPOINTS.ENCOUNTER_CONDITION, id);
   }
 
@@ -50,7 +50,7 @@ export class EncounterClient extends BaseClient {
    * @param name The Encounter Condition name
    * @returns An Encounter Condition
    */
-  public async getEncounterConditionByName(name: string): Promise<EncounterCondition> {
+  public async getEncounterConditionByName(name: string): Promise<EncounterCondition | undefined> {
     return this.getResource<EncounterCondition>(ENDPOINTS.ENCOUNTER_CONDITION, name);
   }
 
@@ -59,7 +59,9 @@ export class EncounterClient extends BaseClient {
    * @param name The Encounter Condition Value name
    * @returns An Encounter Condition Value
    */
-  public async getEncounterConditionValueByName(name: string): Promise<EncounterConditionValue> {
+  public async getEncounterConditionValueByName(
+    name: string,
+  ): Promise<EncounterConditionValue | undefined> {
     return this.getResource<EncounterConditionValue>(ENDPOINTS.ENCOUNTER_CONDITION_VALUE, name);
   }
 
@@ -68,7 +70,9 @@ export class EncounterClient extends BaseClient {
    * @param id The Encounter Condition Value ID
    * @returns An Encounter Condition Value
    */
-  public async getEncounterConditionValueById(id: number): Promise<EncounterConditionValue> {
+  public async getEncounterConditionValueById(
+    id: number,
+  ): Promise<EncounterConditionValue | undefined> {
     return this.getResource<EncounterConditionValue>(ENDPOINTS.ENCOUNTER_CONDITION_VALUE, id);
   }
 
@@ -81,7 +85,7 @@ export class EncounterClient extends BaseClient {
   public async listEncounterMethods(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.ENCOUNTER_METHOD, offset, limit);
   }
 
@@ -94,7 +98,7 @@ export class EncounterClient extends BaseClient {
   public async listEncounterConditions(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.ENCOUNTER_CONDITION, offset, limit);
   }
 
@@ -107,7 +111,7 @@ export class EncounterClient extends BaseClient {
   public async listEncounterConditionValues(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.ENCOUNTER_CONDITION_VALUE, offset, limit);
   }
 }

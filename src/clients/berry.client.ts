@@ -18,7 +18,7 @@ export class BerryClient extends BaseClient {
    * @param name The berry name
    * @returns A Berry
    */
-  public async getBerryByName(name: string): Promise<Berry> {
+  public async getBerryByName(name: string): Promise<Berry | undefined> {
     return this.getResource<Berry>(ENDPOINTS.BERRY, name);
   }
 
@@ -27,7 +27,7 @@ export class BerryClient extends BaseClient {
    * @param id The Berry ID
    * @returns A Berry
    */
-  public async getBerryById(id: number): Promise<Berry> {
+  public async getBerryById(id: number): Promise<Berry | undefined> {
     return this.getResource<Berry>(ENDPOINTS.BERRY, id);
   }
 
@@ -36,7 +36,7 @@ export class BerryClient extends BaseClient {
    * @param id The Berry ID
    * @returns Berry Firmness
    */
-  public async getBerryFirmnessById(id: number): Promise<BerryFirmness> {
+  public async getBerryFirmnessById(id: number): Promise<BerryFirmness | undefined> {
     return this.getResource<BerryFirmness>(ENDPOINTS.BERRY_FIRMNESS, id);
   }
 
@@ -45,7 +45,7 @@ export class BerryClient extends BaseClient {
    * @param name The Berry name
    * @returns Berry Firmness
    */
-  public async getBerryFirmnessByName(name: string): Promise<BerryFirmness> {
+  public async getBerryFirmnessByName(name: string): Promise<BerryFirmness | undefined> {
     return this.getResource<BerryFirmness>(ENDPOINTS.BERRY_FIRMNESS, name);
   }
 
@@ -55,7 +55,7 @@ export class BerryClient extends BaseClient {
    * @param id The Berry Flavor ID
    * @returns Berry Flavor
    */
-  public async getBerryFlavorById(id: number): Promise<BerryFlavor> {
+  public async getBerryFlavorById(id: number): Promise<BerryFlavor | undefined> {
     return this.getResource<BerryFlavor>(ENDPOINTS.BERRY_FLAVOR, id);
   }
 
@@ -65,7 +65,7 @@ export class BerryClient extends BaseClient {
    * @param name The Berry Flavor name
    * @returns Berry Flavor
    */
-  public async getBerryFlavorByName(name: string): Promise<BerryFlavor> {
+  public async getBerryFlavorByName(name: string): Promise<BerryFlavor | undefined> {
     return this.getResource<BerryFlavor>(ENDPOINTS.BERRY_FLAVOR, name);
   }
 
@@ -75,7 +75,10 @@ export class BerryClient extends BaseClient {
    * @param limit How many berries per page
    * @returns A list of berries
    */
-  public async listBerries(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listBerries(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.BERRY, offset, limit);
   }
 
@@ -85,7 +88,10 @@ export class BerryClient extends BaseClient {
    * @param limit How many berry firmnesses per page
    * @returns A list of berry firmnesses
    */
-  public async listBerryFirmnesses(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listBerryFirmnesses(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.BERRY_FIRMNESS, offset, limit);
   }
 
@@ -95,7 +101,10 @@ export class BerryClient extends BaseClient {
    * @param limit How many Berry Flavors per page
    * @returns A list of Berry Flavors
    */
-  public async listBerryFlavors(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listBerryFlavors(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.BERRY_FLAVOR, offset, limit);
   }
 }

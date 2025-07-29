@@ -16,7 +16,7 @@ export class MachineClient extends BaseClient {
    * @param id The Machine ID
    * @returns A Machine
    */
-  public async getMachineById(id: number): Promise<Machine> {
+  public async getMachineById(id: number): Promise<Machine | undefined> {
     return this.getResource<Machine>(ENDPOINTS.MACHINE, id);
   }
 
@@ -26,7 +26,10 @@ export class MachineClient extends BaseClient {
    * @param limit How many Machines per page
    * @returns A list of Machines
    */
-  public async listMachines(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listMachines(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.MACHINE, offset, limit);
   }
 }

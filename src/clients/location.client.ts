@@ -19,7 +19,7 @@ export class LocationClient extends BaseClient {
    * @param name The Location name
    * @returns A Location
    */
-  public async getLocationByName(name: string): Promise<Location> {
+  public async getLocationByName(name: string): Promise<Location | undefined> {
     return this.getResource<Location>(ENDPOINTS.LOCATION, name);
   }
 
@@ -28,7 +28,7 @@ export class LocationClient extends BaseClient {
    * @param id The Location ID
    * @returns A location
    */
-  public async getLocationById(id: number): Promise<Location> {
+  public async getLocationById(id: number): Promise<Location | undefined> {
     return this.getResource<Location>(ENDPOINTS.LOCATION, id);
   }
 
@@ -37,7 +37,7 @@ export class LocationClient extends BaseClient {
    * @param name The Location Area name
    * @returns A Location Area
    */
-  public async getLocationAreaByName(name: string): Promise<LocationArea> {
+  public async getLocationAreaByName(name: string): Promise<LocationArea | undefined> {
     return this.getResource<LocationArea>(ENDPOINTS.LOCATION_AREA, name);
   }
 
@@ -46,7 +46,7 @@ export class LocationClient extends BaseClient {
    * @param id The Location Area ID
    * @returns A Location Area
    */
-  public async getLocationAreaById(id: number): Promise<LocationArea> {
+  public async getLocationAreaById(id: number): Promise<LocationArea | undefined> {
     return this.getResource<LocationArea>(ENDPOINTS.LOCATION_AREA, id);
   }
 
@@ -55,7 +55,7 @@ export class LocationClient extends BaseClient {
    * @param name The Pal Park Area name
    * @returns A Pal Park Area
    */
-  public async getPalParkAreaByName(name: string): Promise<PalParkArea> {
+  public async getPalParkAreaByName(name: string): Promise<PalParkArea | undefined> {
     return this.getResource<PalParkArea>(ENDPOINTS.PALPARK_AREA, name);
   }
 
@@ -64,7 +64,7 @@ export class LocationClient extends BaseClient {
    * @param id The Pal Park Area ID
    * @returns A Pal Park Area
    */
-  public async getPalParkAreaById(id: number): Promise<PalParkArea> {
+  public async getPalParkAreaById(id: number): Promise<PalParkArea | undefined> {
     return this.getResource<PalParkArea>(ENDPOINTS.PALPARK_AREA, id);
   }
 
@@ -73,7 +73,7 @@ export class LocationClient extends BaseClient {
    * @param name The Region name
    * @returns A Region
    */
-  public async getRegionByName(name: string): Promise<Region> {
+  public async getRegionByName(name: string): Promise<Region | undefined> {
     return this.getResource<Region>(ENDPOINTS.REGION, name);
   }
 
@@ -82,7 +82,7 @@ export class LocationClient extends BaseClient {
    * @param id The Region ID
    * @returns A Region
    */
-  public async getRegionById(id: number): Promise<Region> {
+  public async getRegionById(id: number): Promise<Region | undefined> {
     return this.getResource<Region>(ENDPOINTS.REGION, id);
   }
 
@@ -92,7 +92,10 @@ export class LocationClient extends BaseClient {
    * @param limit How many Locations per page
    * @returns A list of Locations
    */
-  public async listLocations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listLocations(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.LOCATION, offset, limit);
   }
 
@@ -102,7 +105,10 @@ export class LocationClient extends BaseClient {
    * @param limit How many Locations per page
    * @returns A list of Location Areas
    */
-  public async listLocationAreas(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listLocationAreas(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.LOCATION_AREA, offset, limit);
   }
 
@@ -112,7 +118,10 @@ export class LocationClient extends BaseClient {
    * @param limit How many Pal Park Areas per page
    * @returns A list of Pal Park Areas
    */
-  public async listPalParkAreas(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listPalParkAreas(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.PALPARK_AREA, offset, limit);
   }
 
@@ -122,7 +131,10 @@ export class LocationClient extends BaseClient {
    * @param limit How many Regions per page
    * @returns A list of Regions
    */
-  public async listRegions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listRegions(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.REGION, offset, limit);
   }
 }

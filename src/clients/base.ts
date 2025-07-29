@@ -33,7 +33,10 @@ export class BaseClient {
    * @param identifier - The identifier of the resource. If not provided, an empty string will be used.
    * @returns A promise that resolves to the requested resource.
    */
-  protected async getResource<T>(endpoint: string, identifier?: string | number): Promise<T> {
+  protected async getResource<T>(
+    endpoint: string,
+    identifier?: string | number,
+  ): Promise<T | undefined> {
     return await this.api.get<T>(`${endpoint}/${identifier || identifier === 0 ? identifier : ""}`);
   }
 
@@ -45,7 +48,10 @@ export class BaseClient {
    * @param baseURL - The base URL to use. Defaults to BASE_URL.REST.
    * @returns A promise that resolves to the requested resource.
    */
-  protected async getResourceByURL<T>(url: string, baseURL = BASE_URL.REST): Promise<T> {
+  protected async getResourceByURL<T>(
+    url: string,
+    baseURL = BASE_URL.REST,
+  ): Promise<T | undefined> {
     const ENDPOINT = url.split("v2")[1] as string;
     return await this.api.get<T>(ENDPOINT, { baseURL });
   }
@@ -62,7 +68,7 @@ export class BaseClient {
     endpoint: Endpoint,
     offset = 0,
     limit = 20,
-  ): Promise<NamedAPIResourceList> {
+  ): Promise<NamedAPIResourceList | undefined> {
     return await this.api.get<NamedAPIResourceList>(`${endpoint}?offset=${offset}&limit=${limit}`);
   }
 }

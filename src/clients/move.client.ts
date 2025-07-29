@@ -31,7 +31,7 @@ export class MoveClient extends BaseClient {
    * @param name The move name
    * @returns A Move
    */
-  public async getMoveByName(name: string): Promise<Move> {
+  public async getMoveByName(name: string): Promise<Move | undefined> {
     return this.getResource<Move>(ENDPOINTS.MOVE, name);
   }
 
@@ -40,7 +40,7 @@ export class MoveClient extends BaseClient {
    * @param id The Move ID
    * @returns A Move
    */
-  public async getMoveById(id: number): Promise<Move> {
+  public async getMoveById(id: number): Promise<Move | undefined> {
     return this.getResource<Move>(ENDPOINTS.MOVE, id);
   }
 
@@ -49,7 +49,7 @@ export class MoveClient extends BaseClient {
    * @param name The Move Ailment name
    * @returns A Move Ailment
    */
-  public async getMoveAilmentByName(name: string): Promise<MoveAilment> {
+  public async getMoveAilmentByName(name: string): Promise<MoveAilment | undefined> {
     return this.getResource<MoveAilment>(ENDPOINTS.MOVE_AILMENT, name);
   }
 
@@ -58,7 +58,7 @@ export class MoveClient extends BaseClient {
    * @param id The Move Ailment ID
    * @returns A Move Ailment
    */
-  public async getMoveAilmentById(id: number): Promise<MoveAilment> {
+  public async getMoveAilmentById(id: number): Promise<MoveAilment | undefined> {
     return this.getResource<MoveAilment>(ENDPOINTS.MOVE_AILMENT, id);
   }
 
@@ -67,7 +67,7 @@ export class MoveClient extends BaseClient {
    * @param name The Move Battle Style name
    * @returns A Move Battle Style
    */
-  public async getMoveBattleStyleByName(name: string): Promise<MoveBattleStyle> {
+  public async getMoveBattleStyleByName(name: string): Promise<MoveBattleStyle | undefined> {
     return this.getResource<MoveBattleStyle>(ENDPOINTS.MOVE_BATTLE_STYLE, name);
   }
 
@@ -76,7 +76,7 @@ export class MoveClient extends BaseClient {
    * @param id The Move Battle Style ID
    * @returns A Move Battle Style
    */
-  public async getMoveBattleStyleById(id: number): Promise<MoveBattleStyle> {
+  public async getMoveBattleStyleById(id: number): Promise<MoveBattleStyle | undefined> {
     return this.getResource<MoveBattleStyle>(ENDPOINTS.MOVE_BATTLE_STYLE, id);
   }
 
@@ -85,7 +85,7 @@ export class MoveClient extends BaseClient {
    * @param name The Move Category name
    * @returns A Move Category
    */
-  public async getMoveCategoryByName(name: string): Promise<MoveCategory> {
+  public async getMoveCategoryByName(name: string): Promise<MoveCategory | undefined> {
     return this.getResource<MoveCategory>(ENDPOINTS.MOVE_CATEGORY, name);
   }
 
@@ -94,7 +94,7 @@ export class MoveClient extends BaseClient {
    * @param id The Move Category ID
    * @returns A Move Category
    */
-  public async getMoveCategoryById(id: number): Promise<MoveCategory> {
+  public async getMoveCategoryById(id: number): Promise<MoveCategory | undefined> {
     return this.getResource<MoveCategory>(ENDPOINTS.MOVE_CATEGORY, id);
   }
 
@@ -103,7 +103,7 @@ export class MoveClient extends BaseClient {
    * @param name The Move Damage Class name
    * @returns A Move Damage Class
    */
-  public async getMoveDamageClassByName(name: string): Promise<MoveDamageClass> {
+  public async getMoveDamageClassByName(name: string): Promise<MoveDamageClass | undefined> {
     return this.getResource<MoveDamageClass>(ENDPOINTS.MOVE_DAMAGE_CLASS, name);
   }
 
@@ -112,7 +112,7 @@ export class MoveClient extends BaseClient {
    * @param id The Move Damage Class ID
    * @returns A Move Damage Class
    */
-  public async getMoveDamageClassById(id: number): Promise<MoveDamageClass> {
+  public async getMoveDamageClassById(id: number): Promise<MoveDamageClass | undefined> {
     return this.getResource<MoveDamageClass>(ENDPOINTS.MOVE_DAMAGE_CLASS, id);
   }
 
@@ -121,7 +121,7 @@ export class MoveClient extends BaseClient {
    * @param name The Move Learn Method name
    * @returns A Move Learn Method
    */
-  public async getMoveLearnMethodByName(name: string): Promise<MoveLearnMethod> {
+  public async getMoveLearnMethodByName(name: string): Promise<MoveLearnMethod | undefined> {
     return this.getResource<MoveLearnMethod>(ENDPOINTS.MOVE_LEARN_METHOD, name);
   }
 
@@ -130,7 +130,7 @@ export class MoveClient extends BaseClient {
    * @param id The Move Learn Method ID
    * @returns A Move Learn Method
    */
-  public async getMoveLearnMethodById(id: number): Promise<MoveLearnMethod> {
+  public async getMoveLearnMethodById(id: number): Promise<MoveLearnMethod | undefined> {
     return this.getResource<MoveLearnMethod>(ENDPOINTS.MOVE_LEARN_METHOD, id);
   }
 
@@ -139,7 +139,7 @@ export class MoveClient extends BaseClient {
    * @param name The Move Target name
    * @returns A Move Target
    */
-  public async getMoveTargetByName(name: string): Promise<MoveTarget> {
+  public async getMoveTargetByName(name: string): Promise<MoveTarget | undefined> {
     return this.getResource<MoveTarget>(ENDPOINTS.MOVE_TARGET, name);
   }
 
@@ -148,7 +148,7 @@ export class MoveClient extends BaseClient {
    * @param id The Move Target ID
    * @returns A Move Target
    */
-  public async getMoveTargetById(id: number): Promise<MoveTarget> {
+  public async getMoveTargetById(id: number): Promise<MoveTarget | undefined> {
     return this.getResource<MoveTarget>(ENDPOINTS.MOVE_TARGET, id);
   }
 
@@ -158,7 +158,10 @@ export class MoveClient extends BaseClient {
    * @param limit How many Moves per page
    * @returns A list of Moves
    */
-  public async listMoves(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listMoves(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.MOVE, offset, limit);
   }
 
@@ -168,7 +171,10 @@ export class MoveClient extends BaseClient {
    * @param limit How many Move Ailments per page
    * @returns A list of Move Ailments
    */
-  public async listMoveAilments(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listMoveAilments(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.MOVE_AILMENT, offset, limit);
   }
 
@@ -181,7 +187,7 @@ export class MoveClient extends BaseClient {
   public async listMoveBattleStyles(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.MOVE_BATTLE_STYLE, offset, limit);
   }
 
@@ -191,7 +197,10 @@ export class MoveClient extends BaseClient {
    * @param limit How many Move Categories per page
    * @returns A list of Move Categories
    */
-  public async listMoveCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listMoveCategories(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.MOVE_CATEGORY, offset, limit);
   }
 
@@ -204,7 +213,7 @@ export class MoveClient extends BaseClient {
   public async listMoveDamageClasses(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.MOVE_DAMAGE_CLASS, offset, limit);
   }
 
@@ -217,7 +226,7 @@ export class MoveClient extends BaseClient {
   public async listMoveLearnMethods(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.MOVE_LEARN_METHOD, offset, limit);
   }
 
@@ -227,7 +236,10 @@ export class MoveClient extends BaseClient {
    * @param limit How many Move Targets per page
    * @returns A list of Move Targets
    */
-  public async listMoveTargets(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listMoveTargets(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.MOVE_TARGET, offset, limit);
   }
 }

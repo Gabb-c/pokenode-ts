@@ -27,7 +27,7 @@ export class ItemClient extends BaseClient {
    * @param name The item name
    * @returns An Item
    */
-  public async getItemByName(name: string): Promise<Item> {
+  public async getItemByName(name: string): Promise<Item | undefined> {
     return this.getResource<Item>(ENDPOINTS.ITEM, name);
   }
 
@@ -36,7 +36,7 @@ export class ItemClient extends BaseClient {
    * @param id The item ID
    * @returns An Item
    */
-  public async getItemById(id: number): Promise<Item> {
+  public async getItemById(id: number): Promise<Item | undefined> {
     return this.getResource<Item>(ENDPOINTS.ITEM, id);
   }
 
@@ -45,7 +45,7 @@ export class ItemClient extends BaseClient {
    * @param name The item attribute name
    * @returns An Item Attribute
    */
-  public async getItemAttributeByName(name: string): Promise<ItemAttribute> {
+  public async getItemAttributeByName(name: string): Promise<ItemAttribute | undefined> {
     return this.getResource<ItemAttribute>(ENDPOINTS.ITEM_ATTRIBUTE, name);
   }
 
@@ -54,7 +54,7 @@ export class ItemClient extends BaseClient {
    * @param id The item attribute ID
    * @returns An Item Attribute
    */
-  public async getItemAttributeById(id: number): Promise<ItemAttribute> {
+  public async getItemAttributeById(id: number): Promise<ItemAttribute | undefined> {
     return this.getResource<ItemAttribute>(ENDPOINTS.ITEM_ATTRIBUTE, id);
   }
 
@@ -63,7 +63,7 @@ export class ItemClient extends BaseClient {
    * @param name The item category name
    * @returns An Item Category
    */
-  public async getItemCategoryByName(name: string): Promise<ItemCategory> {
+  public async getItemCategoryByName(name: string): Promise<ItemCategory | undefined> {
     return this.getResource<ItemCategory>(ENDPOINTS.ITEM_CATEGORY, name);
   }
 
@@ -72,7 +72,7 @@ export class ItemClient extends BaseClient {
    * @param id The item category ID
    * @returns An Item Category
    */
-  public async getItemCategoryById(id: number): Promise<ItemCategory> {
+  public async getItemCategoryById(id: number): Promise<ItemCategory | undefined> {
     return this.getResource<ItemCategory>(ENDPOINTS.ITEM_CATEGORY, id);
   }
 
@@ -81,7 +81,7 @@ export class ItemClient extends BaseClient {
    * @param name The item filing effect name
    * @returns An Item Filing Effect
    */
-  public async getItemFlingEffectByName(name: string): Promise<ItemFlingEffect> {
+  public async getItemFlingEffectByName(name: string): Promise<ItemFlingEffect | undefined> {
     return this.getResource<ItemFlingEffect>(ENDPOINTS.ITEM_FLING_EFFECT, name);
   }
 
@@ -90,7 +90,7 @@ export class ItemClient extends BaseClient {
    * @param id The item filing effect ID
    * @returns An Item Filing Effect
    */
-  public async getItemFlingEffectById(id: number): Promise<ItemFlingEffect> {
+  public async getItemFlingEffectById(id: number): Promise<ItemFlingEffect | undefined> {
     return this.getResource<ItemFlingEffect>(ENDPOINTS.ITEM_FLING_EFFECT, id);
   }
 
@@ -99,7 +99,7 @@ export class ItemClient extends BaseClient {
    * @param name The item pocket name
    * @returns An Item Pocket
    */
-  public async getItemPocketByName(name: string): Promise<ItemPocket> {
+  public async getItemPocketByName(name: string): Promise<ItemPocket | undefined> {
     return this.getResource<ItemPocket>(ENDPOINTS.ITEM_POCKET, name);
   }
 
@@ -108,7 +108,7 @@ export class ItemClient extends BaseClient {
    * @param id The item pocket ID
    * @returns An Item Pocket
    */
-  public async getItemPocketById(id: number): Promise<ItemPocket> {
+  public async getItemPocketById(id: number): Promise<ItemPocket | undefined> {
     return this.getResource<ItemPocket>(ENDPOINTS.ITEM_POCKET, id);
   }
 
@@ -118,7 +118,10 @@ export class ItemClient extends BaseClient {
    * @param limit How many Items per page
    * @returns A list of Items
    */
-  public async listItems(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listItems(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.ITEM, offset, limit);
   }
 
@@ -128,7 +131,10 @@ export class ItemClient extends BaseClient {
    * @param limit How many Item Attributes per page
    * @returns A list of Item Attributes
    */
-  public async listItemAttributes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listItemAttributes(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.ITEM_ATTRIBUTE, offset, limit);
   }
 
@@ -138,7 +144,10 @@ export class ItemClient extends BaseClient {
    * @param limit How many Item Categories per page
    * @returns A list of Item Categories
    */
-  public async listItemCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listItemCategories(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.ITEM_CATEGORY, offset, limit);
   }
 
@@ -151,7 +160,7 @@ export class ItemClient extends BaseClient {
   public async listItemFilingEffects(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.ITEM_FLING_EFFECT, offset, limit);
   }
 
@@ -161,7 +170,10 @@ export class ItemClient extends BaseClient {
    * @param limit How many Item Pockets per page
    * @returns A list of Item Pockets
    */
-  public async listItemPockets(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listItemPockets(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.ITEM_POCKET, offset, limit);
   }
 }

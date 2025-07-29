@@ -16,24 +16,24 @@ describe("Utility Client", () => {
   it("check if it returns a language passig a name", async () => {
     const data = await client.getLanguageByName("roomaji");
 
-    expect(data.id).toBe(LANGUAGES.ROOMAJI);
+    expect(data?.id).toBe(LANGUAGES.ROOMAJI);
   });
   it("check if it returns a language passing an ID", async () => {
     const data = await client.getLanguageById(LANGUAGES.FR);
 
-    expect(data.name).toBe("fr");
+    expect(data?.name).toBe("fr");
   });
   it("check if it returns a list of berries", async () => {
     const data = await client.listLanguages();
 
-    expect(data.results.length).toBeGreaterThan(0);
-    expect(data.results.length).toBeLessThanOrEqual(20);
+    expect(data?.results.length).toBeGreaterThan(0);
+    expect(data?.results.length).toBeLessThanOrEqual(20);
   });
 
   // Resource (pokemon)
   it("check if it returns a resource (pokemon) passig an url", async () => {
     const data = await client.getResourceByUrl<Pokemon>("https://pokeapi.co/api/v2/pokemon/luxray");
 
-    expect(data.id).toBe(405);
+    expect(data?.id).toBe(405);
   });
 });

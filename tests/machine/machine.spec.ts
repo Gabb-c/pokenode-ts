@@ -14,13 +14,13 @@ describe("Machine Client", () => {
   it("check if it returns a machine passing an ID", async () => {
     const data = await client.getMachineById(1);
 
-    expect(data.id).toBe(1);
+    expect(data?.id).toBe(1);
   });
 
   it("check if it returns a list of machines", async () => {
     const data = await client.listMachines();
 
-    expect(data.results.length).toBeGreaterThan(0);
-    expect(data.results.length).toBeLessThanOrEqual(20);
+    expect(data?.results.length).toBeGreaterThan(0);
+    expect(data?.results.length).toBeLessThanOrEqual(20);
   });
 });

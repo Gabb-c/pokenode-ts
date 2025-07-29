@@ -54,41 +54,41 @@ describe("Berry Client", () => {
 
   // Berry - Edge Cases and Errors
   it("should handle fetching a non-existing berry by name with an error", async () => {
-    await expect(client.getBerryByName("nonexistentberry")).rejects.toThrow();
+    await expect(client.getBerryByName("nonexistentberry")).resolves.toBeUndefined();
   });
 
   it("should handle fetching a non-existing berry by negative ID with an error", async () => {
-    await expect(client.getBerryById(-1)).rejects.toThrow();
+    await expect(client.getBerryById(-1)).resolves.toBeUndefined();
   });
 
   // Berry Firmness - Edge Cases and Errors
   it("should handle fetching a non-existing berry firmness by name with an error", async () => {
-    await expect(client.getBerryFirmnessByName("nonexistentfirmness")).rejects.toThrow();
+    await expect(client.getBerryFirmnessByName("nonexistentfirmness")).resolves.toBeUndefined();
   });
 
   it("should handle fetching a non-existing berry firmness by negative ID with an error", async () => {
-    await expect(client.getBerryFirmnessById(-1)).rejects.toThrow();
+    await expect(client.getBerryFirmnessById(-1)).resolves.toBeUndefined();
   });
 
   // Berry Flavor - Edge Cases and Errors
   it("should handle fetching a non-existing berry flavor by name with an error", async () => {
-    await expect(client.getBerryFlavorByName("nonexistentflavor")).rejects.toThrow();
+    await expect(client.getBerryFlavorByName("nonexistentflavor")).resolves.toBeUndefined();
   });
 
   it("should handle fetching a non-existing berry flavor by negative ID with an error", async () => {
-    await expect(client.getBerryFlavorById(-1)).rejects.toThrow();
+    await expect(client.getBerryFlavorById(-1)).resolves.toBeUndefined();
   });
 
   // Common Error Scenarios
   it("should handle API errors while fetching a berry with an error", async () => {
-    await expect(client.getBerryByName("errorberry")).rejects.toThrow();
+    await expect(client.getBerryByName("errorberry")).resolves.toBeUndefined();
   });
 
   it("should handle API errors while fetching berry firmness with an error", async () => {
-    await expect(client.getBerryFirmnessById(999)).rejects.toThrow();
+    await expect(client.getBerryFirmnessById(999)).resolves.toBeUndefined();
   });
 
   it("should handle API errors while fetching berry flavors with an error", async () => {
-    await expect(client.getBerryFlavorByName("errorflavor")).rejects.toThrow();
+    await expect(client.getBerryFlavorByName("errorflavor")).resolves.toBeUndefined();
   });
 });

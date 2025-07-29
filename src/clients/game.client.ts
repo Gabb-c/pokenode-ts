@@ -19,7 +19,7 @@ export class GameClient extends BaseClient {
    * @param name The generation name
    * @returns A Generation
    */
-  public async getGenerationByName(name: string): Promise<Generation> {
+  public async getGenerationByName(name: string): Promise<Generation | undefined> {
     return this.getResource<Generation>(ENDPOINTS.GENERATION, name);
   }
 
@@ -28,7 +28,7 @@ export class GameClient extends BaseClient {
    * @param id The generation ID
    * @returns A Generation
    */
-  public async getGenerationById(id: number): Promise<Generation> {
+  public async getGenerationById(id: number): Promise<Generation | undefined> {
     return this.getResource<Generation>(ENDPOINTS.GENERATION, id);
   }
 
@@ -37,7 +37,7 @@ export class GameClient extends BaseClient {
    * @param name The pokedex name
    * @returns A Pokedex
    */
-  public async getPokedexByName(name: string): Promise<Pokedex> {
+  public async getPokedexByName(name: string): Promise<Pokedex | undefined> {
     return this.getResource<Pokedex>(ENDPOINTS.POKEDEX, name);
   }
 
@@ -46,7 +46,7 @@ export class GameClient extends BaseClient {
    * @param id The pokedex ID
    * @returns A Pokedex
    */
-  public async getPokedexById(id: number): Promise<Pokedex> {
+  public async getPokedexById(id: number): Promise<Pokedex | undefined> {
     return this.getResource<Pokedex>(ENDPOINTS.POKEDEX, id);
   }
 
@@ -55,7 +55,7 @@ export class GameClient extends BaseClient {
    * @param name The version name
    * @returns A Version
    */
-  public async getVersionByName(name: string): Promise<Version> {
+  public async getVersionByName(name: string): Promise<Version | undefined> {
     return this.getResource<Version>(ENDPOINTS.VERSION, name);
   }
 
@@ -64,7 +64,7 @@ export class GameClient extends BaseClient {
    * @param id The version ID
    * @returns A Version
    */
-  public async getVersionById(id: number): Promise<Version> {
+  public async getVersionById(id: number): Promise<Version | undefined> {
     return this.getResource<Version>(ENDPOINTS.VERSION, id);
   }
 
@@ -73,7 +73,7 @@ export class GameClient extends BaseClient {
    * @param name The version group name
    * @returns A Version Group
    */
-  public async getVersionGroupByName(name: string): Promise<VersionGroup> {
+  public async getVersionGroupByName(name: string): Promise<VersionGroup | undefined> {
     return this.getResource<VersionGroup>(ENDPOINTS.VERSION_GROUP, name);
   }
 
@@ -82,7 +82,7 @@ export class GameClient extends BaseClient {
    * @param id The version group ID
    * @returns A Version Group
    */
-  public async getVersionGroupById(id: number): Promise<VersionGroup> {
+  public async getVersionGroupById(id: number): Promise<VersionGroup | undefined> {
     return this.getResource<VersionGroup>(ENDPOINTS.VERSION_GROUP, id);
   }
 
@@ -92,7 +92,10 @@ export class GameClient extends BaseClient {
    * @param limit How many Generations per page
    * @returns A list of Generations
    */
-  public async listGenerations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listGenerations(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.GENERATION, offset, limit);
   }
 
@@ -102,7 +105,10 @@ export class GameClient extends BaseClient {
    * @param limit How many Pokedexes per page
    * @returns A list of Pokedexes
    */
-  public async listPokedexes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listPokedexes(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.POKEDEX, offset, limit);
   }
 
@@ -112,7 +118,10 @@ export class GameClient extends BaseClient {
    * @param limit How many Versions per page
    * @returns A list of Versions
    */
-  public async listVersions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listVersions(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.VERSION, offset, limit);
   }
 
@@ -122,7 +131,10 @@ export class GameClient extends BaseClient {
    * @param limit How many Version Groups per page
    * @returns A list of Version Groups
    */
-  public async listVersionGroups(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listVersionGroups(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.VERSION_GROUP, offset, limit);
   }
 }

@@ -23,7 +23,7 @@ export class ContestClient extends BaseClient {
    * @param name  The contest type name
    * @returns A Contest Type
    */
-  public async getContestTypeByName(name: string): Promise<ContestType> {
+  public async getContestTypeByName(name: string): Promise<ContestType | undefined> {
     return this.getResource<ContestType>(ENDPOINTS.CONTEST_TYPE, name);
   }
 
@@ -32,7 +32,7 @@ export class ContestClient extends BaseClient {
    * @param id The Contest Type ID
    * @returns A Contest Type
    */
-  public async getContestTypeById(id: number): Promise<ContestType> {
+  public async getContestTypeById(id: number): Promise<ContestType | undefined> {
     return this.getResource<ContestType>(ENDPOINTS.CONTEST_TYPE, id);
   }
 
@@ -41,7 +41,7 @@ export class ContestClient extends BaseClient {
    * @param id The Contest Effect ID
    * @returns Contest Effect
    */
-  public async getContestEffectById(id: number): Promise<ContestEffect> {
+  public async getContestEffectById(id: number): Promise<ContestEffect | undefined> {
     return this.getResource<ContestEffect>(ENDPOINTS.CONTEST_EFFECT, id);
   }
 
@@ -50,7 +50,7 @@ export class ContestClient extends BaseClient {
    * @param id The Super Contest Effect ID
    * @returns Super Contest Effect
    */
-  public async getSuperContestEffectById(id: number): Promise<SuperContestEffect> {
+  public async getSuperContestEffectById(id: number): Promise<SuperContestEffect | undefined> {
     return this.getResource<SuperContestEffect>(ENDPOINTS.SUPER_CONTEST_EFFECT, id);
   }
 
@@ -60,7 +60,10 @@ export class ContestClient extends BaseClient {
    * @param limit How many contest types per page
    * @returns A list of contest types
    */
-  public async listContestTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listContestTypes(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.CONTEST_TYPE, offset, limit);
   }
 
@@ -70,7 +73,10 @@ export class ContestClient extends BaseClient {
    * @param limit How many contest effects per page
    * @returns A list of contest effects
    */
-  public async listContestEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
+  public async listContestEffects(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.CONTEST_EFFECT, offset, limit);
   }
 
@@ -83,7 +89,7 @@ export class ContestClient extends BaseClient {
   public async listSuperContestEffects(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
+  ): Promise<NamedAPIResourceList | undefined> {
     return this.getListResource(ENDPOINTS.SUPER_CONTEST_EFFECT, offset, limit);
   }
 }
