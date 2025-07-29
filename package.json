@@ -55,6 +55,7 @@
     "@semantic-release/npm": "^12.0.1",
     "@semantic-release/release-notes-generator": "^14.0.3",
     "@size-limit/preset-small-lib": "^11.1.6",
+    "@spongesoftware/trycatch": "^1.0.1",
     "@swc/core": "^1.10.7",
     "@types/is-ci": "^3.0.4",
     "@types/node": "^22.10.7",
@@ -89,7 +90,6 @@
       "ignoreMissing": ["@algolia/client-search", "search-insights"]
     }
   },
-  "dependencies": {
-    "@spongesoftware/trycatch": "^1.0.1"
-  }
+  "dependencies": {},
+  "peerDependencies": {}
 }
