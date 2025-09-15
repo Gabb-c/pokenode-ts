@@ -58,7 +58,7 @@ importers:
         version: 1.7.9
       axios-cache-interceptor:
         specifier: ^1.6.2
-        version: 1.6.2(axios@1.7.9)
+        version: 1.8.3(axios@1.7.9)
       ci-info:
         specifier: ^4.1.0
         version: 4.1.0
@@ -1327,8 +1327,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  axios-cache-interceptor@1.6.2:
-    resolution: {integrity: sha512-YLbAODIHZZIcD4b3WYFVQOa5W2TY/WnJ6sBHqAg6Z+hx+RVj8/OcjQyRopO6awn7/kOkGL5X9TP16AucnlJ/lw==}
+  axios-cache-interceptor@1.8.3:
+    resolution: {integrity: sha512-ifuSBoCEkVaiugg1UTjVuTdK+SjSOJ35pdv2OrzhRT3wDMr52QiayQxUqs7jd7GDsfPOjMcw3T3ek0TysbyZZw==}
     engines: {node: '>=12'}
     peerDependencies:
       axios: ^1
@@ -2818,6 +2818,7 @@ packages:
   source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
     engines: {node: '>= 8'}
+    deprecated: The work that was done in this beta branch won't be included in future versions
 
   space-separated-tokens@2.0.2:
     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}
@@ -4558,7 +4559,7 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios-cache-interceptor@1.6.2(axios@1.7.9):
+  axios-cache-interceptor@1.8.3(axios@1.7.9):
     dependencies:
       axios: 1.7.9
       cache-parser: 1.2.5
