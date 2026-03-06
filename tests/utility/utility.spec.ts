@@ -13,8 +13,8 @@ describe("Utility Client", () => {
   it("(client) should be instantiated correctly", () => expect(client).toBeDefined());
 
   // Language
-  it("check if it returns a language passig a name", async () => {
-    const data = await client.getLanguageByName("roomaji");
+  it("check if it returns a language passing a name", async () => {
+    const data = await client.getLanguageByName("ja-roma");
 
     expect(data.id).toBe(LANGUAGES.ROOMAJI);
   });
