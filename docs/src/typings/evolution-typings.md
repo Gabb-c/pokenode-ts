@@ -67,6 +67,18 @@ export interface EvolutionDetail {
   trade_species: NamedAPIResource;
   /** Whether or not the 3DS needs to be turned upside-down as this Pokémon levels up. */
   turn_upside_down: boolean;
+  /** The required region in which this evolution can occur. */
+  region: NamedAPIResource | null;
+  /** The required form for which this evolution can occur. */
+  base_form: NamedAPIResource | null;
+  /** The move that must be used by the evolving Pokémon species during the evolution trigger event in order to evolve into this Pokémon species. */
+  used_move: NamedAPIResource | null;
+  /** The minimum number of times a move must be used in order to evolve into this Pokémon species. */
+  min_move_count: number | null;
+  /** The minimum number of steps that must be taken in order to evolve into this Pokémon species. */
+  min_steps: number | null;
+  /** The minimum amount of damage taken during the evolution trigger event in order to evolve into this Pokémon species. */
+  min_damage_taken: number | null;
 }
 ```
 
