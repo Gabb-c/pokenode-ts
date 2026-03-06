@@ -16,7 +16,7 @@ describe("Utility Client", () => {
   it("check if it returns a language passing a name", async () => {
     const data = await client.getLanguageByName("ja-roma");
 
-    expect(data.id).toBe(LANGUAGES.ROOMAJI);
+    expect(data.id).toBe(LANGUAGES.JA_ROMA);
   });
   it("check if it returns a language passing an ID", async () => {
     const data = await client.getLanguageById(LANGUAGES.FR);

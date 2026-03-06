@@ -1,6 +1,6 @@
 export const LANGUAGES = {
   JA_HRKT: 1,
-  ROOMAJI: 2,
+  JA_ROMA: 2,
   KO: 3,
   ZH_HANT: 4,
   FR: 5,
