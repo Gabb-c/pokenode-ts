@@ -37,5 +37,6 @@ export default defineConfig({
   // the build. The map is maintained by hand and verified by publint + attw.
   // Fails the build on packaging mistakes instead of publishing them.
   publint: true,
+  attw: true,
   outputOptions: { banner },
 });

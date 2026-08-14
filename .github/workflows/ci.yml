@@ -65,9 +65,8 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           node-version: ${{ matrix.node-version }}
+      # tsdown runs publint + attw as part of the build.
       - name: Build library
         run: pnpm build
-      - name: Check package exports and types
-        run: pnpm check:package
       - name: Build docs
         run: pnpm docs:build
