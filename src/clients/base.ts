@@ -1,7 +1,6 @@
 import axios, { type AxiosError } from "axios";
 import {
   type AxiosCacheInstance,
-  type CacheAxiosResponse,
   type CacheOptions,
   type InternalCacheRequestConfig,
   setupCache,
@@ -57,7 +56,7 @@ export class BaseClient {
     );
 
     this.api.interceptors.response.use(
-      (response: CacheAxiosResponse) => handleResponse(response, clientOptions?.logs),
+      (response) => handleResponse(response, clientOptions?.logs),
       (error: AxiosError<string>) => handleResponseError(error, clientOptions?.logs),
     );
   }

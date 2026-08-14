@@ -1,0 +1,18 @@
+# Binaries are invoked via node_modules/.bin rather than bare names: lefthook
+# does not extend PATH with the local bin directory.
+pre-commit:
+  parallel: true
+  jobs:
+    - name: biome
+      run: node_modules/.bin/biome check --write --no-errors-on-unmatched {staged_files}
+      glob: "*.{js,ts,cjs,mjs,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+
+    - name: typecheck
+      run: node_modules/.bin/tsc --noEmit
+      glob: "src/**/*.ts"
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: node_modules/.bin/commitlint --edit {1}

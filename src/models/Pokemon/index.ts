@@ -5,6 +5,6 @@ export * from "./gender";
 export * from "./growth-rates";
 export * from "./nature";
 export * from "./pokeathlon-stat";
+export * from "./pokemon";
 export * from "./stats";
 export * from "./type";
-export * from "./pokemon";

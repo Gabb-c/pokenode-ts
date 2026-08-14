@@ -3,9 +3,20 @@ updates:
   - package-ecosystem: github-actions
     directory: "./"
     schedule:
-      interval: daily
+      interval: weekly
+    groups:
+      github-actions:
+        patterns: ["*"]
 
   - package-ecosystem: npm
     directory: "./"
     schedule:
-      interval: daily
+      interval: weekly
+    groups:
+      # Majors stay separate so they get reviewed on their own.
+      dev-dependencies:
+        dependency-type: development
+        update-types: [minor, patch]
+      production-dependencies:
+        dependency-type: production
+        update-types: [minor, patch]

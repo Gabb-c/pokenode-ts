@@ -1,5 +1,5 @@
 import { GameClient } from "@clients";
-import { GENERATIONS, POKEDEXES, VERSIONS, VERSION_GROUPS } from "@constants";
+import { GENERATIONS, POKEDEXES, VERSION_GROUPS, VERSIONS } from "@constants";
 
 describe("Game Client", () => {
   let client: GameClient;

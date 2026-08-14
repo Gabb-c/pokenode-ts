@@ -4,8 +4,9 @@
     "target": "ESNext",
     // An array of library files to include in the compilation.
     "lib": ["ESNext"],
-    // Vitest globals
-    "types": ["vitest/globals"],
+    // Vitest globals, plus Node's (console, process). An explicit `types` array
+    // disables automatic @types inclusion, so "node" has to be listed.
+    "types": ["vitest/globals", "node"],
     // Allows JavaScript files to be included in the project.
     "allowJs": true,
     // Skips type checking of declaration files.
@@ -34,19 +35,18 @@
     "resolveJsonModule": true,
     // Transforms each file as a separate module, which can help catch more errors.
     "isolatedModules": true,
-    // Specifies the base directory for resolving non-relative module names.
-    "baseUrl": ".",
-    // Defines path mappings for module names.
+    // Defines path mappings for module names. TypeScript 7 removed `baseUrl`,
+    // so these resolve relative to this file and must be written as such.
     "paths": {
-      "@clients": ["src/clients/index.ts"],
-      "@config/*": ["src/config/*"],
-      "@constants": ["src/constants/index.ts"],
-      "@models": ["src/models/index.ts"],
-      "@package": ["package.json"]
+      "@clients": ["./src/clients/index.ts"],
+      "@config/*": ["./src/config/*"],
+      "@constants": ["./src/constants/index.ts"],
+      "@models": ["./src/models/index.ts"],
+      "@package": ["./package.json"]
     }
   },
   // Specifies the files to include in the compilation.
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "include": ["src/**/*.ts", "tests/**/*.ts", "./*.ts"],
   // Specifies files to be excluded from the compilation.
   "exclude": ["node_modules"]
 }

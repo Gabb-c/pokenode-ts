@@ -1,5 +1,12 @@
-import type { AxiosError } from "axios";
+import type { AxiosError, AxiosResponse } from "axios";
 import type { CacheAxiosResponse, InternalCacheRequestConfig } from "axios-cache-interceptor";
+
+/**
+ * What the response interceptor actually receives: axios-cache-interceptor
+ * types its response manager as `Partial<CacheAxiosResponse> & AxiosResponse`,
+ * so the cache-specific fields are optional on the way through.
+ */
+type InterceptedResponse = Partial<CacheAxiosResponse> & AxiosResponse;
 
 export const handleRequest = (
   config: InternalCacheRequestConfig,
@@ -22,9 +29,9 @@ export const handleRequestError = (
 };
 
 export const handleResponse = (
-  response: CacheAxiosResponse,
+  response: InterceptedResponse,
   logsEnabled?: boolean,
-): CacheAxiosResponse => {
+): InterceptedResponse => {
   if (logsEnabled) {
     console.log(
       `[ Response ] STATUS ${response.status} | ${response.cached ? "CACHED" : "NOT CACHED"}`,

@@ -1,5 +1,5 @@
 import { EncounterClient } from "@clients";
-import { ENCOUNTER_CONDITIONS, ENCOUNTER_CONDITION_VALUES, ENCOUNTER_METHODS } from "@constants";
+import { ENCOUNTER_CONDITION_VALUES, ENCOUNTER_CONDITIONS, ENCOUNTER_METHODS } from "@constants";
 
 describe("Encounter Client", () => {
   let client: EncounterClient;

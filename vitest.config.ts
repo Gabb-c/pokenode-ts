@@ -11,6 +11,8 @@ export default defineConfig({
     retry: 3,
     coverage: {
       provider: "v8",
+      // lcov is not a vitest default, but both Codecov and SonarQube consume it.
+      reporter: ["text", "html", "lcov"],
       include: ["src/**/*"],
       exclude: ["src/models/*"],
     },

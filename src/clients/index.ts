@@ -6,7 +6,7 @@ export * from "./game.client";
 export * from "./item.client";
 export * from "./location.client";
 export * from "./machine.client";
+export * from "./main.client";
 export * from "./move.client";
 export * from "./pokemon.client";
 export * from "./utility.client";
-export * from "./main.client";
