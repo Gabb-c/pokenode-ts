@@ -1,4 +1,4 @@
-import { BASE_URL } from "@constants";
+import { BASE_URL, type Endpoint } from "@constants";
 import { delay, HttpResponse, http, type JsonBodyType } from "msw";
 
 import { BaseClient } from "../../src/clients/base";
@@ -8,7 +8,7 @@ import { server } from "../utils/setup";
 
 /** Exposes the protected request helpers so they can be exercised directly. */
 class TestClient extends BaseClient {
-  get<T>(endpoint: string, identifier?: string | number): Promise<T> {
+  get<T>(endpoint: Endpoint, identifier?: string | number): Promise<T> {
     return this.getResource<T>(endpoint, identifier);
   }
 
@@ -192,6 +192,51 @@ describe("BaseClient", () => {
     expect(calls.count).toBe(1);
   });
 
+  it("should drop the trailing slash the PokéAPI puts on its own URLs", async () => {
+    const calls = countingHandler(BERRY_URL);
+
+    await new TestClient().getByURL(`${BERRY_URL}/`);
+
+    expect(calls.urls[0]).toBe(BERRY_URL);
+  });
+
+  it("should give a resource one cache key however it is reached", async () => {
+    const calls = countingHandler(BERRY_URL);
+    const client = new TestClient();
+
+    await client.get("/berry", 1);
+    await client.getByURL(`${BERRY_URL}/`);
+
+    expect(calls.count).toBe(1);
+  });
+
+  it("should not mistake a version marker in the host for one in the path", async () => {
+    const calls = countingHandler("https://api.v2.example.test/api/v2/berry/1");
+    const baseURL = "https://api.v2.example.test/api/v2";
+
+    await new TestClient({ baseURL }).getByURL(`${baseURL}/berry/1/`);
+
+    expect(calls.urls[0]).toBe("https://api.v2.example.test/api/v2/berry/1");
+  });
+
+  it("should keep the query string of a resource URL", async () => {
+    const calls = countingHandler(`${BASE_URL.REST}/berry`, { count: 0, results: [] });
+
+    await new TestClient().getByURL(`${BASE_URL.REST}/berry?offset=20&limit=50`);
+
+    expect(calls.urls[0]).toBe(`${BASE_URL.REST}/berry?offset=20&limit=50`);
+  });
+
+  it("should reject a URL that names no endpoint", async () => {
+    await expect(new TestClient().getByURL("https://example.test/berry/1")).rejects.toThrow(
+      TypeError,
+    );
+  });
+
+  it("should reject a URL that is not absolute", async () => {
+    await expect(new TestClient().getByURL("/berry/1")).rejects.toThrow(TypeError);
+  });
+
   it("should throw a PokenodeError on a non-2xx response", async () => {
     server.use(
       http.get(BERRY_URL, () => HttpResponse.json({ detail: "Not found." }, { status: 404 })),
@@ -267,6 +312,80 @@ describe("BaseClient", () => {
 
     expect(PokenodeError.isPokenodeError(error)).toBe(false);
     expect((error as Error).name).toBe("TimeoutError");
+  });
+
+  it("should expose the store it built for itself", async () => {
+    countingHandler(BERRY_URL);
+    const client = new TestClient();
+
+    await client.get("/berry", 1);
+
+    expect(client.cache?.get(BERRY_URL)).toEqual({ id: 1 });
+  });
+
+  it("should expose no store when caching is disabled", () => {
+    expect(new TestClient({ cache: false }).cache).toBeUndefined();
+  });
+
+  it("should refetch after the cache is cleared", async () => {
+    const calls = countingHandler(BERRY_URL);
+    const client = new TestClient();
+
+    await client.get("/berry", 1);
+    await client.clearCache();
+    await client.get("/berry", 1);
+
+    expect(calls.count).toBe(2);
+  });
+
+  it("should leave a store that cannot clear alone", async () => {
+    const client = new TestClient({ cache: new RecordingStore() });
+
+    await expect(client.clearCache()).resolves.toBeUndefined();
+  });
+
+  it("should report the request lifecycle to a supplied logger", async () => {
+    countingHandler(BERRY_URL);
+    const events: string[] = [];
+    const client = new TestClient({
+      logger: {
+        request: (method, url) => events.push(`request ${method} ${url}`),
+        response: (status, cached) => events.push(`response ${status} ${cached}`),
+        error: (error) => events.push(`error ${String(error)}`),
+      },
+    });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    expect(events).toEqual([
+      `request get ${BERRY_URL}`,
+      "response 200 false",
+      `request get ${BERRY_URL}`,
+      "response 200 true",
+    ]);
+  });
+
+  it("should report a failure to a supplied logger", async () => {
+    server.use(http.get(BERRY_URL, () => HttpResponse.json({}, { status: 404 })));
+
+    const errors: unknown[] = [];
+    const client = new TestClient({
+      logger: { request: () => {}, response: () => {}, error: (error) => errors.push(error) },
+    });
+
+    await expect(client.get("/berry", 1)).rejects.toThrow(PokenodeError);
+    expect(errors).toHaveLength(1);
+  });
+
+  it("should stay silent without a logger", async () => {
+    countingHandler(BERRY_URL);
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+
+    await new TestClient().get("/berry", 1);
+
+    expect(log).not.toHaveBeenCalled();
+    log.mockRestore();
   });
 
   it("should not cache a failed response", async () => {

@@ -4,7 +4,7 @@ Clients call the global `fetch` by default. Pass your own to route requests thro
 retries, attach headers, or record metrics:
 
 ```ts
-interface ClientArgs {
+interface ClientOptions {
   fetch?: (input: string, init?: RequestInit) => Promise<Response>;
 }
 ```

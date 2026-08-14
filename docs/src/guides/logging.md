@@ -2,26 +2,50 @@
 
 ## Logs
 
-Every client in Pokenode-ts can display logs from requests and responses.
+Every client can report the requests and responses it handles. Nothing is logged unless you pass a
+`logger`.
 
 ## Basic Logging
 
-To enable logs just pass `logs: true`:
+`consoleLogger` writes the request lifecycle to the console:
 
 ```ts
-import { BerryClient } from 'pokenode-ts';
+import { BerryClient, consoleLogger } from 'pokenode-ts';
 
-const api = new BerryClient({ logs: true }); // Enable logs
+const api = new BerryClient({ logger: consoleLogger });
 ```
 
 Will output:
 
 ```
 // success
-[ Request Config ] GET | /berry/cheri
+[ Request Config ] GET | https://pokeapi.co/api/v2/berry/cheri
 [ Response ] STATUS 200 | CACHED
 
 // error
-[ Request Config ] GET | /berry/cheri
-[ Response Error ] CODE ERR_BAD_REQUEST | Request failed with status code 404
+[ Request Config ] GET | https://pokeapi.co/api/v2/berry/cheri
+[ Response Error ] CODE PokenodeError | Request to https://pokeapi.co/api/v2/berry/cheri failed with status 404
 ```
+
+## Custom Logging
+
+`Logger` is a three-method interface, so requests can go to a real logger or a metrics collector
+instead of the console:
+
+```ts
+import { PokemonClient, type Logger } from 'pokenode-ts';
+import { pino } from 'pino';
+
+const log = pino();
+
+const logger: Logger = {
+  request: (method, url) => log.debug({ method, url }, 'pokeapi request'),
+  response: (status, cached) => log.debug({ status, cached }, 'pokeapi response'),
+  error: (error) => log.error({ error }, 'pokeapi request failed'),
+};
+
+const api = new PokemonClient({ logger });
+```
+
+`response` is called for cache hits too, with `cached` set to `true` and a status of `200` — no
+request left the process.

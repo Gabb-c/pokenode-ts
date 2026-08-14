@@ -64,13 +64,37 @@ const api = new PokemonClient({ cache: new RedisStore(redis) });
 
 Return `undefined` from `get` for a miss.
 
+## Clearing the cache
+
+Every client exposes the store it is using as `cache`, and `clearCache()` empties it — including the
+one a client built for itself:
+
+```ts
+const api = new BerryClient();
+
+await api.getBerryByName('cheri'); // network
+await api.getBerryByName('cheri'); // cache
+
+await api.clearCache();
+
+await api.getBerryByName('cheri'); // network again
+```
+
+`cache` is `undefined` when caching is disabled, and `clearCache()` is then a no-op. `clear` is
+optional on `CacheStore`, so a store that does not implement it — a shared Redis instance you would
+rather the library not flush — is left untouched.
+
 ## How it works
 
 - Only successful responses are cached — a failed request is never stored.
 - Concurrent calls for the same URL share a single request, so a cold cache under load produces
   one round trip rather than many.
 - `MemoryCache` evicts the least recently used entry once `maxEntries` is reached.
-- A store is per client instance unless you share one between clients yourself.
+- A store is per client instance unless you share one between clients yourself. `MainClient` is the
+  exception: its sub-clients share one store, so a resource fetched through `api.pokemon` is served
+  from memory by `api.utility`.
+- A resource has one cache entry however it is reached. `getBerryById(1)` and `getResourceByUrl` on
+  the PokéAPI's own slash-terminated link resolve to the same key.
 
 :::warning
 `MemoryCache` returns responses **by reference**. Mutating a response also mutates what later cache

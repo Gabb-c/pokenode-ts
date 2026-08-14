@@ -42,7 +42,6 @@ export const ENDPOINTS = {
   NATURE: "/nature",
   POKEATHLON_STAT: "/pokeathlon-stat",
   POKEMON: "/pokemon",
-  POKEMON_LOCATION_AREA: "/pokemon/:id/encounters",
   POKEMON_COLOR: "/pokemon-color",
   POKEMON_FORM: "/pokemon-form",
   POKEMON_HABITAT: "/pokemon-habitat",
