@@ -1,6 +1,4 @@
 import { type CacheStore, MemoryCache } from "../config/cache";
-// Imported file by file rather than through the `@clients` barrel, which
-// re-exports this module: the barrel would close an import cycle.
 import type { ClientOptions } from "./base";
 import { BerryClient } from "./berry.client";
 import { ContestClient } from "./contest.client";
@@ -36,7 +34,6 @@ import { UtilityClient } from "./utility.client";
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2)
  */
 export class MainClient {
-  /** The store every client below shares, or `undefined` when caching is disabled. */
   public readonly cache: CacheStore | undefined;
 
   public readonly berry: BerryClient;
@@ -52,8 +49,6 @@ export class MainClient {
   public readonly utility: UtilityClient;
 
   constructor(clientOptions?: ClientOptions) {
-    // Every client below builds its own store when handed none, so the store is
-    // resolved once here instead. `false` survives the `??` and stays disabled.
     const cache = clientOptions?.cache ?? new MemoryCache();
     const sharedOptions: ClientOptions = { ...clientOptions, cache };
 

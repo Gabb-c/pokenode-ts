@@ -86,7 +86,7 @@ describe("Move Client", () => {
   });
 
   it("check if it returns a move category passing a name", async () => {
-    const data = await client.getMoveCategoryByName("damage+heal");
+    const data = await client.getMoveCategoryByName("damage-heal");
 
     expect(data.id).toBe(MOVE_CATEGORIES.DAMAGE_HEAL);
   });

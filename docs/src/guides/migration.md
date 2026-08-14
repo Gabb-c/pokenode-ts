@@ -57,6 +57,8 @@ See the [Logging guide](/guides/logging) for the `Logger` interface.
 - `ENDPOINTS.POKEMON_LOCATION_AREA` is gone. It held the template `/pokemon/:id/encounters` rather
   than an endpoint, and never worked without a string replacement. Use
   `PokemonClient#getPokemonLocationAreaById`, which was always the supported route.
+- `LANGUAGES.ROOMAJI` is now `LANGUAGES.JA_ROMA`, following the PokéAPI's own rename of language 2
+  from `roomaji` to `ja-roma`. The id is unchanged, so only the key needs updating.
 
 ## MainClient
 
