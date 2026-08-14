@@ -67,8 +67,6 @@
     "@types/node": "^26.2.0",
     "@vitest/coverage-v8": "^4.1.10",
     "@vitest/ui": "^4.1.10",
-    "axios": "^1.19.0",
-    "axios-cache-interceptor": "^1.12.3",
     "lefthook": "^2.1.10",
     "msw": "^2.15.0",
     "publint": "^0.3.23",
@@ -79,10 +77,6 @@
     "vitepress": "1.6.4",
     "vitest": "^4.1.10",
     "vue": "^3.5.41"
-  },
-  "peerDependencies": {
-    "axios": "^1.7.9",
-    "axios-cache-interceptor": "^1.6.2"
   },
   "engines": {
     "node": ">=20"

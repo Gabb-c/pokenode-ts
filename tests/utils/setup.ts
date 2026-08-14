@@ -4,7 +4,8 @@ import { BERRY_HANDLERS } from "../berry/mocks/handlers";
 
 const HANDLERS = [...BERRY_HANDLERS];
 
-const server = setupServer(...HANDLERS);
+/** Exported so specs can register one-off handlers with `server.use(...)`. */
+export const server = setupServer(...HANDLERS);
 
 // Events
 server.events.on("unhandledException", ({ request: { method, url }, error }) => {

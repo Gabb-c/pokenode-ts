@@ -1,9 +1,4 @@
-import {
-  handleRequest,
-  handleRequestError,
-  handleResponse,
-  handleResponseError,
-} from "@config/logger";
+import { logError, logRequest, logResponse } from "@config/logger";
 
 const consoleLogSpy = vi.spyOn(console, "log");
 const consoleErrorSpy = vi.spyOn(console, "error");
@@ -19,50 +14,54 @@ afterAll(() => {
 
 describe("Logger", () => {
   it("should call the request log", () => {
-    const handleRequestMock = vi.fn().mockImplementation(handleRequest);
+    logRequest("get", "https://pokeapi.co/api/v2/berry/1", true);
 
-    expect(handleRequestMock({}, true)).toEqual({});
-    expect(consoleLogSpy).toHaveBeenCalled();
-    expect(handleRequestMock).toHaveBeenCalled();
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      "[ Request Config ] GET | https://pokeapi.co/api/v2/berry/1",
+    );
   });
 
   it("should not call the request log", () => {
-    const handleRequestMock = vi.fn().mockImplementation(handleRequest);
+    logRequest("get", "https://pokeapi.co/api/v2/berry/1");
 
-    expect(handleRequestMock({})).toEqual({});
     expect(consoleLogSpy).not.toHaveBeenCalled();
-    expect(handleRequestMock).toHaveBeenCalled();
-  });
-
-  it("should call the request error log", async () => {
-    const handleRequestErrorMock = vi.fn().mockImplementation(handleRequestError);
-
-    await expect(handleRequestErrorMock({}, true)).rejects.toThrowError();
-    expect(consoleErrorSpy).toHaveBeenCalled();
-    expect(handleRequestErrorMock).toHaveBeenCalled();
   });
 
   it("should call the response log", () => {
-    const handleResponseMock = vi.fn().mockImplementation(handleResponse);
+    logResponse(200, false, true);
 
-    expect(handleResponseMock({}, true)).toEqual({});
-    expect(consoleLogSpy).toHaveBeenCalled();
-    expect(handleResponseMock).toHaveBeenCalled();
+    expect(consoleLogSpy).toHaveBeenCalledWith("[ Response ] STATUS 200 | NOT CACHED");
+  });
+
+  it("should flag cached responses", () => {
+    logResponse(200, true, true);
+
+    expect(consoleLogSpy).toHaveBeenCalledWith("[ Response ] STATUS 200 | CACHED");
   });
 
   it("should not call the response log", () => {
-    const handleResponseMock = vi.fn().mockImplementation(handleResponse);
+    logResponse(200, false);
 
-    expect(handleResponseMock({})).toEqual({});
     expect(consoleLogSpy).not.toHaveBeenCalled();
-    expect(handleResponseMock).toHaveBeenCalled();
   });
 
-  it("should call the request error log", async () => {
-    const handleResponseErrorMock = vi.fn().mockImplementation(handleResponseError);
+  it("should call the error log", () => {
+    logError(new TypeError("fetch failed"), true);
 
-    await expect(handleResponseErrorMock({}, true)).rejects.toThrowError();
-    expect(consoleErrorSpy).toHaveBeenCalled();
-    expect(handleResponseErrorMock).toHaveBeenCalled();
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "[ Response Error ] CODE TypeError | fetch failed",
+    );
+  });
+
+  it("should call the error log for non-errors", () => {
+    logError("boom", true);
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith("[ Response Error ] CODE UNKNOWN | boom");
+  });
+
+  it("should not call the error log", () => {
+    logError(new Error("nope"));
+
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
   });
 });

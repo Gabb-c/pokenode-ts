@@ -7,15 +7,15 @@ Install pokenode-ts with your favorite package manager:
 :::code-group
 
 ```bash [NPM]
-npm i axios axios-cache-interceptor pokenode-ts
+npm i pokenode-ts
 ```
 
 ```bash [Yarn]
-yarn add axios axios-cache-interceptor pokenode-ts
+yarn add pokenode-ts
 ```
 
 ```bash [Pnpm]
-pnpm i axios axios-cache-interceptor pokenode-ts
+pnpm i pokenode-ts
 ```
 
 :::

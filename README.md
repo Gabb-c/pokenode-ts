@@ -5,20 +5,22 @@
 ## Features
 
 - 🛠️ **Built-in typings**: TypeScript support with pre-defined types.
-- 📦 **Axios with auto-cache requests**: Efficiently manage API requests with automatic caching.
+- 📦 **Auto-cached requests**: Responses are cached in memory, so repeated lookups skip the network.
 - 🌲 **Logging**: Easily log and track your API interactions.
+- 🪶 **Zero dependencies**: Built on native `fetch`, so it runs in Node, Deno, Bun, browsers, and edge runtimes.
+- 🔌 **Bring your own transport**: Pass a custom `fetch` for proxies, retries, or instrumentation.
 
 ## Installation
 
 ```bash
 # NPM
-npm install axios axios-cache-interceptor pokenode-ts
+npm install pokenode-ts
 
 # Yarn
-yarn add axios axios-cache-interceptor pokenode-ts
+yarn add pokenode-ts
 
 # Pnpm
-pnpm add axios axios-cache-interceptor pokenode-ts
+pnpm add pokenode-ts
 ```
 
 ## Basic Example
@@ -26,10 +28,45 @@ pnpm add axios axios-cache-interceptor pokenode-ts
 ```ts
 import { PokemonClient } from 'pokenode-ts'; // Import the Client
 
-const pokemon = await api.getPokemonByName('luxray') // Make the request
-  .catch(() => console.log("Oops!"));
+const api = new PokemonClient(); // Create the Client
 
-console.log(pokemon.name); // Typesafe response ✨ (Outputs "Luxray")
+const pokemon = await api.getPokemonByName('luxray'); // Make the request
+
+console.log(pokemon.name); // Typesafe response ✨ (Outputs "luxray")
+```
+
+## Error Handling
+
+Requests reject with a `PokenodeError` when the PokéAPI answers with a non-2xx status. Use the
+`isPokenodeError` guard to catch it:
+
+```ts
+import { PokemonClient, PokenodeError } from 'pokenode-ts';
+
+try {
+  const pokemon = await new PokemonClient().getPokemonByName('missingno');
+} catch (error) {
+  if (PokenodeError.isPokenodeError(error)) {
+    console.log(error.status);     // 404
+    console.log(error.statusText); // 'Not Found'
+    console.log(error.url);        // the request URL
+    console.log(error.body);       // parsed JSON body, when the response had one
+  }
+}
+```
+
+Prefer the guard over `instanceof`: a dependency tree that loads both the ESM and the CJS build
+ends up with two distinct classes, and `instanceof` against the wrong one is silently `false`.
+
+Transport failures — offline, DNS, an abort from a signal you supplied — are not wrapped, and
+reject with whatever the runtime threw.
+
+Clients impose no timeout. Pass a signal through a custom `fetch` if you want one:
+
+```ts
+new PokemonClient({
+  fetch: (url, init) => fetch(url, { ...init, signal: AbortSignal.timeout(5000) }),
+});
 ```
 
 ## Documentation

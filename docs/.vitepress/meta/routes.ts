@@ -18,6 +18,14 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
         link: "/guides/cache",
       },
       {
+        text: "Custom Fetch",
+        link: "/guides/fetch",
+      },
+      {
+        text: "Migrating to 2.0",
+        link: "/guides/migration",
+      },
+      {
         text: "Contributing",
         link: "/guides/contributing",
       },
@@ -136,6 +144,14 @@ export const navbarItems: DefaultTheme.NavItem[] = [
       {
         text: "Cache",
         link: "/guides/cache",
+      },
+      {
+        text: "Custom Fetch",
+        link: "/guides/fetch",
+      },
+      {
+        text: "Migrating to 2.0",
+        link: "/guides/migration",
       },
       {
         text: "Contributing",
