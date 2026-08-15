@@ -52,12 +52,13 @@
     "format": "biome format --write",
     "lint": "biome check --write",
     "lint:ci": "biome ci",
+    "typecheck": "tsc --noEmit",
     "prepare": "lefthook install",
     "prepublishOnly": "pnpm build",
-    "test": "vitest",
-    "test:types": "vitest --typecheck.only",
-    "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui --api 9527"
+    "test": "vitest --project unit",
+    "test:live": "vitest run --project live",
+    "test:coverage": "vitest run --project unit --coverage",
+    "test:ui": "vitest --project unit --ui --api 9527"
   },
   "devDependencies": {
     "@arethetypeswrong/core": "^0.18.5",
@@ -73,7 +74,6 @@
     "tsdown": "^0.22.14",
     "typescript": "^7.0.2",
     "vite": "^8.2.1",
-    "vite-tsconfig-paths": "^6.1.1",
     "vitepress": "1.6.4",
     "vitest": "^4.1.10",
     "vue": "^3.5.41"

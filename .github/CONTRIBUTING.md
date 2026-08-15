@@ -68,7 +68,8 @@ One logical change per commit. Squash noise locally before pushing.
 | Command | What it does |
 | --- | --- |
 | `pnpm test` | Run the test suite in watch mode |
-| `pnpm test:types` | Type-level tests only (`*.test-d.ts`) |
+| `pnpm test:live` | Check the real PokéAPI for shape changes (needs network) |
+| `pnpm typecheck` | Type-check `src` and `tests` with `tsc --noEmit` |
 | `pnpm test:coverage` | Single run with a coverage report |
 | `pnpm test:ui` | Vitest's browser UI |
 | `pnpm lint` | Biome check, writing fixes |
@@ -79,13 +80,21 @@ One logical change per commit. Squash noise locally before pushing.
 Before opening a pull request, the fastest way to match CI is:
 
 ```bash
-pnpm lint:ci && pnpm test:coverage && pnpm test:types && pnpm build
+pnpm lint:ci && pnpm typecheck && pnpm test:coverage && pnpm build
 ```
 
-> [!IMPORTANT]
-> Most test suites hit the live PokéAPI. They will fail on a machine without network access, and
-> they occasionally fail when the upstream data changes — a renamed resource is upstream drift, not
-> your bug. `tests/clients` and `tests/logger` are hermetic and always runnable.
+The suite is split into three tiers:
+
+- **Unit and transport** (`tests/clients`, `tests/config`) — what `pnpm test` runs. Fully hermetic:
+  section clients are driven through a stubbed `fetch`, and everything needing a real `Response`
+  goes through MSW. No network, ever. A request that no test mocked fails the run rather than
+  reaching pokeapi.co, so `pnpm test` works offline and on a plane.
+- **Drift** (`tests/live`) — `pnpm test:live`. The only suite that talks to the real PokéAPI. It
+  asserts the *shape* of one resource per section, so a failure means the upstream response changed
+  and `src/models` needs updating. It runs on a weekly schedule, never on a pull request.
+
+When you add a client method, add a row to the table in the matching `tests/clients/<section>.spec.ts`
+asserting the URL it requests. Payload shape is a compile-time concern and needs no fixture.
 
 ## Code style
 

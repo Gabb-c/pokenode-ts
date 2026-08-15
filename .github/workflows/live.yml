@@ -1,0 +1,45 @@
+name: Live
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  drift:
+    name: PokéAPI drift
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: ./.github/actions/setup
+      - name: Run tests (live)
+        run: pnpm test:live
+
+      - name: Report drift
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          body="The scheduled PokéAPI contract check failed: $RUN_URL
+
+          The upstream response shape most likely changed, which means \`src/models\` is out of
+          date. This is not a regression in the client."
+
+          # --force so a missing label is created and an existing one is left usable.
+          gh label create live-drift --color D93F0B --description "Upstream PokéAPI shape changed" --force
+
+          existing=$(gh issue list --label live-drift --state open --limit 1 --json number --jq '.[0].number')
+
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create \
+              --title "PokéAPI contract check failed" \
+              --label live-drift \
+              --body "$body"
+          fi

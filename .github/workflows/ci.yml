@@ -22,6 +22,16 @@ jobs:
       - uses: ./.github/actions/setup
       - run: pnpm lint:ci
 
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: ./.github/actions/setup
+      # Covers the tests as well as src: vitest strips types without checking
+      # them, so nothing else in CI would catch a type error under tests/.
+      - run: pnpm typecheck
+
   test:
     name: Test (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
@@ -35,9 +45,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Run tests (unit)
-        run: pnpm test
-      - name: Run tests (typecheck)
-        run: pnpm test:types
+        run: pnpm test run
 
   coverage:
     name: Coverage

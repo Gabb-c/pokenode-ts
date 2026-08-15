@@ -282,6 +282,26 @@ describe("BaseClient", () => {
     expect(init.headers).toEqual({ Accept: "application/json" });
   });
 
+  // `FetchLike` is deliberately narrower than `typeof globalThis.fetch`: the
+  // wider type rejects an ordinary wrapper. Both of these have to keep
+  // compiling, so widening or tightening the option breaks the build here.
+  it("should accept the global fetch as its transport", async () => {
+    const calls = countingHandler(BERRY_URL);
+
+    await new TestClient({ fetch: globalThis.fetch }).get("/berry", 1);
+
+    expect(calls.count).toBe(1);
+  });
+
+  it("should accept a plain fetch wrapper as its transport", async () => {
+    const calls = countingHandler(BERRY_URL);
+    const wrapper = (url: string, init?: RequestInit) => fetch(url, init);
+
+    await new TestClient({ fetch: wrapper }).get("/berry", 1);
+
+    expect(calls.count).toBe(1);
+  });
+
   it("should not impose an abort signal of its own", async () => {
     let received: RequestInit | undefined;
     const client = new TestClient({

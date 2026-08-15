@@ -1,20 +1,35 @@
-import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  plugins: [tsconfigPaths()],
-  esbuild: { target: "ESNext" },
+  resolve: { tsconfigPaths: true },
   test: {
-    setupFiles: "tests/utils/setup.ts",
-    globals: true,
-    testTimeout: 10_000,
-    retry: 3,
     coverage: {
       provider: "v8",
-      // lcov is not a vitest default, but both Codecov and SonarQube consume it.
       reporter: ["text", "html", "lcov"],
       include: ["src/**/*"],
       exclude: ["src/models/*"],
     },
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: "unit",
+          globals: true,
+          setupFiles: "tests/utils/setup.ts",
+          include: ["tests/**/*.spec.ts"],
+          exclude: ["tests/live/**"],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: "live",
+          globals: true,
+          include: ["tests/live/**/*.live.spec.ts"],
+          retry: 3,
+          testTimeout: 30_000,
+        },
+      },
+    ],
   },
 });

@@ -1,21 +1,86 @@
-import { BASE_URL } from "@constants";
-import { HttpResponse, http } from "msw";
+import { PokemonClient } from "@clients";
+import {
+  EGG_GROUPS,
+  GENDERS,
+  GROWTH_RATES,
+  NATURES,
+  POKEATHLON_STATS,
+  POKEMON_COLORS,
+  POKEMON_HABITATS,
+  POKEMON_SHAPES,
+  STATS,
+  TYPES,
+} from "@constants";
 
-import { PokemonClient } from "../../src/clients/pokemon.client";
-import { server } from "../utils/setup";
+import { type EndpointCase, testEndpoints } from "../utils/stub-fetch";
 
 describe("PokemonClient", () => {
-  it("should address encounters as a path below the pokemon endpoint", async () => {
-    const urls: string[] = [];
-
-    server.use(
-      http.get(`${BASE_URL.REST}/pokemon/25/encounters`, ({ request }) => {
-        urls.push(request.url);
-        return HttpResponse.json([]);
-      }),
-    );
-
-    await expect(new PokemonClient().getPokemonLocationAreaById(25)).resolves.toEqual([]);
-    expect(urls).toEqual([`${BASE_URL.REST}/pokemon/25/encounters`]);
-  });
+  testEndpoints(PokemonClient, [
+    ["getAbilityByName", (c) => c.getAbilityByName("stench"), "/ability/stench"],
+    ["getAbilityById", (c) => c.getAbilityById(1), "/ability/1"],
+    ["getCharacteristicById", (c) => c.getCharacteristicById(1), "/characteristic/1"],
+    ["getEggGroupByName", (c) => c.getEggGroupByName("monster"), "/egg-group/monster"],
+    ["getEggGroupById", (c) => c.getEggGroupById(EGG_GROUPS.MONSTER), "/egg-group/1"],
+    ["getGenderByName", (c) => c.getGenderByName("female"), "/gender/female"],
+    ["getGenderById", (c) => c.getGenderById(GENDERS.FEMALE), "/gender/1"],
+    ["getGrowthRateByName", (c) => c.getGrowthRateByName("slow"), "/growth-rate/slow"],
+    ["getGrowthRateById", (c) => c.getGrowthRateById(GROWTH_RATES.SLOW), "/growth-rate/1"],
+    ["getNatureByName", (c) => c.getNatureByName("hardy"), "/nature/hardy"],
+    ["getNatureById", (c) => c.getNatureById(NATURES.HARDY), "/nature/1"],
+    [
+      "getPokeathlonStatByName",
+      (c) => c.getPokeathlonStatByName("speed"),
+      "/pokeathlon-stat/speed",
+    ],
+    [
+      "getPokeathlonStatById",
+      (c) => c.getPokeathlonStatById(POKEATHLON_STATS.SPEED),
+      "/pokeathlon-stat/1",
+    ],
+    ["getPokemonByName", (c) => c.getPokemonByName("luxray"), "/pokemon/luxray"],
+    ["getPokemonById", (c) => c.getPokemonById(405), "/pokemon/405"],
+    // Addressed as a path below the endpoint, not as an identifier of its own.
+    [
+      "getPokemonLocationAreaById",
+      (c) => c.getPokemonLocationAreaById(25),
+      "/pokemon/25/encounters",
+    ],
+    ["getPokemonColorByName", (c) => c.getPokemonColorByName("black"), "/pokemon-color/black"],
+    ["getPokemonColorById", (c) => c.getPokemonColorById(POKEMON_COLORS.BLACK), "/pokemon-color/1"],
+    ["getPokemonFormByName", (c) => c.getPokemonFormByName("bulbasaur"), "/pokemon-form/bulbasaur"],
+    ["getPokemonFormById", (c) => c.getPokemonFormById(1), "/pokemon-form/1"],
+    ["getPokemonHabitatByName", (c) => c.getPokemonHabitatByName("cave"), "/pokemon-habitat/cave"],
+    [
+      "getPokemonHabitatById",
+      (c) => c.getPokemonHabitatById(POKEMON_HABITATS.CAVE),
+      "/pokemon-habitat/1",
+    ],
+    ["getPokemonShapeByName", (c) => c.getPokemonShapeByName("ball"), "/pokemon-shape/ball"],
+    ["getPokemonShapeById", (c) => c.getPokemonShapeById(POKEMON_SHAPES.BALL), "/pokemon-shape/1"],
+    [
+      "getPokemonSpeciesByName",
+      (c) => c.getPokemonSpeciesByName("bulbasaur"),
+      "/pokemon-species/bulbasaur",
+    ],
+    ["getPokemonSpeciesById", (c) => c.getPokemonSpeciesById(1), "/pokemon-species/1"],
+    ["getStatByName", (c) => c.getStatByName("hp"), "/stat/hp"],
+    ["getStatById", (c) => c.getStatById(STATS.HP), "/stat/1"],
+    ["getTypeByName", (c) => c.getTypeByName("normal"), "/type/normal"],
+    ["getTypeById", (c) => c.getTypeById(TYPES.NORMAL), "/type/1"],
+    ["listAbilities", (c) => c.listAbilities(20, 50), "/ability?offset=20&limit=50"],
+    ["listCharacteristics", (c) => c.listCharacteristics(), "/characteristic?offset=0&limit=20"],
+    ["listEggGroups", (c) => c.listEggGroups(), "/egg-group?offset=0&limit=20"],
+    ["listGenders", (c) => c.listGenders(), "/gender?offset=0&limit=20"],
+    ["listGrowthRates", (c) => c.listGrowthRates(), "/growth-rate?offset=0&limit=20"],
+    ["listNatures", (c) => c.listNatures(), "/nature?offset=0&limit=20"],
+    ["listPokeathlonStats", (c) => c.listPokeathlonStats(), "/pokeathlon-stat?offset=0&limit=20"],
+    ["listPokemons", (c) => c.listPokemons(), "/pokemon?offset=0&limit=20"],
+    ["listPokemonColors", (c) => c.listPokemonColors(), "/pokemon-color?offset=0&limit=20"],
+    ["listPokemonForms", (c) => c.listPokemonForms(), "/pokemon-form?offset=0&limit=20"],
+    ["listPokemonHabitats", (c) => c.listPokemonHabitats(), "/pokemon-habitat?offset=0&limit=20"],
+    ["listPokemonShapes", (c) => c.listPokemonShapes(), "/pokemon-shape?offset=0&limit=20"],
+    ["listPokemonSpecies", (c) => c.listPokemonSpecies(), "/pokemon-species?offset=0&limit=20"],
+    ["listStats", (c) => c.listStats(), "/stat?offset=0&limit=20"],
+    ["listTypes", (c) => c.listTypes(), "/type?offset=0&limit=20"],
+  ] satisfies EndpointCase<PokemonClient>[]);
 });

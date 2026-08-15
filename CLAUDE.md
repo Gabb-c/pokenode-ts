@@ -13,15 +13,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | `pnpm test` | Vitest, watch mode |
 | `pnpm test run tests/berry/berry.spec.ts` | Single file, single run (no `--`; pnpm swallows the filter after it) |
 | `pnpm test run tests/berry -t "list of berries"` | Single test by name |
-| `pnpm test:types` | Type-level tests only (`*.test-d.ts`, `--typecheck.only`) |
+| `pnpm typecheck` | `tsc --noEmit` over `src` and `tests` |
+| `pnpm test:live` | Drift check against the real PokéAPI — needs network, not part of CI on PRs |
 | `pnpm test:coverage` | Single run + lcov/html coverage |
 | `pnpm lint` | Biome check, writes fixes |
 | `pnpm lint:ci` | Biome check, no writes — what CI runs |
 | `pnpm build` | tsdown build; runs `publint` + `attw` as part of it |
 | `pnpm docs:dev` | VitePress docs site locally |
-| `npx tsc --noEmit` | Typecheck (no dedicated script; lefthook runs this pre-commit) |
 
-Match CI before opening a PR: `pnpm lint:ci && pnpm test:coverage && pnpm test:types && pnpm build`.
+Match CI before opening a PR: `pnpm lint:ci && pnpm typecheck && pnpm test:coverage && pnpm build`.
 
 ## Architecture
 
@@ -41,15 +41,33 @@ The request pipeline in `BaseClient.request` is: cache lookup → in-flight dedu
 
 **Errors** (`src/config/errors.ts`) — non-2xx rejects with `PokenodeError`; transport failures propagate untouched. `PokenodeError` is matched via the static `isPokenodeError` guard on a `kind` brand, **not** `instanceof` — a tree loading both the ESM and CJS build has two distinct classes. Keep the guard in any new error-handling code and docs.
 
-**Path aliases** (`tsconfig.json`, resolved in tests by `vite-tsconfig-paths`): `@clients`, `@config/*`, `@constants`, `@models`, `@package`. Use them in `src/` and `tests/`; `base.ts` and `main.client.ts` use relative imports to avoid cycles through the barrel.
+**Path aliases** (`tsconfig.json`, resolved in tests by Vite's native `resolve.tsconfigPaths`): `@clients`, `@config/*`, `@constants`, `@models`, `@package`. Use them in `src/` and `tests/`; `base.ts` and `main.client.ts` use relative imports to avoid cycles through the barrel.
 
 ## Testing
 
-Vitest with `globals: true` — no `import { describe, it }` needed. Specs live in `tests/<section>/`: `*.spec.ts` for behavior, `*.test-d.ts` for type-level assertions (`expectTypeOf`).
+Vitest with `globals: true` — no `import { describe, it }` needed. Three tiers, split into Vitest
+projects in `vitest.config.ts`:
 
-**Only the berry suite is mocked.** `tests/utils/setup.ts` registers `BERRY_HANDLERS` with MSW and sets `onUnhandledRequest: "bypass"`, so every other section suite hits the **live PokéAPI** — those fail without network, and an upstream data rename is upstream drift, not a regression. `tests/clients`, `tests/config`, and `tests/logger` are hermetic. New mocked suites follow the berry layout: `mocks/data.ts` + `mocks/handlers.ts` built with `tests/utils/base-handler.ts`, then spread into `HANDLERS` in `setup.ts`.
+| Tier | Where | Run by | Network |
+| --- | --- | --- | --- |
+| Unit — endpoint mapping | `tests/clients/<section>.spec.ts` | `pnpm test` (`unit` project) | none, stubbed `fetch` |
+| Transport — cache, dedupe, errors, URL normalization | `tests/clients/base.spec.ts`, `tests/clients/main.spec.ts` | `pnpm test` (`unit` project) | none, MSW |
+| Drift | `tests/live/*.live.spec.ts` | `pnpm test:live` (`live` project), weekly cron only | **live PokéAPI** |
 
-`retry: 3` and a 10s timeout are set globally to absorb live-API flakiness.
+**`pnpm test` is hermetic and must stay that way.** `tests/utils/setup.ts` starts MSW with *no*
+default handlers and `onUnhandledRequest: "error"`, so any request a test did not explicitly mock
+fails the run instead of leaking to pokeapi.co.
+
+Section clients are one-line delegations to `BaseClient`, so their tests assert **the URL a method
+builds**, not the payload — a stubbed `fetch` returns `{ id: 1 }` and the table checks where the
+request went. Adding a client method means adding a row to the table in the matching
+`tests/clients/<section>.spec.ts`, using `testEndpoints` from `tests/utils/stub-fetch.ts`. Anything
+needing a real `Response` (status codes, abort signals, cache behavior) belongs in `base.spec.ts`
+with MSW instead.
+
+`tests/live/drift.live.spec.ts` asserts the top-level key set of one resource per section against
+what `src/models` declares. A failure there is upstream drift, not a regression; it means the models
+need updating. `.github/workflows/live.yml` runs it weekly and files a `live-drift` issue on failure.
 
 ## Conventions
 

@@ -1,19 +1,7 @@
 import { setupServer } from "msw/node";
 
-import { BERRY_HANDLERS } from "../berry/mocks/handlers";
+export const server = setupServer();
 
-const HANDLERS = [...BERRY_HANDLERS];
-
-/** Exported so specs can register one-off handlers with `server.use(...)`. */
-export const server = setupServer(...HANDLERS);
-
-// Events
-server.events.on("unhandledException", ({ request: { method, url }, error }) => {
-  console.log(`${method} ${url} errored! See details below.`);
-  console.error(error);
-});
-
-// Vitest hooks
-beforeAll(() => server.listen({ onUnhandledRequest: "bypass" }));
+beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
 afterAll(() => server.close());
 afterEach(() => server.resetHandlers());

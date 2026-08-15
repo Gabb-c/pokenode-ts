@@ -22,7 +22,7 @@
 
 - [ ] `pnpm lint:ci` passes
 - [ ] `pnpm test:coverage` passes
-- [ ] `pnpm test:types` passes
+- [ ] `pnpm typecheck` passes
 - [ ] `pnpm build` passes
 - [ ] Tests added or updated, if the behavior changed
 - [ ] Docs under `docs/src` updated, if the behavior changed

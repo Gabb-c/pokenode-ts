@@ -1,7 +1,7 @@
 import { consoleLogger } from "@config/logger";
 
-const consoleLogSpy = vi.spyOn(console, "log");
-const consoleErrorSpy = vi.spyOn(console, "error");
+const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
 afterEach(() => {
   consoleLogSpy.mockClear();
@@ -9,7 +9,7 @@ afterEach(() => {
 });
 
 afterAll(() => {
-  vi.clearAllMocks();
+  vi.restoreAllMocks();
 });
 
 describe("consoleLogger", () => {

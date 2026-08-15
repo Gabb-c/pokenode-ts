@@ -41,12 +41,12 @@ export class BerryClient extends BaseClient {
   }
 
   /**
-   * Get a Berry Firmness by it's ID
+   * Get a Berry Firmness by it's name
    * @param name The Berry name
    * @returns Berry Firmness
    */
-  public async getBerryFirmnessByName(name: string) {
-    return this.getResource<BerryFirmness>(ENDPOINTS.BERRY_FIRMNESS, name);
+  public async getBerryFirmnessByName(name: string): Promise<BerryFirmness> {
+    return this.getResource(ENDPOINTS.BERRY_FIRMNESS, name);
   }
 
   /**
