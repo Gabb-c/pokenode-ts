@@ -1,42 +1,22 @@
 {
   "compilerOptions": {
-    // Specifies the ECMAScript target version (latest features).
     "target": "ESNext",
-    // An array of library files to include in the compilation.
     "lib": ["ESNext"],
-    // Vitest globals, plus Node's (console, process). An explicit `types` array
-    // disables automatic @types inclusion, so "node" has to be listed.
     "types": ["vitest/globals", "node"],
-    // Allows JavaScript files to be included in the project.
     "allowJs": true,
-    // Skips type checking of declaration files.
     "skipLibCheck": true,
-    // Enables all strict type-checking options.
     "strict": true,
-    // Prevents TypeScript from emitting output files (e.g., JavaScript files).
     "noEmit": true,
-    // Adds `undefined` to the type of an indexing operation for possibly undefined objects.
     "noUncheckedIndexedAccess": true,
-    // Ensures that the casing of referenced file names matches the casing of the actual file.
     "forceConsistentCasingInFileNames": true,
-    // Generates corresponding `.d.ts` files for TypeScript files.
     "declaration": false,
-    // Allows default imports from modules with no default export.
     "esModuleInterop": true,
-    // Specifies the module code generation.
     "module": "ESNext",
-    // Specifies how modules are resolved.
     "moduleResolution": "Bundler",
-    // Enables experimental support for decorators.
     "experimentalDecorators": true,
-    // Enables the metadata reflection for decorators.
     "emitDecoratorMetadata": true,
-    // Allows importing JSON files as modules.
     "resolveJsonModule": true,
-    // Transforms each file as a separate module, which can help catch more errors.
     "isolatedModules": true,
-    // Defines path mappings for module names. TypeScript 7 removed `baseUrl`,
-    // so these resolve relative to this file and must be written as such.
     "paths": {
       "@clients": ["./src/clients/index.ts"],
       "@config/*": ["./src/config/*"],
@@ -45,8 +25,6 @@
       "@package": ["./package.json"]
     }
   },
-  // Specifies the files to include in the compilation.
   "include": ["src/**/*.ts", "tests/**/*.ts", "./*.ts"],
-  // Specifies files to be excluded from the compilation.
   "exclude": ["node_modules"]
 }
