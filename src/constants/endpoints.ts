@@ -8,6 +8,7 @@ export const ENDPOINTS = {
   CONTEST_TYPE: "/contest-type",
   CONTEST_EFFECT: "/contest-effect",
   SUPER_CONTEST_EFFECT: "/super-contest-effect",
+  CURRENCY: "/currency",
   ENCOUNTER_METHOD: "/encounter-method",
   ENCOUNTER_CONDITION: "/encounter-condition",
   ENCOUNTER_CONDITION_VALUE: "/encounter-condition-value",

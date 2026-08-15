@@ -1,6 +1,7 @@
 export * from "./base";
 export * from "./berries";
 export * from "./contests";
+export * from "./currencies";
 export * from "./encounters";
 export * from "./endpoints";
 export * from "./evolutions";

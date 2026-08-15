@@ -36,7 +36,7 @@ features:
     title: Pluggable logging
     details: Point the request lifecycle at the console, at pino, or at a metrics collector. Nothing is logged unless you ask.
   - icon: 🧭
-    title: One client or eleven
+    title: One client or twelve
     details: Reach for a focused client like PokemonClient, or use MainClient to get all of them sharing a single cache.
 ---
 

@@ -35,7 +35,7 @@ The request pipeline in `BaseClient.request` is: cache lookup → in-flight dedu
 - **URL joining is string concatenation, not `new URL(path, base)`** — the base carries a `/api/v2` path that URL resolution would discard.
 - **`toEndpointPath`** re-resolves foreign absolute URLs against the client's own `baseURL` by parsed URL components (a raw-string version-marker search matches hosts like `api.v2.example.com`).
 
-**`MainClient`** composes all eleven section clients and passes them one shared `CacheStore`, so a resource fetched through one is served from cache by the rest.
+**`MainClient`** composes all twelve section clients and passes them one shared `CacheStore`, so a resource fetched through one is served from cache by the rest.
 
 **Cache** (`src/config/cache.ts`) — `CacheStore` is a 2-required-method interface (`get`/`set`, optional `delete`/`clear`), every method may return a promise so Redis/KV backends work unchanged. Default `MemoryCache` is LRU + TTL. `clear` is optional on purpose: the library must not flush someone's shared Redis.
 

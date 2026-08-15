@@ -1,6 +1,6 @@
 # Main Client
 
-Bundles all eleven clients behind one object, and gives them a **single shared cache**.
+Bundles all twelve clients behind one object, and gives them a **single shared cache**.
 
 ```ts
 import { MainClient } from 'pokenode-ts';
@@ -18,6 +18,7 @@ const surf = await api.move.getMoveByName('surf');
 | --- | --- |
 | `api.berry` | [`BerryClient`](/clients/berry-client) |
 | `api.contest` | [`ContestClient`](/clients/contest-client) |
+| `api.currency` | [`CurrencyClient`](/clients/currency-client) |
 | `api.encounter` | [`EncounterClient`](/clients/encounter-client) |
 | `api.evolution` | [`EvolutionClient`](/clients/evolution-client) |
 | `api.game` | [`GameClient`](/clients/game-client) |
@@ -32,7 +33,7 @@ Each is the same class you would construct directly, with the same methods.
 
 ## One cache for everything
 
-This is the reason to use `MainClient` over constructing clients yourself. All eleven share one
+This is the reason to use `MainClient` over constructing clients yourself. All twelve share one
 store, so a resource fetched through any of them is served from memory by the rest:
 
 ```ts
@@ -58,7 +59,7 @@ const main = new MainClient();
 ## Options
 
 `MainClient` takes the same [options](/guides/getting-started#configuring-a-client) as any client
-and passes them to all eleven:
+and passes them to all twelve:
 
 ```ts
 import { MainClient, MemoryCache, consoleLogger } from 'pokenode-ts';
@@ -73,7 +74,7 @@ Pass a `cache` and every sub-client uses that one store. Pass `cache: false` and
 everywhere.
 
 ::: tip
-A shared store fills up faster than a per-client one, since eleven clients now compete for the same
+A shared store fills up faster than a per-client one, since twelve clients now compete for the same
 `maxEntries`. If you use `MainClient` heavily, raise it.
 :::
 
@@ -94,6 +95,6 @@ The store itself is exposed as `api.cache` — it is the same object as `api.ber
 `MainClient` no longer extends `BaseClient`, so `mainClient instanceof BaseClient` is now `false`.
 
 It composes its sub-clients instead of inheriting from them. Under the old arrangement it built
-eleven independent caches, so a resource fetched through `api.pokemon` was fetched again by
+twelve independent caches, so a resource fetched through `api.pokemon` was fetched again by
 `api.utility`, and no request was ever deduplicated across them.
 :::

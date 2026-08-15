@@ -25,7 +25,7 @@
 - 📦 **Caching you control** — in-memory by default, or bring Redis, a KV namespace, or anything implementing `CacheStore`.
 - 🔌 **Bring your own transport** — pass a custom `fetch` for proxies, retries, headers, or timeouts.
 - 🌲 **Pluggable logging** — send the request lifecycle to the console, to pino, or nowhere at all.
-- 🧭 **One client or eleven** — reach for a focused client, or `MainClient` to get all of them sharing one cache.
+- 🧭 **One client or twelve** — reach for a focused client, or `MainClient` to get all of them sharing one cache.
 
 ## Installation
 
@@ -48,7 +48,7 @@ console.log(pokemon.name); // "luxray"
 console.log(pokemon.types.map((slot) => slot.type.name)); // ["electric"]
 ```
 
-Need several sections of the API? `MainClient` bundles all eleven clients behind one object and
+Need several sections of the API? `MainClient` bundles all twelve clients behind one object and
 gives them a single shared cache:
 
 ```ts

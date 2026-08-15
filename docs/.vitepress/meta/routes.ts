@@ -17,6 +17,7 @@ const clients: Route[] = [
   { text: "Main Client", link: "/clients/main-client" },
   { text: "Berry Client", link: "/clients/berry-client" },
   { text: "Contest Client", link: "/clients/contest-client" },
+  { text: "Currency Client", link: "/clients/currency-client" },
   { text: "Encounter Client", link: "/clients/encounter-client" },
   { text: "Evolution Client", link: "/clients/evolution-client" },
   { text: "Game Client", link: "/clients/game-client" },

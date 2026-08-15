@@ -2,6 +2,7 @@ import { MainClient } from "@clients";
 import type {
   Berry,
   ContestType,
+  Currency,
   EncounterMethod,
   EvolutionDetail,
   EvolutionTrigger,
@@ -65,6 +66,11 @@ const RESOURCES: Case[] = [
     "contest type",
     () => client.contest.getContestTypeByName("cool"),
     modelKeys<ContestType>()(["id", "name", "berry_flavor", "names"]),
+  ],
+  [
+    "currency",
+    () => client.currency.getCurrencyByName("poke-dollar"),
+    modelKeys<Currency>()(["id", "name", "names"]),
   ],
   [
     "encounter method",

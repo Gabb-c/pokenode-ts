@@ -51,13 +51,14 @@ console.log(pokemon.types.map((slot) => slot.type.name)); // ["electric"]
 
 ## Picking a client
 
-There are eleven focused clients, one per section of the PokéAPI:
+There are twelve focused clients, one per section of the PokéAPI:
 
 | Client | Covers |
 | --- | --- |
 | [`PokemonClient`](/clients/pokemon-client) | Pokémon, species, forms, abilities, types, stats, natures |
 | [`BerryClient`](/clients/berry-client) | Berries, firmnesses, flavors |
 | [`ContestClient`](/clients/contest-client) | Contest types and effects |
+| [`CurrencyClient`](/clients/currency-client) | Currencies items are priced in |
 | [`EncounterClient`](/clients/encounter-client) | Encounter methods and conditions |
 | [`EvolutionClient`](/clients/evolution-client) | Evolution chains and triggers |
 | [`GameClient`](/clients/game-client) | Generations, pokédexes, versions |
@@ -69,7 +70,7 @@ There are eleven focused clients, one per section of the PokéAPI:
 
 Import only the one you need — the rest is tree-shaken away.
 
-If you need several sections, [`MainClient`](/clients/main-client) bundles all eleven and gives
+If you need several sections, [`MainClient`](/clients/main-client) bundles all twelve and gives
 them a **single shared cache**, so a Pokémon fetched through one is served from memory by another:
 
 ```ts

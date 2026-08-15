@@ -2,6 +2,7 @@ import { type CacheStore, MemoryCache } from "../config/cache";
 import type { ClientOptions } from "./base";
 import { BerryClient } from "./berry.client";
 import { ContestClient } from "./contest.client";
+import { CurrencyClient } from "./currency.client";
 import { EncounterClient } from "./encounter.client";
 import { EvolutionClient } from "./evolution.client";
 import { GameClient } from "./game.client";
@@ -18,6 +19,7 @@ import { UtilityClient } from "./utility.client";
  * The main client used to access all the PokéAPI Endpoints:
  *  - [Berries](https://pokeapi.co/docs/v2#berries-section)
  *  - [Contests](https://pokeapi.co/docs/v2#contests-section)
+ *  - [Currencies](https://pokeapi.co/docs/v2#currencies-section)
  *  - [Encounters](https://pokeapi.co/docs/v2#encounters-section)
  *  - [Evolution](https://pokeapi.co/docs/v2#evolution-section)
  *  - [Games](https://pokeapi.co/docs/v2#games-section)
@@ -38,6 +40,7 @@ export class MainClient {
 
   public readonly berry: BerryClient;
   public readonly contest: ContestClient;
+  public readonly currency: CurrencyClient;
   public readonly encounter: EncounterClient;
   public readonly evolution: EvolutionClient;
   public readonly game: GameClient;
@@ -56,6 +59,7 @@ export class MainClient {
 
     this.berry = new BerryClient(sharedOptions);
     this.contest = new ContestClient(sharedOptions);
+    this.currency = new CurrencyClient(sharedOptions);
     this.encounter = new EncounterClient(sharedOptions);
     this.evolution = new EvolutionClient(sharedOptions);
     this.game = new GameClient(sharedOptions);
