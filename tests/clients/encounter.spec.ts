@@ -1,54 +1,59 @@
 import { EncounterClient } from "@clients";
 import { ENCOUNTER_CONDITIONS, ENCOUNTER_METHODS } from "@constants";
 
-import { type EndpointCase, testEndpoints } from "../utils/stub-fetch";
+import { type EndpointCase, expectEndpoint } from "../utils/stub-fetch";
 
 describe("EncounterClient", () => {
-  testEndpoints(EncounterClient, [
+  it.each([
     [
       "getEncounterMethodByName",
-      (c) => c.getEncounterMethodByName("walk"),
       "/encounter-method/walk",
+      (c) => c.getEncounterMethodByName("walk"),
     ],
     [
       "getEncounterMethodById",
-      (c) => c.getEncounterMethodById(ENCOUNTER_METHODS.WALK),
       "/encounter-method/1",
+      (c) => c.getEncounterMethodById(ENCOUNTER_METHODS.WALK),
     ],
     [
       "getEncounterConditionByName",
-      (c) => c.getEncounterConditionByName("swarm"),
       "/encounter-condition/swarm",
+      (c) => c.getEncounterConditionByName("swarm"),
     ],
     [
       "getEncounterConditionById",
-      (c) => c.getEncounterConditionById(ENCOUNTER_CONDITIONS.SWARM),
       "/encounter-condition/1",
+      (c) => c.getEncounterConditionById(ENCOUNTER_CONDITIONS.SWARM),
     ],
     [
       "getEncounterConditionValueByName",
-      (c) => c.getEncounterConditionValueByName("swarm-yes"),
       "/encounter-condition-value/swarm-yes",
+      (c) => c.getEncounterConditionValueByName("swarm-yes"),
     ],
     [
       "getEncounterConditionValueById",
-      (c) => c.getEncounterConditionValueById(1),
       "/encounter-condition-value/1",
+      (c) => c.getEncounterConditionValueById(1),
     ],
     [
       "listEncounterMethods",
-      (c) => c.listEncounterMethods(20, 50),
       "/encounter-method?offset=20&limit=50",
+      (c) => c.listEncounterMethods(20, 50),
     ],
     [
       "listEncounterConditions",
-      (c) => c.listEncounterConditions(),
       "/encounter-condition?offset=0&limit=20",
+      (c) => c.listEncounterConditions(),
     ],
     [
       "listEncounterConditionValues",
-      (c) => c.listEncounterConditionValues(),
       "/encounter-condition-value?offset=0&limit=20",
+      (c) => c.listEncounterConditionValues(),
     ],
-  ] satisfies EndpointCase<EncounterClient>[]);
+  ] satisfies EndpointCase<EncounterClient>[])(
+    "%s should request %s",
+    async (_method, path, call) => {
+      await expectEndpoint(EncounterClient, path, call);
+    },
+  );
 });

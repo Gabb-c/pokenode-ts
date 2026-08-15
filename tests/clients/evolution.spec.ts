@@ -1,30 +1,35 @@
 import { EvolutionClient } from "@clients";
 import { EVOLUTION_TRIGGERS } from "@constants";
 
-import { type EndpointCase, testEndpoints } from "../utils/stub-fetch";
+import { type EndpointCase, expectEndpoint } from "../utils/stub-fetch";
 
 describe("EvolutionClient", () => {
-  testEndpoints(EvolutionClient, [
-    ["getEvolutionChainById", (c) => c.getEvolutionChainById(1), "/evolution-chain/1"],
+  it.each([
+    ["getEvolutionChainById", "/evolution-chain/1", (c) => c.getEvolutionChainById(1)],
     [
       "getEvolutionTriggerByName",
-      (c) => c.getEvolutionTriggerByName("level-up"),
       "/evolution-trigger/level-up",
+      (c) => c.getEvolutionTriggerByName("level-up"),
     ],
     [
       "getEvolutionTriggerById",
-      (c) => c.getEvolutionTriggerById(EVOLUTION_TRIGGERS.LEVEL_UP),
       "/evolution-trigger/1",
+      (c) => c.getEvolutionTriggerById(EVOLUTION_TRIGGERS.LEVEL_UP),
     ],
     [
       "listEvolutionChains",
-      (c) => c.listEvolutionChains(20, 50),
       "/evolution-chain?offset=20&limit=50",
+      (c) => c.listEvolutionChains(20, 50),
     ],
     [
       "listEvolutionTriggers",
-      (c) => c.listEvolutionTriggers(),
       "/evolution-trigger?offset=0&limit=20",
+      (c) => c.listEvolutionTriggers(),
     ],
-  ] satisfies EndpointCase<EvolutionClient>[]);
+  ] satisfies EndpointCase<EvolutionClient>[])(
+    "%s should request %s",
+    async (_method, path, call) => {
+      await expectEndpoint(EvolutionClient, path, call);
+    },
+  );
 });

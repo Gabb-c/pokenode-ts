@@ -21,7 +21,7 @@ import type {
   PokemonMoveVersion,
   Version,
 } from "@models";
-import { modelKeys } from "../utils/model-keys";
+import { modelKeys, sortKeys } from "../utils/model-keys";
 
 /**
  * Tier 3: the only suite that talks to the real PokéAPI.
@@ -316,19 +316,19 @@ describe("PokéAPI contract", () => {
   it.each(RESOURCES)("%s should keep the fields the model declares", async (_name, get, keys) => {
     const resource = await get();
 
-    expect(Object.keys(resource).sort()).toEqual(keys);
+    expect(sortKeys(Object.keys(resource))).toEqual(keys);
   });
 
   it.each(NESTED)("nested %s should keep the fields the model declares", async (_n, get, keys) => {
     const resource = await get();
 
-    expect(Object.keys(resource).sort()).toEqual(keys);
+    expect(sortKeys(Object.keys(resource))).toEqual(keys);
   });
 
   it("should paginate a list the way the client expects", async () => {
     const list = await client.berry.listBerries(0, 5);
 
-    expect(Object.keys(list).sort()).toEqual(["count", "next", "previous", "results"]);
+    expect(sortKeys(Object.keys(list))).toEqual(["count", "next", "previous", "results"]);
     expect(list.results).toHaveLength(5);
   });
 });

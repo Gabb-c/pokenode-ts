@@ -13,7 +13,24 @@ type Exhaustive<T, K extends readonly PropertyKey[]> = [Exclude<keyof T, K[numbe
   ? K
   : { readonly __missingKeys: Exclude<keyof T, K[number]> };
 
+/**
+ * Code-unit order, not locale order.
+ *
+ * Both sides of a drift assertion have to sort identically, and PokéAPI keys
+ * are ASCII snake_case: `localeCompare` would weigh the underscores by the
+ * runner's collation and could order `base_form` against `baseline` one way on
+ * CI and another way locally.
+ */
+const byCodeUnit = (a: string, b: string): number => {
+  if (a === b) return 0;
+
+  return a < b ? -1 : 1;
+};
+
+/** Sorts observed keys the way {@link modelKeys} sorts the declared ones. */
+export const sortKeys = (keys: string[]): string[] => [...keys].sort(byCodeUnit);
+
 export const modelKeys =
   <T>() =>
   <K extends readonly (keyof T)[]>(keys: K & Exhaustive<T, K>): string[] =>
-    [...keys].map(String).sort();
+    sortKeys(keys.map(String));

@@ -1,26 +1,28 @@
 import { BerryClient } from "@clients";
 import { BERRIES, BERRY_FIRMNESSES, BERRY_FLAVORS } from "@constants";
 
-import { type EndpointCase, testEndpoints } from "../utils/stub-fetch";
+import { type EndpointCase, expectEndpoint } from "../utils/stub-fetch";
 
 describe("BerryClient", () => {
-  testEndpoints(BerryClient, [
-    ["getBerryByName", (c) => c.getBerryByName("cheri"), "/berry/cheri"],
-    ["getBerryById", (c) => c.getBerryById(BERRIES.CHERI), "/berry/1"],
+  it.each([
+    ["getBerryByName", "/berry/cheri", (c) => c.getBerryByName("cheri")],
+    ["getBerryById", "/berry/1", (c) => c.getBerryById(BERRIES.CHERI)],
     [
       "getBerryFirmnessByName",
-      (c) => c.getBerryFirmnessByName("very-soft"),
       "/berry-firmness/very-soft",
+      (c) => c.getBerryFirmnessByName("very-soft"),
     ],
     [
       "getBerryFirmnessById",
-      (c) => c.getBerryFirmnessById(BERRY_FIRMNESSES.VERY_SOFT),
       "/berry-firmness/1",
+      (c) => c.getBerryFirmnessById(BERRY_FIRMNESSES.VERY_SOFT),
     ],
-    ["getBerryFlavorByName", (c) => c.getBerryFlavorByName("spicy"), "/berry-flavor/spicy"],
-    ["getBerryFlavorById", (c) => c.getBerryFlavorById(BERRY_FLAVORS.SPICY), "/berry-flavor/1"],
-    ["listBerries", (c) => c.listBerries(20, 50), "/berry?offset=20&limit=50"],
-    ["listBerryFirmnesses", (c) => c.listBerryFirmnesses(), "/berry-firmness?offset=0&limit=20"],
-    ["listBerryFlavors", (c) => c.listBerryFlavors(), "/berry-flavor?offset=0&limit=20"],
-  ] satisfies EndpointCase<BerryClient>[]);
+    ["getBerryFlavorByName", "/berry-flavor/spicy", (c) => c.getBerryFlavorByName("spicy")],
+    ["getBerryFlavorById", "/berry-flavor/1", (c) => c.getBerryFlavorById(BERRY_FLAVORS.SPICY)],
+    ["listBerries", "/berry?offset=20&limit=50", (c) => c.listBerries(20, 50)],
+    ["listBerryFirmnesses", "/berry-firmness?offset=0&limit=20", (c) => c.listBerryFirmnesses()],
+    ["listBerryFlavors", "/berry-flavor?offset=0&limit=20", (c) => c.listBerryFlavors()],
+  ] satisfies EndpointCase<BerryClient>[])("%s should request %s", async (_method, path, call) => {
+    await expectEndpoint(BerryClient, path, call);
+  });
 });

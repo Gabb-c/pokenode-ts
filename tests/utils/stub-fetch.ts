@@ -11,9 +11,8 @@ import type { ClientOptions } from "../../src/clients/base";
  *
  * Caching is off so repeated calls in one table are independent.
  */
-export const stubClient = <T>(
+const stubClient = <T>(
   Client: new (options?: ClientOptions) => T,
-  body: unknown = { id: 1 },
 ): { client: T; urls: string[] } => {
   const urls: string[] = [];
 
@@ -21,7 +20,7 @@ export const stubClient = <T>(
     cache: false,
     fetch: (url) => {
       urls.push(url);
-      return Promise.resolve(Response.json(body));
+      return Promise.resolve(Response.json({ id: 1 }));
     },
   });
 
@@ -29,28 +28,29 @@ export const stubClient = <T>(
 };
 
 /**
- * One row of an endpoint table: the method under test, the call, and the path
- * it must request relative to {@link BASE_URL.REST}.
+ * One row of an endpoint table: the method under test, the path it must request
+ * relative to {@link BASE_URL.REST}, and the call that requests it.
+ *
+ * The path comes before the call so `it.each`'s positional interpolation lands
+ * on the two strings and never prints the callback source in the test title.
  */
-export type EndpointCase<T> = [method: string, call: (client: T) => Promise<unknown>, path: string];
+export type EndpointCase<T> = [method: string, path: string, call: (client: T) => Promise<unknown>];
 
 /**
- * Runs an endpoint table, asserting each method requests exactly one URL.
+ * Asserts one endpoint-table row: the call requests exactly one URL, and it is
+ * `path` under {@link BASE_URL.REST}.
  *
- * Registered in a loop rather than with `it.each`, whose positional
- * interpolation would print the callback source in the test title.
+ * The `it.each` that drives the table stays in the spec file so each file
+ * declares its own tests.
  */
-export const testEndpoints = <T>(
+export const expectEndpoint = async <T>(
   Client: new (options?: ClientOptions) => T,
-  cases: EndpointCase<T>[],
-): void => {
-  for (const [method, call, path] of cases) {
-    it(`${method} should request ${path}`, async () => {
-      const { client, urls } = stubClient(Client);
+  path: string,
+  call: (client: T) => Promise<unknown>,
+): Promise<void> => {
+  const { client, urls } = stubClient(Client);
 
-      await call(client);
+  await call(client);
 
-      expect(urls).toEqual([`${BASE_URL.REST}${path}`]);
-    });
-  }
+  expect(urls).toEqual([`${BASE_URL.REST}${path}`]);
 };

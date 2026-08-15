@@ -61,8 +61,11 @@ fails the run instead of leaking to pokeapi.co.
 
 Section clients are one-line delegations to `BaseClient`, so their tests assert **the URL a method
 builds**, not the payload — a stubbed `fetch` returns `{ id: 1 }` and the table checks where the
-request went. Adding a client method means adding a row to the table in the matching
-`tests/clients/<section>.spec.ts`, using `testEndpoints` from `tests/utils/stub-fetch.ts`. Anything
+request went. Adding a client method means adding an `[method, path, call]` row to the `it.each`
+table in the matching `tests/clients/<section>.spec.ts`, asserted by `expectEndpoint` from
+`tests/utils/stub-fetch.ts`. The table drives `it.each` from the spec file itself so each file
+declares its own tests — a helper that registered them would leave Sonar (rule S2187) seeing an
+empty test file. Anything
 needing a real `Response` (status codes, abort signals, cache behavior) belongs in `base.spec.ts`
 with MSW instead.
 

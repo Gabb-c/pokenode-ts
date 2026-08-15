@@ -8,75 +8,77 @@ import {
   MOVE_TARGETS,
 } from "@constants";
 
-import { type EndpointCase, testEndpoints } from "../utils/stub-fetch";
+import { type EndpointCase, expectEndpoint } from "../utils/stub-fetch";
 
 describe("MoveClient", () => {
-  testEndpoints(MoveClient, [
-    ["getMoveByName", (c) => c.getMoveByName("pound"), "/move/pound"],
-    ["getMoveById", (c) => c.getMoveById(1), "/move/1"],
-    ["getMoveAilmentByName", (c) => c.getMoveAilmentByName("paralysis"), "/move-ailment/paralysis"],
-    ["getMoveAilmentById", (c) => c.getMoveAilmentById(MOVE_AILMENTS.PARALYSIS), "/move-ailment/1"],
+  it.each([
+    ["getMoveByName", "/move/pound", (c) => c.getMoveByName("pound")],
+    ["getMoveById", "/move/1", (c) => c.getMoveById(1)],
+    ["getMoveAilmentByName", "/move-ailment/paralysis", (c) => c.getMoveAilmentByName("paralysis")],
+    ["getMoveAilmentById", "/move-ailment/1", (c) => c.getMoveAilmentById(MOVE_AILMENTS.PARALYSIS)],
     [
       "getMoveBattleStyleByName",
-      (c) => c.getMoveBattleStyleByName("attack"),
       "/move-battle-style/attack",
+      (c) => c.getMoveBattleStyleByName("attack"),
     ],
     [
       "getMoveBattleStyleById",
-      (c) => c.getMoveBattleStyleById(MOVE_BATTLE_STYLES.ATTACK),
       "/move-battle-style/1",
+      (c) => c.getMoveBattleStyleById(MOVE_BATTLE_STYLES.ATTACK),
     ],
-    ["getMoveCategoryByName", (c) => c.getMoveCategoryByName("damage"), "/move-category/damage"],
+    ["getMoveCategoryByName", "/move-category/damage", (c) => c.getMoveCategoryByName("damage")],
     // The damage category is id 0 — a falsy identifier that must still be sent.
     [
       "getMoveCategoryById",
-      (c) => c.getMoveCategoryById(MOVE_CATEGORIES.DAMAGE),
       "/move-category/0",
+      (c) => c.getMoveCategoryById(MOVE_CATEGORIES.DAMAGE),
     ],
     [
       "getMoveDamageClassByName",
-      (c) => c.getMoveDamageClassByName("status"),
       "/move-damage-class/status",
+      (c) => c.getMoveDamageClassByName("status"),
     ],
     [
       "getMoveDamageClassById",
-      (c) => c.getMoveDamageClassById(MOVE_DAMAGE_CLASSES.STATUS),
       "/move-damage-class/1",
+      (c) => c.getMoveDamageClassById(MOVE_DAMAGE_CLASSES.STATUS),
     ],
     [
       "getMoveLearnMethodByName",
-      (c) => c.getMoveLearnMethodByName("level-up"),
       "/move-learn-method/level-up",
+      (c) => c.getMoveLearnMethodByName("level-up"),
     ],
     [
       "getMoveLearnMethodById",
-      (c) => c.getMoveLearnMethodById(MOVE_LEARN_METHODS.LEVEL_UP),
       "/move-learn-method/1",
+      (c) => c.getMoveLearnMethodById(MOVE_LEARN_METHODS.LEVEL_UP),
     ],
     [
       "getMoveTargetByName",
-      (c) => c.getMoveTargetByName("specific-move"),
       "/move-target/specific-move",
+      (c) => c.getMoveTargetByName("specific-move"),
     ],
-    ["getMoveTargetById", (c) => c.getMoveTargetById(MOVE_TARGETS.SPECIFIC_MOVE), "/move-target/1"],
-    ["listMoves", (c) => c.listMoves(20, 50), "/move?offset=20&limit=50"],
-    ["listMoveAilments", (c) => c.listMoveAilments(), "/move-ailment?offset=0&limit=20"],
+    ["getMoveTargetById", "/move-target/1", (c) => c.getMoveTargetById(MOVE_TARGETS.SPECIFIC_MOVE)],
+    ["listMoves", "/move?offset=20&limit=50", (c) => c.listMoves(20, 50)],
+    ["listMoveAilments", "/move-ailment?offset=0&limit=20", (c) => c.listMoveAilments()],
     [
       "listMoveBattleStyles",
-      (c) => c.listMoveBattleStyles(),
       "/move-battle-style?offset=0&limit=20",
+      (c) => c.listMoveBattleStyles(),
     ],
-    ["listMoveCategories", (c) => c.listMoveCategories(), "/move-category?offset=0&limit=20"],
+    ["listMoveCategories", "/move-category?offset=0&limit=20", (c) => c.listMoveCategories()],
     [
       "listMoveDamageClasses",
-      (c) => c.listMoveDamageClasses(),
       "/move-damage-class?offset=0&limit=20",
+      (c) => c.listMoveDamageClasses(),
     ],
     [
       "listMoveLearnMethods",
-      (c) => c.listMoveLearnMethods(),
       "/move-learn-method?offset=0&limit=20",
+      (c) => c.listMoveLearnMethods(),
     ],
-    ["listMoveTargets", (c) => c.listMoveTargets(), "/move-target?offset=0&limit=20"],
-  ] satisfies EndpointCase<MoveClient>[]);
+    ["listMoveTargets", "/move-target?offset=0&limit=20", (c) => c.listMoveTargets()],
+  ] satisfies EndpointCase<MoveClient>[])("%s should request %s", async (_method, path, call) => {
+    await expectEndpoint(MoveClient, path, call);
+  });
 });
