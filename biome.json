@@ -6,7 +6,16 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["src/**", "tests/**", "docs/**/*.ts", "*.ts", "*.js", "*.json"]
+    "includes": [
+      "src/**",
+      "tests/**",
+      "docs/**/*.ts",
+      "docs/**/*.css",
+      "docs/**/*.json",
+      "*.ts",
+      "*.js",
+      "*.json"
+    ]
   },
   "assist": {
     "actions": {
