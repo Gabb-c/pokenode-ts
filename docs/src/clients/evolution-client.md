@@ -1,88 +1,81 @@
 # Evolution Client
 
-## Usage
+Covers the PokéAPI's [evolution section](https://pokeapi.co/docs/v2#evolution-section): evolution
+chains, and the triggers that advance them.
 
-The Evolution Client provide methods to access the [Evolution Endpoinds](https://pokeapi.co/docs/v2#evolution-section):
+```ts
+import { EvolutionClient } from 'pokenode-ts';
 
-- `getEvolutionChainByID`
-- `getEvolutionTriggerByName`
-- `getEvolutionTriggerByID`
-- `listEvolutionChains`
-- `listEvolutionTriggers`
+const api = new EvolutionClient();
 
-## Example
+const chain = await api.getEvolutionChainById(1);
 
-```js
-import { EvolutionClient } from 'pokenode-ts'; // import the EvolutionClient
-
-(async () => {
-  const api = new EvolutinClient(); // create an EncounterClient
-
-  await api
-    .getEvolutionTriggerByName('level-up')
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-})();
+console.log(chain.chain.species.name); // "bulbasaur"
+console.log(chain.chain.evolves_to[0].species.name); // "ivysaur"
 ```
 
-Or:
+## Methods
 
-```js
-import { EvolutionClient, EvolutionTriggers } from 'pokenode-ts'; // import the EvolutionClient and the EvolutionTriggers enum
+### Evolution chains
 
-(async () => {
-  const api = new EvolutinClient(); // create an EncounterClient
+| Method | Returns |
+| --- | --- |
+| `getEvolutionChainById(id)` | `EvolutionChain` |
+| `listEvolutionChains(offset?, limit?)` | `NamedAPIResourceList` |
 
-  await api
-    .getEvolutionTriggerById(EvolutionTriggers.LEVEL_UP)
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-})();
+### Evolution triggers
+
+| Method | Returns |
+| --- | --- |
+| `getEvolutionTriggerByName(name)` | `EvolutionTrigger` |
+| `getEvolutionTriggerById(id)` | `EvolutionTrigger` |
+| `listEvolutionTriggers(offset?, limit?)` | `NamedAPIResourceList` |
+
+::: info
+Evolution chains have no names upstream, so there is no `getEvolutionChainByName`. To go from a
+Pokémon to its chain, read `evolution_chain.url` off its species and follow it — see below.
+:::
+
+## Walking a chain
+
+`EvolutionChain.chain` is a recursive `ChainLink`: each link carries the species at that stage and
+an `evolves_to` array of the links after it. Branching evolutions — Eevee — are why it is an array
+rather than a single value.
+
+```ts
+import { EvolutionClient, type ChainLink } from 'pokenode-ts';
+
+const names = (link: ChainLink): string[] => [
+  link.species.name,
+  ...link.evolves_to.flatMap(names),
+];
+
+const chain = await new EvolutionClient().getEvolutionChainById(67);
+
+console.log(names(chain.chain)); // eevee and every evolution it branches into
 ```
 
-Will output:
+## From a Pokémon to its chain
 
-```json
-{
-  "id": 1,
-  "name": "level-up",
-  "names": [
-    {
-      "language": {
-        "name": "fr",
-        "url": "https://pokeapi.co/api/v2/language/5/"
-      },
-      "name": "Montée de niveau"
-    },
-    {
-      "language": {
-        "name": "de",
-        "url": "https://pokeapi.co/api/v2/language/6/"
-      },
-      "name": "Levelaufstieg"
-    },
-    {
-      "language": {
-        "name": "en",
-        "url": "https://pokeapi.co/api/v2/language/9/"
-      },
-      "name": "Level up"
-    }
-  ],
-  "pokemon_species": [
-    {
-      "name": "ivysaur",
-      "url": "https://pokeapi.co/api/v2/pokemon-species/2/"
-    },
-    {
-      "name": "venusaur",
-      "url": "https://pokeapi.co/api/v2/pokemon-species/3/"
-    },
-    ...
-  ],
-}
+The chain id is not the Pokémon id. Go through the species:
+
+```ts
+import { PokemonClient, EvolutionClient, UtilityClient, type EvolutionChain } from 'pokenode-ts';
+
+const species = await new PokemonClient().getPokemonSpeciesByName('eevee');
+
+// The species carries a URL rather than an id, so follow it directly.
+const chain = await new UtilityClient().getResourceByUrl<EvolutionChain>(
+  species.evolution_chain.url,
+);
 ```
 
-## More
+## Using constants
 
-> For more information about the Evolution Client endpoints, check out the [PokéAPI Documentation](https://pokeapi.co/docs/v2#evolution-section).
+```ts
+import { EvolutionClient, EVOLUTION_TRIGGERS } from 'pokenode-ts';
+
+const api = new EvolutionClient();
+
+const levelUp = await api.getEvolutionTriggerById(EVOLUTION_TRIGGERS.LEVEL_UP);
+```

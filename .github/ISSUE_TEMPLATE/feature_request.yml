@@ -1,35 +1,59 @@
 name: Feature Request
-description: Create a feature request for Pokenode-ts
-labels: "template: story"
+description: Suggest something pokenode-ts should do
+labels: ["template: story"]
 body:
   - type: markdown
     attributes:
       value: |
-        **Feature Request Form**
-        Thank you for contributing to Pokenode-ts by submitting a feature request! Please fill out the following form with as much detail as possible.
+        Thanks for the suggestion. The most useful requests start from a concrete problem rather
+        than a proposed API, so the first field matters more than the second.
 
-  - type: markdown
+  - type: checkboxes
     attributes:
-      value: |
-        **Note:** Feature requests will be converted to issues and labeled as Improvements.
+      label: Before you start
+      options:
+        - label: I searched the existing issues and this is not a duplicate.
+          required: true
 
   - type: textarea
     attributes:
-      label: Feature Description
-      description: A clear and concise description of the feature you'd like to request and your use case.
+      label: The problem
+      description: What are you trying to do that pokenode-ts makes hard or impossible today?
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: Proposed Solution
-      description: A clear and concise description of the solution you envision.
+      label: What you'd like
+      description: |
+        The change you have in mind. Sketching the call you wish you could write is often the
+        clearest way to put it.
+      render: ts
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: Alternatives Considered
-      description: Describe any alternative solutions or features you've considered.
+      label: Alternatives you considered
+      description: |
+        Including workarounds you're using now. A custom `fetch`, a custom `CacheStore`, or a
+        wrapper of your own may already cover it — say so if you tried and it fell short.
+    validations:
+      required: false
+
+  - type: dropdown
+    attributes:
+      label: Would this be a breaking change?
+      options:
+        - "No — it adds to the existing API"
+        - "Yes — existing code would have to change"
+        - "Not sure"
     validations:
       required: true
+
+  - type: checkboxes
+    attributes:
+      label: Contribution
+      options:
+        - label: I'd be willing to open a pull request for this.
+          required: false

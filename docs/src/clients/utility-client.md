@@ -1,94 +1,93 @@
 # Utility Client
 
-## Usage
-
-The Utility Client provide methods to access the [Languages Endpoinds](https://pokeapi.co/docs/v2#languages-section) and resources:
-
-- `getLanguageByName`
-- `getLanguageById`
-- `getResourceByUrl`
-- `listLanguages`
-
-## Example
+Covers the PokéAPI's [utility section](https://pokeapi.co/docs/v2#utility-section): languages, and
+a generic way to follow any resource URL the API hands you.
 
 ```ts
-import { UtilityClient } from 'pokenode-ts'; // import the UtilityClient
+import { UtilityClient } from 'pokenode-ts';
 
-(async () => {
-  const api = new UtilityClient(); // create a UtilityClient
+const api = new UtilityClient();
 
-  await api
-    .getResourceByUrl('https://pokeapi.co/api/v2/pokemon/luxray') // using method getResourceByUrl() (pokemon endpoint)
-    .then((response: Pokemon) => console.log(response)) // The resource will be a Pokemon (Luxray)
-    .catch((error) => console.log(error));
-})();
+const english = await api.getLanguageByName('en');
+
+console.log(english.official); // true
 ```
 
-```js
-import { UtilityClient, Languages } from 'pokenode-ts'; // import the UtilityClient
+## Methods
 
-(async () => {
-  const api = new UtilityClient(); // create an UtilityClient
+### Languages
 
-  const lang = await api
-    .getLanguageById(Languages.KO) // using method getLanguageById()
-    .then((response) => response)
-    .catch((error) => console.log(error));
-})();
+| Method | Returns |
+| --- | --- |
+| `getLanguageByName(name)` | `Language` |
+| `getLanguageById(id)` | `Language` |
+| `listLanguages(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Resources
+
+| Method | Returns |
+| --- | --- |
+| `getResourceByUrl<T>(url)` | `T` |
+
+## Following a resource URL
+
+Most PokéAPI responses are full of references rather than nested objects — `{ name, url }` pairs
+pointing at other resources. `getResourceByUrl` is how you follow one without working out which
+client and method it belongs to:
+
+```ts
+import { UtilityClient, PokemonClient, type EvolutionChain } from 'pokenode-ts';
+
+const species = await new PokemonClient().getPokemonSpeciesByName('eevee');
+
+const chain = await new UtilityClient().getResourceByUrl<EvolutionChain>(
+  species.evolution_chain.url,
+);
 ```
 
-Will output:
+::: warning The type parameter is unchecked
+`getResourceByUrl<T>` returns whatever you claim it returns — nothing validates the response against
+`T` at runtime. Give it the type the URL actually points at.
+:::
 
-```json
-{
-  "id": 3,
-  "iso3166": "kr",
-  "iso639": "ko",
-  "name": "ko",
-  "names": [
-    {
-      "language": {
-        "name": "ja-Hrkt",
-        "url": "https://pokeapi.co/api/v2/language/1/"
-      },
-      "name": "韓国語"
-    },
-    {
-      "language": {
-        "name": "ko",
-        "url": "https://pokeapi.co/api/v2/language/3/"
-      },
-      "name": "한국어"
-    },
-    {
-      "language": {
-        "name": "fr",
-        "url": "https://pokeapi.co/api/v2/language/5/"
-      },
-      "name": "Coréen"
-    },
-    {
-      "language": {
-        "name": "de",
-        "url": "https://pokeapi.co/api/v2/language/6/"
-      },
-      "name": "Koreanisch"
-    },
-    {
-      "language": {
-        "name": "es",
-        "url": "https://pokeapi.co/api/v2/language/7/"
-      },
-      "name": "Coreano"
-    },
-    {
-      "language": {
-        "name": "en",
-        "url": "https://pokeapi.co/api/v2/language/9/"
-      },
-      "name": "Korean"
-    }
-  ],
-  "official": true
+The same works for paginated lists, whose `next` and `previous` fields are URLs:
+
+```ts
+import { UtilityClient, PokemonClient, type NamedAPIResourceList } from 'pokenode-ts';
+
+const utility = new UtilityClient();
+let page = await new PokemonClient().listPokemons(0, 20);
+
+while (page.next) {
+  page = await utility.getResourceByUrl<NamedAPIResourceList>(page.next);
 }
 ```
+
+### Which URLs are accepted
+
+The URL must name an endpoint under the client's `baseURL`. Anything else throws a `TypeError`
+rather than issuing a request somewhere unexpected:
+
+```ts
+await utility.getResourceByUrl('https://example.com/hello'); // TypeError
+await utility.getResourceByUrl('/pokemon/1'); // TypeError — not absolute
+```
+
+Trailing slashes are fine. The PokéAPI's own links end in one, and they resolve to the same cache
+entry as the equivalent call through a typed method — `getBerryById(1)` and following
+`https://pokeapi.co/api/v2/berry/1/` cost one request between them, not two.
+
+## Using constants
+
+```ts
+import { UtilityClient, LANGUAGES } from 'pokenode-ts';
+
+const api = new UtilityClient();
+
+const english = await api.getLanguageById(LANGUAGES.EN); // LANGUAGES.EN === 9
+```
+
+::: warning
+`LANGUAGES.ROOMAJI` was renamed to `LANGUAGES.JA_ROMA` in 2.0, following the PokéAPI's own rename of
+language 2. The id is unchanged. See the [migration guide](/guides/migration).
+:::

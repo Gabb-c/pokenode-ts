@@ -1,141 +1,65 @@
 # Game Client
 
-## Usage
+Covers the PokéAPI's [games section](https://pokeapi.co/docs/v2#games-section): generations,
+pokédexes, and game versions.
 
-The Game Client provide methods to access the [Game Endpoinds](https://pokeapi.co/docs/v2#games-section):
+```ts
+import { GameClient } from 'pokenode-ts';
 
-- `getGenerationByName`
-- `getGenerationById`
-- `getPokedexByName`
-- `getPokedexById`
-- `getVersionByName`
-- `getVersionById`
-- `getVersionGroupByName`
-- `getVersionGroupById`
-- `listGenerations`
-- `listPokedexes`
-- `listVersion`
-- `listVersionGroups`
+const api = new GameClient();
 
-## Example
+const national = await api.getPokedexByName('national');
 
-```js
-import { GameClient } from 'pokenode-ts'; // import the GameClient
-
-(async () => {
-  const api = new GameClient(); // create a GameClient
-
-  await api
-    .getPokedexByName('national')
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-})();
+console.log(national.pokemon_entries.length); // every species, in national order
 ```
 
-Or:
+## Methods
 
-```js
-import { GameClient, Pokedexes } from 'pokenode-ts'; // import the GameClient and the Pokedexes enum
+### Generations
 
-(async () => {
-  const api = new GameClient(); // create a GameClient
+| Method | Returns |
+| --- | --- |
+| `getGenerationByName(name)` | `Generation` |
+| `getGenerationById(id)` | `Generation` |
+| `listGenerations(offset?, limit?)` | `NamedAPIResourceList` |
 
-  await api
-    .getPokedexById(Pokedexes.NATIONAL)
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-})();
+### Pokédexes
+
+| Method | Returns |
+| --- | --- |
+| `getPokedexByName(name)` | `Pokedex` |
+| `getPokedexById(id)` | `Pokedex` |
+| `listPokedexes(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Versions
+
+| Method | Returns |
+| --- | --- |
+| `getVersionByName(name)` | `Version` |
+| `getVersionById(id)` | `Version` |
+| `listVersions(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Version groups
+
+| Method | Returns |
+| --- | --- |
+| `getVersionGroupByName(name)` | `VersionGroup` |
+| `getVersionGroupById(id)` | `VersionGroup` |
+| `listVersionGroups(offset?, limit?)` | `NamedAPIResourceList` |
+
+::: info Versions vs. version groups
+A **version** is one game — `red`, `scarlet`. A **version group** is the set released together and
+sharing mechanics — `red-blue`, `scarlet-violet`. Move learnsets and encounters are keyed by
+version group, so that is usually the one you want.
+:::
+
+## Using constants
+
+```ts
+import { GameClient, GENERATIONS, POKEDEXES, VERSIONS, VERSION_GROUPS } from 'pokenode-ts';
+
+const api = new GameClient();
+
+const kanto = await api.getGenerationById(GENERATIONS.GENERATION_I);
+const national = await api.getPokedexById(POKEDEXES.NATIONAL);
 ```
-
-Will output:
-
-```json
-{
-  "descriptions": [
-    {
-      "description": "Pokédex National complet",
-      "language": {
-        "name": "fr",
-        "url": "https://pokeapi.co/api/v2/language/5/"
-      }
-    },
-    {
-      "description": "Komplette Nationale Dex",
-      "language": {
-        "name": "de",
-        "url": "https://pokeapi.co/api/v2/language/6/"
-      }
-    },
-    {
-      "description": "Pokédex Nacional completa",
-      "language": {
-        "name": "es",
-        "url": "https://pokeapi.co/api/v2/language/7/"
-      }
-    },
-    {
-      "description": "Entire National dex",
-      "language": {
-        "name": "en",
-        "url": "https://pokeapi.co/api/v2/language/9/"
-      }
-    }
-  ],
-  "id": 1,
-  "is_main_series": true,
-  "name": "national",
-  "names": [
-    {
-      "language": {
-        "name": "fr",
-        "url": "https://pokeapi.co/api/v2/language/5/"
-      },
-      "name": "National"
-    },
-    {
-      "language": {
-        "name": "de",
-        "url": "https://pokeapi.co/api/v2/language/6/"
-      },
-      "name": "National"
-    },
-    {
-      "language": {
-        "name": "es",
-        "url": "https://pokeapi.co/api/v2/language/7/"
-      },
-      "name": "Nacional"
-    },
-    {
-      "language": {
-        "name": "en",
-        "url": "https://pokeapi.co/api/v2/language/9/"
-      },
-      "name": "National"
-    }
-  ],
-  "pokemon_entries": [
-    {
-      "entry_number": 1,
-      "pokemon_species": {
-        "name": "bulbasaur",
-        "url": "https://pokeapi.co/api/v2/pokemon-species/1/"
-      }
-    },
-    {
-      "entry_number": 2,
-      "pokemon_species": {
-        "name": "ivysaur",
-        "url": "https://pokeapi.co/api/v2/pokemon-species/2/"
-      }
-    },
-    ...
-  ],
-  "region": null,
-  "version_groups": []
-}
-```
-
-## More
-
-> For more information about the Game Client endpoints, check out the [PokéAPI Documentation](https://pokeapi.co/docs/v2#games-section).

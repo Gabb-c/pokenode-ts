@@ -85,7 +85,7 @@ describe("Item Client", () => {
   });
 
   it("check if it returns a list of item fling effects", async () => {
-    const data = await client.listItemFilingEffects();
+    const data = await client.listItemFlingEffects();
 
     expect(data.results.length).toBeGreaterThan(0);
     expect(data.results.length).toBeLessThanOrEqual(20);

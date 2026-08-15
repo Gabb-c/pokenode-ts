@@ -1,35 +1,40 @@
-# Pull Request Template
+<!--
+  Title this pull request the way you'd write the commit:
+  <type>(<scope>): <description> — e.g. "fix(cache): drop entry on TTL expiry".
+  release-please reads it to decide the next version, so `feat:` and `fix:`
+  matter. Mark a breaking change with `!` and a BREAKING CHANGE: footer.
+-->
 
-## Checks and Guidelines
-<!-- Mark your checks with 'x' inside the square brackets -->
+## What changed
 
-* [ ] Have you checked that there aren't other open [Pull Requests](https://github.com/Gabb-c/pokenode-ts/pulls) for the same update/change?
-* [ ] Linting passed (`lint` and `lint:tsc`)
-* [ ] Tests added (if needed)
-* [ ] Tests passed (`test:dev`)
-* [ ] Build passed (`build`)
+<!-- What this does, and why. Link the issue it closes: "Closes #123". -->
 
-<!-- You can erase any part of this template if not applicable to your Pull Request. -->
+## Type of change
 
-## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation
+- [ ] Refactor / chore
+- [ ] Security
 
-* [ ] Bug fix
-* [ ] New feature
-* [ ] Improvement
-* [ ] Breaking change
-* [ ] Documentation update
-* [ ] Security
+## Checks
 
-## Describe the Changes
+- [ ] `pnpm lint:ci` passes
+- [ ] `pnpm test:coverage` passes
+- [ ] `pnpm test:types` passes
+- [ ] `pnpm build` passes
+- [ ] Tests added or updated, if the behavior changed
+- [ ] Docs under `docs/src` updated, if the behavior changed
+- [ ] No other open [pull request](https://github.com/Gabb-c/pokenode-ts/pulls) does the same thing
 
-* I've added this because...
-* Removed this because...
+## Breaking change
 
-* **Tests Information:**
-  - [ ] Unit tests added and passed
-  - [ ] Integration tests added and passed
+<!--
+  Delete this section if nothing breaks. Otherwise: what breaks, and the exact
+  change a consumer has to make. This becomes the migration note.
+-->
 
-* **Breaking Change Explanation (if applicable):**
-  - Briefly explain how users might be affected and what actions they need to take.
+## Anything else
 
-* **Optional: Screenshot, Code Block, etc...**
+<!-- Screenshots, benchmarks, links, open questions. -->

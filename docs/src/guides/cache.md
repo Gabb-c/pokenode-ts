@@ -86,7 +86,8 @@ rather the library not flush — is left untouched.
 
 ## How it works
 
-- Only successful responses are cached — a failed request is never stored.
+- Only successful responses are cached — a failed request is never stored, so a retry genuinely
+  retries. See [Errors](/guides/errors).
 - Concurrent calls for the same URL share a single request, so a cold cache under load produces
   one round trip rather than many.
 - `MemoryCache` evicts the least recently used entry once `maxEntries` is reached.

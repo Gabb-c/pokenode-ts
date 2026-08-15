@@ -1,5 +1,17 @@
 blank_issues_enabled: false
-#contact_links:
-#  - name: Discord Server
-#    url: https://
-#    about: Join in our Discord server!
+contact_links:
+  - name: Documentation
+    url: https://pokenode-ts.vercel.app/
+    about: Guides for caching, logging, custom fetch, error handling, and every client.
+
+  - name: Question or idea
+    url: https://github.com/Gabb-c/pokenode-ts/discussions
+    about: Usage questions and open-ended discussion belong here rather than in an issue.
+
+  - name: Report a security vulnerability
+    url: https://github.com/Gabb-c/pokenode-ts/security/advisories/new
+    about: Please report vulnerabilities privately, not as a public issue.
+
+  - name: PokéAPI data or availability
+    url: https://github.com/PokeAPI/pokeapi/issues
+    about: Missing, renamed, or wrong data — and API downtime — come from upstream, not this library.

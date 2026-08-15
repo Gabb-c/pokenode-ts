@@ -1,77 +1,103 @@
 name: Bug Report
-description: Create a bug report for Pokenode-ts
-labels: "template: bug"
+description: Something in pokenode-ts behaves incorrectly
+labels: ["template: bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you for contributing to Pokenode-ts by reporting a bug! Please fill out the following details as thoroughly as possible.
-  - type: markdown
+        Thanks for reporting a bug. The steps you give here become a regression test, so the more
+        precisely you can describe the failure, the less likely it is to come back.
+
+        Two things worth checking first:
+
+        - Search the [open issues](https://github.com/Gabb-c/pokenode-ts/issues) — it may already be known.
+        - Reproduce on the latest version. A fix may already be released.
+
+  - type: checkboxes
     attributes:
-      value: |
-        ## Before You Begin
-        - [ ] Verify that your issue doesn't already exist.
+      label: Before you start
+      options:
+        - label: I searched the existing issues and this is not a duplicate.
+          required: true
+        - label: I reproduced this on the latest version of pokenode-ts.
+          required: true
 
   - type: input
     attributes:
-      label: Version of Pokenode-ts
-      description: |
-        Provide the version of Pokenode-ts where you encountered the bug. For example: 1.0.1-beta or commit hash.
+      label: pokenode-ts version
+      description: The exact version from your lockfile, or a commit hash.
+      placeholder: 2.0.0
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Runtime
+      description: Where the code runs. pokenode-ts uses the platform `fetch`, so this matters.
+      options:
+        - Node.js
+        - Deno
+        - Bun
+        - Browser
+        - Edge runtime (Cloudflare Workers, Vercel Edge, …)
+        - Other
     validations:
       required: true
 
   - type: input
     attributes:
-      label: Node.js Version
-      description: |
-        Specify the version of Node.js you are using (e.g., 12.0.0).
+      label: Runtime version
+      description: The output of `node --version`, `deno --version`, `bun --version`, or the browser version.
+      placeholder: v22.11.0
     validations:
       required: true
 
   - type: input
     attributes:
-      label: Operating System
-      description: |
-        Mention the operating system you are using (e.g., macOS, Windows).
+      label: Operating system
+      placeholder: Ubuntu 24.04
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: Bug Description
-      description: |
-        Provide a clear and concise description of the bug.
-
+      label: What happened
+      description: What you observed, including the full error message and stack trace if there was one.
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: Expected Behavior
-      description: |
-        Describe what you expected to happen.
-
+      label: What you expected
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: Steps to Reproduce
+      label: Steps to reproduce
       description: |
-        Outline the steps to reproduce the bug. Include code snippets or a link to a GitHub repository. Screenshots can be attached below.
+        The smallest piece of code that shows the problem, or a link to a repository. Paste code
+        rather than a screenshot of it — we need to be able to run it.
+      render: ts
+      placeholder: |
+        import { PokemonClient } from 'pokenode-ts';
 
+        const api = new PokemonClient();
+        await api.getPokemonByName('luxray');
     validations:
       required: true
 
-  - type: markdown
+  - type: textarea
     attributes:
-      value: |
-        ## Checklist Before Submitting
-        - [ ] Verify that the steps you've provided are detailed and clear.
-        - [ ] Ensure that contributors can follow the steps to reproduce the bug.
-        - [ ] Your steps will be used to add integration tests to prevent the issue from recurring.
+      label: Anything else
+      description: Custom `fetch`, a custom `CacheStore`, a proxy, a self-hosted PokéAPI — anything non-default about your setup.
+    validations:
+      required: false
 
   - type: markdown
     attributes:
       value: |
-        Thank you for your contribution to improving Pokenode-ts!
+        > [!NOTE]
+        > If a request suddenly started returning a 404 or a differently-named resource, check
+        > [pokeapi.co](https://pokeapi.co/docs/v2) first — the upstream data is renamed from time to
+        > time, and that is a data change rather than a bug in this library.

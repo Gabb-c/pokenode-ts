@@ -59,6 +59,8 @@ See the [Logging guide](/guides/logging) for the `Logger` interface.
   `PokemonClient#getPokemonLocationAreaById`, which was always the supported route.
 - `LANGUAGES.ROOMAJI` is now `LANGUAGES.JA_ROMA`, following the PokéAPI's own rename of language 2
   from `roomaji` to `ja-roma`. The id is unchanged, so only the key needs updating.
+- `ItemClient#listItemFilingEffects` is now `listItemFlingEffects`. The old name was a typo — the
+  endpoint is `item-fling-effect`, named after the move **Fling**. Behavior is unchanged.
 
 ## MainClient
 
@@ -92,7 +94,7 @@ one is silently `false`. The guard matches on a brand instead, so it holds eithe
 :::
 
 Transport failures — offline, DNS — are not wrapped. They reject with the native `TypeError` that
-`fetch` produced.
+`fetch` produced. See the [Errors guide](/guides/errors) for the full breakdown.
 
 ## Timeouts and cancellation
 

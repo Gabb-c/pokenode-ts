@@ -1,60 +1,69 @@
 # Encounter Client
 
-## Usage
+Covers the PokéAPI's [encounters section](https://pokeapi.co/docs/v2#encounters-section): how a
+Pokémon can be met, and the conditions that change what appears.
 
-The Encounter Client provide methods to access the [Encounter Endpoinds](https://pokeapi.co/docs/v2#encounters-section):
+```ts
+import { EncounterClient } from 'pokenode-ts';
 
-- `getEncounterMethodByName`
-- `getEncounterMethodByID`
-- `getEncounterConditionByName`
-- `getEncounterConditionById`
-- `getEncounterConditionValueByName`
-- `getEncounterConditionValueById`
-- `listEncunterMethods`
-- `listEncounterConditions`
-- `listEncounterConditionValues`
+const api = new EncounterClient();
 
-## Example
+const surf = await api.getEncounterMethodByName('surf');
 
-```js
-import { EncounterClient, EncounterMethods } from 'pokenode-ts'; // import the EncounterClient (EncounterMethods enum is fully optional)
-
-(async () => {
-  const api = new EncounterClient(); // create an EncounterClient
-
-  await api
-    .getEncounterMethodById(EncounterMethods.SURF)
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-})();
+console.log(surf.order); // ordering used when displaying methods
 ```
 
-Will output:
+## Methods
 
-```json
-{
-  "id": 5,
-  "name": "surf",
-  "names": [
-    {
-      "language": {
-        "name": "de",
-        "url": "https://pokeapi.co/api/v2/language/6/"
-      },
-      "name": "Surfen"
-    },
-    {
-      "language": {
-        "name": "en",
-        "url": "https://pokeapi.co/api/v2/language/9/"
-      },
-      "name": "Surfing"
-    }
-  ],
-  "order": 14
-}
+### Encounter methods
+
+| Method | Returns |
+| --- | --- |
+| `getEncounterMethodByName(name)` | `EncounterMethod` |
+| `getEncounterMethodById(id)` | `EncounterMethod` |
+| `listEncounterMethods(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Encounter conditions
+
+| Method | Returns |
+| --- | --- |
+| `getEncounterConditionByName(name)` | `EncounterCondition` |
+| `getEncounterConditionById(id)` | `EncounterCondition` |
+| `listEncounterConditions(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Encounter condition values
+
+| Method | Returns |
+| --- | --- |
+| `getEncounterConditionValueByName(name)` | `EncounterConditionValue` |
+| `getEncounterConditionValueById(id)` | `EncounterConditionValue` |
+| `listEncounterConditionValues(offset?, limit?)` | `NamedAPIResourceList` |
+
+::: info Conditions vs. condition values
+A **condition** is the variable — `time`, `season`, `swarm`. A **condition value** is one setting
+of it — `time-day`, `season-winter`, `swarm-yes`. Encounters are described in terms of values.
+:::
+
+## Using constants
+
+```ts
+import { EncounterClient, ENCOUNTER_METHODS } from 'pokenode-ts';
+
+const api = new EncounterClient();
+
+const surf = await api.getEncounterMethodById(ENCOUNTER_METHODS.SURF);
 ```
 
-## More
+`ENCOUNTER_CONDITIONS` and `ENCOUNTER_CONDITION_VALUES` are available too.
 
-> For more information about the Encounter Client endpoints, check out the [PokéAPI Documentation](https://pokeapi.co/docs/v2#encounters-section).
+## Where a Pokémon can be found
+
+Encounters for a specific Pokémon live on the [Pokemon Client](/clients/pokemon-client), not here:
+
+```ts
+import { PokemonClient } from 'pokenode-ts';
+
+const encounters = await new PokemonClient().getPokemonLocationAreaById(25);
+
+console.log(encounters[0].location_area.name);
+```

@@ -1,0 +1,66 @@
+name: Stale
+
+# Replaces the probot/stale and dessant/lock-threads GitHub Apps, whose
+# .github/stale.yml and .github/lock.yml configs had been inert since GitHub
+# sunset them.
+on:
+  schedule:
+    # Daily, off the hour: GitHub drops scheduled runs queued at peak times.
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: stale
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  stale:
+    name: Mark and close stale threads
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/stale@v11.0.0
+        with:
+          days-before-stale: 60
+          days-before-close: 7
+          # A stale pull request is usually a contribution waiting on us, so it
+          # gets longer before anyone touches it.
+          days-before-pr-stale: 90
+          days-before-pr-close: 14
+          exempt-issue-labels: "pinned,security,kind/bug"
+          exempt-pr-labels: "pinned,security"
+          stale-issue-label: stale
+          stale-pr-label: stale
+          stale-issue-message: >
+            This issue has had no activity for 60 days and is being marked stale. Comment if it is
+            still relevant and it will be reopened for review; otherwise it closes in 7 days.
+          stale-pr-message: >
+            This pull request has had no activity for 90 days and is being marked stale. Comment if
+            you intend to continue it; otherwise it closes in 14 days. Reopening it later is always
+            fine.
+          close-issue-message: >
+            Closing this as stale. That is not a judgement on whether it is a real problem — comment
+            here and it can be reopened.
+          close-pr-message: >
+            Closing this as stale. Reopen it whenever you'd like to pick it back up.
+
+  lock:
+    name: Lock resolved threads
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+      discussions: write
+    steps:
+      # Keeps new reports from arriving as comments on year-old closed threads,
+      # where nobody is watching.
+      - uses: dessant/lock-threads@v6.0.2
+        with:
+          issue-inactive-days: 365
+          pr-inactive-days: 365
+          process-only: "issues, prs"

@@ -1,19 +1,53 @@
-# Reporting a Vulnerability
+# Security Policy
 
-Thank you for helping us keep Pokenode-ts secure. If you identify a security issue, we appreciate your responsible disclosure. Please take the following actions to report the vulnerability:
+## Supported versions
 
-1. Go to the [GitHub Security Advisories page](https://github.com/Gabb-c/pokenode-ts/security/advisories/new).
-2. Click on the `Get started` button to open a new private vulnerability report.
+| Version | Supported |
+| --- | --- |
+| 2.x | ✅ |
+| 1.x | ❌ — see the [migration guide](https://pokenode-ts.vercel.app/guides/migration) |
 
-When reporting a vulnerability, please include the following information:
+Fixes land on the latest minor of 2.x. There are no backports to 1.x, which depended on Axios and
+`axios-cache-interceptor`; upgrading is the fix for anything reported against it.
 
-- **Description:** Give a full explanation of the vulnerability, including how it may be exploited.
-- **Reproduction Steps:** Clearly detail the processes for reproducing the vulnerability.
-- **Affected Versions:** Specify the Pokenode-ts versions impacted by the vulnerability.
-- **Mitigations/Workarounds:** If you find any mitigations or workarounds, please share them.
+## Reporting a vulnerability
 
-It is crucial to highlight that new vulnerabilities are uncommon, but your dedication in reporting them allows us to enhance the security of Pokenode-ts.
+**Do not open a public issue.**
 
-**Note:** Always use the most recent version of Pokenode-ts to keep your application as safe as possible. If relevant, give details about the version you tested when reporting the vulnerability.
+1. Go to [Security Advisories](https://github.com/Gabb-c/pokenode-ts/security/advisories/new).
+2. Click **Report a vulnerability** to open a private report.
 
-Thank you for your dedication to the security of Pokenode-ts. We look forward to analyzing your report and collaborating to fix any discovered issues.
+Please include:
+
+- **Description** — what the issue is and how it can be exploited.
+- **Reproduction** — the smallest code that demonstrates it.
+- **Affected versions** — which versions you tested, and which are affected.
+- **Impact** — what an attacker gains.
+- **Mitigations** — any workaround you found.
+
+You can expect an acknowledgement within a few days. If a fix is warranted, it ships in a patch
+release and the advisory is published with credit to you unless you'd rather stay anonymous.
+
+## Scope
+
+pokenode-ts is a client library with no runtime dependencies and no server component. It makes
+`GET` requests to the PokéAPI and caches the responses. The likeliest real issues are therefore:
+
+- URL construction — a caller-supplied name or `getResourceByUrl` argument reaching an unintended host.
+- Cache key collisions, where one resource is served in place of another.
+- Anything that lets a response body escape the parsing boundary.
+
+The following are **out of scope**, though we'd still like to hear about them through a normal issue:
+
+- Vulnerabilities in the PokéAPI itself — report those to [PokeAPI/pokeapi](https://github.com/PokeAPI/pokeapi).
+- Denial of service caused by your own unbounded request volume. The library imposes no rate limit;
+  the [PokéAPI's fair use policy](https://pokeapi.co/docs/v2#fairuse) is yours to respect.
+- Issues that only occur with a deliberately hostile `CacheStore`, `Logger`, or `fetch` that you
+  supplied yourself. Those are injection points by design and are trusted.
+
+## Keeping yourself safe
+
+Stay on the latest 2.x. Since the library has no runtime dependencies, keeping up to date means
+your supply chain surface here is the package alone — and every release since 2.0 is published from
+CI via [npm trusted publishing](https://docs.npmjs.com/trusted-publishers), so releases carry a
+provenance attestation you can verify with `npm audit signatures`.

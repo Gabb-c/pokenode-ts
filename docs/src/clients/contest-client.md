@@ -1,78 +1,53 @@
 # Contest Client
 
-## Usage
+Covers the PokéAPI's [contests section](https://pokeapi.co/docs/v2#contests-section): contest
+types, and the effects moves have in normal and super contests.
 
-The Contest Client provide methods to access the [Contest Endpoinds](https://pokeapi.co/docs/v2#contests-section):
+```ts
+import { ContestClient } from 'pokenode-ts';
 
-- `getContestTypeByName`
-- `getContestTypeByID`
-- `getContestEffectById`
-- `getSuperContestEffectById`
-- `listContestTypes`
-- `listContestEffects`
-- `listSuperContestEffects`
+const api = new ContestClient();
 
-## Example
+const tough = await api.getContestTypeByName('tough');
 
-```js
-import { ContestClient } from 'pokenode-ts'; // import the ContestClient
-
-(async () => {
-  const api = new ContestClient(); // create a ContestClient
-
-  await api
-    .getContestTypeByName('tough')
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-})();
+console.log(tough.berry_flavor.name); // "bitter"
 ```
 
-Or:
+## Methods
 
-```js
-import { ContestClient, ContestTypes } from 'pokenode-ts'; // import the ContestClient and the ContestTypes enum
+### Contest types
 
-(async () => {
-  const api = new ContestClient(); // create a ContestClient
+| Method | Returns |
+| --- | --- |
+| `getContestTypeByName(name)` | `ContestType` |
+| `getContestTypeById(id)` | `ContestType` |
+| `listContestTypes(offset?, limit?)` | `NamedAPIResourceList` |
 
-  await api
-    .getContestTypeById(ContestTypes.TOUGH)
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-})();
+### Contest effects
+
+| Method | Returns |
+| --- | --- |
+| `getContestEffectById(id)` | `ContestEffect` |
+| `listContestEffects(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Super contest effects
+
+| Method | Returns |
+| --- | --- |
+| `getSuperContestEffectById(id)` | `SuperContestEffect` |
+| `listSuperContestEffects(offset?, limit?)` | `NamedAPIResourceList` |
+
+::: info
+Contest effects have no names upstream — the PokéAPI only addresses them by id, which is why there
+is no `getContestEffectByName`.
+:::
+
+## Using constants
+
+```ts
+import { ContestClient, CONTEST_TYPES } from 'pokenode-ts';
+
+const api = new ContestClient();
+
+const cool = await api.getContestTypeById(CONTEST_TYPES.COOL);
 ```
-
-Will output:
-
-```json
-{
-  "berry_flavor": {
-    "name": "sour",
-    "url": "https://pokeapi.co/api/v2/berry-flavor/5/"
-  },
-  "id": 5,
-  "name": "tough",
-  "names": [
-    {
-      "color": "Jaune",
-      "language": {
-        "name": "fr",
-        "url": "https://pokeapi.co/api/v2/language/5/"
-      },
-      "name": "Robustesse"
-    },
-    {
-      "color": "Yellow",
-      "language": {
-        "name": "en",
-        "url": "https://pokeapi.co/api/v2/language/9/"
-      },
-      "name": "Tough"
-    }
-  ]
-}
-```
-
-## More
-
-> For more information about the Contest Client endpoints, check out the [PokéAPI Documentation](https://pokeapi.co/docs/v2#contests-section).

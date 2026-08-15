@@ -20,10 +20,16 @@ export default defineConfig({
   sitemap: {
     hostname: "https://pokenode-ts.vercel.app",
   },
+  markdown: {
+    theme: { light: "github-light", dark: "github-dark" },
+  },
   themeConfig: {
     nav: navbarItems,
     sidebar: sidebarRoutes,
     siteTitle: "Pokenode-ts",
+    // Client pages list a method per heading; the default `2` hides all of them.
+    outline: { level: [2, 3], label: "On this page" },
+    externalLinkIcon: true,
     logo: { src: "/site-logo.svg", width: 24, height: 24 },
     footer: {
       message: `Made with ❤️<br/>Released under the ${license} License`,
@@ -52,9 +58,13 @@ export default defineConfig({
     search: {
       provider: "local",
     },
-    carbonAds: {
-      code: "CEBDT27Y",
-      placement: "vuejsorg",
+    docFooter: {
+      prev: "Previous",
+      next: "Next",
+    },
+    lastUpdated: {
+      text: "Last updated",
+      formatOptions: { dateStyle: "medium", forceLocale: true },
     },
   },
   cleanUrls: true,

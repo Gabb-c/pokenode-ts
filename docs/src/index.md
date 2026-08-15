@@ -3,29 +3,41 @@ layout: home
 
 hero:
   name: Pokenode-ts
-  text: Type-Safe, Configurable, Lightweight
-  tagline: A powerful Node.js wrapper for the PokéAPI with built-in types.
+  text: A typed PokéAPI client with zero dependencies
+  tagline: Built on native fetch, so it runs in Node, Deno, Bun, browsers, and edge runtimes.
   image:
     src: /site-logo.svg
-    alt: VitePress
+    alt: Pokenode-ts
   actions:
     - theme: brand
       text: Get Started
       link: /guides/getting-started
+    - theme: alt
+      text: Migrating from 1.x
+      link: /guides/migration
     - theme: alt
       text: View on GitHub
       link: https://github.com/Gabb-c/pokenode-ts
 
 features:
   - icon: 🛠️
-    title: Built-in Types
-    details: Pokenode-ts includes up-to-date type definitions based on the PokéAPI documentation, ensuring type safety and improved developer experience.
+    title: Built-in types
+    details: Every response is fully typed from the PokéAPI schema, so the shape of your data is checked at compile time rather than discovered at runtime.
+  - icon: 🪶
+    title: Zero dependencies
+    details: Nothing to install but the package itself. Native fetch does the work, and the whole library is a few kilobytes.
   - icon: 📦
-    title: Request Cache
-    details: Responses are cached in memory to optimize performance, so repeated lookups skip the network entirely.
+    title: Caching that you control
+    details: Responses are cached in memory by default. Swap in Redis, a KV namespace, or anything else that implements CacheStore — or turn it off.
+  - icon: 🔌
+    title: Bring your own transport
+    details: Pass a custom fetch to route through a proxy, add retries, attach headers, or impose a timeout.
   - icon: 🌲
-    title: Logging
-    details: Provides logging functionality for development and debugging purposes.
+    title: Pluggable logging
+    details: Point the request lifecycle at the console, at pino, or at a metrics collector. Nothing is logged unless you ask.
+  - icon: 🧭
+    title: One client or eleven
+    details: Reach for a focused client like PokemonClient, or use MainClient to get all of them sharing a single cache.
 ---
 
 <script setup>

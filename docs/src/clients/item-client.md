@@ -1,119 +1,74 @@
 # Item Client
 
-## Usage
+Covers the PokéAPI's [items section](https://pokeapi.co/docs/v2#items-section): items, and the
+categories, pockets, attributes, and fling effects that classify them.
 
-The Item Client provide methods to access the [Item Endpoinds](https://pokeapi.co/docs/v2#items-section):
+```ts
+import { ItemClient } from 'pokenode-ts';
 
-- `getItemByName`
-- `getItemByID`
-- `getItemAttributeByName`
-- `getItemAttributeById`
-- `getItemCategoryByName`
-- `getItemCategoryById`
-- `getItemFlingEffectByName`
-- `getItemFlingEffectById`
-- `getItemPocketById`
-- `getItemPocketByName`
-- `listItems`
-- `listItemAttributes`
-- `listItemCategories`
-- `listItemFlingEffects`
-- `listItemPockets`
+const api = new ItemClient();
 
-## Example
+const masterBall = await api.getItemByName('master-ball');
 
-```js
-import { ItemClient } from 'pokenode-ts'; // import the ItemClient
-
-(async () => {
-  const api = new ItemClient(); // create an ItemClient
-
-  await api
-    .getItemById(3)
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-})();
+console.log(masterBall.cost); // 0 — it can't be bought
+console.log(masterBall.category.name); // "standard-balls"
 ```
 
-Or:
+## Methods
 
-```js
-import { ItemClient } from 'pokenode-ts'; // import the ItemClient
+### Items
 
-(async () => {
-  const api = new ItemClient(); // create an ItemClient
+| Method | Returns |
+| --- | --- |
+| `getItemByName(name)` | `Item` |
+| `getItemById(id)` | `Item` |
+| `listItems(offset?, limit?)` | `NamedAPIResourceList` |
 
-  await api
-    .getItemByName('medicine')
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-})();
+### Categories
+
+| Method | Returns |
+| --- | --- |
+| `getItemCategoryByName(name)` | `ItemCategory` |
+| `getItemCategoryById(id)` | `ItemCategory` |
+| `listItemCategories(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Pockets
+
+| Method | Returns |
+| --- | --- |
+| `getItemPocketByName(name)` | `ItemPocket` |
+| `getItemPocketById(id)` | `ItemPocket` |
+| `listItemPockets(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Attributes
+
+| Method | Returns |
+| --- | --- |
+| `getItemAttributeByName(name)` | `ItemAttribute` |
+| `getItemAttributeById(id)` | `ItemAttribute` |
+| `listItemAttributes(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Fling effects
+
+| Method | Returns |
+| --- | --- |
+| `getItemFlingEffectByName(name)` | `ItemFlingEffect` |
+| `getItemFlingEffectById(id)` | `ItemFlingEffect` |
+| `listItemFlingEffects(offset?, limit?)` | `NamedAPIResourceList` |
+
+::: info Categories vs. pockets
+A **pocket** is a bag tab — `misc`, `medicine`, `pokeballs`. A **category** is finer grained —
+`standard-balls`, `healing`, `vitamins` — and every category belongs to a pocket.
+:::
+
+## Using constants
+
+```ts
+import { ItemClient, ITEM_POCKETS, ITEM_CATEGORIES, ITEM_ATTRIBUTES } from 'pokenode-ts';
+
+const api = new ItemClient();
+
+const pocket = await api.getItemPocketById(ITEM_POCKETS.MISC);
 ```
 
-Will output:
-
-```json
-{
-  "id": 3,
-  "items": [
-    {
-      "name": "cheri-berry",
-      "url": "https://pokeapi.co/api/v2/item/126/"
-    },
-    {
-      "name": "chesto-berry",
-      "url": "https://pokeapi.co/api/v2/item/127/"
-    },
-    {
-      "name": "pecha-berry",
-      "url": "https://pokeapi.co/api/v2/item/128/"
-    },
-    {
-      "name": "rawst-berry",
-      "url": "https://pokeapi.co/api/v2/item/129/"
-    },
-    {
-      "name": "aspear-berry",
-      "url": "https://pokeapi.co/api/v2/item/130/"
-    },
-    {
-      "name": "leppa-berry",
-      "url": "https://pokeapi.co/api/v2/item/131/"
-    },
-    {
-      "name": "oran-berry",
-      "url": "https://pokeapi.co/api/v2/item/132/"
-    },
-    {
-      "name": "persim-berry",
-      "url": "https://pokeapi.co/api/v2/item/133/"
-    },
-    {
-      "name": "lum-berry",
-      "url": "https://pokeapi.co/api/v2/item/134/"
-    },
-    {
-      "name": "sitrus-berry",
-      "url": "https://pokeapi.co/api/v2/item/135/"
-    }
-  ],
-  "name": "medicine",
-  "names": [
-    {
-      "language": {
-        "name": "en",
-        "url": "https://pokeapi.co/api/v2/language/9/"
-      },
-      "name": "Medicine"
-    }
-  ],
-  "pocket": {
-    "name": "berries",
-    "url": "https://pokeapi.co/api/v2/item-pocket/5/"
-  }
-}
-```
-
-## More
-
-> For more information about the Item Client endpoints, check out the [PokéAPI Documentation](https://pokeapi.co/docs/v2#items-section).
+`ITEM_FLING_EFFECTS` is available too.

@@ -1,102 +1,108 @@
 # Move Client
 
-## Usage
+Covers the PokéAPI's [moves section](https://pokeapi.co/docs/v2#moves-section): moves, and the
+ailments, categories, damage classes, learn methods, targets, and battle styles that describe them.
 
-The Move Client provide methods to access the [Move Endpoinds](https://pokeapi.co/docs/v2#moves-section):
+```ts
+import { MoveClient } from 'pokenode-ts';
 
-- `getMoveByName`
-- `getMoveById`
-- `getMoveAilmentByName`
-- `getMoveAilmentById`
-- `getMoveBattleStyleByName`
-- `getMoveBattleStyleById`
-- `getMoveCategoryByName`
-- `getMoveCategoryById`
-- `getMoveDamageClassByName`
-- `getMoveDamageClassById`
-- `getMoveLearnMethodByName`
-- `getMoveLearnMethodById`
-- `getMoveTargetByName`
-- `getMoveTargetById`
-- `listMoves`
-- `listMoveAilments`
-- `listMoveBattleStyles`
-- `listMoveCategories`
-- `listMoveDamageClasses`
-- `listMoveLearnMethods`
-- `listMoveTargets`
+const api = new MoveClient();
 
-## Example
+const surf = await api.getMoveByName('surf');
 
-```js
-import { MoveClient, MoveAilments } from 'pokenode-ts'; // import the MachineClient and the MoveAilments enum
-
-(async () => {
-  const api = new MoveClient(); // create a MoveClient
-
-  await api
-    .getMoveAilmentById(MoveAilments.PARALYSIS)
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
+console.log(surf.type.name); // "water"
+console.log(surf.power); // base power, or null for a status move
+console.log(surf.damage_class?.name); // "special"
 ```
 
-Or:
+::: warning
+`power`, `accuracy`, `pp`, and `damage_class` are nullable — a status move has no power, and some
+older entries have no damage class. The types say so, so `strictNullChecks` will make you handle it.
+:::
 
-```js
-import { MoveClient } from 'pokenode-ts'; // import the MachineClient
+## Methods
 
-(async () => {
-  const api = new MoveClient(); // create a MoveClient
+### Moves
 
-  await api
-    .getMoveAilmentByName('paralysis')
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
+| Method | Returns |
+| --- | --- |
+| `getMoveByName(name)` | `Move` |
+| `getMoveById(id)` | `Move` |
+| `listMoves(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Ailments
+
+| Method | Returns |
+| --- | --- |
+| `getMoveAilmentByName(name)` | `MoveAilment` |
+| `getMoveAilmentById(id)` | `MoveAilment` |
+| `listMoveAilments(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Categories
+
+| Method | Returns |
+| --- | --- |
+| `getMoveCategoryByName(name)` | `MoveCategory` |
+| `getMoveCategoryById(id)` | `MoveCategory` |
+| `listMoveCategories(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Damage classes
+
+| Method | Returns |
+| --- | --- |
+| `getMoveDamageClassByName(name)` | `MoveDamageClass` |
+| `getMoveDamageClassById(id)` | `MoveDamageClass` |
+| `listMoveDamageClasses(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Learn methods
+
+| Method | Returns |
+| --- | --- |
+| `getMoveLearnMethodByName(name)` | `MoveLearnMethod` |
+| `getMoveLearnMethodById(id)` | `MoveLearnMethod` |
+| `listMoveLearnMethods(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Targets
+
+| Method | Returns |
+| --- | --- |
+| `getMoveTargetByName(name)` | `MoveTarget` |
+| `getMoveTargetById(id)` | `MoveTarget` |
+| `listMoveTargets(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Battle styles
+
+| Method | Returns |
+| --- | --- |
+| `getMoveBattleStyleByName(name)` | `MoveBattleStyle` |
+| `getMoveBattleStyleById(id)` | `MoveBattleStyle` |
+| `listMoveBattleStyles(offset?, limit?)` | `NamedAPIResourceList` |
+
+::: info Categories vs. damage classes
+A **damage class** is how the damage is calculated — `physical`, `special`, `status`. A **category**
+is what the move is for — `damage`, `ailment`, `damage-heal`, `swagger`. They are independent.
+:::
+
+## Using constants
+
+```ts
+import { MoveClient, MOVE_DAMAGE_CLASSES, MOVE_CATEGORIES, MOVE_AILMENTS } from 'pokenode-ts';
+
+const api = new MoveClient();
+
+const special = await api.getMoveDamageClassById(MOVE_DAMAGE_CLASSES.SPECIAL);
 ```
 
-Will output:
+`MOVE_LEARN_METHODS`, `MOVE_TARGETS`, and `MOVE_BATTLE_STYLES` are available too.
 
-```json
-{
-  "id": 1,
-  "moves": [
-    {
-      "name": "thunder-punch",
-      "url": "https://pokeapi.co/api/v2/move/9/"
-    },
-    {
-      "name": "body-slam",
-      "url": "https://pokeapi.co/api/v2/move/34/"
-    },
-    ...
-  ],
-  "name": "paralysis",
-  "names": [
-    {
-      "language": {
-        "name": "fr",
-        "url": "https://pokeapi.co/api/v2/language/5/"
-      },
-      "name": "Paralysie"
-    },
-    {
-      "language": {
-        "name": "es",
-        "url": "https://pokeapi.co/api/v2/language/7/"
-      },
-      "name": "Parálisis"
-    },
-    {
-      "language": {
-        "name": "en",
-        "url": "https://pokeapi.co/api/v2/language/9/"
-      },
-      "name": "Paralysis"
-    }
-  ]
-}
+## Which Pokémon learn a move
+
+`Move.learned_by_pokemon` is a list of references. Going the other way — every move one Pokémon
+learns, with the level and method — is `Pokemon.moves` on the
+[Pokemon Client](/clients/pokemon-client).
+
+```ts
+const thunderbolt = await api.getMoveByName('thunderbolt');
+
+console.log(thunderbolt.learned_by_pokemon.map((pokemon) => pokemon.name));
 ```
-
-## More
-
-> For more information about the Move Client endpoints, check out the [PokéAPI Documentation](https://pokeapi.co/docs/v2#moves-section).

@@ -1,110 +1,30 @@
 import type { HeadConfig } from "vitepress";
 import { name, description as packageDescription } from "../../../package.json";
 
+const SITE_URL = "https://pokenode-ts.vercel.app";
+const LOGO = "/site-logo.svg";
+
 export const headConfig: HeadConfig[] = [
-  ["link", { rel: "icon", href: "/site-logo.svg", type: "image/svg+xml" }],
-  [
-    "link",
-    { rel: "apple-touch-icon", sizes: "57x57", href: "/site-logo.svg", type: "image/svg+xml" },
-  ],
-  [
-    "link",
-    { rel: "apple-touch-icon", sizes: "60x60", href: "/site-logo.svg", type: "image/svg+xml" },
-  ],
-  [
-    "link",
-    { rel: "apple-touch-icon", sizes: "72x72", href: "/site-logo.svg", type: "image/svg+xml" },
-  ],
-  [
-    "link",
-    { rel: "apple-touch-icon", sizes: "76x76", href: "/site-logo.svg", type: "image/svg+xml" },
-  ],
-  [
-    "link",
-    {
-      rel: "apple-touch-icon",
-      sizes: "114x114",
-      href: "/site-logo.svg",
-      type: "image/svg+xml",
-    },
-  ],
-  [
-    "link",
-    {
-      rel: "apple-touch-icon",
-      sizes: "120x120",
-      href: "/site-logo.svg",
-      type: "image/svg+xml",
-    },
-  ],
-  [
-    "link",
-    {
-      rel: "apple-touch-icon",
-      sizes: "144x144",
-      href: "/site-logo.svg",
-      type: "image/svg+xml",
-    },
-  ],
-  [
-    "link",
-    {
-      rel: "apple-touch-icon",
-      sizes: "152x152",
-      href: "/site-logo.svg",
-      type: "image/svg+xml",
-    },
-  ],
-  [
-    "link",
-    {
-      rel: "apple-touch-icon",
-      sizes: "180x180",
-      href: "/site-logo.svg",
-      type: "image/svg+xml",
-    },
-  ],
-  [
-    "link",
-    {
-      rel: "icon",
-      sizes: "192x192",
-      href: "/site-logo.svg",
-      type: "image/svg+xml",
-    },
-  ],
-  [
-    "link",
-    {
-      rel: "icon",
-      sizes: "32x32",
-      href: "/site-logo.svg",
-      type: "image/svg+xml",
-    },
-  ],
-  [
-    "link",
-    {
-      rel: "icon",
-      sizes: "96x96",
-      href: "/site-logo.svg",
-      type: "image/svg+xml",
-    },
-  ],
-  [
-    "link",
-    {
-      rel: "icon",
-      sizes: "16x16",
-      href: "/site-logo.svg",
-      type: "image/svg+xml",
-    },
-  ],
-  ["meta", { property: "og:type", content: "website" }],
+  // One SVG covers every size. The sized `apple-touch-icon` and `icon` variants
+  // this used to declare all pointed at this same file, which is what a vector
+  // icon is for.
+  ["link", { rel: "icon", href: LOGO, type: "image/svg+xml" }],
+  ["link", { rel: "apple-touch-icon", href: LOGO }],
+
   ["meta", { name: "theme-color", content: "#FF3962" }],
-  ["meta", { property: "og:locale", content: "en" }],
+
+  ["meta", { property: "og:type", content: "website" }],
+  ["meta", { property: "og:site_name", content: "Pokenode-ts" }],
+  ["meta", { property: "og:locale", content: "en_US" }],
   ["meta", { property: "og:title", content: `${name} | ${packageDescription}` }],
-  ["meta", { property: "og:url", content: "https://pokenode-ts.vercel.app/" }],
   ["meta", { property: "og:description", content: packageDescription }],
-  ["meta", { property: "og:image", content: "/cover.jpg" }],
+  ["meta", { property: "og:url", content: `${SITE_URL}/` }],
+  // Absolute: a crawler reads the card out of page context and cannot resolve a
+  // root-relative path, so `/cover.jpg` renders as a missing image.
+  ["meta", { property: "og:image", content: `${SITE_URL}/cover.jpg` }],
+
+  ["meta", { name: "twitter:card", content: "summary_large_image" }],
+  ["meta", { name: "twitter:title", content: `${name} | ${packageDescription}` }],
+  ["meta", { name: "twitter:description", content: packageDescription }],
+  ["meta", { name: "twitter:image", content: `${SITE_URL}/cover.jpg` }],
 ];

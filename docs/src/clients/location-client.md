@@ -1,103 +1,81 @@
 # Location Client
 
-## Usage
+Covers the PokéAPI's [locations section](https://pokeapi.co/docs/v2#locations-section): regions,
+locations, the areas inside them, and Pal Park.
 
-The Location Client provide methods to access the [Location Endpoinds](https://pokeapi.co/docs/v2#locations-section):
+```ts
+import { LocationClient } from 'pokenode-ts';
 
-- `getLocationByName`
-- `getLocationById`
-- `getLocationAreaByName`
-- `getLocatinAreaById`
-- `getPalParkAreaByName`
-- `getPalParkAreaById`
-- `getRegionByName`
-- `getRegionById`
-- `listLocations`
-- `listLocationAreas`
-- `listPalParkAreas`
-- `listRegions`
+const api = new LocationClient();
 
-## Example
+const kanto = await api.getRegionByName('kanto');
 
-```js
-import { LocationClient, PalParkAreas } from 'pokenode-ts'; // import the LocationClient and the PalParkAreas enum
-
-(async () => {
-  const api = new LocationClient(); // create a LocationClient
-
-  await api
-    .getPalParkAreaById(PalParkAreas.FOREST)
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-})();
+console.log(kanto.locations.length); // every location in Kanto
 ```
 
-Or:
+## Methods
 
-```js
-import { LocationClient } from 'pokenode-ts'; // import the LocationClient
+### Regions
 
-(async () => {
-  const api = new LocationClient(); // create a LocationClient
+| Method | Returns |
+| --- | --- |
+| `getRegionByName(name)` | `Region` |
+| `getRegionById(id)` | `Region` |
+| `listRegions(offset?, limit?)` | `NamedAPIResourceList` |
 
-  await api
-    .getPalParkAreaByName('forest')
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-})();
+### Locations
+
+| Method | Returns |
+| --- | --- |
+| `getLocationByName(name)` | `Location` |
+| `getLocationById(id)` | `Location` |
+| `listLocations(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Location areas
+
+| Method | Returns |
+| --- | --- |
+| `getLocationAreaByName(name)` | `LocationArea` |
+| `getLocationAreaById(id)` | `LocationArea` |
+| `listLocationAreas(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Pal Park areas
+
+| Method | Returns |
+| --- | --- |
+| `getPalParkAreaByName(name)` | `PalParkArea` |
+| `getPalParkAreaById(id)` | `PalParkArea` |
+| `listPalParkAreas(offset?, limit?)` | `NamedAPIResourceList` |
+
+::: info Locations vs. location areas
+A **location** is a place on the map — `viridian-forest`. A **location area** is a subdivision of
+it that encounters are actually keyed to — `viridian-forest-area`. Wild encounter tables hang off
+areas, not locations.
+:::
+
+## Using constants
+
+```ts
+import { LocationClient, REGIONS, PAL_PARK_AREAS } from 'pokenode-ts';
+
+const api = new LocationClient();
+
+const kanto = await api.getRegionById(REGIONS.KANTO);
+const forest = await api.getPalParkAreaById(PAL_PARK_AREAS.FOREST);
 ```
 
-Will output:
+## Finding what appears in an area
 
-```json
-{
-  "id": 1,
-  "name": "forest",
-  "names": [
-    {
-      "language": {
-        "name": "fr",
-        "url": "https://pokeapi.co/api/v2/language/5/"
-      },
-      "name": "Forêt"
-    },
-    {
-      "language": {
-        "name": "es",
-        "url": "https://pokeapi.co/api/v2/language/7/"
-      },
-      "name": "Bosque"
-    },
-    {
-      "language": {
-        "name": "en",
-        "url": "https://pokeapi.co/api/v2/language/9/"
-      },
-      "name": "Forest"
-    }
-  ],
-  "pokemon_encounters": [
-    {
-      "base_score": 30,
-      "pokemon_species": {
-        "name": "caterpie",
-        "url": "https://pokeapi.co/api/v2/pokemon-species/10/"
-      },
-      "rate": 50
-    },
-    {
-      "base_score": 50,
-      "pokemon_species": {
-        "name": "metapod",
-        "url": "https://pokeapi.co/api/v2/pokemon-species/11/"
-      },
-      "rate": 30
-    },
-    ...
-  ]
+`LocationArea.pokemon_encounters` lists the species met there, with the conditions and chance for
+each version:
+
+```ts
+const area = await api.getLocationAreaByName('viridian-forest-area');
+
+for (const encounter of area.pokemon_encounters) {
+  console.log(encounter.pokemon.name);
 }
 ```
 
-## More
-
-> For more information about the Location Client endpoints, check out the [PokéAPI Documentation](https://pokeapi.co/docs/v2#locations-section).
+Going the other way — from a Pokémon to where it is found — is
+[`PokemonClient#getPokemonLocationAreaById`](/clients/pokemon-client#encounters).

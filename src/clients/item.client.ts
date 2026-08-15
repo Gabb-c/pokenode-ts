@@ -16,7 +16,7 @@ import { BaseClient } from "./base";
  *  - [Item](https://pokeapi.co/docs/v2#item)
  *  - [Item Attributes](https://pokeapi.co/docs/v2#item-attributes)
  *  - [Item Categories](https://pokeapi.co/docs/v2#item-categories)
- *  - [Item Filing Effects](https://pokeapi.co/docs/v2#item-fling-effects)
+ *  - [Item Fling Effects](https://pokeapi.co/docs/v2#item-fling-effects)
  *  - [Item Pockets](https://pokeapi.co/docs/v2#item-pockets)
  * ---
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#items-section)
@@ -77,18 +77,18 @@ export class ItemClient extends BaseClient {
   }
 
   /**
-   * Get an Item Filing Effect by it's name
-   * @param name The item filing effect name
-   * @returns An Item Filing Effect
+   * Get an Item Fling Effect by it's name
+   * @param name The item fling effect name
+   * @returns An Item Fling Effect
    */
   public async getItemFlingEffectByName(name: string): Promise<ItemFlingEffect> {
     return this.getResource(ENDPOINTS.ITEM_FLING_EFFECT, name);
   }
 
   /**
-   * Get an Item Filing Effect by it's ID
-   * @param id The item filing effect ID
-   * @returns An Item Filing Effect
+   * Get an Item Fling Effect by it's ID
+   * @param id The item fling effect ID
+   * @returns An Item Fling Effect
    */
   public async getItemFlingEffectById(id: number): Promise<ItemFlingEffect> {
     return this.getResource(ENDPOINTS.ITEM_FLING_EFFECT, id);
@@ -143,12 +143,12 @@ export class ItemClient extends BaseClient {
   }
 
   /**
-   * List Item Filing Effects
+   * List Item Fling Effects
    * @param offset The first item that you will get
-   * @param limit How many Item Filing Effects per page
-   * @returns A list of Item Filing Effects
+   * @param limit How many Item Fling Effects per page
+   * @returns A list of Item Fling Effects
    */
-  public async listItemFilingEffects(
+  public async listItemFlingEffects(
     offset?: number,
     limit?: number,
   ): Promise<NamedAPIResourceList> {

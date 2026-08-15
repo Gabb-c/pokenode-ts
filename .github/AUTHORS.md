@@ -1,14 +1,13 @@
-# Authors of pokenode-ts
+# Authors
 
-## Gabriel (Gabb-c)
+Pokenode-ts was created and is maintained by:
 
-- **GitHub:** [Gabb-c](https://github.com/Gabb-c)
-- **Email:** [gdgabrieldacunha71@gmail.com](mailto:gdgabrieldacunha71@gmail.com)
+- **Gabriel** — [@Gabb-c](https://github.com/Gabb-c) ·
+  [gdgabrieldacunha71@gmail.com](mailto:gdgabrieldacunha71@gmail.com)
+- **Moysés** — [@moyzlevi](https://github.com/moyzlevi)
 
----
+Thanks also to everyone who has
+[contributed](https://github.com/Gabb-c/pokenode-ts/graphs/contributors) a fix, a test, or a
+correction to the docs.
 
-Pokenode-ts is mostly created by [Gabriel](mailto:gdgabrieldacunha71@gmail.com), also known as [Gabb-c](https://github.com/Gabb-c) on GitHub. Feel free to contact Gabriel with any questions or collaborative opportunities.
-
-## Contributing
-
-If you wish to contribute to this project, please see our [contribution guidelines](CONTRIBUTING.md).
+Want to join them? See the [contributing guide](./CONTRIBUTING.md).
