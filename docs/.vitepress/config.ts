@@ -27,7 +27,6 @@ export default defineConfig({
     nav: navbarItems,
     sidebar: sidebarRoutes,
     siteTitle: "Pokenode-ts",
-    // Client pages list a method per heading; the default `2` hides all of them.
     outline: { level: [2, 3], label: "On this page" },
     externalLinkIcon: true,
     logo: { src: "/site-logo.svg", width: 24, height: 24 },

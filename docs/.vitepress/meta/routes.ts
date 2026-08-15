@@ -1,6 +1,5 @@
 import type { DefaultTheme } from "vitepress";
 
-/** A destination, in the shape both the sidebar and the navbar accept. */
 type Route = { text: string; link: string };
 
 const guides: Route[] = [
@@ -34,8 +33,6 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
   { text: "Clients", collapsed: false, items: clients },
 ];
 
-// The navbar shows the same destinations as the sidebar. Deriving it from the
-// same arrays keeps a new page from reaching one and not the other.
 export const navbarItems: DefaultTheme.NavItem[] = [
   { text: "Guides", items: guides },
   { text: "Clients", items: clients },

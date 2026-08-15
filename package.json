@@ -35,7 +35,8 @@
         "types": "./lib/index.d.cts",
         "default": "./lib/index.cjs"
       }
-    }
+    },
+    "./package.json": "./package.json"
   },
   "main": "lib/index.cjs",
   "module": "lib/index.js",
@@ -52,10 +53,11 @@
     "format": "biome format --write",
     "lint": "biome check --write",
     "lint:ci": "biome ci",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tests",
     "prepare": "lefthook install",
     "prepublishOnly": "pnpm build",
     "test": "vitest --project unit",
+    "test:run": "vitest run --project unit",
     "test:live": "vitest run --project live",
     "test:coverage": "vitest run --project unit --coverage",
     "test:ui": "vitest --project unit --ui --api 9527"

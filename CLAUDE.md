@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-`pokenode-ts` — typed PokéAPI client, zero runtime dependencies, built on native `fetch`. Ships dual ESM/CJS from `src/index.ts` to `lib/`. Package manager is **pnpm** (`packageManager` pin); Node >= 20.
+`pokenode-ts` — typed PokéAPI client, zero runtime dependencies, built on native `fetch`. Ships dual ESM/CJS from `src/index.ts` to `lib/`. Package manager is **pnpm** (`packageManager` pin); Node >= 22.
 
 ## Commands
 
@@ -13,7 +13,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | `pnpm test` | Vitest, watch mode |
 | `pnpm test run tests/berry/berry.spec.ts` | Single file, single run (no `--`; pnpm swallows the filter after it) |
 | `pnpm test run tests/berry -t "list of berries"` | Single test by name |
-| `pnpm typecheck` | `tsc --noEmit` over `src` and `tests` |
+| `pnpm test:run` | Vitest, unit project, single run |
+| `pnpm typecheck` | `tsc --noEmit` twice: root config (`src`, no Vitest globals) then `tests/tsconfig.json` |
 | `pnpm test:live` | Drift check against the real PokéAPI — needs network, not part of CI on PRs |
 | `pnpm test:coverage` | Single run + lcov/html coverage |
 | `pnpm lint` | Biome check, writes fixes |
@@ -41,7 +42,7 @@ The request pipeline in `BaseClient.request` is: cache lookup → in-flight dedu
 
 **Errors** (`src/config/errors.ts`) — non-2xx rejects with `PokenodeError`; transport failures propagate untouched. `PokenodeError` is matched via the static `isPokenodeError` guard on a `kind` brand, **not** `instanceof` — a tree loading both the ESM and CJS build has two distinct classes. Keep the guard in any new error-handling code and docs.
 
-**Path aliases** (`tsconfig.json`, resolved in tests by Vite's native `resolve.tsconfigPaths`): `@clients`, `@config/*`, `@constants`, `@models`, `@package`. Use them in `src/` and `tests/`; `base.ts` and `main.client.ts` use relative imports to avoid cycles through the barrel.
+**Path aliases** (`tsconfig.json`, resolved in tests by Vite's native `resolve.tsconfigPaths`): `@clients`, `@config/*`, `@constants`, `@models`, `@package`. That option is a boolean — it resolves aliases from the nearest file *named* `tsconfig.json` whose `include` matches, which is why the test config is `tests/tsconfig.json` and not a root-level `tsconfig.test.json`. Use the aliases in `src/` and `tests/`; `base.ts` and `main.client.ts` use relative imports to avoid cycles through the barrel.
 
 ## Testing
 

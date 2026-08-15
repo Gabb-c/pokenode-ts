@@ -1,0 +1,10 @@
+{
+  // Must be named `tsconfig.json` and live here: Vite's `resolve.tsconfigPaths` resolves the path
+  // aliases from the nearest tsconfig.json matching each file, so a root-level `tsconfig.test.json`
+  // would never be picked up for tests/.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": ["vitest/globals", "node"]
+  },
+  "include": ["**/*.ts"]
+}

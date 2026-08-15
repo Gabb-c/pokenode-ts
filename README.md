@@ -128,6 +128,6 @@ sustained traffic, [run your own instance](https://github.com/PokeAPI/pokeapi#do
 
 ## License
 
-[MIT](.github/LICENSE)
+[MIT](LICENSE)
 
 ![Analytics](https://repobeats.axiom.co/api/embed/f71a113e3161e1d054170c94e4ac3fcfc960cdd4.svg 'Repobeats analytics image')
