@@ -5,7 +5,7 @@ import { BaseClient } from "./base";
 /**
  * ### Evolution Client
  *
- * Client used to access the Berry Endpoints:
+ * Client used to access the Evolution Endpoints:
  *  - [Evolution Chains](https://pokeapi.co/docs/v2#evolution-chains)
  *  - [Evolution Triggers](https://pokeapi.co/docs/v2#evolution-triggers)
  * ---
@@ -13,47 +13,47 @@ import { BaseClient } from "./base";
  */
 export class EvolutionClient extends BaseClient {
   /**
-   * Get an Evolution Chain by it's ID
-   * @param id The Evolution Chain ID
-   * @returns An Evolution Chain
+   * Get an Evolution Chain by its ID.
+   * @param id The Evolution Chain ID.
+   * @returns The matching Evolution Chain.
    */
   public async getEvolutionChainById(id: number): Promise<EvolutionChain> {
     return this.getResource(ENDPOINTS.EVOLUTION_CHAIN, id);
   }
 
   /**
-   * Get an Evolution Trigger by it's ID
-   * @param id The Evolution Trigger ID
-   * @returns An Evolution Trigger
+   * Get an Evolution Trigger by its ID.
+   * @param id The Evolution Trigger ID.
+   * @returns The matching Evolution Trigger.
    */
   public async getEvolutionTriggerById(id: number): Promise<EvolutionTrigger> {
     return this.getResource(ENDPOINTS.EVOLUTION_TRIGGER, id);
   }
 
   /**
-   * Get an Evolution Trigger by it's name
-   * @param name The Evolution Trigger name
-   * @returns An Evolution Trigger
+   * Get an Evolution Trigger by its name.
+   * @param name The Evolution Trigger name.
+   * @returns The matching Evolution Trigger.
    */
   public async getEvolutionTriggerByName(name: string): Promise<EvolutionTrigger> {
     return this.getResource(ENDPOINTS.EVOLUTION_TRIGGER, name);
   }
 
   /**
-   * List Evolution Chains
-   * @param offset The first item that you will get
-   * @param limit How many Evolution Chains per page
-   * @returns A list of Evolution Chains
+   * List Evolution Chains.
+   * @param offset Index of the first resource returned. Defaults to 0.
+   * @param limit How many resources per page. Defaults to 20.
+   * @returns A paginated list of Evolution Chains.
    */
   public async listEvolutionChains(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return this.getListResource(ENDPOINTS.EVOLUTION_CHAIN, offset, limit);
   }
 
   /**
-   * List Evolution Triggers
-   * @param offset The first item that you will get
-   * @param limit How many Evolution Triggers per page
-   * @returns A list of Evolution Triggers
+   * List Evolution Triggers.
+   * @param offset Index of the first resource returned. Defaults to 0.
+   * @param limit How many resources per page. Defaults to 20.
+   * @returns A paginated list of Evolution Triggers.
    */
   public async listEvolutionTriggers(
     offset?: number,

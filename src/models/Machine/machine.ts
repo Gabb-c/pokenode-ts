@@ -8,12 +8,12 @@ import type { NamedAPIResource } from "../Common";
  * [HM (Hidden Machine)](https://bulbapedia.bulbagarden.net/wiki/HM) corresponds to a single Machine.
  */
 export type Machine = {
-  /** The identifier for this resource */
+  /** The identifier for this resource. */
   id: number;
-  /** The TM or HM item that corresponds to this machine */
+  /** The TM or HM item that corresponds to this machine. */
   item: NamedAPIResource;
-  /** The move that is taught by this machine */
+  /** The move that is taught by this machine. */
   move: NamedAPIResource;
-  /** The version group that this machine applies to */
+  /** The version group that this machine applies to. */
   version_group: NamedAPIResource;
 };

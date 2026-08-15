@@ -19,7 +19,7 @@ export interface MoveTarget {
   name: string;
   /** The description of this resource listed in different languages. */
   descriptions: Description[];
-  /** A list of moves that that are directed at this target. */
+  /** A list of moves that are directed at this target. */
   moves: NamedAPIResource[];
   /** The name of this resource listed in different languages. */
   names: Name[];
@@ -77,7 +77,7 @@ export interface MoveCategory {
 /**
  * ## Move Battle Style
  * Styles of moves when used in the Battle Palace.
- * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Battle_Frontier_(Generation_III)) for greater details.
+ * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Battle_Frontier_(Generation_III)) for greater detail.
  */
 export interface MoveBattleStyle {
   /** The identifier for this resource. */
@@ -91,7 +91,7 @@ export interface MoveBattleStyle {
 /**
  * ## Move Ailment
  * Move Ailments are status conditions caused by moves used during battle.
- * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Status_condition) for greater details.
+ * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Status_condition) for greater detail.
  */
 export interface MoveAilment {
   /** The identifier for this resource. */
@@ -104,10 +104,11 @@ export interface MoveAilment {
   names: Name[];
 }
 
+/** The values a move had in a previous version group. */
 export interface PastMoveStatValues {
   /** The percent value of how likely this move is to be successful. */
   accuracy: number | null;
-  /** The percent value of how likely it is this moves effect will take effect. */
+  /** The percent value of how likely it is this move's effect will take effect. */
   effect_chance: number | null;
   /** The base power of this move with a value of 0 if it does not have a base power. */
   power: number | null;
@@ -121,7 +122,7 @@ export interface PastMoveStatValues {
   version_group: NamedAPIResource;
 }
 
-/** */
+/** A stat this move changes, and by how much. */
 export interface MoveStatChange {
   /** The amount of change. */
   change: number;
@@ -129,9 +130,7 @@ export interface MoveStatChange {
   stat: NamedAPIResource;
 }
 
-/**
- * Metadata about this move
- */
+/** Metadata about a move. */
 export interface MoveMetaData {
   /** The status ailment this move inflicts on its target. */
   ailment: NamedAPIResource;
@@ -147,9 +146,9 @@ export interface MoveMetaData {
   max_turns: number | null;
   /** HP drain (if positive) or Recoil damage (if negative), in percent of damage done. */
   drain: number;
-  /** The amount of hp gained by the attacking Pokemon, in percent of it's maximum HP. */
+  /** The amount of hp gained by the attacking Pokémon, in percent of its maximum HP. */
   healing: number;
-  /**  Critical hit rate bonus. */
+  /** Critical hit rate bonus. */
   crit_rate: number;
   /** The likelihood this attack will cause an ailment. */
   ailment_chance: number;
@@ -163,7 +162,7 @@ export interface MoveMetaData {
  * The flavor text of this move.
  */
 export interface MoveFlavorText {
-  /** The localized flavor text for an api resource in a specific language. */
+  /** The localized flavor text for an API resource in a specific language. */
   flavor_text: string;
   /** The language this name is in. */
   language: NamedAPIResource;
@@ -196,58 +195,58 @@ export interface ContestComboSets {
  * Moves are the skills of Pokémon in battle. In battle, a Pokémon uses one move each turn.
  * Some moves (including those learned by Hidden Machine) can be used outside of battle as well,
  * usually for the purpose of removing obstacles or exploring new areas.
- * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Move) for greater detaill
+ * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Move) for greater detail.
  */
 export interface Move {
-  /** The identifier for this resource */
+  /** The identifier for this resource. */
   id: number;
-  /** The name for this resource */
+  /** The name for this resource. */
   name: string;
-  /** The percent value of how likely this move is to be successful */
+  /** The percent value of how likely this move is to be successful. */
   accuracy: number | null;
-  /** The percent value of how likely it is this moves effect will happen */
+  /** The percent value of how likely it is this move's effect will happen. */
   effect_chance: number | null;
-  /** Power points. The number of times this move can be used */
+  /** Power points. The number of times this move can be used. */
   pp: number | null;
   /**
    * A value between -8 and 8. Sets the order in which moves are executed during battle.
-   * See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Priority) for greater detail
+   * See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Priority) for greater detail.
    */
   priority: -8 | -7 | -6 | -5 | -4 | -3 | -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-  /** The base power of this move with a value of 0 if it does not have a base power */
+  /** The base power of this move with a value of 0 if it does not have a base power. */
   power: number | null;
-  /** A detail of normal and super contest combos that require this move */
+  /** A detail of normal and super contest combos that require this move. */
   contest_combos: ContestComboSets | null;
-  /** The type of appeal this move gives a Pokémon when used in a contest */
-  contest_types: NamedAPIResource | null;
-  /** The effect the move has when used in a contest */
+  /** The type of appeal this move gives a Pokémon when used in a contest. */
+  contest_type: NamedAPIResource | null;
+  /** The effect the move has when used in a contest. */
   contest_effect: APIResource | null;
-  /** The type of damage the move inflicts on the target, e.g. physical */
+  /** The type of damage the move inflicts on the target, e.g. physical. */
   damage_class: NamedAPIResource | null;
-  /** The effect of this move listed in different languages */
+  /** The effect of this move listed in different languages. */
   effect_entries: VerboseEffect[];
-  /** The list of previous effects this move has had across version groups of the games */
+  /** The list of previous effects this move has had across version groups of the games. */
   effect_changes: AbilityEffectChange[];
-  /** The flavor text of this move listed in different languages */
+  /** The flavor text of this move listed in different languages. */
   flavor_text_entries: MoveFlavorText[];
-  /** The generation in which this move was introduced */
+  /** The generation in which this move was introduced. */
   generation: NamedAPIResource;
-  /** A list of the machines that teach this move */
+  /** A list of the machines that teach this move. */
   machines: MachineVersionDetail[];
-  /** Metadata about this move */
+  /** Metadata about this move. */
   meta: MoveMetaData | null;
-  /** The name of this resource listed in different languages */
+  /** The name of this resource listed in different languages. */
   names: Name[];
-  /** A list of move resource value changes across version groups of the game */
+  /** A list of move resource value changes across version groups of the game. */
   past_values: PastMoveStatValues[];
-  /** A list of stats this moves effects and how much it effects them */
+  /** A list of stats this move affects and by how much. */
   stat_changes: MoveStatChange[];
-  /** The effect the move has when used in a super contest */
+  /** The effect the move has when used in a super contest. */
   super_contest_effect: APIResource | null;
-  /** The type of target that will receive the effects of the attack */
+  /** The type of target that will receive the effects of the attack. */
   target: NamedAPIResource;
-  /** The elemental type of this move */
+  /** The elemental type of this move. */
   type: NamedAPIResource;
-  /** A list of Pokémons that learned this move */
+  /** A list of Pokémon that learned this move. */
   learned_by_pokemon: NamedAPIResource[];
 }

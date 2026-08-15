@@ -2,9 +2,8 @@
  * ## Logger
  * Receives one call per request lifecycle event.
  *
- * Pass one as {@link ClientOptions.logger}; leave it unset and a client logs
- * nothing. {@link consoleLogger} covers the common case, and anything shaped
- * like this can forward to pino, winston, or a metrics collector instead.
+ * Pass one as `ClientOptions.logger`; leave it unset and a client logs nothing.
+ * Use {@link consoleLogger}, or forward to pino, winston, or a metrics collector.
  */
 export interface Logger {
   /** A request is about to be resolved, from cache or over the network. */

@@ -14,66 +14,66 @@ import { BaseClient } from "./base";
  */
 export class ContestClient extends BaseClient {
   /**
-   * Get a Contest Type by it's name
-   * @param name  The contest type name
-   * @returns A Contest Type
+   * Get a Contest Type by its name.
+   * @param name The Contest Type name.
+   * @returns The matching Contest Type.
    */
   public async getContestTypeByName(name: string): Promise<ContestType> {
     return this.getResource(ENDPOINTS.CONTEST_TYPE, name);
   }
 
   /**
-   * Get a Contest Type by it's ID
-   * @param id The Contest Type ID
-   * @returns A Contest Type
+   * Get a Contest Type by its ID.
+   * @param id The Contest Type ID.
+   * @returns The matching Contest Type.
    */
   public async getContestTypeById(id: number): Promise<ContestType> {
     return this.getResource(ENDPOINTS.CONTEST_TYPE, id);
   }
 
   /**
-   * Get a Contest Effect by it's ID
-   * @param id The Contest Effect ID
-   * @returns Contest Effect
+   * Get a Contest Effect by its ID.
+   * @param id The Contest Effect ID.
+   * @returns The matching Contest Effect.
    */
   public async getContestEffectById(id: number): Promise<ContestEffect> {
     return this.getResource(ENDPOINTS.CONTEST_EFFECT, id);
   }
 
   /**
-   * Get a Super Contest Effect by it's ID
-   * @param id The Super Contest Effect ID
-   * @returns Super Contest Effect
+   * Get a Super Contest Effect by its ID.
+   * @param id The Super Contest Effect ID.
+   * @returns The matching Super Contest Effect.
    */
   public async getSuperContestEffectById(id: number): Promise<SuperContestEffect> {
     return this.getResource(ENDPOINTS.SUPER_CONTEST_EFFECT, id);
   }
 
   /**
-   * List Contest Types
-   * @param offset The first item that you will get
-   * @param limit How many contest types per page
-   * @returns A list of contest types
+   * List Contest Types.
+   * @param offset Index of the first resource returned. Defaults to 0.
+   * @param limit How many resources per page. Defaults to 20.
+   * @returns A paginated list of Contest Types.
    */
   public async listContestTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return this.getListResource(ENDPOINTS.CONTEST_TYPE, offset, limit);
   }
 
   /**
-   * List Contest Effects
-   * @param offset The first item that you will get
-   * @param limit How many contest effects per page
-   * @returns A list of contest effects
+   * List Contest Effects.
+   * @param offset Index of the first resource returned. Defaults to 0.
+   * @param limit How many resources per page. Defaults to 20.
+   * @returns A paginated list of Contest Effects.
    */
   public async listContestEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
     return this.getListResource(ENDPOINTS.CONTEST_EFFECT, offset, limit);
   }
 
   /**
-   * List Super Contest Effects
-   * @param offset The first item that you will get
-   * @param limit How many Super Contest Effect per page
-   * @returns A list of Super Contest Effect
+   * List Super Contest Effects.
+   * @param offset Index of the first resource returned. Defaults to 0.
+   * @param limit How many resources per page. Defaults to 20.
+   * @returns A paginated list of Super Contest Effects.
    */
   public async listSuperContestEffects(
     offset?: number,

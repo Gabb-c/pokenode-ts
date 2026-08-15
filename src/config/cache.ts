@@ -1,4 +1,4 @@
-/** Five minutes, matching the default the previous cache layer shipped with. */
+/** Five minutes. */
 const DEFAULT_TTL = 300_000;
 const DEFAULT_MAX_ENTRIES = 500;
 
@@ -7,11 +7,8 @@ const DEFAULT_MAX_ENTRIES = 500;
  * The contract a client uses to cache responses, keyed by request URL.
  *
  * Every method may return a promise, so remote backends (Redis, KV stores) work
- * as-is. Expiry is the store's own business: nothing is passed in, because a
- * backend that has its own TTL support should use it.
- *
- * Values cross this boundary as parsed objects rather than strings, so an
- * in-memory store stays zero-copy. A remote store serializes on its own.
+ * as-is. Values cross this boundary as parsed objects; expiry is the store's own
+ * business.
  */
 export interface CacheStore {
   get(key: string): unknown | Promise<unknown>;
@@ -40,8 +37,8 @@ interface CacheEntry {
  * ## Memory Cache
  * The default {@link CacheStore}: a bounded, time-to-live cache held in memory.
  *
- * Values are stored and returned by reference: mutating a response also mutates
- * what later cache hits return. Treat responses as read-only.
+ * Values are stored and returned by reference — mutating a response also mutates
+ * what later cache hits return, so treat responses as read-only.
  */
 export class MemoryCache implements CacheStore {
   private readonly entries = new Map<string, CacheEntry>();

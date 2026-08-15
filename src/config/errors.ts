@@ -1,17 +1,13 @@
 /**
- * Brands the error. The guard matches on this rather than on the prototype
- * chain: a consumer whose dependency tree loads both the ESM and the CJS build
- * ends up with two distinct classes, and `instanceof` against the wrong one is
- * silently false.
+ * Brands the error, so the guard can match on it instead of the prototype chain:
+ * a tree loading both the ESM and the CJS build has two distinct classes.
  */
 const ERROR_KIND = "pokenode:http";
 
 /**
  * ## Pokenode Error
- * Thrown when the PokéAPI answers with a non-2xx status.
- *
- * Transport failures — offline, DNS, an abort from a signal supplied through a
- * custom `fetch` — are not wrapped: the native error propagates untouched.
+ * Thrown when the PokéAPI answers with a non-2xx status. Transport failures are
+ * not wrapped — the native error propagates untouched.
  */
 export class PokenodeError extends Error {
   override readonly name = "PokenodeError";
@@ -48,8 +44,8 @@ export class PokenodeError extends Error {
 
 /**
  * Builds a {@link PokenodeError} from a failed response, reading the body when
- * it is JSON. The PokéAPI answers 404s with `Not Found` as plain text, so a
- * parse failure is expected and leaves `body` undefined.
+ * it is JSON. The PokéAPI answers 404s with plain text, so a parse failure is
+ * expected and leaves `body` undefined.
  */
 export const toPokenodeError = async (response: Response): Promise<PokenodeError> => {
   let body: unknown;

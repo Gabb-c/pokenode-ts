@@ -10,9 +10,12 @@ const api = new ItemClient();
 
 const masterBall = await api.getItemByName('master-ball');
 
-console.log(masterBall.cost); // 0 — it can't be bought
+console.log(masterBall.prices[0].purchase_price); // null — it can't be bought
 console.log(masterBall.category.name); // "standard-balls"
 ```
+
+Prices are per version group. The PokéAPI replaced the single `cost` field with the `prices` list,
+so an item can now carry a different purchase and sell price in each game.
 
 ## Methods
 

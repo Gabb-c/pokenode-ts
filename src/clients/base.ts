@@ -9,9 +9,8 @@ const trimTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
 /**
  * Drops the trailing slash from a request URL, leaving any query string alone.
  *
- * The two ways to reach a resource have to agree on one key, or each caches the
- * other's misses: `getResource` builds `/berry/1`, while `getResourceByURL` is
- * handed the PokéAPI's own links, which end in a slash.
+ * Both call paths must produce one cache key: `getResource` builds `/berry/1`,
+ * while the PokéAPI's own links end in a slash.
  */
 const normalizeURL = (url: string): string => url.replace(/\/+(?=\?|$)/, "");
 
@@ -26,9 +25,8 @@ const API_VERSION_SEGMENT = /^v\d+$/;
  * instance — the path after the API version segment is used, so the resource is
  * re-resolved against the client's own base rather than fetched from elsewhere.
  *
- * Both branches work on parsed URL components. Searching the raw string for a
- * version marker, as this once did, also finds one in a host like
- * `api.v2.example.com` and truncates the URL at the wrong place.
+ * The version segment is matched on parsed URL components: a raw-string search
+ * also matches a host like `api.v2.example.com`.
  */
 const toEndpointPath = (resourceURL: string, baseURL: string): string => {
   const resource = new URL(resourceURL);
@@ -54,9 +52,7 @@ const toEndpointPath = (resourceURL: string, baseURL: string): string => {
 
 /**
  * ## Fetch Like
- * A `fetch` implementation. Narrower than the global signature on purpose: the
- * client only ever passes a string URL, and the wider type would reject an
- * ordinary `(url: string, init?: RequestInit) => ...` wrapper.
+ * A `fetch` implementation taking a string URL, as every client call does.
  */
 export type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
 
@@ -89,16 +85,11 @@ export interface ClientOptions {
 
 /**
  * ## Base Client
- * Base class for interacting with the PokéAPI. Provides methods for resource retrieval with caching and logging capabilities.
+ * Base class for every section client. Handles requests to the PokéAPI, along
+ * with caching and logging.
  */
 export class BaseClient {
-  /**
-   * The store backing this client, or `undefined` when caching is disabled.
-   *
-   * Exposed so a caller who let the client build its own {@link MemoryCache}
-   * can still reach it — otherwise the default store would be unreachable, and
-   * a stale entry could only be waited out.
-   */
+  /** The store backing this client, or `undefined` when caching is disabled. */
   public readonly cache: CacheStore | undefined;
 
   private readonly baseURL: string;
@@ -112,18 +103,12 @@ export class BaseClient {
     this.cache =
       clientOptions?.cache === false ? undefined : (clientOptions?.cache ?? new MemoryCache());
     this.logger = clientOptions?.logger;
-    // Resolved per call rather than bound here: binding would throw at
-    // construction on a runtime without `fetch`, and would pin the global as it
-    // stood at construction, which instrumentation installed later never sees.
     this.fetch = clientOptions?.fetch ?? ((input, init) => globalThis.fetch(input, init));
   }
 
   /**
-   * Drops every cached response.
-   *
-   * `clear` is optional on {@link CacheStore}: a store that does not implement
-   * it — a shared Redis instance the library has no business flushing — is left
-   * alone rather than made to throw.
+   * Drops every cached response. A {@link CacheStore} that does not implement
+   * `clear` is left alone.
    */
   public async clearCache(): Promise<void> {
     await this.cache?.clear?.();
@@ -133,9 +118,8 @@ export class BaseClient {
    * Resolves a resource through the cache, then through any identical request
    * already in flight, and only then over the network.
    *
-   * The URL is joined by concatenation rather than with `new URL(path, base)`:
-   * the base carries a path of its own (`/api/v2`) that URL resolution would
-   * discard for any root-relative endpoint.
+   * The URL is joined by concatenation: `new URL(path, base)` would discard the
+   * base's own `/api/v2` path.
    */
   private async request<T>(path: string, baseURL = this.baseURL): Promise<T> {
     const url = normalizeURL(
