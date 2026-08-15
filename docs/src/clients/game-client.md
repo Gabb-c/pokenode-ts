@@ -1,3 +1,7 @@
+---
+description: "Fetch generations, pokédexes, and game versions from the PokéAPI games section with the typed GameClient."
+---
+
 # Game Client
 
 Covers the PokéAPI's [games section](https://pokeapi.co/docs/v2#games-section): generations,

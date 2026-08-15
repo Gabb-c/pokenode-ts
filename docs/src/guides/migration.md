@@ -1,7 +1,11 @@
+---
+description: "Upgrade pokenode-ts from 1.x to 2.0: Axios gives way to native fetch, the peer dependencies are gone, and client options and error handling change."
+---
+
 # Migrating from 1.x to 2.0
 
 Version 2.0 replaces Axios with the platform's native `fetch`. `pokenode-ts` now ships with **no
-runtime dependencies** and runs anywhere `fetch` exists — Node 20+, Deno, Bun, browsers, and edge
+runtime dependencies** and runs anywhere `fetch` exists — Node 22+, Deno, Bun, browsers, and edge
 runtimes.
 
 Every client method keeps the same name, arguments, and return type. Installation, client options,

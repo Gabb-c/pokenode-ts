@@ -1,3 +1,7 @@
+---
+description: "Fetch moves and the ailments, categories, damage classes, learn methods, and targets that describe them, with the typed MoveClient."
+---
+
 # Move Client
 
 Covers the PokéAPI's [moves section](https://pokeapi.co/docs/v2#moves-section): moves, and the

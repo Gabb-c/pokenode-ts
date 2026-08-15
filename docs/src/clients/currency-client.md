@@ -1,3 +1,7 @@
+---
+description: "Fetch the currencies items are bought and sold with, from Pokémon Dollars to Battle Points, with the typed CurrencyClient."
+---
+
 # Currency Client
 
 Covers the PokéAPI's [currencies section](https://pokeapi.co/docs/v2#currencies-section): the

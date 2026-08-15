@@ -1,3 +1,7 @@
+---
+description: "MainClient bundles all twelve pokenode-ts clients behind one object, sharing a single cache so a resource fetched through one is served from cache by the rest."
+---
+
 # Main Client
 
 Bundles all twelve clients behind one object, and gives them a **single shared cache**.

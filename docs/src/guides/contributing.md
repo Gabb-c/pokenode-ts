@@ -1,4 +1,5 @@
 ---
+description: "How to contribute to pokenode-ts — development setup, branch and commit conventions, and the checks a pull request has to pass."
 editLink: false
 ---
 

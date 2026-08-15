@@ -1,3 +1,7 @@
+---
+description: "Fetch encounter methods and the conditions that change which Pokémon appear, from the PokéAPI encounters section, with the typed EncounterClient."
+---
+
 # Encounter Client
 
 Covers the PokéAPI's [encounters section](https://pokeapi.co/docs/v2#encounters-section): how a

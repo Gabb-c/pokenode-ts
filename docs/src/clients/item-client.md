@@ -1,3 +1,7 @@
+---
+description: "Fetch items and the categories, pockets, attributes, and fling effects that classify them from the PokéAPI with the typed ItemClient."
+---
+
 # Item Client
 
 Covers the PokéAPI's [items section](https://pokeapi.co/docs/v2#items-section): items, and the

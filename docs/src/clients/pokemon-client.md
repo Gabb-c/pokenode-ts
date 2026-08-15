@@ -1,3 +1,7 @@
+---
+description: "Fetch Pokémon, their species and forms, plus abilities, types, stats, and natures from the PokéAPI's largest section with the typed PokemonClient."
+---
+
 # Pokemon Client
 
 Covers the PokéAPI's [Pokémon section](https://pokeapi.co/docs/v2#pokemon-section) — the largest

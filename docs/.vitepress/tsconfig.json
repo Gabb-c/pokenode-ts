@@ -1,0 +1,9 @@
+{
+  // Docs config is Node-side build code, not library code: no Vitest globals, no `src` include.
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    // `vite/client` declares the `*.css` side-effect import in theme/index.ts.
+    "types": ["node", "vite/client"]
+  },
+  "include": ["**/*.ts"]
+}

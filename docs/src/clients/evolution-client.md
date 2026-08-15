@@ -1,3 +1,7 @@
+---
+description: "Fetch evolution chains and the triggers that advance them from the PokéAPI evolution section with the typed EvolutionClient."
+---
+
 # Evolution Client
 
 Covers the PokéAPI's [evolution section](https://pokeapi.co/docs/v2#evolution-section): evolution

@@ -1,3 +1,7 @@
+---
+description: "How pokenode-ts reports failures: PokenodeError for non-2xx responses, transport errors left untouched, and why isPokenodeError beats instanceof."
+---
+
 # Errors
 
 Clients throw for exactly one thing: a response the PokéAPI answered with a non-2xx status.

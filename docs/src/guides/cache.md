@@ -1,3 +1,7 @@
+---
+description: "Configure response caching in pokenode-ts — the default in-memory LRU store, TTL and size tuning, or your own CacheStore backed by Redis or a KV namespace."
+---
+
 # Cache
 
 Every client caches the responses it has already fetched, so repeated lookups of the same resource

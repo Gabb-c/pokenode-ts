@@ -1,3 +1,7 @@
+---
+description: "Fetch the TMs and HMs that teach moves from the PokéAPI machines section with the typed MachineClient."
+---
+
 # Machine Client
 
 Covers the PokéAPI's [machines section](https://pokeapi.co/docs/v2#machines-section): the TMs and

@@ -1,3 +1,7 @@
+---
+description: "Fetch regions, locations, the areas inside them, and Pal Park from the PokéAPI locations section with the typed LocationClient."
+---
+
 # Location Client
 
 Covers the PokéAPI's [locations section](https://pokeapi.co/docs/v2#locations-section): regions,

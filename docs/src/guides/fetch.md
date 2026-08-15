@@ -1,3 +1,7 @@
+---
+description: "Pass a custom fetch to pokenode-ts to route requests through a proxy, add retries, attach headers, or impose a timeout — no undici-specific options needed."
+---
+
 # Custom Fetch
 
 Clients call the global `fetch` by default. Pass your own to route requests through a proxy, add

@@ -1,3 +1,7 @@
+---
+description: "Log the request lifecycle in pokenode-ts with the built-in consoleLogger, or plug in pino or a metrics collector. Nothing is logged unless you ask."
+---
+
 # Logging
 
 ## Logs

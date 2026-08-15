@@ -1,21 +1,33 @@
 :root {
-  --vp-c-brand-1: hsl(346, 100%, 58%);
-  --vp-c-brand-2: hsl(346, 100%, 75%);
+  /* Signature pink. Decorative use only (gradients, selection, scrollbar) — it sits at 3.5:1 on
+     white, which is fine for large text and surfaces but not for body copy. */
+  --pk-brand: hsl(346, 100%, 58%);
 
-  --vp-button-brand-bg: hsl(346, 100%, 58%);
-  --vp-button-brand-active-bg: hsla(346, 100%, 58%, 0.365);
-  --vp-button-brand-hover-bg: hsl(346, 100%, 75%);
-
-  --vp-c-brand-light: hsla(346, 100%, 58%, 0.365);
-  --vp-c-brand-lighter: hsla(346, 100%, 75%, 0.365);
-  --vp-c-brand-dark: hsl(346, 100%, 58%);
-  --vp-c-brand-darker: hsl(346, 100%, 58%);
+  /* VitePress ramp: brand-1 is text/links (darkest), brand-2 is hover, brand-3 is solid button
+     backgrounds (lightest). Light-mode values are darkened to clear WCAG AA on white:
+     brand-1 5.3:1, brand-3 4.6:1 behind white button labels. */
+  --vp-c-brand-1: hsl(346, 90%, 44%);
+  --vp-c-brand-2: hsl(346, 88%, 48%);
+  --vp-c-brand-3: hsl(346, 84%, 50%);
+  --vp-c-brand-soft: hsla(346, 100%, 58%, 0.14);
 
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #FF3962 30%, #D3D3D3);
+  --vp-home-hero-name-background: -webkit-linear-gradient(
+    120deg,
+    var(--pk-brand) 30%,
+    var(--vp-c-text-1)
+  );
 
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #FF3962 50%, #D3D3D3 50%);
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #ff3962 50%, #d3d3d3 50%);
   --vp-home-hero-image-filter: blur(44px);
+}
+
+.dark {
+  /* Inverted ramp: brand-1 is the lightest on a dark background (6.2:1 on --vp-c-bg). */
+  --vp-c-brand-1: hsl(346, 100%, 70%);
+  --vp-c-brand-2: hsl(346, 100%, 62%);
+  --vp-c-brand-3: hsl(346, 96%, 55%);
+  --vp-c-brand-soft: hsla(346, 100%, 62%, 0.16);
 }
 
 @media (min-width: 640px) {
@@ -31,33 +43,35 @@
 }
 
 html {
-  scroll-behavior: smooth;
   overflow-x: hidden;
 }
 
-/* Define scrollbar track */
-::-webkit-scrollbar {
-  width: 10px; /* Adjust as needed */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
-/* Define scrollbar thumb */
-::-webkit-scrollbar-thumb {
-  background-color: #FF3962; /* Match the main color */
-  border-radius: 5px; /* Rounded corners */
+/* Page scrollbar only: nested scrollers (code blocks, the sidebar, the search dialog) keep the
+   native thin one, where a 10px brand-colored bar is noise. */
+html {
+  scrollbar-color: var(--pk-brand) transparent;
 }
 
-/* Define scrollbar track on hover */
-::-webkit-scrollbar-thumb:hover {
-  background-color: #FF3962; /* Match the main color */
+html::-webkit-scrollbar {
+  width: 10px;
 }
 
-/* Define scrollbar track */
-::-webkit-scrollbar-track {
-  background-color: transparent; /* Make scrollbar background transparent */
-  border-radius: 5px; /* Rounded corners */
+html::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: var(--pk-brand);
+  border-radius: 5px;
 }
 
 ::selection {
-  background-color: #FF3962; /* Change to the desired color */
-  color: #FFFFFF; /* Change to the desired text color */
+  background-color: var(--pk-brand);
+  color: #ffffff;
 }

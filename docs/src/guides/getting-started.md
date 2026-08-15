@@ -1,3 +1,7 @@
+---
+description: "Install pokenode-ts and make your first typed PokéAPI request — zero runtime dependencies, native fetch, and types that ship with the package."
+---
+
 # Getting Started
 
 Pokenode-ts is a typed client for the [PokéAPI](https://pokeapi.co/docs/v2). It has no runtime
@@ -5,7 +9,7 @@ dependencies — requests go through the platform's native `fetch`.
 
 ## Requirements
 
-A runtime with a global `fetch`: Node 20 or newer, Deno, Bun, any current browser, or an edge
+A runtime with a global `fetch`: Node 22 or newer, Deno, Bun, any current browser, or an edge
 runtime such as Cloudflare Workers or Vercel Edge.
 
 TypeScript is optional. The types ship with the package, so JavaScript users get editor

@@ -1,3 +1,7 @@
+---
+description: "Fetch contest types and the effects moves have in normal and super contests from the PokéAPI with the typed ContestClient."
+---
+
 # Contest Client
 
 Covers the PokéAPI's [contests section](https://pokeapi.co/docs/v2#contests-section): contest
