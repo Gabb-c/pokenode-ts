@@ -204,6 +204,8 @@ export interface VersionSprites {
   "generation-vii": GenerationVIISprites;
   /** Generation-VIII Sprites of this Pokémon. */
   "generation-viii": GenerationVIIISprites;
+  /** Generation-IX Sprites of this Pokémon. */
+  "generation-ix": GenerationIXSprites;
 }
 
 /**
@@ -257,6 +259,8 @@ export interface DreamWorld {
 export interface OfficialArtwork {
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
 }
 
 /** Home sprites. */
@@ -612,10 +616,34 @@ export interface UltraSunUltraMoon {
 export interface GenerationVIIISprites {
   /** Icon sprites of this Pokémon. */
   icons: GenerationViiiIcons;
+  /** Brilliant Diamond and Shining Pearl sprites of this Pokémon. */
+  "brilliant-diamond-shining-pearl": BrilliantDiamondShiningPearl;
 }
 
 /** Generation VIII icons. */
 export interface GenerationViiiIcons {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+}
+
+/** Brilliant Diamond and Shining Pearl sprites. */
+export interface BrilliantDiamondShiningPearl {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+}
+
+/** Generation-IX Sprites */
+export interface GenerationIXSprites {
+  /** Scarlet and Violet sprites of this Pokémon. */
+  "scarlet-violet": ScarletViolet;
+}
+
+/** Scarlet and Violet sprites. */
+export interface ScarletViolet {
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
   /** The female depiction of this Pokémon from the front in battle. */
@@ -736,6 +764,27 @@ export interface PokemonFormSprites {
   back_shiny: string | null;
   /** The shiny female depiction of this Pokémon form from the back in battle. */
   back_shiny_female: string | null;
+  /** Version Sprites of this Pokémon form. */
+  versions: PokemonFormVersionSprites;
+}
+
+/**
+ * Version sprites of a Pokémon form.
+ *
+ * Only the two generations that ship form-specific sprites appear, which is why
+ * this is not the Pokémon-level {@link VersionSprites}.
+ */
+export interface PokemonFormVersionSprites {
+  /** Generation-VIII Sprites of this Pokémon form. */
+  "generation-viii": PokemonFormGenerationVIIISprites;
+  /** Generation-IX Sprites of this Pokémon form. */
+  "generation-ix": GenerationIXSprites;
+}
+
+/** Generation-VIII sprites of a Pokémon form. */
+export interface PokemonFormGenerationVIIISprites {
+  /** Brilliant Diamond and Shining Pearl sprites of this Pokémon form. */
+  "brilliant-diamond-shining-pearl": BrilliantDiamondShiningPearl;
 }
 
 /**
@@ -831,8 +880,8 @@ export interface PokemonSpecies {
   color: NamedAPIResource;
   /** The shape of this Pokémon for Pokédex search. */
   shape: NamedAPIResource;
-  /** The Pokémon species that evolves into this Pokémon species. */
-  evolves_from_species: NamedAPIResource;
+  /** The Pokémon species that evolves into this Pokémon species, if any. */
+  evolves_from_species: NamedAPIResource | null;
   /** The evolution chain this Pokémon species is a member of. */
   evolution_chain: APIResource;
   /** The habitat this Pokémon species can be encountered in. */

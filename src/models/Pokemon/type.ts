@@ -39,6 +39,88 @@ export interface TypeRelationsPast {
 }
 
 /**
+ * The pair of icons a single game uses to depict a type.
+ *
+ * `symbol_icon` is the type's bare glyph and `name_icon` spells the name out;
+ * games that only ever shipped one of the two leave the other `null`.
+ */
+export interface TypeGameSprites {
+  /** The icon spelling out the type's name. */
+  name_icon: string | null;
+  /** The icon showing the type's symbol alone. */
+  symbol_icon: string | null;
+}
+
+/** Generation-III type icons, by game. */
+export interface GenerationIIITypeSprites {
+  colosseum: TypeGameSprites;
+  emerald: TypeGameSprites;
+  "firered-leafgreen": TypeGameSprites;
+  "ruby-sapphire": TypeGameSprites;
+  xd: TypeGameSprites;
+}
+
+/** Generation-IV type icons, by game. */
+export interface GenerationIVTypeSprites {
+  "diamond-pearl": TypeGameSprites;
+  "heartgold-soulsilver": TypeGameSprites;
+  platinum: TypeGameSprites;
+}
+
+/** Generation-V type icons, by game. */
+export interface GenerationVTypeSprites {
+  "black-2-white-2": TypeGameSprites;
+  "black-white": TypeGameSprites;
+}
+
+/** Generation-VI type icons, by game. */
+export interface GenerationVITypeSprites {
+  "omega-ruby-alpha-sapphire": TypeGameSprites;
+  "x-y": TypeGameSprites;
+}
+
+/** Generation-VII type icons, by game. */
+export interface GenerationVIITypeSprites {
+  "lets-go-pikachu-lets-go-eevee": TypeGameSprites;
+  "sun-moon": TypeGameSprites;
+  "ultra-sun-ultra-moon": TypeGameSprites;
+}
+
+/** Generation-VIII type icons, by game. */
+export interface GenerationVIIITypeSprites {
+  "brilliant-diamond-shining-pearl": TypeGameSprites;
+  "legends-arceus": TypeGameSprites;
+  "sword-shield": TypeGameSprites;
+}
+
+/** Generation-IX type icons, by game. */
+export interface GenerationIXTypeSprites {
+  "scarlet-violet": TypeGameSprites;
+}
+
+/**
+ * The icons used to depict a type, by generation and game.
+ *
+ * Generations I and II are absent: neither displayed type icons in-game.
+ */
+export interface TypeSprites {
+  /** Generation-III type icons. */
+  "generation-iii": GenerationIIITypeSprites;
+  /** Generation-IV type icons. */
+  "generation-iv": GenerationIVTypeSprites;
+  /** Generation-V type icons. */
+  "generation-v": GenerationVTypeSprites;
+  /** Generation-VI type icons. */
+  "generation-vi": GenerationVITypeSprites;
+  /** Generation-VII type icons. */
+  "generation-vii": GenerationVIITypeSprites;
+  /** Generation-VIII type icons. */
+  "generation-viii": GenerationVIIITypeSprites;
+  /** Generation-IX type icons. */
+  "generation-ix": GenerationIXTypeSprites;
+}
+
+/**
  * ## Type
  * Types are properties for Pokémon and their moves.
  * Each type has three properties: which types of Pokémon it is super effective against,
@@ -65,4 +147,6 @@ export interface Type {
   pokemon: TypePokemon[];
   /** A list of moves that have this type. */
   moves: NamedAPIResource[];
+  /** The icons used to depict this type, by generation and game. */
+  sprites: TypeSprites;
 }

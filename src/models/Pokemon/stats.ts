@@ -26,6 +26,8 @@ export interface Stat {
   affecting_moves: MoveStatAffectSets;
   /** A detail of natures which affect this stat positively or negatively. */
   affecting_natures: NatureStatAffectSets;
+  /** A list of items which affect this stat. */
+  affecting_items: NamedAPIResource[];
   /** A list of characteristics that are set on a Pokémon when its highest base stat is this stat. */
   characteristics: APIResource[];
   /** The class of damage this stat is directly related to. */

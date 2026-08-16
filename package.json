@@ -2,7 +2,7 @@
   "name": "pokenode-ts",
   "version": "2.0.0",
   "private": false,
-  "description": "A lightweight Node.js wrapper for the PokéAPI with built-in types.",
+  "description": "A typed PokéAPI client with zero runtime dependencies.",
   "keywords": [
     "pokeapi",
     "PokéAPI",

@@ -1,4 +1,4 @@
-import type { Effect, FlavorText, NamedAPIResource } from "../Common";
+import type { Effect, NamedAPIResource } from "../Common";
 
 /**
  * ## Contest Type
@@ -29,6 +29,19 @@ export interface ContestName {
 }
 
 /**
+ * Flavor text for a contest effect, in a single language.
+ *
+ * Deliberately not the shared `FlavorText`: contest effects are not tied to a
+ * game, so the API omits the `version` that type carries.
+ */
+export interface ContestFlavorText {
+  /** The localized flavor text. */
+  flavor_text: string;
+  /** The language this flavor text is in. */
+  language: NamedAPIResource;
+}
+
+/**
  * ## Contest Effect
  * Contest effects refer to the effects of moves when used in contests.
  */
@@ -42,7 +55,7 @@ export interface ContestEffect {
   /** The result of this contest effect listed in different languages. */
   effect_entries: Effect[];
   /** The flavor text of this contest effect listed in different languages. */
-  flavor_text_entries: FlavorText[];
+  flavor_text_entries: ContestFlavorText[];
 }
 
 /**
@@ -61,7 +74,7 @@ export interface SuperContestEffect {
   /** The level of appeal this super contest effect has. */
   appeal: number;
   /** The flavor text of this super contest effect listed in different languages. */
-  flavor_text_entries: FlavorText[];
+  flavor_text_entries: ContestFlavorText[];
   /** A list of moves that have the effect when used in super contests. */
   moves: NamedAPIResource[];
 }

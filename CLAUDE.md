@@ -69,9 +69,13 @@ empty test file. Anything
 needing a real `Response` (status codes, abort signals, cache behavior) belongs in `base.spec.ts`
 with MSW instead.
 
-`tests/live/drift.live.spec.ts` asserts the top-level key set of one resource per section against
-what `src/models` declares. A failure there is upstream drift, not a regression; it means the models
-need updating. `.github/workflows/live.yml` runs it weekly and files a `live-drift` issue on failure.
+`tests/live/drift.live.spec.ts` asserts the key set of one resource per section — plus the nested
+shapes a top-level key set never reaches — against what `src/models` declares. Rows are built by
+`caseFor` in `tests/utils/model-keys.ts`, which infers the model from the fetch and makes the
+compiler prove the key list is exactly its `keyof`, so `pnpm typecheck` catches a list that has
+drifted from its type. A failure in the live run is upstream drift, not a regression; it means the
+models need updating. `.github/workflows/live.yml` runs it weekly, skips the check when the PokéAPI
+itself is down, and files a `live-drift` issue on failure.
 
 ## Conventions
 

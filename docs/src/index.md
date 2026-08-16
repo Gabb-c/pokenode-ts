@@ -3,7 +3,7 @@ layout: home
 
 hero:
   name: Pokenode-ts
-  text: A typed PokéAPI client with zero dependencies
+  text: A typed PokéAPI client with zero runtime dependencies
   tagline: Built on native fetch, so it runs in Node, Deno, Bun, browsers, and edge runtimes.
   image:
     src: /site-logo.svg

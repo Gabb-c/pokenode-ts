@@ -13,14 +13,44 @@ jobs:
   drift:
     name: PokéAPI drift
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: ./.github/actions/setup
+
+      - name: Check the PokéAPI is up
+        id: upstream
+        run: |
+          # An outage is not drift. Without this gate a bad morning upstream
+          # files an issue telling the maintainer their models are stale.
+          #
+          # curl prints 000 itself when it never got a response, so a `|| echo`
+          # fallback would write a second line and break $GITHUB_OUTPUT parsing.
+          # The trailing `|| true` only swallows curl's exit status, which `set
+          # -e` would otherwise turn a transient outage into a failed step with.
+          code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 30 \
+            https://pokeapi.co/api/v2/berry/1) || true
+
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+
+          if [ "$code" != "200" ]; then
+            echo "::warning::The PokéAPI answered $code; skipping the drift check."
+          fi
+
       - name: Run tests (live)
+        id: live
+        if: steps.upstream.outputs.code == '200'
+        # Drift is reported as an issue, not as a red run, so that a failing
+        # schedule always means the workflow itself broke.
+        continue-on-error: true
         run: pnpm test:live
 
+      # Gated on the test step rather than the job, so a checkout or install
+      # failure cannot be reported as an upstream schema change. `always()` is
+      # load-bearing: an `if` with no status function is implicitly ANDed with
+      # `success()`, which would skip this step on the very runs it exists for.
       - name: Report drift
-        if: failure()
+        if: always() && steps.live.outcome == 'failure'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
@@ -35,11 +65,27 @@ jobs:
 
           existing=$(gh issue list --label live-drift --state open --limit 1 --json number --jq '.[0].number')
 
-          if [ -n "$existing" ]; then
-            gh issue comment "$existing" --body "$body"
-          else
+          if [ -z "$existing" ]; then
             gh issue create \
               --title "PokéAPI contract check failed" \
               --label live-drift \
               --body "$body"
+            exit 0
           fi
+
+          # The check runs weekly, so drift left open would otherwise collect an
+          # identical comment every Monday. Re-ping at most once a month.
+          #
+          # Only this workflow's own comments count. Keying off the last comment
+          # by anyone would let a maintainer reply reset the clock and silence
+          # the next four weeks of genuinely new drift.
+          last=$(gh issue view "$existing" --json comments,createdAt \
+            --jq '([.comments[] | select(.author.login == "github-actions") | .createdAt] | last) // .createdAt')
+          cutoff=$(date -u -d '28 days ago' +%Y-%m-%dT%H:%M:%SZ)
+
+          if [ "$last" \> "$cutoff" ]; then
+            echo "Issue #$existing was last updated at $last; not commenting again."
+            exit 0
+          fi
+
+          gh issue comment "$existing" --body "$body"
