@@ -92,8 +92,11 @@ export class GameClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Generations.
    */
-  public async listGenerations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.GENERATION, offset, limit);
+  public async listGenerations(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<Generation>> {
+    return this.getListResource<Generation>(ENDPOINTS.GENERATION, offset, limit);
   }
 
   /**
@@ -102,8 +105,11 @@ export class GameClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Pokédexes.
    */
-  public async listPokedexes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.POKEDEX, offset, limit);
+  public async listPokedexes(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<Pokedex>> {
+    return this.getListResource<Pokedex>(ENDPOINTS.POKEDEX, offset, limit);
   }
 
   /**
@@ -112,8 +118,11 @@ export class GameClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Versions.
    */
-  public async listVersions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.VERSION, offset, limit);
+  public async listVersions(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<Version>> {
+    return this.getListResource<Version>(ENDPOINTS.VERSION, offset, limit);
   }
 
   /**
@@ -122,7 +131,10 @@ export class GameClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Version Groups.
    */
-  public async listVersionGroups(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.VERSION_GROUP, offset, limit);
+  public async listVersionGroups(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<VersionGroup>> {
+    return this.getListResource<VersionGroup>(ENDPOINTS.VERSION_GROUP, offset, limit);
   }
 }

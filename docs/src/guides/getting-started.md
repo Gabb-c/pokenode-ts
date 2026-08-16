@@ -180,6 +180,29 @@ The PokéAPI asks that you cache aggressively and, for anything heavy, [run your
 instance](https://github.com/PokeAPI/pokeapi#docker). `baseURL` is how you point at it.
 :::
 
+## Following links
+
+PokéAPI responses reference other resources instead of nesting them — `{ name, url }` pairs. Those
+links know what they point at, so following one is typed without you naming anything:
+
+```ts
+import { MainClient } from 'pokenode-ts';
+
+const api = new MainClient();
+
+const pokemon = await api.pokemon.getPokemonByName('luxray');
+const species = await api.utility.getResourceByUrl(pokemon.species);
+//    ^? PokemonSpecies
+
+const chain = await api.utility.getResourceByUrl(species.evolution_chain);
+//    ^? EvolutionChain
+```
+
+Because `MainClient` shares one cache across its twelve sub-clients, a resource reached this way is
+served from memory if any of them fetched it already. See the
+[Utility Client](/clients/utility-client) for the details, including what happens with a bare URL
+string.
+
 ## Coming from 1.x?
 
 Version 2.0 replaced Axios with native `fetch`. Method names, arguments, and return types are

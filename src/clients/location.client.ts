@@ -92,8 +92,11 @@ export class LocationClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Locations.
    */
-  public async listLocations(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.LOCATION, offset, limit);
+  public async listLocations(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<Location>> {
+    return this.getListResource<Location>(ENDPOINTS.LOCATION, offset, limit);
   }
 
   /**
@@ -102,8 +105,11 @@ export class LocationClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Location Areas.
    */
-  public async listLocationAreas(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.LOCATION_AREA, offset, limit);
+  public async listLocationAreas(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<LocationArea>> {
+    return this.getListResource<LocationArea>(ENDPOINTS.LOCATION_AREA, offset, limit);
   }
 
   /**
@@ -112,8 +118,11 @@ export class LocationClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Pal Park Areas.
    */
-  public async listPalParkAreas(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.PALPARK_AREA, offset, limit);
+  public async listPalParkAreas(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<PalParkArea>> {
+    return this.getListResource<PalParkArea>(ENDPOINTS.PALPARK_AREA, offset, limit);
   }
 
   /**
@@ -122,7 +131,7 @@ export class LocationClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Regions.
    */
-  public async listRegions(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.REGION, offset, limit);
+  public async listRegions(offset?: number, limit?: number): Promise<NamedAPIResourceList<Region>> {
+    return this.getListResource<Region>(ENDPOINTS.REGION, offset, limit);
   }
 }

@@ -81,8 +81,8 @@ export class EncounterClient extends BaseClient {
   public async listEncounterMethods(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.ENCOUNTER_METHOD, offset, limit);
+  ): Promise<NamedAPIResourceList<EncounterMethod>> {
+    return this.getListResource<EncounterMethod>(ENDPOINTS.ENCOUNTER_METHOD, offset, limit);
   }
 
   /**
@@ -94,8 +94,8 @@ export class EncounterClient extends BaseClient {
   public async listEncounterConditions(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.ENCOUNTER_CONDITION, offset, limit);
+  ): Promise<NamedAPIResourceList<EncounterCondition>> {
+    return this.getListResource<EncounterCondition>(ENDPOINTS.ENCOUNTER_CONDITION, offset, limit);
   }
 
   /**
@@ -107,7 +107,11 @@ export class EncounterClient extends BaseClient {
   public async listEncounterConditionValues(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.ENCOUNTER_CONDITION_VALUE, offset, limit);
+  ): Promise<NamedAPIResourceList<EncounterConditionValue>> {
+    return this.getListResource<EncounterConditionValue>(
+      ENDPOINTS.ENCOUNTER_CONDITION_VALUE,
+      offset,
+      limit,
+    );
   }
 }

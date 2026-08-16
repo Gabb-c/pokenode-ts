@@ -2,7 +2,11 @@ import { type CacheStore, MemoryCache } from "../config/cache";
 import { toPokenodeError } from "../config/errors";
 import { type Logger, logMessage } from "../config/logger";
 import { BASE_URL, type Endpoint } from "../constants";
-import type { NamedAPIResourceList } from "../models/Common/resource";
+import type {
+  APIResource,
+  NamedAPIResource,
+  NamedAPIResourceList,
+} from "../models/Common/resource";
 
 const trimTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
 
@@ -241,32 +245,41 @@ export class BaseClient {
   }
 
   /**
-   * Retrieves a resource by its URL.
+   * Retrieves a resource by its URL, or by a link taken from another response.
+   *
+   * A link knows what it points at, so passing one infers `T`; a bare string
+   * does not, and needs `T` named.
    *
    * @template T - The type of the resource to be returned.
-   * @param url - The URL of the resource.
+   * @param resource - The URL of the resource, or a link to it.
    * @param baseURL - The base URL to use. Defaults to the one the client was built with.
    * @returns A promise that resolves to the requested resource.
-   * @throws {TypeError} If `url` is not a valid URL, or names no endpoint under `baseURL`.
+   * @throws {TypeError} If the URL is not valid, or names no endpoint under `baseURL`.
    */
-  protected async getResourceByURL<T>(url: string, baseURL = this.baseURL): Promise<T> {
+  protected async getResourceByURL<T>(
+    resource: string | NamedAPIResource<T> | APIResource<T>,
+    baseURL = this.baseURL,
+  ): Promise<T> {
+    const url = typeof resource === "string" ? resource : resource.url;
+
     return this.request<T>(toEndpointPath(url, baseURL), baseURL);
   }
 
   /**
    * Retrieves a list of resources from the PokéAPI with pagination support.
    *
+   * @template T - What the listed links resolve to.
    * @param endpoint - The endpoint of the resource.
    * @param offset - The offset for pagination. Defaults to 0.
    * @param limit - The limit for pagination. Defaults to 20.
    * @returns A promise that resolves to a list of named API resources.
    */
-  protected async getListResource(
+  protected async getListResource<T = unknown>(
     endpoint: Endpoint,
     offset = 0,
     limit = 20,
-  ): Promise<NamedAPIResourceList> {
+  ): Promise<NamedAPIResourceList<T>> {
     const query = new URLSearchParams({ offset: String(offset), limit: String(limit) });
-    return this.request<NamedAPIResourceList>(`${endpoint}?${query}`);
+    return this.request<NamedAPIResourceList<T>>(`${endpoint}?${query}`);
   }
 }

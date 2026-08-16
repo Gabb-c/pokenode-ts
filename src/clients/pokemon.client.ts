@@ -322,8 +322,11 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Abilities.
    */
-  public async listAbilities(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.ABILITY, offset, limit);
+  public async listAbilities(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<Ability>> {
+    return this.getListResource<Ability>(ENDPOINTS.ABILITY, offset, limit);
   }
 
   /**
@@ -332,8 +335,11 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Characteristics.
    */
-  public async listCharacteristics(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.CHARACTERISTIC, offset, limit);
+  public async listCharacteristics(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<Characteristic>> {
+    return this.getListResource<Characteristic>(ENDPOINTS.CHARACTERISTIC, offset, limit);
   }
 
   /**
@@ -342,8 +348,11 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Egg Groups.
    */
-  public async listEggGroups(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.EGG_GROUP, offset, limit);
+  public async listEggGroups(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<EggGroup>> {
+    return this.getListResource<EggGroup>(ENDPOINTS.EGG_GROUP, offset, limit);
   }
 
   /**
@@ -352,8 +361,8 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Genders.
    */
-  public async listGenders(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.GENDER, offset, limit);
+  public async listGenders(offset?: number, limit?: number): Promise<NamedAPIResourceList<Gender>> {
+    return this.getListResource<Gender>(ENDPOINTS.GENDER, offset, limit);
   }
 
   /**
@@ -362,8 +371,11 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Growth Rates.
    */
-  public async listGrowthRates(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.GROWTH_RATE, offset, limit);
+  public async listGrowthRates(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<GrowthRate>> {
+    return this.getListResource<GrowthRate>(ENDPOINTS.GROWTH_RATE, offset, limit);
   }
 
   /**
@@ -372,8 +384,8 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Natures.
    */
-  public async listNatures(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.NATURE, offset, limit);
+  public async listNatures(offset?: number, limit?: number): Promise<NamedAPIResourceList<Nature>> {
+    return this.getListResource<Nature>(ENDPOINTS.NATURE, offset, limit);
   }
 
   /**
@@ -382,8 +394,11 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Pokéathlon Stats.
    */
-  public async listPokeathlonStats(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.POKEATHLON_STAT, offset, limit);
+  public async listPokeathlonStats(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<PokeathlonStat>> {
+    return this.getListResource<PokeathlonStat>(ENDPOINTS.POKEATHLON_STAT, offset, limit);
   }
 
   /**
@@ -392,8 +407,11 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Pokémon.
    */
-  public async listPokemons(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.POKEMON, offset, limit);
+  public async listPokemons(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<Pokemon>> {
+    return this.getListResource<Pokemon>(ENDPOINTS.POKEMON, offset, limit);
   }
 
   /**
@@ -402,8 +420,11 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Pokémon Colors.
    */
-  public async listPokemonColors(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.POKEMON_COLOR, offset, limit);
+  public async listPokemonColors(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<PokemonColor>> {
+    return this.getListResource<PokemonColor>(ENDPOINTS.POKEMON_COLOR, offset, limit);
   }
 
   /**
@@ -412,8 +433,11 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Pokémon Forms.
    */
-  public async listPokemonForms(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.POKEMON_FORM, offset, limit);
+  public async listPokemonForms(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<PokemonForm>> {
+    return this.getListResource<PokemonForm>(ENDPOINTS.POKEMON_FORM, offset, limit);
   }
 
   /**
@@ -422,8 +446,11 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Pokémon Habitats.
    */
-  public async listPokemonHabitats(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.POKEMON_HABITAT, offset, limit);
+  public async listPokemonHabitats(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<PokemonHabitat>> {
+    return this.getListResource<PokemonHabitat>(ENDPOINTS.POKEMON_HABITAT, offset, limit);
   }
 
   /**
@@ -432,8 +459,11 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Pokémon Shapes.
    */
-  public async listPokemonShapes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.POKEMON_SHAPE, offset, limit);
+  public async listPokemonShapes(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<PokemonShape>> {
+    return this.getListResource<PokemonShape>(ENDPOINTS.POKEMON_SHAPE, offset, limit);
   }
 
   /**
@@ -442,8 +472,11 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Pokémon Species.
    */
-  public async listPokemonSpecies(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.POKEMON_SPECIES, offset, limit);
+  public async listPokemonSpecies(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<PokemonSpecies>> {
+    return this.getListResource<PokemonSpecies>(ENDPOINTS.POKEMON_SPECIES, offset, limit);
   }
 
   /**
@@ -452,8 +485,8 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Stats.
    */
-  public async listStats(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.STAT, offset, limit);
+  public async listStats(offset?: number, limit?: number): Promise<NamedAPIResourceList<Stat>> {
+    return this.getListResource<Stat>(ENDPOINTS.STAT, offset, limit);
   }
 
   /**
@@ -462,7 +495,7 @@ export class PokemonClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Types.
    */
-  public async listTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.TYPE, offset, limit);
+  public async listTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList<Type>> {
+    return this.getListResource<Type>(ENDPOINTS.TYPE, offset, limit);
   }
 }

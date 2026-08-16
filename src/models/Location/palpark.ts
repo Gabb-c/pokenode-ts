@@ -1,4 +1,5 @@
 import type { Name, NamedAPIResource } from "../Common";
+import type { PokemonSpecies } from "../Pokemon/pokemon";
 
 /**
  * ## Pal Park Area
@@ -35,5 +36,5 @@ export interface PalParkEncounterSpecies {
   /** The base rate for encountering this Pokémon in this pal park area. */
   rate: number;
   /** The Pokémon species being encountered. */
-  pokemon_species: NamedAPIResource;
+  pokemon_species: NamedAPIResource<PokemonSpecies>;
 }

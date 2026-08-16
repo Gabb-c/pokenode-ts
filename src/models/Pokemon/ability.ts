@@ -1,4 +1,7 @@
-import type { Effect, Name, NamedAPIResource, VerboseEffect } from "../Common";
+import type { Effect, Language, Name, NamedAPIResource, VerboseEffect } from "../Common";
+import type { Generation } from "../Game/generation";
+import type { VersionGroup } from "../Game/version";
+import type { Pokemon } from "./pokemon";
 
 /**
  * ## Ability
@@ -14,7 +17,7 @@ export interface Ability {
   /** Whether or not this ability originated in the main series of the video games. */
   is_main_series: boolean;
   /** The generation this ability originated in. */
-  generation: NamedAPIResource;
+  generation: NamedAPIResource<Generation>;
   /** The name of this resource listed in different languages. */
   names: Name[];
   /** The effect of this ability listed in different languages. */
@@ -34,7 +37,7 @@ export interface AbilityEffectChange {
   /** The previous effect of this ability listed in different languages. */
   effect_entries: Effect[];
   /** The version group in which the previous effect of this ability originated. */
-  version_group: NamedAPIResource;
+  version_group: NamedAPIResource<VersionGroup>;
 }
 
 /**
@@ -44,9 +47,9 @@ export interface AbilityFlavorText {
   /** The localized name for an API resource in a specific language. */
   flavor_text: string;
   /** The language this text resource is in. */
-  language: NamedAPIResource;
+  language: NamedAPIResource<Language>;
   /** The version group that uses this flavor text. */
-  version_group: NamedAPIResource;
+  version_group: NamedAPIResource<VersionGroup>;
 }
 
 /**
@@ -61,5 +64,5 @@ export interface AbilityPokemon {
    */
   slot: number;
   /** The Pokémon this ability could belong to. */
-  pokemon: NamedAPIResource;
+  pokemon: NamedAPIResource<Pokemon>;
 }

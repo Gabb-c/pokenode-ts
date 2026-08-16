@@ -1,3 +1,4 @@
+import type { Language } from "./language";
 import type { NamedAPIResource } from "./resource";
 
 /**
@@ -7,5 +8,5 @@ export interface Description {
   /** The localized description for an API resource in a specific language. */
   description: string;
   /** The language this name is in. */
-  language: NamedAPIResource;
+  language: NamedAPIResource<Language>;
 }

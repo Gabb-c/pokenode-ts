@@ -118,8 +118,8 @@ export class ItemClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Items.
    */
-  public async listItems(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.ITEM, offset, limit);
+  public async listItems(offset?: number, limit?: number): Promise<NamedAPIResourceList<Item>> {
+    return this.getListResource<Item>(ENDPOINTS.ITEM, offset, limit);
   }
 
   /**
@@ -128,8 +128,11 @@ export class ItemClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Item Attributes.
    */
-  public async listItemAttributes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.ITEM_ATTRIBUTE, offset, limit);
+  public async listItemAttributes(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<ItemAttribute>> {
+    return this.getListResource<ItemAttribute>(ENDPOINTS.ITEM_ATTRIBUTE, offset, limit);
   }
 
   /**
@@ -138,8 +141,11 @@ export class ItemClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Item Categories.
    */
-  public async listItemCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.ITEM_CATEGORY, offset, limit);
+  public async listItemCategories(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<ItemCategory>> {
+    return this.getListResource<ItemCategory>(ENDPOINTS.ITEM_CATEGORY, offset, limit);
   }
 
   /**
@@ -151,8 +157,8 @@ export class ItemClient extends BaseClient {
   public async listItemFlingEffects(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.ITEM_FLING_EFFECT, offset, limit);
+  ): Promise<NamedAPIResourceList<ItemFlingEffect>> {
+    return this.getListResource<ItemFlingEffect>(ENDPOINTS.ITEM_FLING_EFFECT, offset, limit);
   }
 
   /**
@@ -161,7 +167,10 @@ export class ItemClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Item Pockets.
    */
-  public async listItemPockets(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.ITEM_POCKET, offset, limit);
+  public async listItemPockets(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<ItemPocket>> {
+    return this.getListResource<ItemPocket>(ENDPOINTS.ITEM_POCKET, offset, limit);
   }
 }

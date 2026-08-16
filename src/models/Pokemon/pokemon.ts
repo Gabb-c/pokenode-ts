@@ -2,11 +2,25 @@ import type {
   APIResource,
   Description,
   FlavorText,
+  Language,
   Name,
   NamedAPIResource,
   VersionEncounterDetail,
   VersionGameIndex,
 } from "../Common";
+import type { EvolutionChain } from "../Evolution/evolution";
+import type { Generation } from "../Game/generation";
+import type { Pokedex } from "../Game/pokedex";
+import type { Version, VersionGroup } from "../Game/version";
+import type { Item } from "../Item/item";
+import type { LocationArea } from "../Location/location";
+import type { PalParkArea } from "../Location/palpark";
+import type { Move, MoveLearnMethod } from "../Moves/moves";
+import type { Ability } from "./ability";
+import type { EggGroup } from "./egg-group";
+import type { GrowthRate } from "./growth-rates";
+import type { Stat } from "./stats";
+import type { Type } from "./type";
 
 /**
  * ## Pokémon
@@ -34,7 +48,7 @@ export interface Pokemon {
   /** A list of abilities this Pokémon could potentially have. */
   abilities: PokemonAbility[];
   /** A list of forms this Pokémon can take on. */
-  forms: NamedAPIResource[];
+  forms: NamedAPIResource<PokemonForm>[];
   /** A list of game indices relevant to this Pokémon by generation. */
   game_indices: VersionGameIndex[];
   /** A list of items this Pokémon may be holding when encountered. */
@@ -48,7 +62,7 @@ export interface Pokemon {
   /** A set of cries used to depict this Pokémon in the game. */
   cries: PokemonCries;
   /** The species this Pokémon belongs to. */
-  species: NamedAPIResource;
+  species: NamedAPIResource<PokemonSpecies>;
   /** A list of base stat values for this Pokémon. */
   stats: PokemonStat[];
   /** A list of details showing types this Pokémon has. */
@@ -78,7 +92,7 @@ export interface PokemonAbility {
   /** The slot this ability occupies in this Pokémon species. */
   slot: number;
   /** The ability the Pokémon may have. */
-  ability: NamedAPIResource;
+  ability: NamedAPIResource<Ability>;
 }
 
 /**
@@ -88,7 +102,7 @@ export interface PokemonType {
   /** The order the Pokémon's types are listed in. */
   slot: number;
   /** The type the referenced Pokémon has. */
-  type: NamedAPIResource;
+  type: NamedAPIResource<Type>;
 }
 
 /**
@@ -96,7 +110,7 @@ export interface PokemonType {
  */
 export interface PokemonPastType {
   /** The generation of this Pokémon Type. */
-  generation: NamedAPIResource;
+  generation: NamedAPIResource<Generation>;
   /** The types this Pokémon had in a previous generation. */
   types: PokemonType[];
 }
@@ -108,13 +122,13 @@ export interface PokemonPastAbilitySlot {
   /** The slot this ability occupied in this Pokémon species. */
   slot: number;
   /** The ability that occupied the slot, or `null` when the slot was empty. */
-  ability: NamedAPIResource | null;
+  ability: NamedAPIResource<Ability> | null;
 }
 
 /** Data describing a Pokémon's abilities in a previous generation. */
 export interface PokemonPastAbility {
   /** The last generation in which the referenced Pokémon had the listed abilities. */
-  generation: NamedAPIResource;
+  generation: NamedAPIResource<Generation>;
   /** The abilities the referenced Pokémon had up to and including the listed generation. */
   abilities: PokemonPastAbilitySlot[];
 }
@@ -122,7 +136,7 @@ export interface PokemonPastAbility {
 /** Data describing a Pokémon's stats in a previous generation. */
 export interface PokemonPastStat {
   /** The last generation in which the referenced Pokémon had the listed stats. */
-  generation: NamedAPIResource;
+  generation: NamedAPIResource<Generation>;
   /** The stats the Pokémon had up to and including the listed generation. */
   stats: PokemonStat[];
 }
@@ -132,7 +146,7 @@ export interface PokemonPastStat {
  */
 export interface PokemonHeldItem {
   /** The item the referenced Pokémon holds. */
-  item: NamedAPIResource;
+  item: NamedAPIResource<Item>;
   /** The details of the different versions in which the item is held. */
   version_details: PokemonHeldItemVersion[];
 }
@@ -142,7 +156,7 @@ export interface PokemonHeldItem {
  */
 export interface PokemonHeldItemVersion {
   /** The version in which the item is held. */
-  version: NamedAPIResource;
+  version: NamedAPIResource<Version>;
   /** How often the item is held. */
   rarity: number;
 }
@@ -152,7 +166,7 @@ export interface PokemonHeldItemVersion {
  */
 export interface PokemonMove {
   /** The move the Pokémon can learn. */
-  move: NamedAPIResource;
+  move: NamedAPIResource<Move>;
   /** The details of the version in which the Pokémon can learn the move. */
   version_group_details: PokemonMoveVersion[];
 }
@@ -162,9 +176,9 @@ export interface PokemonMove {
  */
 export interface PokemonMoveVersion {
   /** The method by which the move is learned. */
-  move_learn_method: NamedAPIResource;
+  move_learn_method: NamedAPIResource<MoveLearnMethod>;
   /** The version group in which the move is learned. */
-  version_group: NamedAPIResource;
+  version_group: NamedAPIResource<VersionGroup>;
   /** The minimum level to learn the move. */
   level_learned_at: number;
   /**
@@ -179,7 +193,7 @@ export interface PokemonMoveVersion {
  */
 export interface PokemonStat {
   /** The stat the Pokémon has. */
-  stat: NamedAPIResource;
+  stat: NamedAPIResource<Stat>;
   /** The effort points (EV) the Pokémon has in the stat. */
   effort: number;
   /** The base value of the stat. */
@@ -656,7 +670,7 @@ export interface ScarletViolet {
  */
 export interface LocationAreaEncounter {
   /** The location area the referenced Pokémon can be encountered in. */
-  location_area: NamedAPIResource;
+  location_area: NamedAPIResource<LocationArea>;
   /** A list of versions and encounters with the referenced Pokémon that might happen. */
   version_details: VersionEncounterDetail[];
 }
@@ -685,7 +699,7 @@ export interface PokemonColor {
   /** The name of this resource listed in different languages. */
   names: Name[];
   /** A list of the Pokémon species that have this color. */
-  pokemon_species: NamedAPIResource[];
+  pokemon_species: NamedAPIResource<PokemonSpecies>[];
 }
 
 /**
@@ -714,11 +728,11 @@ export interface PokemonForm {
   /** The name of this form. */
   form_name: string;
   /** The Pokémon that can take on this form. */
-  pokemon: NamedAPIResource;
+  pokemon: NamedAPIResource<Pokemon>;
   /** A set of sprites used to depict this Pokémon form in the game. */
   sprites: PokemonFormSprites;
   /** The version group this Pokémon form was introduced in. */
-  version_group: NamedAPIResource;
+  version_group: NamedAPIResource<VersionGroup>;
   /** The form specific full name of this Pokémon form, or empty if the form does not have a specific name. */
   names: Name[];
   /** The form specific form name of this Pokémon form, or empty if the form does not have a specific name. */
@@ -741,7 +755,7 @@ export interface PokemonFormCondition {
   /** What kind of resource triggers the form, e.g. `held-item` or `ability`. */
   trigger: string;
   /** The form the Pokémon changes from, when the condition switches between two forms. */
-  base_form?: NamedAPIResource;
+  base_form?: NamedAPIResource<PokemonForm>;
 }
 
 /**
@@ -809,7 +823,7 @@ export interface PokemonHabitat {
   /** The name of this resource listed in different languages. */
   names: Name[];
   /** A list of the Pokémon species that can be found in this habitat. */
-  pokemon_species: NamedAPIResource[];
+  pokemon_species: NamedAPIResource<PokemonSpecies>[];
 }
 
 /**
@@ -826,7 +840,7 @@ export interface PokemonShape {
   /** The name of this resource listed in different languages. */
   names: Name[];
   /** A list of the Pokémon species that have this shape. */
-  pokemon_species: NamedAPIResource[];
+  pokemon_species: NamedAPIResource<PokemonSpecies>[];
 }
 
 /**
@@ -836,7 +850,7 @@ export interface AwesomeName {
   /** The localized "scientific" name for an API resource in a specific language. */
   awesome_name: string;
   /** The language this "scientific" name is in. */
-  language: NamedAPIResource;
+  language: NamedAPIResource<Language>;
 }
 
 /**
@@ -871,23 +885,23 @@ export interface PokemonSpecies {
   /** Whether or not this Pokémon has multiple forms and can switch between them. */
   forms_switchable: boolean;
   /** The rate at which this Pokémon species gains levels. */
-  growth_rate: NamedAPIResource;
+  growth_rate: NamedAPIResource<GrowthRate>;
   /** A list of Pokédexes and the indexes reserved within them for this Pokémon species. */
   pokedex_numbers: PokemonSpeciesDexEntry[];
   /** A list of egg groups this Pokémon species is a member of. */
-  egg_groups: NamedAPIResource[];
+  egg_groups: NamedAPIResource<EggGroup>[];
   /** The color of this Pokémon for Pokédex search. */
-  color: NamedAPIResource;
+  color: NamedAPIResource<PokemonColor>;
   /** The shape of this Pokémon for Pokédex search. */
-  shape: NamedAPIResource;
+  shape: NamedAPIResource<PokemonShape>;
   /** The Pokémon species that evolves into this Pokémon species, if any. */
-  evolves_from_species: NamedAPIResource | null;
+  evolves_from_species: NamedAPIResource<PokemonSpecies> | null;
   /** The evolution chain this Pokémon species is a member of. */
-  evolution_chain: APIResource;
+  evolution_chain: APIResource<EvolutionChain>;
   /** The habitat this Pokémon species can be encountered in. */
-  habitat: NamedAPIResource;
+  habitat: NamedAPIResource<PokemonHabitat>;
   /** The generation this Pokémon species was introduced in. */
-  generation: NamedAPIResource;
+  generation: NamedAPIResource<Generation>;
   /** The name of this resource listed in different languages. */
   names: Name[];
   /** A list of encounters that can be had with this Pokémon species in pal park. */
@@ -909,7 +923,7 @@ export interface Genus {
   /** The localized genus for the referenced Pokémon species. */
   genus: string;
   /** The language this genus is in. */
-  language: NamedAPIResource;
+  language: NamedAPIResource<Language>;
 }
 
 /** Pokédexes and the indexes reserved within them for the given Pokémon species. */
@@ -917,7 +931,7 @@ export interface PokemonSpeciesDexEntry {
   /** The index number within the Pokédex. */
   entry_number: number;
   /** The Pokédex the referenced Pokémon species can be found in. */
-  pokedex: NamedAPIResource;
+  pokedex: NamedAPIResource<Pokedex>;
 }
 
 /**
@@ -929,7 +943,7 @@ export interface PalParkEncounterArea {
   /** The base rate for encountering the referenced Pokémon in this pal park area. */
   rate: number;
   /** The pal park area where this encounter happens. */
-  area: NamedAPIResource;
+  area: NamedAPIResource<PalParkArea>;
 }
 
 /**
@@ -939,5 +953,5 @@ export interface PokemonSpeciesVariety {
   /** Whether this variety is the default variety. */
   is_default: boolean;
   /** The Pokémon variety. */
-  pokemon: NamedAPIResource;
+  pokemon: NamedAPIResource<Pokemon>;
 }

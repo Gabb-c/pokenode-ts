@@ -35,7 +35,10 @@ export class CurrencyClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Currencies.
    */
-  public async listCurrencies(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.CURRENCY, offset, limit);
+  public async listCurrencies(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<Currency>> {
+    return this.getListResource<Currency>(ENDPOINTS.CURRENCY, offset, limit);
   }
 }

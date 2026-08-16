@@ -1,4 +1,5 @@
 import type { Name, NamedAPIResource } from "../Common";
+import type { PokemonSpecies } from "./pokemon";
 
 /**
  * ## Egg Group
@@ -29,5 +30,5 @@ export interface EggGroup {
   /** The name of this resource listed in different languages. */
   names: Name[];
   /** A list of all Pokémon species that are members of this egg group. */
-  pokemon_species: NamedAPIResource[];
+  pokemon_species: NamedAPIResource<PokemonSpecies>[];
 }

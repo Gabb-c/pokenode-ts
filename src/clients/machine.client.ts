@@ -26,7 +26,10 @@ export class MachineClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Machines.
    */
-  public async listMachines(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.MACHINE, offset, limit);
+  public async listMachines(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<Machine>> {
+    return this.getListResource<Machine>(ENDPOINTS.MACHINE, offset, limit);
   }
 }

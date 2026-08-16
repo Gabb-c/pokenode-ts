@@ -1,4 +1,5 @@
 import type { Name, NamedAPIResource } from "../Common";
+import type { Nature } from "./nature";
 
 /**
  * ## Pokéathlon Stat
@@ -24,7 +25,7 @@ export interface NaturePokeathlonStatAffect {
   /** The maximum amount of change to the referenced Pokéathlon stat. */
   max_change: -1 | -2 | 1 | 2;
   /** The nature causing the change. */
-  nature: NamedAPIResource;
+  nature: NamedAPIResource<Nature>;
 }
 
 /**

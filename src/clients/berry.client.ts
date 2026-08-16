@@ -81,8 +81,8 @@ export class BerryClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Berries.
    */
-  public async listBerries(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.BERRY, offset, limit);
+  public async listBerries(offset?: number, limit?: number): Promise<NamedAPIResourceList<Berry>> {
+    return this.getListResource<Berry>(ENDPOINTS.BERRY, offset, limit);
   }
 
   /**
@@ -91,8 +91,11 @@ export class BerryClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Berry Firmnesses.
    */
-  public async listBerryFirmnesses(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.BERRY_FIRMNESS, offset, limit);
+  public async listBerryFirmnesses(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<BerryFirmness>> {
+    return this.getListResource<BerryFirmness>(ENDPOINTS.BERRY_FIRMNESS, offset, limit);
   }
 
   /**
@@ -101,7 +104,10 @@ export class BerryClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Berry Flavors.
    */
-  public async listBerryFlavors(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.BERRY_FLAVOR, offset, limit);
+  public async listBerryFlavors(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<BerryFlavor>> {
+    return this.getListResource<BerryFlavor>(ENDPOINTS.BERRY_FLAVOR, offset, limit);
   }
 }

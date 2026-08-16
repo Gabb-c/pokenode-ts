@@ -1,4 +1,5 @@
 import type { NamedAPIResource } from "../Common";
+import type { PokemonSpecies } from "./pokemon";
 
 /**
  * ## Gender
@@ -14,7 +15,7 @@ export interface Gender {
   /** A list of Pokémon species that can be this gender and how likely it is that they will be. */
   pokemon_species_details: PokemonSpeciesGender[];
   /** A list of Pokémon species that required this gender in order for a Pokémon to evolve into them. */
-  required_for_evolution: NamedAPIResource[];
+  required_for_evolution: NamedAPIResource<PokemonSpecies>[];
 }
 
 /**
@@ -24,5 +25,5 @@ export interface PokemonSpeciesGender {
   /** The chance of this Pokémon being female, in eighths; or -1 for genderless. */
   rate: number;
   /** A Pokémon species that can be the referenced gender. */
-  pokemon_species: NamedAPIResource;
+  pokemon_species: NamedAPIResource<PokemonSpecies>;
 }

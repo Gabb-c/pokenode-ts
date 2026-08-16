@@ -158,8 +158,8 @@ export class MoveClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Moves.
    */
-  public async listMoves(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.MOVE, offset, limit);
+  public async listMoves(offset?: number, limit?: number): Promise<NamedAPIResourceList<Move>> {
+    return this.getListResource<Move>(ENDPOINTS.MOVE, offset, limit);
   }
 
   /**
@@ -168,8 +168,11 @@ export class MoveClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Move Ailments.
    */
-  public async listMoveAilments(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.MOVE_AILMENT, offset, limit);
+  public async listMoveAilments(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<MoveAilment>> {
+    return this.getListResource<MoveAilment>(ENDPOINTS.MOVE_AILMENT, offset, limit);
   }
 
   /**
@@ -181,8 +184,8 @@ export class MoveClient extends BaseClient {
   public async listMoveBattleStyles(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.MOVE_BATTLE_STYLE, offset, limit);
+  ): Promise<NamedAPIResourceList<MoveBattleStyle>> {
+    return this.getListResource<MoveBattleStyle>(ENDPOINTS.MOVE_BATTLE_STYLE, offset, limit);
   }
 
   /**
@@ -191,8 +194,11 @@ export class MoveClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Move Categories.
    */
-  public async listMoveCategories(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.MOVE_CATEGORY, offset, limit);
+  public async listMoveCategories(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<MoveCategory>> {
+    return this.getListResource<MoveCategory>(ENDPOINTS.MOVE_CATEGORY, offset, limit);
   }
 
   /**
@@ -204,8 +210,8 @@ export class MoveClient extends BaseClient {
   public async listMoveDamageClasses(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.MOVE_DAMAGE_CLASS, offset, limit);
+  ): Promise<NamedAPIResourceList<MoveDamageClass>> {
+    return this.getListResource<MoveDamageClass>(ENDPOINTS.MOVE_DAMAGE_CLASS, offset, limit);
   }
 
   /**
@@ -217,8 +223,8 @@ export class MoveClient extends BaseClient {
   public async listMoveLearnMethods(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.MOVE_LEARN_METHOD, offset, limit);
+  ): Promise<NamedAPIResourceList<MoveLearnMethod>> {
+    return this.getListResource<MoveLearnMethod>(ENDPOINTS.MOVE_LEARN_METHOD, offset, limit);
   }
 
   /**
@@ -227,7 +233,10 @@ export class MoveClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Move Targets.
    */
-  public async listMoveTargets(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.MOVE_TARGET, offset, limit);
+  public async listMoveTargets(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<MoveTarget>> {
+    return this.getListResource<MoveTarget>(ENDPOINTS.MOVE_TARGET, offset, limit);
   }
 }

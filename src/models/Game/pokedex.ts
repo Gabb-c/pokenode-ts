@@ -1,5 +1,7 @@
 import type { Description, Name, NamedAPIResource } from "../Common";
+import type { Region } from "../Location/region";
 import type { PokemonEntry } from "./pokemon-entry";
+import type { VersionGroup } from "./version";
 
 /**
  * ## Pokédex
@@ -22,7 +24,7 @@ export interface Pokedex {
   /** A list of Pokémon catalogued in this Pokédex and their indexes. */
   pokemon_entries: PokemonEntry[];
   /** The region this Pokédex catalogues Pokémon for. */
-  region: NamedAPIResource | null;
+  region: NamedAPIResource<Region> | null;
   /** A list of version groups this Pokédex is relevant to. */
-  version_groups: NamedAPIResource[];
+  version_groups: NamedAPIResource<VersionGroup>[];
 }

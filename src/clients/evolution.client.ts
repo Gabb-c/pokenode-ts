@@ -45,8 +45,11 @@ export class EvolutionClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Evolution Chains.
    */
-  public async listEvolutionChains(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.EVOLUTION_CHAIN, offset, limit);
+  public async listEvolutionChains(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<EvolutionChain>> {
+    return this.getListResource<EvolutionChain>(ENDPOINTS.EVOLUTION_CHAIN, offset, limit);
   }
 
   /**
@@ -58,7 +61,7 @@ export class EvolutionClient extends BaseClient {
   public async listEvolutionTriggers(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.EVOLUTION_TRIGGER, offset, limit);
+  ): Promise<NamedAPIResourceList<EvolutionTrigger>> {
+    return this.getListResource<EvolutionTrigger>(ENDPOINTS.EVOLUTION_TRIGGER, offset, limit);
   }
 }

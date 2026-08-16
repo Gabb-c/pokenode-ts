@@ -1,4 +1,5 @@
 import type { Description, NamedAPIResource } from "../Common";
+import type { PokemonSpecies } from "./pokemon";
 
 /**
  * Levels and the amount of experience needed to attain them based on the given growth rate.
@@ -27,5 +28,5 @@ export interface GrowthRate {
   /** A list of levels and the amount of experience needed to attain them based on this growth rate. */
   levels: GrowthRateExperienceLevel[];
   /** A list of Pokémon species that gain levels at this growth rate. */
-  pokemon_species: NamedAPIResource[];
+  pokemon_species: NamedAPIResource<PokemonSpecies>[];
 }

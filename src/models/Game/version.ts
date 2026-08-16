@@ -1,4 +1,8 @@
 import type { Name, NamedAPIResource } from "../Common";
+import type { Region } from "../Location/region";
+import type { MoveLearnMethod } from "../Moves/moves";
+import type { Generation } from "./generation";
+import type { Pokedex } from "./pokedex";
 
 /**
  * ## Version
@@ -13,7 +17,7 @@ export interface Version {
   /** The name of this resource listed in different languages. */
   names: Name[];
   /** The version group this version belongs to. */
-  version_group: NamedAPIResource;
+  version_group: NamedAPIResource<VersionGroup>;
 }
 
 /**
@@ -28,13 +32,13 @@ export interface VersionGroup {
   /** Order for sorting. Almost by date of release, except similar versions are grouped together. */
   order: number;
   /** The generation this version was introduced in. */
-  generation: NamedAPIResource;
+  generation: NamedAPIResource<Generation>;
   /** A list of methods in which Pokémon can learn moves in this version group. */
-  move_learn_methods: NamedAPIResource[];
+  move_learn_methods: NamedAPIResource<MoveLearnMethod>[];
   /** A list of Pokédexes introduced in this version group. */
-  pokedexes: NamedAPIResource[];
+  pokedexes: NamedAPIResource<Pokedex>[];
   /** A list of regions that can be visited in this version group. */
-  regions: NamedAPIResource[];
+  regions: NamedAPIResource<Region>[];
   /** The versions this version group owns. */
-  versions: NamedAPIResource[];
+  versions: NamedAPIResource<Version>[];
 }

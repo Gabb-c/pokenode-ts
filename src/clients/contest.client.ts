@@ -55,8 +55,11 @@ export class ContestClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Contest Types.
    */
-  public async listContestTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.CONTEST_TYPE, offset, limit);
+  public async listContestTypes(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<ContestType>> {
+    return this.getListResource<ContestType>(ENDPOINTS.CONTEST_TYPE, offset, limit);
   }
 
   /**
@@ -65,8 +68,11 @@ export class ContestClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Contest Effects.
    */
-  public async listContestEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.CONTEST_EFFECT, offset, limit);
+  public async listContestEffects(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<ContestEffect>> {
+    return this.getListResource<ContestEffect>(ENDPOINTS.CONTEST_EFFECT, offset, limit);
   }
 
   /**
@@ -78,7 +84,7 @@ export class ContestClient extends BaseClient {
   public async listSuperContestEffects(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.SUPER_CONTEST_EFFECT, offset, limit);
+  ): Promise<NamedAPIResourceList<SuperContestEffect>> {
+    return this.getListResource<SuperContestEffect>(ENDPOINTS.SUPER_CONTEST_EFFECT, offset, limit);
   }
 }

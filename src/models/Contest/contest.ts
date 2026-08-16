@@ -1,4 +1,7 @@
+import type { BerryFlavor } from "../Berry/berry";
 import type { Effect, NamedAPIResource } from "../Common";
+import type { Language } from "../Common/language";
+import type { Move } from "../Moves/moves";
 
 /**
  * ## Contest Type
@@ -11,7 +14,7 @@ export interface ContestType {
   /** The name for this resource. */
   name: "cool" | "beauty" | "cute" | "smart" | "tough";
   /** The berry flavor that correlates with this contest type. */
-  berry_flavor: NamedAPIResource;
+  berry_flavor: NamedAPIResource<BerryFlavor>;
   /** The name of this contest type listed in different languages. */
   names: ContestName[];
 }
@@ -25,7 +28,7 @@ export interface ContestName {
   /** The color associated with this contest's name. */
   color: string;
   /** The language that this name is in. */
-  language: NamedAPIResource;
+  language: NamedAPIResource<Language>;
 }
 
 /**
@@ -38,7 +41,7 @@ export interface ContestFlavorText {
   /** The localized flavor text. */
   flavor_text: string;
   /** The language this flavor text is in. */
-  language: NamedAPIResource;
+  language: NamedAPIResource<Language>;
 }
 
 /**
@@ -76,5 +79,5 @@ export interface SuperContestEffect {
   /** The flavor text of this super contest effect listed in different languages. */
   flavor_text_entries: ContestFlavorText[];
   /** A list of moves that have the effect when used in super contests. */
-  moves: NamedAPIResource[];
+  moves: NamedAPIResource<Move>[];
 }

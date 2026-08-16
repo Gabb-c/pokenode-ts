@@ -31,40 +31,57 @@ console.log(english.official); // true
 
 | Method | Returns |
 | --- | --- |
+| `getResourceByUrl(link)` | What the link points at |
 | `getResourceByUrl<T>(url)` | `T` |
 
 ## Following a resource URL
 
 Most PokéAPI responses are full of references rather than nested objects — `{ name, url }` pairs
-pointing at other resources. `getResourceByUrl` is how you follow one without working out which
-client and method it belongs to:
+pointing at other resources. `getResourceByUrl` follows one without working out which client and
+method it belongs to.
+
+Pass the link itself and the result is typed for you — the link carries what it points at:
 
 ```ts
-import { UtilityClient, PokemonClient, type EvolutionChain } from 'pokenode-ts';
+import { UtilityClient, PokemonClient } from 'pokenode-ts';
 
 const species = await new PokemonClient().getPokemonSpeciesByName('eevee');
 
-const chain = await new UtilityClient().getResourceByUrl<EvolutionChain>(
-  species.evolution_chain.url,
-);
+const chain = await new UtilityClient().getResourceByUrl(species.evolution_chain);
+//    ^? EvolutionChain
 ```
 
-::: warning The type parameter is unchecked
-`getResourceByUrl<T>` returns whatever you claim it returns — nothing validates the response against
-`T` at runtime. Give it the type the URL actually points at.
-:::
-
-The same works for paginated lists, whose `next` and `previous` fields are URLs:
+Passing `species.evolution_chain.url` instead works too, but a bare string carries nothing to infer
+from, so the type has to be named:
 
 ```ts
-import { UtilityClient, PokemonClient, type NamedAPIResourceList } from 'pokenode-ts';
+import type { EvolutionChain } from 'pokenode-ts';
+
+const chain = await utility.getResourceByUrl<EvolutionChain>(species.evolution_chain.url);
+```
+
+::: warning A named type parameter is unchecked
+`getResourceByUrl<T>(url)` returns whatever you claim it returns — nothing validates the response
+against `T` at runtime. Passing the link instead of its `url` avoids the question entirely.
+:::
+
+The same works for paginated lists, whose `next` and `previous` fields are URLs. Those are plain
+strings, so they still take a type argument — and the list knows its own element type:
+
+```ts
+import { UtilityClient, PokemonClient, type NamedAPIResourceList, type Pokemon } from 'pokenode-ts';
 
 const utility = new UtilityClient();
 let page = await new PokemonClient().listPokemons(0, 20);
+//  ^? NamedAPIResourceList<Pokemon>
 
 while (page.next) {
-  page = await utility.getResourceByUrl<NamedAPIResourceList>(page.next);
+  page = await utility.getResourceByUrl<NamedAPIResourceList<Pokemon>>(page.next);
 }
+
+// Every entry of `page.results` follows straight through:
+const first = await utility.getResourceByUrl(page.results[0]);
+//    ^? Pokemon
 ```
 
 ### Which URLs are accepted

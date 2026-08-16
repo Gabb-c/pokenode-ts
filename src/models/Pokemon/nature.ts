@@ -1,4 +1,8 @@
+import type { BerryFlavor } from "../Berry/berry";
 import type { Name, NamedAPIResource } from "../Common";
+import type { MoveBattleStyle } from "../Moves/moves";
+import type { PokeathlonStat } from "./pokeathlon-stat";
+import type { Stat } from "./stats";
 
 /**
  * ## Nature
@@ -11,13 +15,13 @@ export interface Nature {
   /** The name for this resource. */
   name: string;
   /** The stat decreased by 10% in Pokémon with this nature. */
-  decreased_stat: NamedAPIResource | null;
+  decreased_stat: NamedAPIResource<Stat> | null;
   /** The stat increased by 10% in Pokémon with this nature. */
-  increased_stat: NamedAPIResource | null;
+  increased_stat: NamedAPIResource<Stat> | null;
   /** The flavor hated by Pokémon with this nature. */
-  hates_flavor: NamedAPIResource | null;
+  hates_flavor: NamedAPIResource<BerryFlavor> | null;
   /** The flavor liked by Pokémon with this nature. */
-  likes_flavor: NamedAPIResource | null;
+  likes_flavor: NamedAPIResource<BerryFlavor> | null;
   /** A list of Pokéathlon stats this nature affects and by how much. */
   pokeathlon_stat_changes: NatureStatChange[];
   /** A list of battle styles and how likely a Pokémon with this nature is to use them in the Battle Palace or Battle Tent. */
@@ -33,7 +37,7 @@ export interface NatureStatChange {
   /** The amount of change. */
   max_change: -1 | 1 | -2 | 2;
   /** The stat being affected. */
-  pokeathlon_stat: NamedAPIResource;
+  pokeathlon_stat: NamedAPIResource<PokeathlonStat>;
 }
 
 /**
@@ -46,5 +50,5 @@ export interface MoveBattleStylePreference {
   /** Chance of using the move, in percent, if HP is over one half. */
   high_hp_preference: number;
   /** The move battle style. */
-  move_battle_style: NamedAPIResource;
+  move_battle_style: NamedAPIResource<MoveBattleStyle>;
 }

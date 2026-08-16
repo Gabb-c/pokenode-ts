@@ -1,3 +1,4 @@
+import type { Language } from "./language";
 import type { NamedAPIResource } from "./resource";
 
 /**
@@ -9,5 +10,5 @@ export interface VerboseEffect {
   /** The localized effect text in brief. */
   short_effect: string;
   /** The language this effect is in. */
-  language: NamedAPIResource;
+  language: NamedAPIResource<Language>;
 }
