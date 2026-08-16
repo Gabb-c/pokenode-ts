@@ -15,7 +15,7 @@ export default defineConfig({
         test: {
           name: "unit",
           globals: true,
-          setupFiles: "tests/utils/setup.ts",
+          setupFiles: "tests/helpers/setup.ts",
           include: ["tests/**/*.spec.ts"],
           exclude: ["tests/live/**"],
         },

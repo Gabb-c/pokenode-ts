@@ -1,7 +1,7 @@
 import { ContestClient } from "@clients";
 import { CONTEST_TYPES } from "@constants";
 
-import { type EndpointCase, expectEndpoint } from "../utils/stub-fetch";
+import { type EndpointCase, expectEndpoint } from "../helpers/stub-fetch";
 
 describe("ContestClient", () => {
   it.each([

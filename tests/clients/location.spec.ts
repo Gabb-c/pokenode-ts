@@ -1,7 +1,7 @@
 import { LocationClient } from "@clients";
 import { PAL_PARK_AREAS, REGIONS } from "@constants";
 
-import { type EndpointCase, expectEndpoint } from "../utils/stub-fetch";
+import { type EndpointCase, expectEndpoint } from "../helpers/stub-fetch";
 
 describe("LocationClient", () => {
   it.each([

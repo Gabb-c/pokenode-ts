@@ -1,7 +1,7 @@
 import { EncounterClient } from "@clients";
 import { ENCOUNTER_CONDITIONS, ENCOUNTER_METHODS } from "@constants";
 
-import { type EndpointCase, expectEndpoint } from "../utils/stub-fetch";
+import { type EndpointCase, expectEndpoint } from "../helpers/stub-fetch";
 
 describe("EncounterClient", () => {
   it.each([

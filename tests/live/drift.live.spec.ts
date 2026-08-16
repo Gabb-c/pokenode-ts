@@ -1,6 +1,6 @@
 import { MainClient } from "@clients";
 import { ENDPOINTS } from "@constants";
-import { type Case, caseFor, mistypedFields, sortKeys } from "../utils/model-keys";
+import { type Case, caseFor, mistypedFields, sortKeys } from "../helpers/model-keys";
 
 /**
  * Tier 3: the only suite that talks to the real PokéAPI.

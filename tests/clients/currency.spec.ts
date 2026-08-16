@@ -1,7 +1,7 @@
 import { CurrencyClient } from "@clients";
 import { CURRENCIES } from "@constants";
 
-import { type EndpointCase, expectEndpoint } from "../utils/stub-fetch";
+import { type EndpointCase, expectEndpoint } from "../helpers/stub-fetch";
 
 describe("CurrencyClient", () => {
   it.each([

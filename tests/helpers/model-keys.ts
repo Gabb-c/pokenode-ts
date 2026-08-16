@@ -284,7 +284,7 @@ const parseAnnotation = (model: string, key: string, annotation: string): Field 
     } else {
       throw new Error(
         `${model}.${key} is declared \`${annotation}\`, which ` +
-          `tests/utils/model-keys.ts cannot read. Teach parseAnnotation the new form.`,
+          `tests/helpers/model-keys.ts cannot read. Teach parseAnnotation the new form.`,
       );
     }
   }
@@ -355,7 +355,7 @@ const declaredShapes = (): Map<string, Shape> => {
       if (INLINE_OBJECT.test(line)) {
         throw new Error(
           `${model} declares a property with an inline object type, which ` +
-            `tests/utils/model-keys.ts cannot read. Give the type a name of its own.`,
+            `tests/helpers/model-keys.ts cannot read. Give the type a name of its own.`,
         );
       }
 

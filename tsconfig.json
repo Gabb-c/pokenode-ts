@@ -22,7 +22,8 @@
       "@config/*": ["./src/config/*"],
       "@constants": ["./src/constants/index.ts"],
       "@models": ["./src/models/index.ts"],
-      "@package": ["./package.json"]
+      "@package": ["./package.json"],
+      "@utils": ["./src/utils/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "./*.ts"],

@@ -1,7 +1,7 @@
 import { UtilityClient } from "@clients";
 import { BASE_URL, LANGUAGES } from "@constants";
 
-import { type EndpointCase, expectEndpoint } from "../utils/stub-fetch";
+import { type EndpointCase, expectEndpoint } from "../helpers/stub-fetch";
 
 describe("UtilityClient", () => {
   it.each([

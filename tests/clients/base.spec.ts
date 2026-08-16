@@ -4,7 +4,7 @@ import { delay, HttpResponse, http, type JsonBodyType } from "msw";
 import { BaseClient } from "../../src/clients/base";
 import type { CacheStore } from "../../src/config/cache";
 import { PokenodeError } from "../../src/config/errors";
-import { server } from "../utils/setup";
+import { server } from "../helpers/setup";
 
 /** Exposes the protected request helpers so they can be exercised directly. */
 class TestClient extends BaseClient {
