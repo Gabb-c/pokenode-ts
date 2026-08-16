@@ -8,7 +8,6 @@
 
 [![npm version](https://img.shields.io/npm/v/pokenode-ts?logo=npm)](https://www.npmjs.com/package/pokenode-ts)
 [![CI](https://github.com/Gabb-c/pokenode-ts/actions/workflows/ci.yml/badge.svg)](https://github.com/Gabb-c/pokenode-ts/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/Gabb-c/pokenode-ts/branch/main/graph/badge.svg?token=whfY8GNSpS)](https://codecov.io/gh/Gabb-c/pokenode-ts)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
 [![install size](https://packagephobia.com/badge?p=pokenode-ts)](https://packagephobia.com/result?p=pokenode-ts)
 

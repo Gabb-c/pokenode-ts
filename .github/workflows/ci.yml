@@ -47,20 +47,6 @@ jobs:
       - name: Run tests (unit)
         run: pnpm test run
 
-  coverage:
-    name: Coverage
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: ./.github/actions/setup
-      - run: pnpm test:coverage
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v7.0.0
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/lcov.info
-          fail_ci_if_error: true
-
   build:
     name: Build (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest

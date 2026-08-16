@@ -25,7 +25,7 @@ jobs:
       release-created: ${{ steps.release.outputs.release_created }}
       tag-name: ${{ steps.release.outputs.tag_name }}
     steps:
-      - uses: googleapis/release-please-action@v5.0.0
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         id: release
 
   publish:
@@ -47,8 +47,10 @@ jobs:
 
       - name: Ensure npm supports trusted publishing
         # Trusted publishing needs npm >= 11.5.1. Too old an npm falls back to
-        # token auth and fails confusingly rather than loudly.
-        run: npm install -g npm@latest
+        # token auth and fails confusingly rather than loudly. Pinned rather
+        # than @latest so a publish never picks up an npm nobody has run yet;
+        # bump it by hand.
+        run: npm install -g npm@12.0.2 --ignore-scripts
 
       - name: Build
         run: pnpm build
