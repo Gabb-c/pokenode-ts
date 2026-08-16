@@ -55,37 +55,88 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
+          # Re-ping an open issue at most once a month: the check runs weekly, so
+          # drift left open would otherwise collect an identical comment every Monday.
+          THROTTLE_SECONDS=$((28 * 24 * 60 * 60))
+          # Past that, a closed issue is history rather than this week's drift.
+          REOPEN_SECONDS=$((90 * 24 * 60 * 60))
+
           body="The scheduled PokéAPI contract check failed: $RUN_URL
 
           The upstream response shape most likely changed, which means \`src/models\` is out of
           date. This is not a regression in the client."
 
+          # Every path below records what it did. A run whose comment was throttled
+          # away still says so on the run page instead of looking clean.
+          summary() {
+            printf '### PokéAPI drift detected\n\n%s\n\nRun: %s\n' "$1" "$RUN_URL" \
+              >> "$GITHUB_STEP_SUMMARY"
+          }
+
+          # Seconds since the epoch, or a hard failure. Falling through on an
+          # unparseable timestamp would silence the report on the runs it exists for.
+          epoch() {
+            local seconds
+            seconds=$(date -u -d "$1" +%s 2>/dev/null) || true
+
+            if [ -z "$seconds" ]; then
+              # stderr: the caller reads this function's stdout for the value.
+              echo "::error::Could not parse the timestamp \"$1\"." >&2
+              return 1
+            fi
+
+            printf '%s' "$seconds"
+          }
+
           # --force so a missing label is created and an existing one is left usable.
           gh label create live-drift --color D93F0B --description "Upstream PokéAPI shape changed" --force
 
-          existing=$(gh issue list --label live-drift --state open --limit 1 --json number --jq '.[0].number')
+          # Closed issues are searched too: drift that returns after a fix belongs on
+          # the issue already describing it, not on a fresh duplicate.
+          existing=$(gh issue list --label live-drift --state all --limit 1 \
+            --json number,state,updatedAt \
+            --jq '.[0] | select(.) | "\(.number) \(.state) \(.updatedAt)"')
 
-          if [ -z "$existing" ]; then
-            gh issue create \
+          file_issue() {
+            url=$(gh issue create \
               --title "PokéAPI contract check failed" \
               --label live-drift \
-              --body "$body"
+              --body "$body")
+            summary "Filed $url"
+          }
+
+          if [ -z "$existing" ]; then
+            file_issue
             exit 0
           fi
 
-          # The check runs weekly, so drift left open would otherwise collect an
-          # identical comment every Monday. Re-ping at most once a month.
-          #
+          read -r number state updated <<< "$existing"
+          now=$(date -u +%s)
+
+          if [ "$state" = "CLOSED" ]; then
+            updated_epoch=$(epoch "$updated") || exit 1
+
+            if [ $((now - updated_epoch)) -gt "$REOPEN_SECONDS" ]; then
+              file_issue
+              exit 0
+            fi
+
+            gh issue reopen "$number" --comment "$body"
+            summary "Reopened #$number."
+            exit 0
+          fi
+
           # Only this workflow's own comments count. Keying off the last comment
           # by anyone would let a maintainer reply reset the clock and silence
           # the next four weeks of genuinely new drift.
-          last=$(gh issue view "$existing" --json comments,createdAt \
+          last=$(gh issue view "$number" --json comments,createdAt \
             --jq '([.comments[] | select(.author.login == "github-actions") | .createdAt] | last) // .createdAt')
-          cutoff=$(date -u -d '28 days ago' +%Y-%m-%dT%H:%M:%SZ)
+          last_epoch=$(epoch "$last") || exit 1
 
-          if [ "$last" \> "$cutoff" ]; then
-            echo "Issue #$existing was last updated at $last; not commenting again."
+          if [ $((now - last_epoch)) -lt "$THROTTLE_SECONDS" ]; then
+            summary "#$number was already reported at $last; comment suppressed."
             exit 0
           fi
 
-          gh issue comment "$existing" --body "$body"
+          gh issue comment "$number" --body "$body"
+          summary "Commented on #$number."

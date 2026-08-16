@@ -28,8 +28,6 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: ./.github/actions/setup
-      # Covers the tests as well as src: vitest strips types without checking
-      # them, so nothing else in CI would catch a type error under tests/.
       - run: pnpm typecheck
 
   test:
@@ -59,8 +57,11 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           node-version: ${{ matrix.node-version }}
-      # tsdown runs publint + attw as part of the build.
+
       - name: Build library
         run: pnpm build
+      - name: Check bundle size
+        if: matrix.node-version == '22'
+        run: pnpm size
       - name: Build docs
         run: pnpm docs:build
