@@ -68,6 +68,38 @@ const api = new PokemonClient({ cache: new RedisStore(redis) });
 
 Return `undefined` from `get` for a miss.
 
+## Browser storage
+
+`WebStorageCache` keeps responses in `localStorage` or `sessionStorage`, so they survive a page
+reload:
+
+```ts
+import { PokemonClient, WebStorageCache } from 'pokenode-ts';
+
+const api = new PokemonClient({
+  cache: new WebStorageCache({ storage: localStorage }),
+});
+
+// Tuned
+const tuned = new PokemonClient({
+  cache: new WebStorageCache({
+    storage: sessionStorage,
+    ttl: 60000,
+    prefix: 'pokedex:',
+  }),
+});
+```
+
+`storage` is required — there is no browser global to fall back to on the server. Anything matching
+`WebStorageLike` works, so a React Native `AsyncStorage`-style shim or your own object is fine.
+
+The store only ever touches keys under its `prefix` (`pokenode:` by default). Eviction and
+`clearCache()` leave the rest of the storage alone, and a full quota is handled by dropping this
+store's own entries — expired ones first — rather than by throwing into your request.
+
+Values round-trip through JSON here, so every hit returns a fresh copy and the mutation warning
+below does not apply.
+
 ## Clearing the cache
 
 Every client exposes the store it is using as `cache`, and `clearCache()` empties it — including the
