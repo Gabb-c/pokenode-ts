@@ -8,7 +8,13 @@ export {
   type WebStorageLike,
 } from "@config/cache";
 export { PokenodeError } from "@config/errors";
-export { consoleLogger, type Logger } from "@config/logger";
+export {
+  consoleLogger,
+  type LogErrorPayload,
+  type Logger,
+  type LogRequestPayload,
+  type LogResponsePayload,
+} from "@config/logger";
 export * from "@constants";
 export * as CONSTANTS from "@constants";
 export * from "@models";

@@ -1,6 +1,6 @@
 import { type CacheStore, MemoryCache } from "../config/cache";
 import { toPokenodeError } from "../config/errors";
-import type { Logger } from "../config/logger";
+import { type Logger, logMessage } from "../config/logger";
 import { BASE_URL, type Endpoint } from "../constants";
 import type { NamedAPIResourceList } from "../models/Common/resource";
 
@@ -16,6 +16,35 @@ const normalizeURL = (url: string): string => url.replace(/\/+(?=\?|$)/, "");
 
 /** A path segment naming an API version, as in `/api/v2/berry/1`. */
 const API_VERSION_SEGMENT = /^v\d+$/;
+
+/**
+ * Drops any credentials a URL carries before it is handed to a {@link Logger}.
+ *
+ * A self-hosted instance behind basic auth is configured as
+ * `https://user:secret@host/api/v2`, and a log sink is the last place that
+ * password should end up. The request itself still goes out with it.
+ *
+ * A URL too malformed to parse cannot carry credentials in the first place, and
+ * `fetch` is about to reject it anyway, so it is passed through untouched.
+ */
+const redactCredentials = (url: string): string => {
+  let parsed: URL;
+
+  try {
+    parsed = new URL(url);
+  } catch {
+    return url;
+  }
+
+  if (!parsed.username && !parsed.password) {
+    return url;
+  }
+
+  parsed.username = "";
+  parsed.password = "";
+
+  return parsed.toString();
+};
 
 /**
  * Reduces an absolute resource URL to the endpoint path to request.
@@ -126,12 +155,28 @@ export class BaseClient {
       `${trimTrailingSlash(baseURL)}${path.startsWith("/") ? path : `/${path}`}`,
     );
 
-    this.logger?.request("get", url);
+    const startedAt = performance.now();
+
+    this.logger?.debug({
+      event: "request",
+      ...logMessage("pokeapi request"),
+      method: "GET",
+      url: redactCredentials(url),
+    });
 
     const cached = await this.cache?.get(url);
 
     if (cached !== undefined) {
-      this.logger?.response(200, true);
+      // A hit is timed like any other resolution: the number is small, but a
+      // store on the far side of a network is not guaranteed to make it so.
+      this.logger?.debug({
+        event: "response",
+        ...logMessage("pokeapi response"),
+        url: redactCredentials(url),
+        status: 200,
+        cached: true,
+        durationMs: performance.now() - startedAt,
+      });
       return cached as T;
     }
 
@@ -141,14 +186,14 @@ export class BaseClient {
       return pending as Promise<T>;
     }
 
-    const request = this.fetchResource<T>(url).finally(() => this.inFlight.delete(url));
+    const request = this.fetchResource<T>(url, startedAt).finally(() => this.inFlight.delete(url));
 
     this.inFlight.set(url, request);
 
     return request;
   }
 
-  private async fetchResource<T>(url: string): Promise<T> {
+  private async fetchResource<T>(url: string, startedAt: number): Promise<T> {
     try {
       const response = await this.fetch(url, { headers: { Accept: "application/json" } });
 
@@ -158,13 +203,26 @@ export class BaseClient {
 
       const data = (await response.json()) as T;
 
-      this.logger?.response(response.status, false);
+      this.logger?.debug({
+        event: "response",
+        ...logMessage("pokeapi response"),
+        url: redactCredentials(url),
+        status: response.status,
+        cached: false,
+        durationMs: performance.now() - startedAt,
+      });
 
       await this.cache?.set(url, data);
 
       return data;
     } catch (error) {
-      this.logger?.error(error);
+      this.logger?.error({
+        event: "error",
+        ...logMessage("pokeapi request failed"),
+        url: redactCredentials(url),
+        err: error,
+        error,
+      });
       throw error;
     }
   }

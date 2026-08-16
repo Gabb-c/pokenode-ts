@@ -369,9 +369,13 @@ describe("BaseClient", () => {
     const events: string[] = [];
     const client = new TestClient({
       logger: {
-        request: (method, url) => events.push(`request ${method} ${url}`),
-        response: (status, cached) => events.push(`response ${status} ${cached}`),
-        error: (error) => events.push(`error ${String(error)}`),
+        debug: (payload) =>
+          events.push(
+            payload.event === "request"
+              ? `request ${payload.method} ${payload.url}`
+              : `response ${payload.url} ${payload.status} ${payload.cached}`,
+          ),
+        error: ({ err }) => events.push(`error ${String(err)}`),
       },
     });
 
@@ -379,23 +383,90 @@ describe("BaseClient", () => {
     await client.get("/berry", 1);
 
     expect(events).toEqual([
-      `request get ${BERRY_URL}`,
-      "response 200 false",
-      `request get ${BERRY_URL}`,
-      "response 200 true",
+      `request GET ${BERRY_URL}`,
+      `response ${BERRY_URL} 200 false`,
+      `request GET ${BERRY_URL}`,
+      `response ${BERRY_URL} 200 true`,
     ]);
+  });
+
+  it("should keep credentials out of the logged url", async () => {
+    const requested: string[] = [];
+    const logged: string[] = [];
+    const client = new TestClient({
+      baseURL: "https://someone:hunter2@poke.example/api/v2",
+      cache: false,
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+      logger: {
+        debug: ({ url }) => logged.push(url),
+        error: ({ url }) => logged.push(url),
+      },
+    });
+
+    await client.get("/berry", 1);
+
+    expect(logged).toEqual([
+      "https://poke.example/api/v2/berry/1",
+      "https://poke.example/api/v2/berry/1",
+    ]);
+    // The request itself still carries them, or the instance would reject it.
+    expect(requested).toEqual(["https://someone:hunter2@poke.example/api/v2/berry/1"]);
+  });
+
+  it("should report the url of a failed request without its credentials", async () => {
+    const logged: string[] = [];
+    const client = new TestClient({
+      baseURL: "https://someone:hunter2@poke.example/api/v2",
+      cache: false,
+      fetch: () => Promise.reject(new TypeError("fetch failed")),
+      logger: {
+        debug: () => {},
+        error: ({ url }) => logged.push(url),
+      },
+    });
+
+    await expect(client.get("/berry", 1)).rejects.toThrow(TypeError);
+    expect(logged).toEqual(["https://poke.example/api/v2/berry/1"]);
+  });
+
+  it("should time both a round trip and a cache hit", async () => {
+    countingHandler(BERRY_URL);
+    const durations: number[] = [];
+    const client = new TestClient({
+      logger: {
+        debug: (payload) => {
+          if (payload.event === "response") {
+            durations.push(payload.durationMs);
+          }
+        },
+        error: () => {},
+      },
+    });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    expect(durations).toHaveLength(2);
+    for (const duration of durations) {
+      expect(duration).toBeGreaterThanOrEqual(0);
+      expect(Number.isFinite(duration)).toBe(true);
+    }
   });
 
   it("should report a failure to a supplied logger", async () => {
     server.use(http.get(BERRY_URL, () => HttpResponse.json({}, { status: 404 })));
 
-    const errors: unknown[] = [];
+    const errors: { url: string; err: unknown }[] = [];
     const client = new TestClient({
-      logger: { request: () => {}, response: () => {}, error: (error) => errors.push(error) },
+      logger: { debug: () => {}, error: (payload) => errors.push(payload) },
     });
 
     await expect(client.get("/berry", 1)).rejects.toThrow(PokenodeError);
     expect(errors).toHaveLength(1);
+    expect(errors[0]?.url).toBe(BERRY_URL);
   });
 
   it("should stay silent without a logger", async () => {
