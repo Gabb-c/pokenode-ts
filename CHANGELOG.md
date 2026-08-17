@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.1.0](https://github.com/Gabb-c/pokenode-ts/compare/v2.0.0...v2.1.0) (2026-08-17)
+
+
+### Features
+
+* **cache:** add WebStorageCache ([4b50329](https://github.com/Gabb-c/pokenode-ts/commit/4b50329db1caf1642450f8659b48dc307c8d904a))
+* **logger:** accept any debug/error logger ([3d0b155](https://github.com/Gabb-c/pokenode-ts/commit/3d0b155785c3eecf7d134303d2210f08e6eca322))
+* **models:** infer what a resource link points at ([1a35bda](https://github.com/Gabb-c/pokenode-ts/commit/1a35bda9ae080aa344418dec4cf1b94fc385df34))
+* **models:** update pokemon typings and improve live tests ([fe71b07](https://github.com/Gabb-c/pokenode-ts/commit/fe71b076cb577dacf6188ef0cb6bbfa2a5959ef0))
+* **sprites:** add getPokemonSpriteUrl ([dc617cd](https://github.com/Gabb-c/pokenode-ts/commit/dc617cd2cdabcbd55dd585c92c0b8babdfde6393))
+
+
+### Bug Fixes
+
+* api lists and logger ([8ee4a95](https://github.com/Gabb-c/pokenode-ts/commit/8ee4a959a10f09a798fbec072f973a8cb71cfe64))
+* change regex for utility function ([03f7b6d](https://github.com/Gabb-c/pokenode-ts/commit/03f7b6d4a7d815a9ef6fbbdea526729424f93bb6))
+* **client:** report a response to every caller ([9820e29](https://github.com/Gabb-c/pokenode-ts/commit/9820e296fcc12c5182dfbc526e4028556d59a041))
+* hide credential logging ([00f0d8f](https://github.com/Gabb-c/pokenode-ts/commit/00f0d8f0e38f2305a293a67f695523cfde938408))
+
 ## [2.0.0](https://github.com/Gabb-c/pokenode-ts/compare/v1.19.0...v2.0.0) (2026-08-15)
 
 
