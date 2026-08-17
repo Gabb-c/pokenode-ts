@@ -31,41 +31,91 @@ console.log(english.official); // true
 
 | Method | Returns |
 | --- | --- |
+| `getResourceByUrl(link)` | What the link points at |
 | `getResourceByUrl<T>(url)` | `T` |
 
 ## Following a resource URL
 
 Most PokéAPI responses are full of references rather than nested objects — `{ name, url }` pairs
-pointing at other resources. `getResourceByUrl` is how you follow one without working out which
-client and method it belongs to:
+pointing at other resources. `getResourceByUrl` follows one without working out which client and
+method it belongs to.
+
+Pass the link itself and the result is typed for you — the link carries what it points at:
 
 ```ts
-import { UtilityClient, PokemonClient, type EvolutionChain } from 'pokenode-ts';
+import { UtilityClient, PokemonClient } from 'pokenode-ts';
 
 const species = await new PokemonClient().getPokemonSpeciesByName('eevee');
 
-const chain = await new UtilityClient().getResourceByUrl<EvolutionChain>(
-  species.evolution_chain.url,
-);
+const chain = await new UtilityClient().getResourceByUrl(species.evolution_chain);
+//    ^? EvolutionChain
 ```
 
-::: warning The type parameter is unchecked
-`getResourceByUrl<T>` returns whatever you claim it returns — nothing validates the response against
-`T` at runtime. Give it the type the URL actually points at.
-:::
-
-The same works for paginated lists, whose `next` and `previous` fields are URLs:
+Passing `species.evolution_chain.url` instead works too, but a bare string carries nothing to infer
+from, so the type has to be named:
 
 ```ts
-import { UtilityClient, PokemonClient, type NamedAPIResourceList } from 'pokenode-ts';
+import type { EvolutionChain } from 'pokenode-ts';
+
+const chain = await utility.getResourceByUrl<EvolutionChain>(species.evolution_chain.url);
+```
+
+::: warning A named type parameter is unchecked
+`getResourceByUrl<T>(url)` returns whatever you claim it returns — nothing validates the response
+against `T` at runtime. Passing the link instead of its `url` avoids the question entirely.
+:::
+
+The same works for paginated lists, whose `next` and `previous` fields are URLs. Those are plain
+strings, so they still take a type argument — and the list knows its own element type:
+
+```ts
+import { UtilityClient, PokemonClient, type NamedAPIResourceList, type Pokemon } from 'pokenode-ts';
 
 const utility = new UtilityClient();
 let page = await new PokemonClient().listPokemons(0, 20);
+//  ^? NamedAPIResourceList<Pokemon>
 
 while (page.next) {
-  page = await utility.getResourceByUrl<NamedAPIResourceList>(page.next);
+  page = await utility.getResourceByUrl<NamedAPIResourceList<Pokemon>>(page.next);
 }
+
+// Every entry of `page.results` follows straight through:
+const first = await utility.getResourceByUrl(page.results[0]);
+//    ^? Pokemon
 ```
+
+### Lists without names
+
+Five sections have nothing to name their entries by — `machine`, `contest-effect`,
+`super-contest-effect`, `evolution-chain` and `characteristic` are identified by URL alone. Those
+methods return `APIResourceList` instead, whose entries are `{ url }` with no `name`:
+
+```ts
+const machines = await new MachineClient().listMachines();
+//    ^? APIResourceList<Machine>
+
+const machine = await utility.getResourceByUrl(machines.results[0]);
+//    ^? Machine
+```
+
+Everything else about them is the same — pagination, and following an entry through
+`getResourceByUrl`.
+
+::: warning A link that crosses the ESM/CJS boundary loses its type
+A link carries what it points at through a type-level marker, and the package ships separate
+declarations for its ESM and CJS builds, each with its own copy of that marker. A
+`NamedAPIResource` obtained through one build and passed to a `getResourceByUrl` from the other
+still assigns cleanly, but the marker no longer matches, so `T` falls back to `unknown` instead of
+the resource type.
+
+One install is enough: it happens whenever two places in a build resolve pokenode-ts under different
+module formats — a dependency between you and the library requiring it while you import it, a single
+file mixing `import` and `require` resolution, or two copies in `node_modules`. If a link ever comes
+back as `unknown` for no visible
+reason, that is why — name the type explicitly (`getResourceByUrl<Machine>(link.url)`) and it
+behaves as before. It is the same split that makes [`PokenodeError.isPokenodeError`](/guides/errors)
+the way to identify an error rather than `instanceof`.
+:::
 
 ### Which URLs are accepted
 

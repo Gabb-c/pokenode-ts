@@ -1,4 +1,5 @@
 import type { Description, NamedAPIResource } from "../Common";
+import type { Stat } from "./stats";
 
 /**
  * ## Characteristic
@@ -14,7 +15,7 @@ export interface Characteristic {
   /** The possible values of the highest stat that would result in a Pokémon receiving this characteristic when divided by 5. */
   possible_values: number[];
   /** The highest stat for the referenced characteristic. */
-  highest_stat: NamedAPIResource;
+  highest_stat: NamedAPIResource<Stat>;
   /** Descriptions for the referenced characteristic. */
   descriptions: Description[];
 }

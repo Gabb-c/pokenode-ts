@@ -1,3 +1,5 @@
+import type { Version } from "../Game/version";
+import type { Language } from "./language";
 import type { NamedAPIResource } from "./resource";
 
 /**
@@ -7,7 +9,7 @@ export interface FlavorText {
   /** The localized flavor text for an API resource in a specific language. */
   flavor_text: string;
   /** The language this name is in. */
-  language: NamedAPIResource;
+  language: NamedAPIResource<Language>;
   /** The game version this flavor text appears in. */
-  version: NamedAPIResource;
+  version: NamedAPIResource<Version>;
 }

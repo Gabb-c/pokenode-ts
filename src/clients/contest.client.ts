@@ -1,5 +1,11 @@
 import { ENDPOINTS } from "@constants";
-import type { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "@models";
+import type {
+  APIResourceList,
+  ContestEffect,
+  ContestType,
+  NamedAPIResourceList,
+  SuperContestEffect,
+} from "@models";
 import { BaseClient } from "./base";
 
 /**
@@ -13,72 +19,51 @@ import { BaseClient } from "./base";
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#contests-section)
  */
 export class ContestClient extends BaseClient {
-  /**
-   * Get a Contest Type by its name.
-   * @param name The Contest Type name.
-   * @returns The matching Contest Type.
-   */
+  /** Get a Contest Type by its name. */
   public async getContestTypeByName(name: string): Promise<ContestType> {
     return this.getResource(ENDPOINTS.CONTEST_TYPE, name);
   }
 
-  /**
-   * Get a Contest Type by its ID.
-   * @param id The Contest Type ID.
-   * @returns The matching Contest Type.
-   */
+  /** Get a Contest Type by its ID. */
   public async getContestTypeById(id: number): Promise<ContestType> {
     return this.getResource(ENDPOINTS.CONTEST_TYPE, id);
   }
 
-  /**
-   * Get a Contest Effect by its ID.
-   * @param id The Contest Effect ID.
-   * @returns The matching Contest Effect.
-   */
+  /** Get a Contest Effect by its ID. */
   public async getContestEffectById(id: number): Promise<ContestEffect> {
     return this.getResource(ENDPOINTS.CONTEST_EFFECT, id);
   }
 
-  /**
-   * Get a Super Contest Effect by its ID.
-   * @param id The Super Contest Effect ID.
-   * @returns The matching Super Contest Effect.
-   */
+  /** Get a Super Contest Effect by its ID. */
   public async getSuperContestEffectById(id: number): Promise<SuperContestEffect> {
     return this.getResource(ENDPOINTS.SUPER_CONTEST_EFFECT, id);
   }
 
-  /**
-   * List Contest Types.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Contest Types.
-   */
-  public async listContestTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.CONTEST_TYPE, offset, limit);
+  /** List Contest Types. Page defaults to 20 entries from offset 0. */
+  public async listContestTypes(
+    offset?: number,
+    limit?: number,
+  ): Promise<NamedAPIResourceList<ContestType>> {
+    return this.getListResource<ContestType>(ENDPOINTS.CONTEST_TYPE, offset, limit);
   }
 
-  /**
-   * List Contest Effects.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Contest Effects.
-   */
-  public async listContestEffects(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.CONTEST_EFFECT, offset, limit);
+  /** List Contest Effects. Page defaults to 20 entries from offset 0. */
+  public async listContestEffects(
+    offset?: number,
+    limit?: number,
+  ): Promise<APIResourceList<ContestEffect>> {
+    return this.getUnnamedListResource<ContestEffect>(ENDPOINTS.CONTEST_EFFECT, offset, limit);
   }
 
-  /**
-   * List Super Contest Effects.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Super Contest Effects.
-   */
+  /** List Super Contest Effects. Page defaults to 20 entries from offset 0. */
   public async listSuperContestEffects(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.SUPER_CONTEST_EFFECT, offset, limit);
+  ): Promise<APIResourceList<SuperContestEffect>> {
+    return this.getUnnamedListResource<SuperContestEffect>(
+      ENDPOINTS.SUPER_CONTEST_EFFECT,
+      offset,
+      limit,
+    );
   }
 }

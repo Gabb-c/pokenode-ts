@@ -1,4 +1,7 @@
 import type { GenerationGameIndex, Name, NamedAPIResource } from "../Common";
+import type { Generation } from "../Game/generation";
+import type { Move, MoveDamageClass } from "../Moves/moves";
+import type { Pokemon } from "./pokemon";
 
 /**
  * Details of Pokémon for a specific type.
@@ -7,7 +10,7 @@ export interface TypePokemon {
   /** The order the Pokémon's types are listed in. */
   slot: number;
   /** The Pokémon that has the referenced type. */
-  pokemon: NamedAPIResource;
+  pokemon: NamedAPIResource<Pokemon>;
 }
 
 /**
@@ -15,17 +18,17 @@ export interface TypePokemon {
  */
 export interface TypeRelations {
   /** A list of types this type has no effect on. */
-  no_damage_to: NamedAPIResource[];
+  no_damage_to: NamedAPIResource<Type>[];
   /** A list of types this type is not very effective against. */
-  half_damage_to: NamedAPIResource[];
+  half_damage_to: NamedAPIResource<Type>[];
   /** A list of types this type is very effective against. */
-  double_damage_to: NamedAPIResource[];
+  double_damage_to: NamedAPIResource<Type>[];
   /** A list of types that have no effect on this type. */
-  no_damage_from: NamedAPIResource[];
+  no_damage_from: NamedAPIResource<Type>[];
   /** A list of types that are not very effective against this type. */
-  half_damage_from: NamedAPIResource[];
+  half_damage_from: NamedAPIResource<Type>[];
   /** A list of types that are very effective against this type. */
-  double_damage_from: NamedAPIResource[];
+  double_damage_from: NamedAPIResource<Type>[];
 }
 
 /**
@@ -33,7 +36,7 @@ export interface TypeRelations {
  */
 export interface TypeRelationsPast {
   /** The last generation in which the referenced type had the listed damage relations. */
-  generation: NamedAPIResource;
+  generation: NamedAPIResource<Generation>;
   /** The damage relations the referenced type had up to and including the listed generation. */
   damage_relations: TypeRelations;
 }
@@ -138,15 +141,15 @@ export interface Type {
   /** A list of game indices relevant to this item by generation. */
   game_indices: GenerationGameIndex[];
   /** The generation this type was introduced in. */
-  generation: NamedAPIResource;
+  generation: NamedAPIResource<Generation>;
   /** The class of damage inflicted by this type. */
-  move_damage_class: NamedAPIResource;
+  move_damage_class: NamedAPIResource<MoveDamageClass>;
   /** The name of this resource listed in different languages. */
   names: Name[];
   /** A list of details of Pokémon that have this type. */
   pokemon: TypePokemon[];
   /** A list of moves that have this type. */
-  moves: NamedAPIResource[];
+  moves: NamedAPIResource<Move>[];
   /** The icons used to depict this type, by generation and game. */
   sprites: TypeSprites;
 }

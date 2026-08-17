@@ -56,6 +56,7 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p tests && tsc --noEmit -p docs/.vitepress",
     "prepare": "lefthook install",
     "prepublishOnly": "pnpm build",
+    "size": "size-limit",
     "test": "vitest --project unit",
     "test:run": "vitest run --project unit",
     "test:live": "vitest run --project live",
@@ -67,12 +68,14 @@
     "@biomejs/biome": "^2.5.8",
     "@commitlint/cli": "^21.2.2",
     "@commitlint/config-conventional": "^21.2.2",
+    "@size-limit/preset-small-lib": "^13.0.3",
     "@types/node": "^26.2.0",
     "@vitest/coverage-v8": "^4.1.10",
     "@vitest/ui": "^4.1.10",
     "lefthook": "^2.1.10",
     "msw": "^2.15.0",
     "publint": "^0.3.23",
+    "size-limit": "^13.0.3",
     "tsdown": "^0.22.14",
     "typescript": "^7.0.2",
     "vite": "^8.2.1",
@@ -82,5 +85,19 @@
   },
   "engines": {
     "node": ">=22"
-  }
+  },
+  "size-limit": [
+    {
+      "name": "ESM",
+      "path": "lib/index.js",
+      "limit": "9 kB",
+      "gzip": true
+    },
+    {
+      "name": "CJS",
+      "path": "lib/index.cjs",
+      "limit": "9.5 kB",
+      "gzip": true
+    }
+  ]
 }

@@ -1,23 +1,32 @@
 import { defineConfig } from "tsdown";
 import pkg from "./package.json" with { type: "json" };
 
-const { author, description, license, version } = pkg;
+const { author, description, homepage, license, name, version } = pkg;
 
 const isCI = Boolean(process.env.CI);
 
-const banner = `
-/**
+// reproducible builds: honour SOURCE_DATE_EPOCH when set, else today
+const buildDate = new Date(
+  process.env.SOURCE_DATE_EPOCH ? Number(process.env.SOURCE_DATE_EPOCH) * 1000 : Date.now(),
+)
+  .toISOString()
+  .slice(0, 10);
+
+const banner = `/**
  *  _
  * |_) _  |   _   _   _   _|  _  __  _|_  _
  * |  (_) |< (/_ | | (_) (_| (/_      |_ _>
  *
- * ${description}
- * Author: ${author.name} <${author.url}>
- * Version: ${version} | Build Date: ${new Date().toLocaleDateString("en-us")}
- * Build Environment: Node ${process.version}
+ * ${name} v${version} — ${description}
+ *
+ * Docs:    ${homepage}
+ * Author:  ${author.name} <${author.url}>
  * License: ${license}
- **/
-`;
+ * Built:   ${buildDate}
+ *
+ * @license ${license}
+ * @preserve
+ */`;
 
 export default defineConfig({
   entry: ["src/index.ts"],

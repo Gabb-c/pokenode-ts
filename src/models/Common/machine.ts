@@ -1,3 +1,5 @@
+import type { VersionGroup } from "../Game/version";
+import type { Machine } from "../Machine/machine";
 import type { APIResource, NamedAPIResource } from "./resource";
 
 /**
@@ -5,7 +7,7 @@ import type { APIResource, NamedAPIResource } from "./resource";
  */
 export interface MachineVersionDetail {
   /** The machine that teaches a move from an item. */
-  machine: APIResource;
+  machine: APIResource<Machine>;
   /** The version group of this specific machine. */
-  version_group: NamedAPIResource;
+  version_group: NamedAPIResource<VersionGroup>;
 }

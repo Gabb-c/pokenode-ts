@@ -1,4 +1,7 @@
 import type { Name, NamedAPIResource } from "../Common";
+import type { ContestType } from "../Contest/contest";
+import type { Item } from "../Item/item";
+import type { Type } from "../Pokemon/type";
 
 /**
  * ## Berry
@@ -25,13 +28,13 @@ export type Berry = {
   /** The speed at which this Berry dries out the soil as it grows. A higher rate means the soil dries more quickly. */
   soil_dryness: number;
   /** The firmness of this berry, used in making Pokéblocks or Poffins. */
-  firmness: NamedAPIResource;
+  firmness: NamedAPIResource<BerryFirmness>;
   /** A list of references to each flavor a berry can have and the potency of each of those flavors in regard to this berry. */
   flavors: BerryFlavorMap[];
   /** Berries are actually items. This is a reference to the item specific data for this berry. */
-  item: NamedAPIResource;
+  item: NamedAPIResource<Item>;
   /** The type inherited by "Natural Gift" when used with this Berry. */
-  natural_gift_type: NamedAPIResource;
+  natural_gift_type: NamedAPIResource<Type>;
 };
 
 /**
@@ -41,7 +44,7 @@ export type BerryFlavorMap = {
   /** How powerful the referenced flavor is for this berry. */
   potency: number;
   /** The referenced berry flavor. */
-  flavor: NamedAPIResource;
+  flavor: NamedAPIResource<BerryFlavor>;
 };
 
 /**
@@ -58,7 +61,7 @@ export type BerryFlavor = {
   /** A list of the berries with this flavor. */
   berries: FlavorBerryMap[];
   /** The contest type that correlates with this berry flavor. */
-  contest_type: NamedAPIResource;
+  contest_type: NamedAPIResource<ContestType>;
   /** The name of this resource listed in different languages. */
   names: Name[];
 };
@@ -70,7 +73,7 @@ export type FlavorBerryMap = {
   /** How powerful the referenced flavor is for this berry. */
   potency: number;
   /** The berry with the referenced flavor. */
-  berry: NamedAPIResource;
+  berry: NamedAPIResource<Berry>;
 };
 
 /**
@@ -85,7 +88,7 @@ export type BerryFirmness = {
   /** The name for this resource. */
   name: "very-soft" | "soft" | "hard" | "very-hard" | "super-hard";
   /** A list of the berries with this firmness. */
-  berries: NamedAPIResource[];
+  berries: NamedAPIResource<Berry>[];
   /** The name of this resource listed in different languages. */
   names: Name[];
 };

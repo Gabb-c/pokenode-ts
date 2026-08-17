@@ -4,7 +4,7 @@ import { delay, HttpResponse, http, type JsonBodyType } from "msw";
 import { BaseClient } from "../../src/clients/base";
 import type { CacheStore } from "../../src/config/cache";
 import { PokenodeError } from "../../src/config/errors";
-import { server } from "../utils/setup";
+import { server } from "../helpers/setup";
 
 /** Exposes the protected request helpers so they can be exercised directly. */
 class TestClient extends BaseClient {
@@ -133,6 +133,41 @@ describe("BaseClient", () => {
     expect(first).toEqual(second);
   });
 
+  it("should report an outcome to every caller sharing one request", async () => {
+    const calls = countingHandler(BERRY_URL);
+    const events: string[] = [];
+    const client = new TestClient({
+      cache: false,
+      logger: {
+        debug: (payload) =>
+          events.push(payload.event === "request" ? "request" : `response ${payload.source}`),
+        error: () => {},
+      },
+    });
+
+    await Promise.all([client.get("/berry", 1), client.get("/berry", 1)]);
+
+    expect(calls.count).toBe(1);
+    // Two calls in, two requests and two responses out — but only one of them
+    // reports a round trip, so counting `network` still counts what upstream saw.
+    expect(events).toEqual(["request", "request", "response network", "response in-flight"]);
+  });
+
+  it("should report a shared failure to every caller", async () => {
+    server.use(http.get(BERRY_URL, () => HttpResponse.json({}, { status: 500 })));
+
+    const errors: string[] = [];
+    const client = new TestClient({
+      cache: false,
+      logger: { debug: () => {}, error: ({ url }) => errors.push(url) },
+    });
+
+    const results = await Promise.allSettled([client.get("/berry", 1), client.get("/berry", 1)]);
+
+    expect(results.map((result) => result.status)).toEqual(["rejected", "rejected"]);
+    expect(errors).toEqual([BERRY_URL, BERRY_URL]);
+  });
+
   it("should stop sharing a request once it settles", async () => {
     const calls = countingHandler(BERRY_URL);
     const client = new TestClient({ cache: false });
@@ -198,6 +233,42 @@ describe("BaseClient", () => {
     await new TestClient().getByURL(`${BERRY_URL}/`);
 
     expect(calls.urls[0]).toBe(BERRY_URL);
+  });
+
+  it("should normalize a long run of slashes without backtracking", async () => {
+    const requested: string[] = [];
+    // A run of slashes that does not end the string is what a backtracking
+    // pattern walks quadratically. This resolves in milliseconds, or the test
+    // times out.
+    const baseURL = `https://example.test/${"/".repeat(200_000)}api/v2`;
+    const client = new TestClient({
+      baseURL,
+      cache: false,
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await client.get("/berry", 1);
+
+    expect(requested).toEqual([`${baseURL}/berry/1`]);
+  });
+
+  it("should leave a trailing slash inside the query string alone", async () => {
+    const requested: string[] = [];
+    const client = new TestClient({
+      baseURL: "https://example.test/api/v2",
+      cache: false,
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await client.getByURL("https://example.test/api/v2/berry?q=a/");
+
+    expect(requested).toEqual(["https://example.test/api/v2/berry?q=a/"]);
   });
 
   it("should give a resource one cache key however it is reached", async () => {
@@ -369,9 +440,13 @@ describe("BaseClient", () => {
     const events: string[] = [];
     const client = new TestClient({
       logger: {
-        request: (method, url) => events.push(`request ${method} ${url}`),
-        response: (status, cached) => events.push(`response ${status} ${cached}`),
-        error: (error) => events.push(`error ${String(error)}`),
+        debug: (payload) =>
+          events.push(
+            payload.event === "request"
+              ? `request ${payload.method} ${payload.url}`
+              : `response ${payload.url} ${payload.status} ${payload.source}`,
+          ),
+        error: ({ err }) => events.push(`error ${String(err)}`),
       },
     });
 
@@ -379,23 +454,129 @@ describe("BaseClient", () => {
     await client.get("/berry", 1);
 
     expect(events).toEqual([
-      `request get ${BERRY_URL}`,
-      "response 200 false",
-      `request get ${BERRY_URL}`,
-      "response 200 true",
+      `request GET ${BERRY_URL}`,
+      `response ${BERRY_URL} 200 network`,
+      `request GET ${BERRY_URL}`,
+      `response ${BERRY_URL} 200 cache`,
     ]);
+  });
+
+  it("should send a credentialed baseURL as an Authorization header", async () => {
+    const requested: string[] = [];
+    const sent: RequestInit["headers"][] = [];
+    const logged: string[] = [];
+    const store = new RecordingStore();
+    const client = new TestClient({
+      baseURL: "https://someone:hunter2@poke.example/api/v2",
+      cache: store,
+      fetch: (url, init) => {
+        requested.push(url);
+        sent.push(init?.headers);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+      logger: {
+        debug: ({ url }) => logged.push(url),
+        error: ({ url }) => logged.push(url),
+      },
+    });
+
+    await client.get("/berry", 1);
+
+    // Native `fetch` rejects a URL carrying userinfo, so the credentials travel
+    // as a header and nothing downstream of the URL ever sees them.
+    expect(requested).toEqual(["https://poke.example/api/v2/berry/1"]);
+    expect(sent).toEqual([
+      { Accept: "application/json", Authorization: `Basic ${btoa("someone:hunter2")}` },
+    ]);
+    expect(logged).toEqual([
+      "https://poke.example/api/v2/berry/1",
+      "https://poke.example/api/v2/berry/1",
+    ]);
+    expect(store.writes).toEqual([["https://poke.example/api/v2/berry/1", { id: 1 }]]);
+  });
+
+  it("should percent-decode credentials before encoding them", async () => {
+    const sent: RequestInit["headers"][] = [];
+    const client = new TestClient({
+      baseURL: "https://someone:hunter%402@poke.example/api/v2",
+      cache: false,
+      fetch: (_url, init) => {
+        sent.push(init?.headers);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await client.get("/berry", 1);
+
+    expect(sent).toEqual([
+      { Accept: "application/json", Authorization: `Basic ${btoa("someone:hunter@2")}` },
+    ]);
+  });
+
+  it("should report the url of a failed request without its credentials", async () => {
+    const logged: string[] = [];
+    const messages: string[] = [];
+    const client = new TestClient({
+      baseURL: "https://someone:hunter2@poke.example/api/v2",
+      cache: false,
+      // What Node's own `fetch` throws: the message quotes the URL it was given.
+      fetch: (url) =>
+        Promise.reject(
+          new TypeError(
+            `Request cannot be constructed from a URL that includes credentials: ${url}`,
+          ),
+        ),
+      logger: {
+        debug: () => {},
+        error: ({ url, err }) => {
+          logged.push(url);
+          messages.push(String((err as Error).message));
+        },
+      },
+    });
+
+    await expect(client.get("/berry", 1)).rejects.toThrow(TypeError);
+    expect(logged).toEqual(["https://poke.example/api/v2/berry/1"]);
+    // The forwarded error reaches a logger's own serializer intact — pino walks
+    // `message` and `stack` — so it must not carry what the url no longer does.
+    expect(messages.join("\n")).not.toContain("hunter2");
+  });
+
+  it("should time both a round trip and a cache hit", async () => {
+    countingHandler(BERRY_URL);
+    const durations: number[] = [];
+    const client = new TestClient({
+      logger: {
+        debug: (payload) => {
+          if (payload.event === "response") {
+            durations.push(payload.durationMs);
+          }
+        },
+        error: () => {},
+      },
+    });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    expect(durations).toHaveLength(2);
+    for (const duration of durations) {
+      expect(duration).toBeGreaterThanOrEqual(0);
+      expect(Number.isFinite(duration)).toBe(true);
+    }
   });
 
   it("should report a failure to a supplied logger", async () => {
     server.use(http.get(BERRY_URL, () => HttpResponse.json({}, { status: 404 })));
 
-    const errors: unknown[] = [];
+    const errors: { url: string; err: unknown }[] = [];
     const client = new TestClient({
-      logger: { request: () => {}, response: () => {}, error: (error) => errors.push(error) },
+      logger: { debug: () => {}, error: (payload) => errors.push(payload) },
     });
 
     await expect(client.get("/berry", 1)).rejects.toThrow(PokenodeError);
     expect(errors).toHaveLength(1);
+    expect(errors[0]?.url).toBe(BERRY_URL);
   });
 
   it("should stay silent without a logger", async () => {

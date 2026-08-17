@@ -1,6 +1,6 @@
 import { MainClient } from "@clients";
 import { ENDPOINTS } from "@constants";
-import { type Case, caseFor, mistypedFields, sortKeys } from "../utils/model-keys";
+import { type Case, caseFor, mistypedFields, sortKeys } from "../helpers/model-keys";
 
 /**
  * Tier 3: the only suite that talks to the real PokéAPI.
@@ -456,6 +456,25 @@ const SPRITES: Case[] = [
   ),
 ];
 
+/*
+ * The two list flavors, and an entry of each.
+ *
+ * Listing is the one response shape no single-resource case reaches, and the
+ * five sections with nothing to name their entries by return a different one
+ * from the rest — so both are checked, top level and entry alike. `berry`
+ * stands for every named section and `machine` for every unnamed one; the
+ * envelope is built by the API, not per section.
+ */
+const berryList = () => client.berry.listBerries(0, 5);
+const machineList = () => client.machine.listMachines(0, 5);
+
+const LISTS: Case[] = [
+  caseFor("NamedAPIResourceList", berryList),
+  caseFor("NamedAPIResource", async () => sample((await berryList()).results, "berries")),
+  caseFor("APIResourceList", machineList),
+  caseFor("APIResource", async () => sample((await machineList()).results, "machines")),
+];
+
 describe("PokéAPI contract", () => {
   it.each(RESOURCES)("%s should keep the shape the model declares", async (_model, get, shape) => {
     const resource = await get();
@@ -478,11 +497,18 @@ describe("PokéAPI contract", () => {
     expect(mistypedFields(shape, resource)).toEqual([]);
   });
 
-  it("should paginate a list the way the client expects", async () => {
-    const list = await client.berry.listBerries(0, 5);
+  it.each(LISTS)("list %s should keep the shape the model declares", async (_m, get, shape) => {
+    const resource = await get();
 
-    expect(sortKeys(Object.keys(list))).toEqual(["count", "next", "previous", "results"]);
+    expect(sortKeys(Object.keys(resource))).toEqual(shape.keys);
+    expect(mistypedFields(shape, resource)).toEqual([]);
+  });
+
+  it("should paginate a list the way the client expects", async () => {
+    const list = await berryList();
+
     expect(list.results).toHaveLength(5);
+    expect(list.next).toContain("offset=5");
   });
 
   it("should model every endpoint the API advertises", async () => {

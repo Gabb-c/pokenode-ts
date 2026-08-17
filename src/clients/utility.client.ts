@@ -1,5 +1,5 @@
 import { ENDPOINTS } from "@constants";
-import type { Language, NamedAPIResourceList } from "@models";
+import type { APIResource, Language, NamedAPIResource, NamedAPIResourceList } from "@models";
 import { BaseClient } from "./base";
 
 /**
@@ -12,41 +12,39 @@ import { BaseClient } from "./base";
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#utility-section)
  */
 export class UtilityClient extends BaseClient {
-  /**
-   * Get a Language by its ID.
-   * @param id The Language ID.
-   * @returns The matching Language.
-   */
+  /** Get a Language by its ID. */
   public async getLanguageById(id: number): Promise<Language> {
     return this.getResource(ENDPOINTS.LANGUAGE, id);
   }
 
-  /**
-   * Get a Language by its name.
-   * @param name The Language name.
-   * @returns The matching Language.
-   */
+  /** Get a Language by its name. */
   public async getLanguageByName(name: string): Promise<Language> {
     return this.getResource(ENDPOINTS.LANGUAGE, name);
   }
 
   /**
-   * Get any resource by its URL, as returned inside a PokéAPI response.
-   * @param url The absolute URL of the resource.
+   * Get any resource by its URL, or by a link taken from another response.
+   *
+   * A link carries what it points at, so the result is typed without saying so:
+   *
+   * ```ts
+   * const pokemon = await api.pokemon.getPokemonByName('luxray');
+   * const species = await api.utility.getResourceByUrl(pokemon.species);
+   * //    ^? PokemonSpecies
+   * ```
+   *
+   * @param resource The absolute URL of the resource, or a link to it.
    * @returns The resource the URL points at.
-   * @throws {TypeError} If `url` is not a valid URL, or names no PokéAPI endpoint.
+   * @throws {TypeError} If the URL is not valid, or names no PokéAPI endpoint.
    */
-  public async getResourceByUrl<T>(url: string): Promise<T> {
-    return this.getResourceByURL<T>(url);
+  public async getResourceByUrl<T>(
+    resource: string | NamedAPIResource<T> | APIResource<T>,
+  ): Promise<T> {
+    return this.getResourceByURL<T>(resource);
   }
 
-  /**
-   * List Languages.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Languages.
-   */
-  public listLanguages(offset?: number, limit?: number): Promise<NamedAPIResourceList> {
-    return this.getListResource(ENDPOINTS.LANGUAGE, offset, limit);
+  /** List Languages. Page defaults to 20 entries from offset 0. */
+  public listLanguages(offset?: number, limit?: number): Promise<NamedAPIResourceList<Language>> {
+    return this.getListResource<Language>(ENDPOINTS.LANGUAGE, offset, limit);
   }
 }

@@ -9,6 +9,10 @@ import type {
   VerboseEffect,
   VersionGroupFlavorText,
 } from "../Common";
+import type { Currency } from "../Currency/currency";
+import type { EvolutionChain } from "../Evolution/evolution";
+import type { Version, VersionGroup } from "../Game/version";
+import type { Pokemon } from "../Pokemon/pokemon";
 
 /**
  * Sprites used to depict the given item in the game.
@@ -23,7 +27,7 @@ export interface ItemSprites {
  */
 export interface ItemHolderPokemon {
   /** The Pokémon that holds this item. */
-  pokemon: NamedAPIResource;
+  pokemon: NamedAPIResource<Pokemon>;
   /** The details for the version that this item is held in by the Pokémon. */
   version_details: ItemHolderPokemonVersionDetail[];
 }
@@ -35,7 +39,7 @@ export interface ItemHolderPokemonVersionDetail {
   /** How often this Pokémon holds this item in this version. */
   rarity: number;
   /** The version that this item is held in by the Pokémon. */
-  version: NamedAPIResource;
+  version: NamedAPIResource<Version>;
 }
 
 /**
@@ -48,7 +52,7 @@ export interface ItemAttribute {
   /** The name for this resource. */
   name: string;
   /** A list of items that have this attribute. */
-  items: NamedAPIResource[];
+  items: NamedAPIResource<Item>[];
   /** The name of this item attribute listed in different languages. */
   names: Name[];
   /** The description of this item attribute listed in different languages. */
@@ -65,11 +69,11 @@ export interface ItemCategory {
   /** The name for this resource. */
   name: string;
   /** A list of items that are a part of this category. */
-  items: NamedAPIResource[];
+  items: NamedAPIResource<Item>[];
   /** The name of this item category listed in different languages. */
   names: Name[];
   /** The pocket items in this category would be put in. */
-  pocket: NamedAPIResource;
+  pocket: NamedAPIResource<ItemPocket>;
 }
 
 /**
@@ -84,7 +88,7 @@ export interface ItemFlingEffect {
   /** The result of this fling effect listed in different languages. */
   effect_entries: Effect[];
   /** A list of items that have this fling effect. */
-  items: NamedAPIResource[];
+  items: NamedAPIResource<Item>[];
 }
 
 /**
@@ -97,7 +101,7 @@ export interface ItemPocket {
   /** The name for this resource. */
   name: string;
   /** A list of item categories that are relevant to this item pocket. */
-  categories: NamedAPIResource[];
+  categories: NamedAPIResource<ItemCategory>[];
   /** The name of this resource listed in different languages. */
   names: Name[];
 }
@@ -105,13 +109,13 @@ export interface ItemPocket {
 /** The price of an item in a single version group. */
 export interface ItemPrice {
   /** The currency used for this price. */
-  currency: NamedAPIResource;
+  currency: NamedAPIResource<Currency>;
   /** The purchase price of this item in this version group. Null if the item cannot be purchased. */
   purchase_price: number | null;
   /** The sell price of this item in this version group. Null if the item cannot be sold. */
   sell_price: number | null;
   /** The version group these prices apply to. */
-  version_group: NamedAPIResource;
+  version_group: NamedAPIResource<VersionGroup>;
 }
 
 /**
@@ -130,11 +134,11 @@ export interface Item {
   /** The power of the move Fling when used with this item. */
   fling_power: number | null;
   /** The effect of the move Fling when used with this item. */
-  fling_effect: NamedAPIResource | null;
+  fling_effect: NamedAPIResource<ItemFlingEffect> | null;
   /** A list of attributes this item has. */
-  attributes: NamedAPIResource[];
+  attributes: NamedAPIResource<ItemAttribute>[];
   /** The category of items this item falls into. */
-  category: NamedAPIResource;
+  category: NamedAPIResource<ItemCategory>;
   /** The effect of this ability listed in different languages. */
   effect_entries: VerboseEffect[];
   /** The flavor text of this ability listed in different languages. */
@@ -148,7 +152,7 @@ export interface Item {
   /** A list of Pokémon that might be found in the wild holding this item. */
   held_by_pokemon: ItemHolderPokemon[];
   /** An evolution chain this item requires to produce a baby during mating. */
-  baby_trigger_for: APIResource | null;
+  baby_trigger_for: APIResource<EvolutionChain> | null;
   /** A list of the machines related to this item. */
   machines: MachineVersionDetail[];
 }

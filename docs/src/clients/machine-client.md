@@ -24,7 +24,7 @@ console.log(machine.version_group.name); // the games it applies to
 | Method | Returns |
 | --- | --- |
 | `getMachineById(id)` | `Machine` |
-| `listMachines(offset?, limit?)` | `NamedAPIResourceList` |
+| `listMachines(offset?, limit?)` | `APIResourceList` |
 
 ::: info
 Machines have no names upstream — the same TM number teaches different moves in different games, so

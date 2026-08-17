@@ -1,4 +1,10 @@
 import type { Name, NamedAPIResource } from "../Common";
+import type { Region } from "../Location/region";
+import type { Move } from "../Moves/moves";
+import type { Ability } from "../Pokemon/ability";
+import type { PokemonSpecies } from "../Pokemon/pokemon";
+import type { Type } from "../Pokemon/type";
+import type { VersionGroup } from "./version";
 
 /**
  * ## Generation
@@ -12,17 +18,17 @@ export interface Generation {
   /** The name for this resource. */
   name: string;
   /** A list of abilities that were introduced in this generation. */
-  abilities: NamedAPIResource[];
+  abilities: NamedAPIResource<Ability>[];
   /** The name of this resource listed in different languages. */
   names: Name[];
   /** The main region travelled in this generation. */
-  main_region: NamedAPIResource;
+  main_region: NamedAPIResource<Region>;
   /** A list of moves that were introduced in this generation. */
-  moves: NamedAPIResource[];
+  moves: NamedAPIResource<Move>[];
   /** A list of Pokémon species that were introduced in this generation. */
-  pokemon_species: NamedAPIResource[];
+  pokemon_species: NamedAPIResource<PokemonSpecies>[];
   /** A list of types that were introduced in this generation. */
-  types: NamedAPIResource[];
+  types: NamedAPIResource<Type>[];
   /** A list of version groups that were introduced in this generation. */
-  version_groups: NamedAPIResource[];
+  version_groups: NamedAPIResource<VersionGroup>[];
 }

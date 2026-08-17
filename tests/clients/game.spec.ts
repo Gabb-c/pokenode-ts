@@ -1,7 +1,7 @@
 import { GameClient } from "@clients";
 import { GENERATIONS, POKEDEXES, VERSION_GROUPS, VERSIONS } from "@constants";
 
-import { type EndpointCase, expectEndpoint } from "../utils/stub-fetch";
+import { type EndpointCase, expectEndpoint } from "../helpers/stub-fetch";
 
 describe("GameClient", () => {
   it.each([

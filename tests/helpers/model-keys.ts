@@ -19,6 +19,7 @@ import type * as M from "@models";
  */
 export interface Models {
   APIResource: M.APIResource;
+  APIResourceList: M.APIResourceList;
   Ability: M.Ability;
   AbilityEffectChange: M.AbilityEffectChange;
   AbilityFlavorText: M.AbilityFlavorText;
@@ -193,7 +194,12 @@ export type ModelName = keyof Models;
 const MODELS_DIR = fileURLToPath(new URL("../../src/models", import.meta.url));
 
 /** `export interface Name {` or `export type Name = {`, and nothing else. */
-const DECLARATION = /^export (?:interface (\w+)\s*|type (\w+)\s*=\s*)\{$/;
+/**
+ * A model declaration, with the type parameters of a generic one discarded:
+ * `NamedAPIResource<T = unknown>` is registered as `NamedAPIResource`, since the
+ * argument says what a link points at and not what the response contains.
+ */
+const DECLARATION = /^export (?:interface (\w+)(?:<[^>]*>)?\s*|type (\w+)(?:<[^>]*>)?\s*=\s*)\{$/;
 
 /** The start of a property at the top level of a declaration body. */
 const PROPERTY = /^ {2}"?([\w-]+)"?\??:\s*(.*)$/;
@@ -242,10 +248,15 @@ const modelFiles = (dir: string): string[] =>
  * Turns one annotation into the coarse shape {@link mistypedFields} checks.
  *
  * The models use a small, closed grammar — primitives, named types, arrays of
- * either, literal unions, and an optional `| null` — with no generics,
- * intersections or parenthesised types, so splitting on `|` is enough. An
- * annotation outside that grammar throws instead of being skipped: a field the
- * reader quietly gave up on would weaken the check with nothing to show for it.
+ * either, literal unions, and an optional `| null` — with no intersections or
+ * parenthesised types, so splitting on `|` is enough. A named type may carry one
+ * type argument (`NamedAPIResource<Berry>`), which says what a link points at
+ * and makes no difference to the shape of the response. A union *inside* those
+ * angle brackets would defeat the split, and throws rather than parsing wrong.
+ *
+ * An annotation outside that grammar throws instead of being skipped: a field
+ * the reader quietly gave up on would weaken the check with nothing to show for
+ * it.
  */
 const parseAnnotation = (model: string, key: string, annotation: string): Field => {
   const field: Field = {
@@ -278,13 +289,13 @@ const parseAnnotation = (model: string, key: string, annotation: string): Field 
       field.literals = null;
       field.element =
         element === "string" || element === "number" || element === "boolean" ? element : "object";
-    } else if (/^[A-Z]\w*$/.test(type)) {
+    } else if (/^[A-Z]\w*(<[A-Z]\w*>)?$/.test(type)) {
       field.kinds.add("object");
       field.literals = null;
     } else {
       throw new Error(
         `${model}.${key} is declared \`${annotation}\`, which ` +
-          `tests/utils/model-keys.ts cannot read. Teach parseAnnotation the new form.`,
+          `tests/helpers/model-keys.ts cannot read. Teach parseAnnotation the new form.`,
       );
     }
   }
@@ -355,7 +366,7 @@ const declaredShapes = (): Map<string, Shape> => {
       if (INLINE_OBJECT.test(line)) {
         throw new Error(
           `${model} declares a property with an inline object type, which ` +
-            `tests/utils/model-keys.ts cannot read. Give the type a name of its own.`,
+            `tests/helpers/model-keys.ts cannot read. Give the type a name of its own.`,
         );
       }
 

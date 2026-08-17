@@ -17,6 +17,9 @@ export interface CacheStore {
   clear?(): void | Promise<void>;
 }
 
+/** Default namespace for the keys {@link WebStorageCache} owns. */
+const DEFAULT_PREFIX = "pokenode:";
+
 /**
  * ## Memory Cache Options
  * Used to configure the default in-memory store.
@@ -89,5 +92,224 @@ export class MemoryCache implements CacheStore {
 
   clear(): void {
     this.entries.clear();
+  }
+}
+
+/**
+ * ## Web Storage Like
+ * The part of the browser's `Storage` interface a {@link WebStorageCache} uses.
+ *
+ * Declared structurally rather than as the DOM's `Storage`: the package compiles
+ * without `lib.dom`, and stays usable anywhere the same shape exists.
+ *
+ * Every method may return a promise, so a React Native `AsyncStorage` works as-is.
+ * Key enumeration is the one place the two shapes differ: `Storage` exposes
+ * `length` and `key(index)`, `AsyncStorage` exposes `getAllKeys`, and a property
+ * cannot be awaited — so both are accepted, and a storage offering neither still
+ * caches; it just never evicts or clears.
+ */
+export interface WebStorageLike {
+  getItem(key: string): string | null | Promise<string | null>;
+  setItem(key: string, value: string): void | Promise<void>;
+  removeItem(key: string): void | Promise<void>;
+  /** Every key held, this store's and the application's alike. */
+  getAllKeys?(): readonly string[] | Promise<readonly string[]>;
+  key?(index: number): string | null;
+  readonly length?: number;
+}
+
+/**
+ * ## Web Storage Cache Options
+ * Used to configure a store backed by `localStorage` or `sessionStorage`.
+ */
+export interface WebStorageCacheOptions {
+  /**
+   * Where entries are kept. Pass `localStorage`, `sessionStorage`, a React Native
+   * `AsyncStorage`, or anything else matching {@link WebStorageLike}.
+   */
+  storage: WebStorageLike;
+  /** How long a cached response stays fresh, in milliseconds. Defaults to 5 minutes. */
+  ttl?: number;
+  /** Namespace for the keys this store writes. Defaults to `pokenode:`. */
+  prefix?: string;
+}
+
+/**
+ * ## Web Storage Cache
+ * A {@link CacheStore} backed by `localStorage` or `sessionStorage`, so a cached
+ * response survives a page reload.
+ *
+ * ```ts
+ * const api = new PokemonClient({ cache: new WebStorageCache({ storage: localStorage }) });
+ * ```
+ *
+ * Only keys under {@link WebStorageCacheOptions.prefix} are ever read, evicted or
+ * cleared — the storage is assumed to be shared with the surrounding application.
+ *
+ * Values round-trip through JSON, so unlike {@link MemoryCache} every hit returns a
+ * fresh copy. Anything a `JSON.stringify` cannot represent does not survive, which
+ * covers every PokéAPI response.
+ *
+ * A storage that throws instead of answering is treated as empty: a read is a miss
+ * and a write is dropped, because neither is worth failing the request that
+ * triggered it over.
+ */
+export class WebStorageCache implements CacheStore {
+  private readonly storage: WebStorageLike;
+  private readonly ttl: number;
+  private readonly prefix: string;
+
+  constructor(options: WebStorageCacheOptions) {
+    this.storage = options.storage;
+    this.ttl = options.ttl ?? DEFAULT_TTL;
+    this.prefix = options.prefix ?? DEFAULT_PREFIX;
+  }
+
+  async get(key: string): Promise<unknown> {
+    const entry = await this.read(this.prefix + key);
+
+    if (!entry) {
+      return undefined;
+    }
+
+    if (entry.expiresAt <= Date.now()) {
+      await this.remove(this.prefix + key);
+      return undefined;
+    }
+
+    return entry.value;
+  }
+
+  async set(key: string, value: unknown): Promise<void> {
+    const entry = JSON.stringify({ value, expiresAt: Date.now() + this.ttl });
+
+    try {
+      await this.storage.setItem(this.prefix + key, entry);
+    } catch {
+      // Out of quota, most likely. Make room among this store's own keys and try
+      // once more; a cache write that cannot land must not fail the request that
+      // triggered it, so a second failure is dropped.
+      await this.evict();
+
+      try {
+        await this.storage.setItem(this.prefix + key, entry);
+      } catch {
+        return;
+      }
+    }
+  }
+
+  async delete(key: string): Promise<void> {
+    await this.storage.removeItem(this.prefix + key);
+  }
+
+  async clear(): Promise<void> {
+    for (const key of await this.ownKeys()) {
+      await this.storage.removeItem(key);
+    }
+  }
+
+  /** Reads a namespaced key, treating unreadable content as a miss. */
+  private async read(key: string): Promise<CacheEntry | undefined> {
+    let stored: string | null;
+
+    try {
+      stored = await this.storage.getItem(key);
+    } catch {
+      // A storage that refuses to be read — Safari with storage blocked, a shim
+      // that throws — is a cache miss, not a failed request. The response the
+      // caller asked for is still one fetch away.
+      return undefined;
+    }
+
+    if (stored === null) {
+      return undefined;
+    }
+
+    try {
+      return JSON.parse(stored) as CacheEntry;
+    } catch {
+      // Written by an older version, or by something else under the same prefix.
+      await this.remove(key);
+      return undefined;
+    }
+  }
+
+  /**
+   * Frees space by dropping expired entries, falling back to the ones closest to
+   * expiring when nothing has expired yet.
+   */
+  private async evict(): Promise<void> {
+    const keys = await this.ownKeys();
+    const entries = await Promise.all(
+      keys.map(async (key) => ({ key, expiresAt: (await this.read(key))?.expiresAt })),
+    );
+    const now = Date.now();
+    const expired = entries.filter(({ expiresAt }) => expiresAt === undefined || expiresAt <= now);
+
+    if (expired.length > 0) {
+      for (const { key } of expired) {
+        await this.remove(key);
+      }
+
+      return;
+    }
+
+    const soonest = entries.sort((a, b) => (a.expiresAt ?? 0) - (b.expiresAt ?? 0));
+
+    for (const { key } of soonest.slice(0, Math.ceil(soonest.length / 4))) {
+      await this.remove(key);
+    }
+  }
+
+  /**
+   * Collects this store's keys before any removal: `key(index)` walks a list that
+   * shifts underneath a loop that deletes as it goes.
+   */
+  private async ownKeys(): Promise<string[]> {
+    return (await this.allKeys()).filter((key) => key.startsWith(this.prefix));
+  }
+
+  /**
+   * Every key the storage holds, however it is willing to list them. A storage
+   * offering no enumeration at all reports none, which leaves eviction and
+   * `clear` as no-ops rather than an error on a path that only tidies up.
+   */
+  private async allKeys(): Promise<string[]> {
+    try {
+      if (this.storage.getAllKeys !== undefined) {
+        return [...(await this.storage.getAllKeys())];
+      }
+
+      const { key, length } = this.storage;
+
+      if (key === undefined || length === undefined) {
+        return [];
+      }
+
+      const keys: string[] = [];
+
+      for (let index = 0; index < length; index += 1) {
+        const found = key.call(this.storage, index);
+
+        if (found !== null) {
+          keys.push(found);
+        }
+      }
+
+      return keys;
+    } catch {
+      return [];
+    }
+  }
+
+  /** Removes a key on a path that is only tidying up, where a refusal is moot. */
+  private async remove(key: string): Promise<void> {
+    try {
+      await this.storage.removeItem(key);
+    } catch {
+      // The entry stays until the storage lets it go; a read of it is a miss
+      // either way, since it is expired or unparseable.
+    }
   }
 }

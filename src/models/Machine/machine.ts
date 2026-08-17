@@ -1,4 +1,7 @@
 import type { NamedAPIResource } from "../Common";
+import type { VersionGroup } from "../Game/version";
+import type { Item } from "../Item/item";
+import type { Move } from "../Moves/moves";
 
 /**
  * ## Machine
@@ -11,9 +14,9 @@ export type Machine = {
   /** The identifier for this resource. */
   id: number;
   /** The TM or HM item that corresponds to this machine. */
-  item: NamedAPIResource;
+  item: NamedAPIResource<Item>;
   /** The move that is taught by this machine. */
-  move: NamedAPIResource;
+  move: NamedAPIResource<Move>;
   /** The version group that this machine applies to. */
-  version_group: NamedAPIResource;
+  version_group: NamedAPIResource<VersionGroup>;
 };

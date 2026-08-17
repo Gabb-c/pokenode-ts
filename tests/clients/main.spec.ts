@@ -3,7 +3,7 @@ import { HttpResponse, http } from "msw";
 
 import { MainClient } from "../../src/clients/main.client";
 import { MemoryCache } from "../../src/config/cache";
-import { server } from "../utils/setup";
+import { server } from "../helpers/setup";
 
 const BERRY_URL = `${BASE_URL.REST}/berry/1`;
 

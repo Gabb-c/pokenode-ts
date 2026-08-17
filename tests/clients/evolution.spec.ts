@@ -1,7 +1,7 @@
 import { EvolutionClient } from "@clients";
 import { EVOLUTION_TRIGGERS } from "@constants";
 
-import { type EndpointCase, expectEndpoint } from "../utils/stub-fetch";
+import { type EndpointCase, expectEndpoint } from "../helpers/stub-fetch";
 
 describe("EvolutionClient", () => {
   it.each([

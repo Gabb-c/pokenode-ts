@@ -1,3 +1,4 @@
+import type { EncounterConditionValue, EncounterMethod } from "../Encounter/encounter";
 import type { NamedAPIResource } from "./resource";
 
 /**
@@ -24,11 +25,11 @@ export interface Encounter {
   /** The highest level the Pokémon could be encountered at. */
   max_level: number;
   /** A list of condition values that must be in effect for this encounter to occur. */
-  condition_values: NamedAPIResource[];
+  condition_values: NamedAPIResource<EncounterConditionValue>[];
   /** Percent chance that this encounter will occur. */
   chance: number;
   /** The method by which this encounter happens. */
-  method: NamedAPIResource;
+  method: NamedAPIResource<EncounterMethod>;
   /** How the encountered Pokémon is generated, where the game constrains it. */
   pokemon_details: EncounterPokemonDetail | null;
 }

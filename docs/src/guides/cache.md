@@ -68,6 +68,53 @@ const api = new PokemonClient({ cache: new RedisStore(redis) });
 
 Return `undefined` from `get` for a miss.
 
+## Browser storage
+
+`WebStorageCache` keeps responses in `localStorage` or `sessionStorage`, so they survive a page
+reload:
+
+```ts
+import { PokemonClient, WebStorageCache } from 'pokenode-ts';
+
+const api = new PokemonClient({
+  cache: new WebStorageCache({ storage: localStorage }),
+});
+
+// Tuned
+const tuned = new PokemonClient({
+  cache: new WebStorageCache({
+    storage: sessionStorage,
+    ttl: 60000,
+    prefix: 'pokedex:',
+  }),
+});
+```
+
+`storage` is required — there is no browser global to fall back to on the server. Anything matching
+`WebStorageLike` works, and every method may return a promise, so React Native's `AsyncStorage`
+goes in directly:
+
+```ts
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const api = new PokemonClient({
+  cache: new WebStorageCache({ storage: AsyncStorage }),
+});
+```
+
+Key enumeration is the one place the two shapes differ: `Storage` has `length` and `key(index)`,
+`AsyncStorage` has `getAllKeys()`, and `WebStorageCache` accepts either. A storage offering neither
+still caches — it just never evicts or clears.
+
+The store only ever touches keys under its `prefix` (`pokenode:` by default). Eviction and
+`clearCache()` leave the rest of the storage alone, and a full quota is handled by dropping this
+store's own entries — expired ones first — rather than by throwing into your request. A storage that
+throws on read instead of answering — Safari with storage blocked, a shim that gives up — is treated
+as a cache miss for the same reason: neither is worth failing the request over.
+
+Values round-trip through JSON here, so every hit returns a fresh copy and the mutation warning
+below does not apply.
+
 ## Clearing the cache
 
 Every client exposes the store it is using as `cache`, and `clearCache()` empties it — including the

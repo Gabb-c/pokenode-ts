@@ -1,4 +1,8 @@
 import type { Name, NamedAPIResource } from "../Common";
+import type { Generation } from "../Game/generation";
+import type { Pokedex } from "../Game/pokedex";
+import type { VersionGroup } from "../Game/version";
+import type { Location } from "./location";
 
 /**
  * ## Region
@@ -11,15 +15,15 @@ export type Region = {
   /** The identifier for this resource. */
   id: number;
   /** A list of locations that can be found in this region. */
-  locations: NamedAPIResource[];
+  locations: NamedAPIResource<Location>[];
   /** The name for this resource. */
   name: string;
   /** The name of this resource listed in different languages. */
   names: Name[];
   /** The generation this region was introduced in. */
-  main_generation: NamedAPIResource;
+  main_generation: NamedAPIResource<Generation>;
   /** A list of Pokédexes that catalogue Pokémon in this region. */
-  pokedexes: NamedAPIResource[];
+  pokedexes: NamedAPIResource<Pokedex>[];
   /** A list of version groups where this region can be visited. */
-  version_groups: NamedAPIResource[];
+  version_groups: NamedAPIResource<VersionGroup>[];
 };

@@ -40,9 +40,11 @@ The request pipeline in `BaseClient.request` is: cache lookup → in-flight dedu
 
 **Cache** (`src/config/cache.ts`) — `CacheStore` is a 2-required-method interface (`get`/`set`, optional `delete`/`clear`), every method may return a promise so Redis/KV backends work unchanged. Default `MemoryCache` is LRU + TTL. `clear` is optional on purpose: the library must not flush someone's shared Redis.
 
+**Resource links** (`src/models/Common/resource.ts`) — `NamedAPIResource<T>`/`APIResource<T>` carry `T` on a phantom `unique symbol` key, which is what types `getResourceByUrl(link)`. Nominal per declaration, so a link crossing the ESM/CJS boundary degrades to `unknown` — same dual-build split as `PokenodeError` below. The five sections whose list entries have no `name` (`machine`, `contest-effect`, `super-contest-effect`, `evolution-chain`, `characteristic`) return `APIResourceList<T>` via `BaseClient.getUnnamedListResource`, not `NamedAPIResourceList<T>`.
+
 **Errors** (`src/config/errors.ts`) — non-2xx rejects with `PokenodeError`; transport failures propagate untouched. `PokenodeError` is matched via the static `isPokenodeError` guard on a `kind` brand, **not** `instanceof` — a tree loading both the ESM and CJS build has two distinct classes. Keep the guard in any new error-handling code and docs.
 
-**Path aliases** (`tsconfig.json`, resolved in tests by Vite's native `resolve.tsconfigPaths`): `@clients`, `@config/*`, `@constants`, `@models`, `@package`. That option is a boolean — it resolves aliases from the nearest file *named* `tsconfig.json` whose `include` matches, which is why the test config is `tests/tsconfig.json` and not a root-level `tsconfig.test.json`. Use the aliases in `src/` and `tests/`; `base.ts` and `main.client.ts` use relative imports to avoid cycles through the barrel.
+**Path aliases** (`tsconfig.json`, resolved in tests by Vite's native `resolve.tsconfigPaths`): `@clients`, `@config/*`, `@constants`, `@models`, `@package`, `@utils`. That option is a boolean — it resolves aliases from the nearest file *named* `tsconfig.json` whose `include` matches, which is why the test config is `tests/tsconfig.json` and not a root-level `tsconfig.test.json`. Use the aliases in `src/` and `tests/`; `base.ts` and `main.client.ts` use relative imports to avoid cycles through the barrel.
 
 ## Testing
 
@@ -55,7 +57,7 @@ projects in `vitest.config.ts`:
 | Transport — cache, dedupe, errors, URL normalization | `tests/clients/base.spec.ts`, `tests/clients/main.spec.ts` | `pnpm test` (`unit` project) | none, MSW |
 | Drift | `tests/live/*.live.spec.ts` | `pnpm test:live` (`live` project), weekly cron only | **live PokéAPI** |
 
-**`pnpm test` is hermetic and must stay that way.** `tests/utils/setup.ts` starts MSW with *no*
+**`pnpm test` is hermetic and must stay that way.** `tests/helpers/setup.ts` starts MSW with *no*
 default handlers and `onUnhandledRequest: "error"`, so any request a test did not explicitly mock
 fails the run instead of leaking to pokeapi.co.
 
@@ -63,7 +65,7 @@ Section clients are one-line delegations to `BaseClient`, so their tests assert 
 builds**, not the payload — a stubbed `fetch` returns `{ id: 1 }` and the table checks where the
 request went. Adding a client method means adding an `[method, path, call]` row to the `it.each`
 table in the matching `tests/clients/<section>.spec.ts`, asserted by `expectEndpoint` from
-`tests/utils/stub-fetch.ts`. The table drives `it.each` from the spec file itself so each file
+`tests/helpers/stub-fetch.ts`. The table drives `it.each` from the spec file itself so each file
 declares its own tests — a helper that registered them would leave Sonar (rule S2187) seeing an
 empty test file. Anything
 needing a real `Response` (status codes, abort signals, cache behavior) belongs in `base.spec.ts`
@@ -71,7 +73,7 @@ with MSW instead.
 
 `tests/live/drift.live.spec.ts` asserts the key set of one resource per section — plus the nested
 shapes a top-level key set never reaches — against what `src/models` declares. Rows are built by
-`caseFor` in `tests/utils/model-keys.ts`, which infers the model from the fetch and makes the
+`caseFor` in `tests/helpers/model-keys.ts`, which infers the model from the fetch and makes the
 compiler prove the key list is exactly its `keyof`, so `pnpm typecheck` catches a list that has
 drifted from its type. A failure in the live run is upstream drift, not a regression; it means the
 models need updating. `.github/workflows/live.yml` runs it weekly, skips the check when the PokéAPI
