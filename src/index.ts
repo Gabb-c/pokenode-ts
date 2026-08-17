@@ -19,4 +19,11 @@ export * from "@constants";
 export * as CONSTANTS from "@constants";
 export * from "@models";
 export * from "@utils";
-export type { ClientOptions, FetchLike, RequestScope } from "./clients/base";
+export type {
+  ClientOptions,
+  FetchLike,
+  ListFn,
+  ListPage,
+  PaginateOptions,
+  RequestScope,
+} from "./clients/base";

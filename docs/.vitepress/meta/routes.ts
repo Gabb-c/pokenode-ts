@@ -9,6 +9,7 @@ const guides: Route[] = [
   { text: "Logging", link: "/guides/logging" },
   { text: "Custom Fetch", link: "/guides/fetch" },
   { text: "Cancellation", link: "/guides/cancellation" },
+  { text: "Pagination", link: "/guides/pagination" },
   { text: "Sprites", link: "/guides/sprites" },
   { text: "Migrating to 2.0", link: "/guides/migration" },
   { text: "Contributing", link: "/guides/contributing" },

@@ -8,6 +8,7 @@ import type {
   NamedAPIResource,
   NamedAPIResourceList,
 } from "../models/Common/resource";
+import { mapWithConcurrency } from "../utils/pool";
 
 /**
  * Scanned rather than matched with `/\/+$/`: that pattern backtracks through
@@ -166,6 +167,43 @@ interface InFlightRequest {
   /** Absent when the caller that started the request had nothing to cancel it with. */
   controller: AbortController | undefined;
   waiters: number;
+}
+
+/**
+ * The PokéAPI's own default, and `getListResource`'s, so a walk pages the way a
+ * hand-written loop would.
+ */
+const DEFAULT_PAGE_SIZE = 20;
+/** Kept low on purpose: see the PokéAPI fair-use policy. */
+const DEFAULT_CONCURRENCY = 4;
+
+/**
+ * ## List Page
+ * The part of a resource list a walk needs: how much there is, and this page of
+ * it. Both {@link NamedAPIResourceList} and {@link APIResourceList} qualify.
+ */
+export interface ListPage<L> {
+  count: number;
+  results: L[];
+}
+
+/**
+ * ## List Fn
+ * A list method, called with the offset and the limit of the page to fetch.
+ */
+export type ListFn<L> = (offset: number, limit: number) => Promise<ListPage<L>>;
+
+/**
+ * ## Paginate Options
+ * How {@link BaseClient.paginate} walks a list endpoint.
+ */
+export interface PaginateOptions {
+  /** Entries fetched per request. Defaults to 20. */
+  pageSize?: number;
+  /** Fetch each link and yield the resource instead. Defaults to `false`. */
+  resolve?: boolean;
+  /** Links resolved at a time, when `resolve` is set. Defaults to 4. */
+  concurrency?: number;
 }
 
 /**
@@ -467,6 +505,86 @@ export class BaseClient {
       source,
       durationMs: performance.now() - startedAt,
     });
+  }
+
+  /**
+   * Walks every page of a list endpoint, yielding one entry at a time.
+   *
+   * Pass the list method to walk; the offset and the limit are this method's to
+   * manage.
+   *
+   * ```ts
+   * for await (const berry of api.berry.paginate((offset, limit) =>
+   *   api.berry.listBerries(offset, limit),
+   * )) {
+   *   console.log(berry.name);
+   * }
+   * ```
+   *
+   * With `resolve`, each link is fetched and the resource is yielded instead of
+   * the link. Requests are capped at `concurrency` at a time — the default is
+   * deliberately low, because walking a section is exactly the traffic the
+   * PokéAPI's fair-use policy asks clients to keep gentle.
+   *
+   * ```ts
+   * for await (const berry of api.berry.paginate(
+   *   (offset, limit) => api.berry.listBerries(offset, limit),
+   *   { resolve: true },
+   * )) {
+   *   console.log(berry.growth_time);
+   * }
+   * ```
+   */
+  public paginate<L extends APIResource<unknown>>(
+    list: ListFn<L>,
+    options?: PaginateOptions & { resolve?: false },
+  ): AsyncGenerator<L>;
+  public paginate<T>(
+    list: ListFn<APIResource<T>>,
+    options: PaginateOptions & { resolve: true },
+  ): AsyncGenerator<T>;
+  public paginate<T>(
+    list: ListFn<APIResource<T>>,
+    options?: PaginateOptions,
+  ): AsyncGenerator<APIResource<T> | T> {
+    return this.walk(list, options);
+  }
+
+  private async *walk<T>(
+    list: ListFn<APIResource<T>>,
+    options?: PaginateOptions,
+  ): AsyncGenerator<APIResource<T> | T> {
+    const pageSize = options?.pageSize ?? DEFAULT_PAGE_SIZE;
+    const concurrency = options?.concurrency ?? DEFAULT_CONCURRENCY;
+    let offset = 0;
+
+    while (true) {
+      const page = await list(offset, pageSize);
+
+      if (page.results.length === 0) {
+        return;
+      }
+
+      if (options?.resolve) {
+        // Resolved a page at a time: the order callers see stays the order the
+        // API listed, however the requests within a page happen to finish.
+        const resources = await mapWithConcurrency(page.results, concurrency, (link) =>
+          this.getResourceByURL(link),
+        );
+
+        yield* resources;
+      } else {
+        yield* page.results;
+      }
+
+      offset += page.results.length;
+
+      // A short page ends the walk on its own: `count` is upstream's word for how
+      // much there is, and the results are the client's own evidence.
+      if (page.results.length < pageSize || offset >= page.count) {
+        return;
+      }
+    }
   }
 
   /**
