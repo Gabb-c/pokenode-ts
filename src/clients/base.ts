@@ -9,7 +9,21 @@ import type {
   NamedAPIResourceList,
 } from "../models/Common/resource";
 
-const trimTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
+/**
+ * Scanned rather than matched with `/\/+$/`: that pattern backtracks through
+ * every slash of a long run that turns out not to end the string, which is
+ * quadratic on a URL an untrusted caller supplies. This walks each character
+ * once.
+ */
+const trimTrailingSlash = (url: string): string => {
+  let end = url.length;
+
+  while (end > 0 && url[end - 1] === "/") {
+    end -= 1;
+  }
+
+  return url.slice(0, end);
+};
 
 /** Builds the paginated request path shared by both list methods. */
 const listPath = (endpoint: Endpoint, offset: number, limit: number): string => {
@@ -23,8 +37,19 @@ const listPath = (endpoint: Endpoint, offset: number, limit: number): string => 
  *
  * Both call paths must produce one cache key: `getResource` builds `/berry/1`,
  * while the PokéAPI's own links end in a slash.
+ *
+ * Split at the query rather than matched with a lookahead, for the reason given
+ * on {@link trimTrailingSlash}.
  */
-const normalizeURL = (url: string): string => url.replace(/\/+(?=\?|$)/, "");
+const normalizeURL = (url: string): string => {
+  const queryAt = url.indexOf("?");
+
+  if (queryAt === -1) {
+    return trimTrailingSlash(url);
+  }
+
+  return trimTrailingSlash(url.slice(0, queryAt)) + url.slice(queryAt);
+};
 
 /** A path segment naming an API version, as in `/api/v2/berry/1`. */
 const API_VERSION_SEGMENT = /^v\d+$/;

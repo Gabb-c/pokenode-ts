@@ -235,6 +235,42 @@ describe("BaseClient", () => {
     expect(calls.urls[0]).toBe(BERRY_URL);
   });
 
+  it("should normalize a long run of slashes without backtracking", async () => {
+    const requested: string[] = [];
+    // A run of slashes that does not end the string is what a backtracking
+    // pattern walks quadratically. This resolves in milliseconds, or the test
+    // times out.
+    const baseURL = `https://example.test/${"/".repeat(200_000)}api/v2`;
+    const client = new TestClient({
+      baseURL,
+      cache: false,
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await client.get("/berry", 1);
+
+    expect(requested).toEqual([`${baseURL}/berry/1`]);
+  });
+
+  it("should leave a trailing slash inside the query string alone", async () => {
+    const requested: string[] = [];
+    const client = new TestClient({
+      baseURL: "https://example.test/api/v2",
+      cache: false,
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await client.getByURL("https://example.test/api/v2/berry?q=a/");
+
+    expect(requested).toEqual(["https://example.test/api/v2/berry?q=a/"]);
+  });
+
   it("should give a resource one cache key however it is reached", async () => {
     const calls = countingHandler(BERRY_URL);
     const client = new TestClient();
