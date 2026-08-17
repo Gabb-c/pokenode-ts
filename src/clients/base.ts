@@ -155,6 +155,35 @@ interface FetchedResource {
 }
 
 /**
+ * A request already on the wire, and what it takes to cancel it.
+ *
+ * `waiters` counts the callers still interested. The request is aborted only
+ * when the last of them has left, so one caller giving up does not cancel the
+ * round trip the others are sharing.
+ */
+interface InFlightRequest {
+  promise: Promise<FetchedResource>;
+  /** Absent when the caller that started the request had nothing to cancel it with. */
+  controller: AbortController | undefined;
+  waiters: number;
+}
+
+/**
+ * ## Request Scope
+ * Cancellation applied to every request a client makes.
+ *
+ * Passed to {@link BaseClient.with}, not to the constructor: a signal belongs to
+ * one unit of work, while a client outlives many, and a client holding a signal
+ * for its whole life is dead the first time that signal aborts.
+ */
+export interface RequestScope {
+  /** Aborts the requests made through this scope. */
+  signal?: AbortSignal;
+  /** How long a request may take, in milliseconds, before it is aborted. */
+  timeout?: number;
+}
+
+/**
  * ## Client Options
  * Optional configuration accepted by every client.
  */
@@ -193,8 +222,9 @@ export class BaseClient {
   private readonly baseURL: string;
   private readonly logger: Logger | undefined;
   private readonly fetch: FetchLike;
+  private readonly scope: RequestScope = {};
   /** Requests already on the wire, so concurrent callers share one round trip. */
-  private readonly inFlight = new Map<string, Promise<FetchedResource>>();
+  private readonly inFlight = new Map<string, InFlightRequest>();
 
   constructor(clientOptions?: ClientOptions) {
     this.baseURL = trimTrailingSlash(clientOptions?.baseURL ?? BASE_URL.REST);
@@ -202,6 +232,24 @@ export class BaseClient {
       clientOptions?.cache === false ? undefined : (clientOptions?.cache ?? new MemoryCache());
     this.logger = clientOptions?.logger;
     this.fetch = clientOptions?.fetch ?? ((input, init) => globalThis.fetch(input, init));
+  }
+
+  /**
+   * Derives a client whose requests carry a signal, a timeout, or both.
+   *
+   * The clone shares this client's cache and its in-flight requests, so a scoped
+   * call still joins an identical unscoped one instead of repeating it. Cloning
+   * is cheap, but not free: derive one per unit of work — a request handler, a
+   * job — rather than one per call.
+   *
+   * ```ts
+   * const scoped = api.with({ signal: request.signal, timeout: 2_000 });
+   * ```
+   */
+  public with(scope: RequestScope): this {
+    const clone = Object.create(Object.getPrototypeOf(this) as object) as this;
+
+    return Object.assign(clone, this, { scope: { ...this.scope, ...scope } });
   }
 
   /**
@@ -248,11 +296,12 @@ export class BaseClient {
     // request someone else started: a `request` event with no `response` to
     // close it would make concurrent traffic unreadable. `source` is what keeps
     // the count of round trips honest when several callers share one.
+    const signal = this.requestSignal();
     const pending = this.inFlight.get(url);
-    const request = pending ?? this.dispatch(url, authorization);
+    const entry = pending ?? this.dispatch(url, authorization, signal);
 
     try {
-      const { data, status } = await request;
+      const { data, status } = await this.join(url, entry, signal);
 
       this.logResponse(url, status, pending ? "in-flight" : "network", startedAt);
 
@@ -269,21 +318,129 @@ export class BaseClient {
     }
   }
 
-  /** Issues a request and remembers it, so a concurrent caller can share it. */
-  private dispatch(url: string, authorization?: string): Promise<FetchedResource> {
-    const request = this.fetchResource(url, authorization).finally(() => this.inFlight.delete(url));
+  /**
+   * The signal this scope puts on a request, or none when it has nothing to
+   * cancel with. A timeout is created per request, not per scope: a scope is
+   * derived once and used many times.
+   */
+  private requestSignal(): AbortSignal | undefined {
+    const { signal, timeout } = this.scope;
 
-    this.inFlight.set(url, request);
+    if (timeout === undefined) {
+      return signal;
+    }
 
-    return request;
+    const expiry = AbortSignal.timeout(timeout);
+
+    return signal ? AbortSignal.any([signal, expiry]) : expiry;
   }
 
-  private async fetchResource(url: string, authorization?: string): Promise<FetchedResource> {
-    const response = await this.fetch(url, {
-      headers: authorization
-        ? { Accept: "application/json", Authorization: authorization }
-        : { Accept: "application/json" },
+  /** Issues a request and remembers it, so a concurrent caller can share it. */
+  private dispatch(
+    url: string,
+    authorization: string | undefined,
+    signal: AbortSignal | undefined,
+  ): InFlightRequest {
+    // The request is cancelled through a controller of its own rather than the
+    // caller's signal: the callers sharing it come and go, and only the last one
+    // to leave may cancel it.
+    const controller = signal ? new AbortController() : undefined;
+    const entry: InFlightRequest = {
+      promise: this.fetchResource(url, authorization, controller?.signal),
+      controller,
+      waiters: 0,
+    };
+
+    entry.promise = entry.promise.finally(() => this.release(url, entry));
+
+    // A request abandoned by every caller rejects with nobody left awaiting it.
+    // This handler exists only so that rejection is not unhandled; each caller
+    // still sees the failure through its own `join`.
+    entry.promise.catch(() => {});
+
+    this.inFlight.set(url, entry);
+
+    return entry;
+  }
+
+  /**
+   * Forgets a request, unless a later caller has already replaced it: a request
+   * that was aborted leaves the map before it settles, and the one dispatched in
+   * its place must survive its predecessor finishing.
+   */
+  private release(url: string, entry: InFlightRequest): void {
+    if (this.inFlight.get(url) === entry) {
+      this.inFlight.delete(url);
+    }
+  }
+
+  /**
+   * Awaits a request, cancelling it if this caller was the last one interested.
+   *
+   * A caller with no signal never leaves early, so it holds the request open for
+   * everyone — including a scoped caller that joined later and gave up.
+   */
+  private join(
+    url: string,
+    entry: InFlightRequest,
+    signal: AbortSignal | undefined,
+  ): Promise<FetchedResource> {
+    entry.waiters += 1;
+
+    if (!signal) {
+      return entry.promise;
+    }
+
+    return new Promise<FetchedResource>((resolve, reject) => {
+      const leave = (): void => {
+        entry.waiters -= 1;
+
+        if (entry.waiters > 0) {
+          return;
+        }
+
+        // Dropped from the map before the abort settles it: a caller arriving in
+        // between would otherwise join a request already on its way out and
+        // inherit an abort it never asked for.
+        this.release(url, entry);
+        entry.controller?.abort(signal.reason);
+      };
+
+      if (signal.aborted) {
+        leave();
+        reject(signal.reason);
+        return;
+      }
+
+      const onAbort = (): void => {
+        leave();
+        reject(signal.reason);
+      };
+
+      signal.addEventListener("abort", onAbort, { once: true });
+
+      entry.promise.then(
+        (resource) => {
+          signal.removeEventListener("abort", onAbort);
+          resolve(resource);
+        },
+        (error: unknown) => {
+          signal.removeEventListener("abort", onAbort);
+          reject(error);
+        },
+      );
     });
+  }
+
+  private async fetchResource(
+    url: string,
+    authorization: string | undefined,
+    signal: AbortSignal | undefined,
+  ): Promise<FetchedResource> {
+    const headers = authorization
+      ? { Accept: "application/json", Authorization: authorization }
+      : { Accept: "application/json" };
+    const response = await this.fetch(url, signal ? { headers, signal } : { headers });
 
     if (!response.ok) {
       throw await toPokenodeError(response);

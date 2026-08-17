@@ -1,5 +1,5 @@
 import { type CacheStore, MemoryCache } from "../config/cache";
-import type { ClientOptions } from "./base";
+import type { ClientOptions, RequestScope } from "./base";
 import { BerryClient } from "./berry.client";
 import { ContestClient } from "./contest.client";
 import { CurrencyClient } from "./currency.client";
@@ -69,6 +69,36 @@ export class MainClient {
     this.move = new MoveClient(sharedOptions);
     this.pokemon = new PokemonClient(sharedOptions);
     this.utility = new UtilityClient(sharedOptions);
+  }
+
+  /**
+   * Derives a client whose requests carry a signal, a timeout, or both, across
+   * every section at once. The derived client shares this one's cache and its
+   * in-flight requests.
+   *
+   * ```ts
+   * const scoped = api.with({ signal: request.signal, timeout: 2_000 });
+   *
+   * await scoped.pokemon.getPokemonByName('luxray');
+   * ```
+   */
+  public with(scope: RequestScope): MainClient {
+    const clone = Object.create(Object.getPrototypeOf(this) as object) as MainClient;
+
+    return Object.assign(clone, this, {
+      berry: this.berry.with(scope),
+      contest: this.contest.with(scope),
+      currency: this.currency.with(scope),
+      encounter: this.encounter.with(scope),
+      evolution: this.evolution.with(scope),
+      game: this.game.with(scope),
+      item: this.item.with(scope),
+      location: this.location.with(scope),
+      machine: this.machine.with(scope),
+      move: this.move.with(scope),
+      pokemon: this.pokemon.with(scope),
+      utility: this.utility.with(scope),
+    });
   }
 
   /** Drops every cached response, for all the clients at once. */

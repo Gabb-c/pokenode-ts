@@ -69,34 +69,24 @@ const api = new PokemonClient({
 
 ## Cancellation and timeouts
 
-Clients impose no timeout and no `AbortSignal` of their own — cancellation policy belongs to you.
-Supply a signal through the wrapper:
+Reach for [`with()`](./cancellation) rather than a fetch wrapper — one signal per client is one
+signal for the client's whole life, and the first abort ends it:
 
 ```ts
-// Give up after 5 seconds
-const api = new PokemonClient({
-  fetch: (url, init) => fetch(url, { ...init, signal: AbortSignal.timeout(5000) }),
-});
+const api = new PokemonClient();
 
-// Cancel on demand
-const controller = new AbortController();
-const cancellable = new PokemonClient({
-  fetch: (url, init) => fetch(url, { ...init, signal: controller.signal }),
-});
-
-// Both at once
-const combined = new PokemonClient({
-  fetch: (url, init) =>
-    fetch(url, { ...init, signal: AbortSignal.any([controller.signal, AbortSignal.timeout(5000)]) }),
-});
+await api.with({ timeout: 5000 }).getPokemonByName('luxray');
 ```
+
+A wrapper is still the right tool for a policy that applies to every request no matter who made it —
+a process-wide ceiling, say. Both compose: whichever signal aborts first wins.
 
 An abort surfaces as whatever your runtime throws — a `DOMException` named `AbortError` or
 `TimeoutError` — not as a pokenode error. `PokenodeError.isPokenodeError` returns `false` for it.
 
 :::warning
-Without a signal, a request waits as long as the connection stays open. `fetch` has no default
-timeout and neither do we.
+Without a scope or a signal, a request waits as long as the connection stays open. `fetch` has no
+default timeout and neither do we.
 :::
 
 :::tip

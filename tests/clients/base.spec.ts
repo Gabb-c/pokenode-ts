@@ -607,3 +607,145 @@ describe("BaseClient", () => {
     expect(calls).toBe(2);
   });
 });
+
+/**
+ * Lets every pending callback run, so a request has reached the transport and
+ * every concurrent caller has joined it before a test aborts anything.
+ */
+const settle = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
+
+/** Answers `BERRY_URL` after `ms`, so a scope has something to give up on. */
+const slowHandler = (ms: number): void => {
+  server.use(
+    http.get(BERRY_URL, async () => {
+      await delay(ms);
+      return HttpResponse.json({ id: 1 });
+    }),
+  );
+};
+
+describe("BaseClient scope", () => {
+  it("should abort a request that outlives its timeout", async () => {
+    slowHandler(200);
+
+    const error = await new TestClient()
+      .with({ timeout: 10 })
+      .get("/berry", 1)
+      .catch((caught: unknown) => caught);
+
+    expect(PokenodeError.isPokenodeError(error)).toBe(false);
+    expect((error as Error).name).toBe("TimeoutError");
+  });
+
+  it("should reject with the reason the caller aborted with", async () => {
+    slowHandler(200);
+
+    const controller = new AbortController();
+    const reason = new Error("caller went away");
+    const request = new TestClient().with({ signal: controller.signal }).get("/berry", 1);
+
+    controller.abort(reason);
+
+    await expect(request).rejects.toBe(reason);
+  });
+
+  it("should reject a call made through an already-aborted scope", async () => {
+    const controller = new AbortController();
+    controller.abort(new Error("gone"));
+
+    // No handler is registered: an aborted scope must not reach the transport,
+    // and MSW fails the run on any request a test did not mock.
+    await expect(
+      new TestClient().with({ signal: controller.signal }).get("/berry", 1),
+    ).rejects.toThrow("gone");
+  });
+
+  it("should keep a shared request alive for the callers that remain", async () => {
+    slowHandler(50);
+
+    const client = new TestClient({ cache: false });
+    const controller = new AbortController();
+
+    const abandoned = client.with({ signal: controller.signal }).get("/berry", 1);
+    const kept = client.get("/berry", 1);
+
+    await settle();
+    controller.abort(new Error("first caller left"));
+
+    await expect(abandoned).rejects.toThrow("first caller left");
+    await expect(kept).resolves.toEqual({ id: 1 });
+  });
+
+  it("should cancel the round trip once its last caller has left", async () => {
+    let observed: AbortSignal | undefined;
+    const client = new TestClient({
+      cache: false,
+      fetch: (url, init) => {
+        observed = init?.signal ?? undefined;
+        return fetch(url, init);
+      },
+    });
+
+    slowHandler(200);
+
+    const first = new AbortController();
+    const second = new AbortController();
+    const requests = [
+      client.with({ signal: first.signal }).get("/berry", 1),
+      client.with({ signal: second.signal }).get("/berry", 1),
+    ];
+
+    await settle();
+
+    first.abort(new Error("first"));
+    expect(observed?.aborted).toBe(false);
+
+    second.abort(new Error("second"));
+    expect(observed?.aborted).toBe(true);
+
+    await expect(Promise.allSettled(requests)).resolves.toHaveLength(2);
+  });
+
+  it("should share the cache and the in-flight request with the client it came from", async () => {
+    const calls = countingHandler(BERRY_URL);
+    const client = new TestClient();
+    const scoped = client.with({ timeout: 1_000 });
+
+    // Concurrent, so the second call can only be served by the in-flight map.
+    await Promise.all([client.get("/berry", 1), scoped.get("/berry", 1)]);
+    // Sequential, so this one can only be served by the shared cache.
+    await scoped.get("/berry", 1);
+
+    expect(calls.count).toBe(1);
+    expect(client.cache).toBe(scoped.cache);
+  });
+
+  it("should merge what each derivation adds to the scope", async () => {
+    slowHandler(200);
+
+    const controller = new AbortController();
+    const error = await new TestClient()
+      .with({ signal: controller.signal })
+      .with({ timeout: 10 })
+      .get("/berry", 1)
+      .catch((caught: unknown) => caught);
+
+    expect((error as Error).name).toBe("TimeoutError");
+  });
+
+  it("should leave the client it was derived from unscoped", async () => {
+    let received: RequestInit | undefined;
+    const client = new TestClient({
+      cache: false,
+      fetch: (_url, init) => {
+        received = init;
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    client.with({ timeout: 10 });
+    await client.get("/berry", 1);
+
+    expect(received?.signal).toBeUndefined();
+  });
+});

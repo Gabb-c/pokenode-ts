@@ -1,5 +1,5 @@
 import { BASE_URL } from "@constants";
-import { HttpResponse, http } from "msw";
+import { delay, HttpResponse, http } from "msw";
 
 import { MainClient } from "../../src/clients/main.client";
 import { MemoryCache } from "../../src/config/cache";
@@ -110,5 +110,44 @@ describe("MainClient", () => {
     await client.berry.getBerryById(1);
 
     expect(calls).toEqual(["https://example.test/api/v2/berry/1"]);
+  });
+
+  it("should scope every one of its clients at once", async () => {
+    server.use(
+      http.get(BERRY_URL, async () => {
+        await delay(200);
+        return HttpResponse.json({ id: 1 });
+      }),
+      http.get(`${BASE_URL.REST}/pokemon/1`, async () => {
+        await delay(200);
+        return HttpResponse.json({ id: 1 });
+      }),
+    );
+
+    const scoped = new MainClient().with({ timeout: 10 });
+
+    await expect(scoped.berry.getBerryById(1)).rejects.toThrow(/abort|time/i);
+    await expect(scoped.pokemon.getPokemonById(1)).rejects.toThrow(/abort|time/i);
+  });
+
+  it("should share its cache with the client it scoped", async () => {
+    const calls = countBerryCalls();
+    const client = new MainClient();
+    const scoped = client.with({ timeout: 1_000 });
+
+    await client.berry.getBerryById(1);
+    await scoped.utility.getResourceByUrl(BERRY_URL);
+
+    expect(calls.count).toBe(1);
+    expect(scoped.cache).toBe(client.cache);
+  });
+
+  it("should leave the client it was derived from unscoped", async () => {
+    countBerryCalls();
+    const client = new MainClient();
+
+    client.with({ timeout: 1 });
+
+    await expect(client.berry.getBerryById(1)).resolves.toEqual({ id: 1 });
   });
 });
