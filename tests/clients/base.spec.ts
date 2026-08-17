@@ -685,14 +685,36 @@ describe("BaseClient scope", () => {
   });
 
   it("should reject a call made through an already-aborted scope", async () => {
+    const requested: string[] = [];
+    const client = new TestClient({
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
     const controller = new AbortController();
+
     controller.abort(new Error("gone"));
 
-    // No handler is registered: an aborted scope must not reach the transport,
-    // and MSW fails the run on any request a test did not mock.
-    await expect(
-      new TestClient().with({ signal: controller.signal }).get("/berry", 1),
-    ).rejects.toThrow("gone");
+    await expect(client.with({ signal: controller.signal }).get("/berry", 1)).rejects.toThrow(
+      "gone",
+    );
+    // The point of the test: a scope that has already aborted makes no request.
+    expect(requested).toEqual([]);
+  });
+
+  it("should not serve a call made through an already-aborted scope from the cache", async () => {
+    const calls = countingHandler(BERRY_URL);
+    const client = new TestClient();
+    const controller = new AbortController();
+
+    await client.get("/berry", 1);
+    controller.abort(new Error("gone"));
+
+    await expect(client.with({ signal: controller.signal }).get("/berry", 1)).rejects.toThrow(
+      "gone",
+    );
+    expect(calls.count).toBe(1);
   });
 
   it("should keep a shared request alive for the callers that remain", async () => {

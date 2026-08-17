@@ -399,24 +399,31 @@ export class BaseClient {
       url,
     });
 
-    const cached = await this.cache?.get(url);
-
-    if (cached !== undefined) {
-      // A hit is timed like any other resolution: the number is small, but a
-      // store on the far side of a network is not guaranteed to make it so.
-      this.logResponse(url, 200, "cache", startedAt);
-      return cached as T;
-    }
-
-    // Every caller reports its own outcome, including one that only joined a
-    // request someone else started: a `request` event with no `response` to
-    // close it would make concurrent traffic unreadable. `source` is what keeps
-    // the count of round trips honest when several callers share one.
     const signal = this.requestSignal();
-    const pending = this.inFlight.get(url);
-    const entry = pending ?? this.dispatch(url, authorization, signal);
 
     try {
+      // Checked before anything else happens, and before the cache is consulted:
+      // a call made through a scope that has already aborted must not reach the
+      // network, and must not depend on what happens to be cached either.
+      if (signal?.aborted) {
+        throw signal.reason;
+      }
+
+      const cached = await this.cache?.get(url);
+
+      if (cached !== undefined) {
+        // A hit is timed like any other resolution: the number is small, but a
+        // store on the far side of a network is not guaranteed to make it so.
+        this.logResponse(url, 200, "cache", startedAt);
+        return cached as T;
+      }
+
+      // Every caller reports its own outcome, including one that only joined a
+      // request someone else started: a `request` event with no `response` to
+      // close it would make concurrent traffic unreadable. `source` is what keeps
+      // the count of round trips honest when several callers share one.
+      const pending = this.inFlight.get(url);
+      const entry = pending ?? this.dispatch(url, authorization, signal);
       const { data, status } = await this.join(url, entry, signal);
 
       this.logResponse(url, status, pending ? "in-flight" : "network", startedAt);
