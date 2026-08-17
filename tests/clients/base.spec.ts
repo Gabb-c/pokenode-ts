@@ -461,14 +461,17 @@ describe("BaseClient", () => {
     ]);
   });
 
-  it("should keep credentials out of the logged url", async () => {
+  it("should send a credentialed baseURL as an Authorization header", async () => {
     const requested: string[] = [];
+    const sent: RequestInit["headers"][] = [];
     const logged: string[] = [];
+    const store = new RecordingStore();
     const client = new TestClient({
       baseURL: "https://someone:hunter2@poke.example/api/v2",
-      cache: false,
-      fetch: (url) => {
+      cache: store,
+      fetch: (url, init) => {
         requested.push(url);
+        sent.push(init?.headers);
         return Promise.resolve(Response.json({ id: 1 }));
       },
       logger: {
@@ -479,28 +482,64 @@ describe("BaseClient", () => {
 
     await client.get("/berry", 1);
 
+    // Native `fetch` rejects a URL carrying userinfo, so the credentials travel
+    // as a header and nothing downstream of the URL ever sees them.
+    expect(requested).toEqual(["https://poke.example/api/v2/berry/1"]);
+    expect(sent).toEqual([
+      { Accept: "application/json", Authorization: `Basic ${btoa("someone:hunter2")}` },
+    ]);
     expect(logged).toEqual([
       "https://poke.example/api/v2/berry/1",
       "https://poke.example/api/v2/berry/1",
     ]);
-    // The request itself still carries them, or the instance would reject it.
-    expect(requested).toEqual(["https://someone:hunter2@poke.example/api/v2/berry/1"]);
+    expect(store.writes).toEqual([["https://poke.example/api/v2/berry/1", { id: 1 }]]);
+  });
+
+  it("should percent-decode credentials before encoding them", async () => {
+    const sent: RequestInit["headers"][] = [];
+    const client = new TestClient({
+      baseURL: "https://someone:hunter%402@poke.example/api/v2",
+      cache: false,
+      fetch: (_url, init) => {
+        sent.push(init?.headers);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await client.get("/berry", 1);
+
+    expect(sent).toEqual([
+      { Accept: "application/json", Authorization: `Basic ${btoa("someone:hunter@2")}` },
+    ]);
   });
 
   it("should report the url of a failed request without its credentials", async () => {
     const logged: string[] = [];
+    const messages: string[] = [];
     const client = new TestClient({
       baseURL: "https://someone:hunter2@poke.example/api/v2",
       cache: false,
-      fetch: () => Promise.reject(new TypeError("fetch failed")),
+      // What Node's own `fetch` throws: the message quotes the URL it was given.
+      fetch: (url) =>
+        Promise.reject(
+          new TypeError(
+            `Request cannot be constructed from a URL that includes credentials: ${url}`,
+          ),
+        ),
       logger: {
         debug: () => {},
-        error: ({ url }) => logged.push(url),
+        error: ({ url, err }) => {
+          logged.push(url);
+          messages.push(String((err as Error).message));
+        },
       },
     });
 
     await expect(client.get("/berry", 1)).rejects.toThrow(TypeError);
     expect(logged).toEqual(["https://poke.example/api/v2/berry/1"]);
+    // The forwarded error reaches a logger's own serializer intact — pino walks
+    // `message` and `stack` — so it must not carry what the url no longer does.
+    expect(messages.join("\n")).not.toContain("hunter2");
   });
 
   it("should time both a round trip and a cache hit", async () => {

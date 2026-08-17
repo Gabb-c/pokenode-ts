@@ -54,33 +54,59 @@ const normalizeURL = (url: string): string => {
 /** A path segment naming an API version, as in `/api/v2/berry/1`. */
 const API_VERSION_SEGMENT = /^v\d+$/;
 
+/** Base64-encodes userinfo as RFC 7617 wants it: UTF-8 bytes, percent-decoded. */
+const toBasicAuth = (username: string, password: string): string => {
+  const userinfo = `${decodeURIComponent(username)}:${decodeURIComponent(password)}`;
+  const bytes = new TextEncoder().encode(userinfo);
+  let latin1 = "";
+
+  for (const byte of bytes) {
+    latin1 += String.fromCharCode(byte);
+  }
+
+  return `Basic ${btoa(latin1)}`;
+};
+
+/** A request URL and the `Authorization` header its userinfo became, if any. */
+interface CredentiallessURL {
+  url: string;
+  authorization: string | undefined;
+}
+
 /**
- * Drops any credentials a URL carries before it is handed to a {@link Logger}.
+ * Moves any credentials a URL carries into an `Authorization` header.
  *
  * A self-hosted instance behind basic auth is configured as
- * `https://user:secret@host/api/v2`, and a log sink is the last place that
- * password should end up. The request itself still goes out with it.
+ * `https://user:secret@host/api/v2`, and that password must not reach the wire
+ * as userinfo: `fetch` rejects a credentialed URL outright, and everything
+ * downstream of the URL — the log payload, the cache key — would carry it.
  *
  * A URL too malformed to parse cannot carry credentials in the first place, and
  * `fetch` is about to reject it anyway, so it is passed through untouched.
  */
-const redactCredentials = (url: string): string => {
+const splitCredentials = (url: string): CredentiallessURL => {
+  if (!url.includes("@")) {
+    return { url, authorization: undefined };
+  }
+
   let parsed: URL;
 
   try {
     parsed = new URL(url);
   } catch {
-    return url;
+    return { url, authorization: undefined };
   }
 
   if (!parsed.username && !parsed.password) {
-    return url;
+    return { url, authorization: undefined };
   }
+
+  const authorization = toBasicAuth(parsed.username, parsed.password);
 
   parsed.username = "";
   parsed.password = "";
 
-  return parsed.toString();
+  return { url: parsed.toString(), authorization };
 };
 
 /**
@@ -194,8 +220,10 @@ export class BaseClient {
    * base's own `/api/v2` path.
    */
   private async request<T>(path: string, baseURL = this.baseURL): Promise<T> {
-    const url = normalizeURL(
-      `${trimTrailingSlash(baseURL)}${path.startsWith("/") ? path : `/${path}`}`,
+    // Credentials leave the URL before anything else sees it: `fetch` rejects a
+    // credentialed URL, and the cache key and log payload are built from this.
+    const { url, authorization } = splitCredentials(
+      normalizeURL(`${trimTrailingSlash(baseURL)}${path.startsWith("/") ? path : `/${path}`}`),
     );
 
     const startedAt = performance.now();
@@ -204,7 +232,7 @@ export class BaseClient {
       event: "request",
       ...logMessage("pokeapi request"),
       method: "GET",
-      url: redactCredentials(url),
+      url,
     });
 
     const cached = await this.cache?.get(url);
@@ -221,7 +249,7 @@ export class BaseClient {
     // close it would make concurrent traffic unreadable. `source` is what keeps
     // the count of round trips honest when several callers share one.
     const pending = this.inFlight.get(url);
-    const request = pending ?? this.dispatch(url);
+    const request = pending ?? this.dispatch(url, authorization);
 
     try {
       const { data, status } = await request;
@@ -233,7 +261,7 @@ export class BaseClient {
       this.logger?.error({
         event: "error",
         ...logMessage("pokeapi request failed"),
-        url: redactCredentials(url),
+        url,
         err: error,
         error,
       });
@@ -242,16 +270,20 @@ export class BaseClient {
   }
 
   /** Issues a request and remembers it, so a concurrent caller can share it. */
-  private dispatch(url: string): Promise<FetchedResource> {
-    const request = this.fetchResource(url).finally(() => this.inFlight.delete(url));
+  private dispatch(url: string, authorization?: string): Promise<FetchedResource> {
+    const request = this.fetchResource(url, authorization).finally(() => this.inFlight.delete(url));
 
     this.inFlight.set(url, request);
 
     return request;
   }
 
-  private async fetchResource(url: string): Promise<FetchedResource> {
-    const response = await this.fetch(url, { headers: { Accept: "application/json" } });
+  private async fetchResource(url: string, authorization?: string): Promise<FetchedResource> {
+    const response = await this.fetch(url, {
+      headers: authorization
+        ? { Accept: "application/json", Authorization: authorization }
+        : { Accept: "application/json" },
+    });
 
     if (!response.ok) {
       throw await toPokenodeError(response);
@@ -273,7 +305,7 @@ export class BaseClient {
     this.logger?.debug({
       event: "response",
       ...logMessage("pokeapi response"),
-      url: redactCredentials(url),
+      url,
       status,
       source,
       durationMs: performance.now() - startedAt,

@@ -122,6 +122,8 @@ be forwarded as a label without normalising it first.
 
 ::: tip Credentials never reach your logger
 A `baseURL` pointing at an instance behind basic auth — `https://user:secret@poke.internal/api/v2`
-— is logged as `https://poke.internal/api/v2`. The request still goes out with the credentials; only
-the payload is redacted.
+— is logged as `https://poke.internal/api/v2`. The credentials leave the URL before the request is
+built and travel as an `Authorization: Basic` header instead, so neither the log payload nor the
+cache key carries them. That move is also what makes such a `baseURL` work at all: `fetch` rejects a
+URL that includes credentials outright.
 :::
