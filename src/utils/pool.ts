@@ -1,4 +1,10 @@
 /**
+ * How many requests the helpers that fetch many resources at once will run in
+ * parallel. Kept low on purpose: see the PokéAPI fair-use policy.
+ */
+export const DEFAULT_CONCURRENCY = 4;
+
+/**
  * Runs `task` over `items` with at most `concurrency` of them in flight, and
  * returns the results in the order the items came in.
  *

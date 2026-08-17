@@ -1,4 +1,5 @@
 import { BASE_URL } from "@constants";
+import type { Berry, NamedAPIResource } from "@models";
 import { delay, HttpResponse, http } from "msw";
 
 import { MainClient } from "../../src/clients/main.client";
@@ -110,6 +111,63 @@ describe("MainClient", () => {
     await client.berry.getBerryById(1);
 
     expect(calls).toEqual(["https://example.test/api/v2/berry/1"]);
+  });
+
+  it("should resolve a link through the shared cache", async () => {
+    const calls = countBerryCalls();
+    const client = new MainClient();
+
+    const berry = await client.berry.getBerryById(1);
+    const resolved = await client.resolve<Berry>(`${BERRY_URL}/`);
+
+    expect(resolved).toEqual(berry);
+    expect(calls.count).toBe(1);
+  });
+
+  it("should resolve many links in the order they were given", async () => {
+    server.use(
+      http.get(`${BASE_URL.REST}/berry/:id`, async ({ params }) => {
+        const id = Number(params.id);
+        // Answered slowest first, so completion order cannot be input order.
+        await delay((4 - id) * 20);
+        return HttpResponse.json({ id });
+      }),
+    );
+
+    const client = new MainClient({ cache: false });
+    const links: NamedAPIResource<Berry>[] = [1, 2, 3].map((id) => ({
+      name: `berry-${id}`,
+      url: `${BASE_URL.REST}/berry/${id}/`,
+    }));
+
+    const berries = await client.resolveAll(links);
+
+    expect(berries.map((berry) => berry.id)).toEqual([1, 2, 3]);
+  });
+
+  it("should resolve no more links at a time than it was allowed", async () => {
+    let inFlight = 0;
+    let peak = 0;
+
+    const client = new MainClient({
+      cache: false,
+      fetch: async () => {
+        inFlight += 1;
+        peak = Math.max(peak, inFlight);
+        await delay(10);
+        inFlight -= 1;
+        return Response.json({ id: 1 });
+      },
+    });
+
+    const links = Array.from(
+      { length: 6 },
+      (_link, index) => `${BASE_URL.REST}/berry/${index + 1}`,
+    );
+
+    await client.resolveAll<Berry>(links, { concurrency: 2 });
+
+    expect(peak).toBe(2);
   });
 
   it("should scope every one of its clients at once", async () => {

@@ -1,4 +1,6 @@
 import { type CacheStore, MemoryCache } from "../config/cache";
+import type { APIResource, NamedAPIResource } from "../models/Common/resource";
+import { DEFAULT_CONCURRENCY, mapWithConcurrency } from "../utils/pool";
 import type { ClientOptions, RequestScope } from "./base";
 import { BerryClient } from "./berry.client";
 import { ContestClient } from "./contest.client";
@@ -12,6 +14,15 @@ import { MachineClient } from "./machine.client";
 import { MoveClient } from "./move.client";
 import { PokemonClient } from "./pokemon.client";
 import { UtilityClient } from "./utility.client";
+
+/**
+ * ## Resolve Options
+ * How {@link MainClient.resolveAll} fetches the links it was given.
+ */
+export interface ResolveOptions {
+  /** Links fetched at a time. Defaults to 4. */
+  concurrency?: number;
+}
 
 /**
  * ### Main Client
@@ -69,6 +80,45 @@ export class MainClient {
     this.move = new MoveClient(sharedOptions);
     this.pokemon = new PokemonClient(sharedOptions);
     this.utility = new UtilityClient(sharedOptions);
+  }
+
+  /**
+   * Fetches what a link points at, through the cache every client here shares.
+   *
+   * A link carries what it points at, so the result is typed without saying so:
+   *
+   * ```ts
+   * const pokemon = await api.pokemon.getPokemonByName('luxray');
+   * const species = await api.resolve(pokemon.species);
+   * //    ^? PokemonSpecies
+   * ```
+   *
+   * @throws {TypeError} If the URL is not valid, or names no PokéAPI endpoint.
+   */
+  public async resolve<T>(resource: string | NamedAPIResource<T> | APIResource<T>): Promise<T> {
+    return this.utility.getResourceByUrl(resource);
+  }
+
+  /**
+   * Fetches what several links point at, in the order they were given.
+   *
+   * At most `concurrency` requests run at a time — four by default, because the
+   * PokéAPI's fair-use policy asks clients not to flood it. The first failure
+   * rejects, and no further link is fetched.
+   *
+   * ```ts
+   * const pokemon = await api.pokemon.getPokemonByName('luxray');
+   * const types = await api.resolveAll(pokemon.types.map((slot) => slot.type));
+   * //    ^? Type[]
+   * ```
+   */
+  public async resolveAll<T>(
+    resources: readonly (string | NamedAPIResource<T> | APIResource<T>)[],
+    options?: ResolveOptions,
+  ): Promise<T[]> {
+    return mapWithConcurrency(resources, options?.concurrency ?? DEFAULT_CONCURRENCY, (resource) =>
+      this.utility.getResourceByUrl(resource),
+    );
   }
 
   /**

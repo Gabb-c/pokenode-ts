@@ -60,6 +60,41 @@ const berry = new BerryClient();
 const main = new MainClient();
 ```
 
+## Resolving links
+
+Most of what the PokéAPI returns is links. `resolve()` fetches what one points at, through the same
+shared cache — and the link carries its own type, so nothing needs to be named:
+
+```ts
+const pokemon = await api.pokemon.getPokemonByName('luxray');
+
+const species = await api.resolve(pokemon.species);
+//    ^? PokemonSpecies
+```
+
+`resolveAll()` takes many, and hands them back in the order you gave them:
+
+```ts
+const types = await api.resolveAll(pokemon.types.map((slot) => slot.type));
+//    ^? Type[]
+```
+
+At most four run at a time, because a Pokémon's worth of links is a lot of requests at once and the
+[PokéAPI fair-use policy](https://pokeapi.co/docs/v2#fairuse) asks clients to be gentle. Raise it
+when you are pointed at a local instance:
+
+```ts
+await api.resolveAll(links, { concurrency: 16 });
+```
+
+The first failure rejects and no further link is fetched. To walk a whole list rather than a known
+set of links, see [Pagination](/guides/pagination).
+
+::: tip
+`api.resolve(link)` and `api.utility.getResourceByUrl(link)` do the same thing — the first is just
+where you would look for it.
+:::
+
 ## Options
 
 `MainClient` takes the same [options](/guides/getting-started#configuring-a-client) as any client

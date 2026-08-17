@@ -8,7 +8,7 @@ import type {
   NamedAPIResource,
   NamedAPIResourceList,
 } from "../models/Common/resource";
-import { mapWithConcurrency } from "../utils/pool";
+import { DEFAULT_CONCURRENCY, mapWithConcurrency } from "../utils/pool";
 
 /**
  * Scanned rather than matched with `/\/+$/`: that pattern backtracks through
@@ -174,9 +174,6 @@ interface InFlightRequest {
  * hand-written loop would.
  */
 const DEFAULT_PAGE_SIZE = 20;
-/** Kept low on purpose: see the PokéAPI fair-use policy. */
-const DEFAULT_CONCURRENCY = 4;
-
 /**
  * ## List Page
  * The part of a resource list a walk needs: how much there is, and this page of
