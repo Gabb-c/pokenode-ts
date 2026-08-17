@@ -44,7 +44,7 @@
     "lib"
   ],
   "types": "lib/index.d.ts",
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@11.22.0",
   "scripts": {
     "build": "tsdown",
     "docs:build": "vitepress build docs",
