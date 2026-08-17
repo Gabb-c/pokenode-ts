@@ -1,6 +1,9 @@
 export * from "@clients";
 export {
   type CacheStore,
+  type EtagEntry,
+  EtagStore,
+  type EtagStoreOptions,
   MemoryCache,
   type MemoryCacheOptions,
   WebStorageCache,

@@ -1,4 +1,4 @@
-import { type CacheStore, MemoryCache } from "../config/cache";
+import { type CacheStore, EtagStore, MemoryCache } from "../config/cache";
 import type { APIResource, NamedAPIResource } from "../models/Common/resource";
 import { DEFAULT_CONCURRENCY, mapWithConcurrency } from "../utils/pool";
 import type { ClientOptions, RequestScope } from "./base";
@@ -64,7 +64,15 @@ export class MainClient {
 
   constructor(clientOptions?: ClientOptions) {
     const cache = clientOptions?.cache ?? new MemoryCache();
-    const sharedOptions: ClientOptions = { ...clientOptions, cache };
+    // Built here rather than twelve times over, for the same reason as the cache:
+    // an ETag learned through one section is worth having in all of them.
+    const revalidate =
+      clientOptions?.revalidate === true ? new EtagStore() : clientOptions?.revalidate;
+    const sharedOptions: ClientOptions = {
+      ...clientOptions,
+      cache,
+      ...(revalidate === undefined ? {} : { revalidate }),
+    };
 
     this.cache = cache === false ? undefined : cache;
 

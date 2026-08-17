@@ -2,7 +2,7 @@ import { BASE_URL, type Endpoint } from "@constants";
 import { delay, HttpResponse, http, type JsonBodyType } from "msw";
 
 import { BaseClient, type RetryOptions } from "../../src/clients/base";
-import type { CacheStore } from "../../src/config/cache";
+import { type CacheStore, EtagStore, MemoryCache } from "../../src/config/cache";
 import { PokenodeError } from "../../src/config/errors";
 import { server } from "../helpers/setup";
 
@@ -804,6 +804,166 @@ describe("BaseClient scope", () => {
     await client.get("/berry", 1);
 
     expect(received?.signal).toBeUndefined();
+  });
+});
+
+/**
+ * Answers with an `ETag`, and with 304 whenever the request already carries it.
+ * Records what each attempt sent, so a test can see the validator go out.
+ */
+const revalidatingHandler = (etag = 'W/"one"') => {
+  const calls = { sent: [] as (string | null)[], bodies: 0, tag: etag };
+
+  server.use(
+    http.get(BERRY_URL, ({ request }) => {
+      const sent = request.headers.get("If-None-Match");
+      calls.sent.push(sent);
+
+      if (sent === calls.tag) {
+        return new HttpResponse(null, { status: 304, headers: { ETag: calls.tag } });
+      }
+
+      calls.bodies += 1;
+
+      return HttpResponse.json({ id: 1 }, { headers: { ETag: calls.tag } });
+    }),
+  );
+
+  return calls;
+};
+
+describe("BaseClient revalidation", () => {
+  it("should send no validator when revalidation is off", async () => {
+    const calls = revalidatingHandler();
+    const client = new TestClient({ cache: false });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    expect(calls.sent).toEqual([null, null]);
+    expect(calls.bodies).toBe(2);
+  });
+
+  it("should revalidate an expired entry instead of downloading it again", async () => {
+    const calls = revalidatingHandler();
+    // No cache, so every call reaches the transport — the same position an
+    // expired entry leaves a client in, without waiting for a TTL.
+    const client = new TestClient({ cache: false, revalidate: true });
+
+    const first = await client.get("/berry", 1);
+    const second = await client.get("/berry", 1);
+
+    expect(calls.sent).toEqual([null, 'W/"one"']);
+    // One body downloaded, two resolutions.
+    expect(calls.bodies).toBe(1);
+    expect(second).toEqual(first);
+  });
+
+  it("should report a revalidated response as such", async () => {
+    revalidatingHandler();
+    const sources: string[] = [];
+    const client = new TestClient({
+      cache: false,
+      revalidate: true,
+      logger: {
+        debug: (payload) => {
+          if (payload.event === "response") {
+            sources.push(payload.source);
+          }
+        },
+        error: () => {},
+      },
+    });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    expect(sources).toEqual(["network", "revalidated"]);
+  });
+
+  it("should take the new body when the validator no longer matches", async () => {
+    const calls = revalidatingHandler();
+    const client = new TestClient({ cache: false, revalidate: true });
+
+    await client.get("/berry", 1);
+    calls.tag = 'W/"two"';
+
+    await expect(client.get("/berry", 1)).resolves.toEqual({ id: 1 });
+    expect(calls.bodies).toBe(2);
+    // The validator it learned the second time is the one it sends next.
+    await client.get("/berry", 1);
+    expect(calls.sent).toEqual([null, 'W/"one"', 'W/"two"']);
+  });
+
+  it("should write a revalidated body back to the cache", async () => {
+    const calls = revalidatingHandler();
+    // Every read misses, so the client always reaches the transport, and every
+    // write is recorded — which is what a store sees when its entries expire.
+    const store = new (class implements CacheStore {
+      readonly writes: [string, unknown][] = [];
+      get(): unknown {
+        return undefined;
+      }
+      set(key: string, value: unknown): void {
+        this.writes.push([key, value]);
+      }
+    })();
+
+    const client = new TestClient({ cache: store, revalidate: true });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    expect(calls.bodies).toBe(1);
+    // The second write came from the 304, and carries the body of the first.
+    expect(store.writes).toEqual([
+      [BERRY_URL, { id: 1 }],
+      [BERRY_URL, { id: 1 }],
+    ]);
+  });
+
+  it("should keep a body the cache has already dropped", async () => {
+    const calls = revalidatingHandler();
+    const client = new TestClient({ cache: new MemoryCache(), revalidate: true });
+
+    await client.get("/berry", 1);
+    await client.clearCache();
+
+    await expect(client.get("/berry", 1)).resolves.toEqual({ id: 1 });
+    // The cache lost it, the ETag store did not: revalidated, not downloaded.
+    expect(calls.sent).toEqual([null, 'W/"one"']);
+    expect(calls.bodies).toBe(1);
+  });
+
+  it("should share what it learned with a scoped client", async () => {
+    const calls = revalidatingHandler();
+    const client = new TestClient({ cache: false, revalidate: true });
+
+    await client.get("/berry", 1);
+    await client.with({ timeout: 1_000 }).get("/berry", 1);
+
+    expect(calls.sent).toEqual([null, 'W/"one"']);
+    expect(calls.bodies).toBe(1);
+  });
+
+  it("should forget the least recently used url once it is full", async () => {
+    const calls = revalidatingHandler();
+
+    server.use(
+      http.get(`${BASE_URL.REST}/berry/2`, () =>
+        HttpResponse.json({ id: 2 }, { headers: { ETag: 'W/"two"' } }),
+      ),
+    );
+
+    const client = new TestClient({ cache: false, revalidate: new EtagStore({ maxEntries: 1 }) });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 2);
+    await client.get("/berry", 1);
+
+    // Berry 1 was evicted by berry 2, so its second call carried no validator.
+    expect(calls.sent).toEqual([null, null]);
+    expect(calls.bodies).toBe(2);
   });
 });
 

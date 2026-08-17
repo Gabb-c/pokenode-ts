@@ -95,6 +95,85 @@ export class MemoryCache implements CacheStore {
   }
 }
 
+/** How many URLs an {@link EtagStore} remembers before evicting the oldest. */
+const DEFAULT_ETAG_ENTRIES = 500;
+
+/**
+ * ## Etag Entry
+ * What a URL last answered with, and the validator that says so.
+ */
+export interface EtagEntry {
+  /** The `ETag` the response carried. */
+  etag: string;
+  /** The parsed body that `etag` identifies. */
+  value: unknown;
+}
+
+/**
+ * ## Etag Store Options
+ * Used to configure an {@link EtagStore}.
+ */
+export interface EtagStoreOptions {
+  /** How many URLs to remember. The least recently used is evicted. Defaults to 500. */
+  maxEntries?: number;
+}
+
+/**
+ * ## Etag Store
+ * Remembers the `ETag` each URL answered with, and the body it identified, so an
+ * expired cache entry can be revalidated instead of downloaded again.
+ *
+ * Deliberately not a {@link CacheStore}: the two answer different questions. A
+ * `CacheStore` says "this response is still fresh, use it"; this says "here is
+ * what the response was last time, ask the server whether it still holds". They
+ * are kept apart so that a store someone else owns — a shared Redis — is never
+ * given a second key shape, and `cache.get(url)` keeps returning the resource
+ * itself.
+ *
+ * Entries live in memory and are never persisted: an `ETag` is only worth what
+ * the body beside it is, and the body is what would cost memory to keep.
+ */
+export class EtagStore {
+  private readonly entries = new Map<string, EtagEntry>();
+  private readonly maxEntries: number;
+
+  constructor(options?: EtagStoreOptions) {
+    this.maxEntries = options?.maxEntries ?? DEFAULT_ETAG_ENTRIES;
+  }
+
+  get(url: string): EtagEntry | undefined {
+    const entry = this.entries.get(url);
+
+    if (!entry) {
+      return undefined;
+    }
+
+    // Re-insert so `entries` stays ordered least- to most-recently used.
+    this.entries.delete(url);
+    this.entries.set(url, entry);
+
+    return entry;
+  }
+
+  set(url: string, entry: EtagEntry): void {
+    this.entries.delete(url);
+
+    if (this.entries.size >= this.maxEntries) {
+      const oldest = this.entries.keys().next();
+
+      if (!oldest.done) {
+        this.entries.delete(oldest.value);
+      }
+    }
+
+    this.entries.set(url, entry);
+  }
+
+  clear(): void {
+    this.entries.clear();
+  }
+}
+
 /**
  * ## Web Storage Like
  * The part of the browser's `Storage` interface a {@link WebStorageCache} uses.

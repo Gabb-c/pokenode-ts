@@ -108,17 +108,19 @@ Will output:
 
 ## Details worth knowing
 
-Every call reports, whether or not it caused a request. `source` says which of the three happened:
+Every call reports, whether or not it caused a request. `source` says which happened:
 
 | `source` | Meaning |
 | --- | --- |
 | `network` | A round trip was made. |
 | `cache` | Served by the `CacheStore`; nothing left the process. Status is reported as `200`. |
 | `in-flight` | An identical request was already on the wire and this call shared it. |
+| `revalidated` | A round trip was made, the API answered `304`, and the body already held for that URL was reused. Only with [`revalidate`](./cache#revalidation). |
 
 That distinction is what keeps counts honest. Two concurrent calls for the same resource produce
-**two** `request` events and **two** `response` events, but only one round trip — so count `source
-== 'network'` for what the PokéAPI actually saw, and all three for what your application asked for.
+**two** `request` events and **two** `response` events, but only one round trip — so count `network`
+and `revalidated` for what the PokéAPI actually saw, and all four for what your application asked
+for.
 
 `durationMs` covers everything the client did, so a cache hit and a shared request are timed like
 any other resolution; a store that lives across a network shows up here.

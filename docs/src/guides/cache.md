@@ -68,6 +68,45 @@ const api = new PokemonClient({ cache: new RedisStore(redis) });
 
 Return `undefined` from `get` for a miss.
 
+## Revalidation
+
+A cache entry expiring does not mean the resource changed — and Pokémon data changes about as rarely
+as anything on the web does. With `revalidate`, an expired entry is checked rather than downloaded
+again:
+
+```ts
+const api = new MainClient({ revalidate: true });
+```
+
+The client remembers the `ETag` each URL answered with, and the body it identified. When the cache
+misses, it asks the API whether that validator still holds. A `304 Not Modified` means the body it
+already has is still the answer — no payload crosses the wire, and the cache is refilled from memory.
+A `200` replaces both.
+
+```ts
+// Sized: how many URLs to remember, 500 by default.
+const api = new MainClient({ revalidate: new EtagStore({ maxEntries: 2000 }) });
+```
+
+`MainClient` builds one store for all twelve sections, the same way it builds one cache, so an
+`ETag` learned through `api.pokemon` is used by `api.utility`.
+
+::: tip
+`EtagStore` is deliberately **not** a `CacheStore`. The two answer different questions — "is this
+still fresh?" versus "here is what it was, is that still current?" — and keeping them apart means a
+store you own, a shared Redis, is never given a second key shape. `cache.get(url)` keeps returning
+the resource itself.
+:::
+
+::: warning
+The store holds bodies, in memory, for as long as their URLs stay in it. That is the trade:
+bandwidth and latency for memory. Size it for what you actually re-read, and leave `revalidate` off
+if a cache miss is already rare.
+:::
+
+A revalidated response is reported to the [logger](./logging) with `source: 'revalidated'`, so it can
+be counted separately from a full download — it is a round trip, just a cheap one.
+
 ## Browser storage
 
 `WebStorageCache` keeps responses in `localStorage` or `sessionStorage`, so they survive a page

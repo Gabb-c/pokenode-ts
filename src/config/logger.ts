@@ -39,12 +39,14 @@ export interface LogResponsePayload extends LogFields {
    * - `cache` — served by the {@link CacheStore}; nothing left the process.
    * - `in-flight` — an identical request was already on the wire and this caller
    *   shared it, so it made no round trip of its own.
+   * - `revalidated` — a round trip was made, the API answered 304, and the body
+   *   already held for that URL was reused. Cheap, but not free.
    *
-   * Counting only `network` gives the number of requests the PokéAPI actually
-   * saw. Every caller reports, so counting all three gives the number of calls
-   * the application made.
+   * Counting `network` and `revalidated` gives the number of requests the
+   * PokéAPI actually saw. Every caller reports, so counting all four gives the
+   * number of calls the application made.
    */
-  source: "network" | "cache" | "in-flight";
+  source: "network" | "cache" | "in-flight" | "revalidated";
   /** How long the client took to resolve the request, in milliseconds. */
   durationMs: number;
 }

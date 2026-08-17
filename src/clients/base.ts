@@ -1,4 +1,4 @@
-import { type CacheStore, MemoryCache } from "../config/cache";
+import { type CacheStore, EtagStore, MemoryCache } from "../config/cache";
 import { toPokenodeError } from "../config/errors";
 import { type Logger, type LogResponsePayload, logMessage } from "../config/logger";
 import { BASE_URL, type Endpoint } from "../constants";
@@ -153,6 +153,8 @@ export type FetchLike = (input: string, init?: RequestInit) => Promise<Response>
 interface FetchedResource {
   data: unknown;
   status: number;
+  /** Whether the body came from an {@link EtagStore} rather than off the wire. */
+  revalidated?: boolean;
 }
 
 /**
@@ -217,6 +219,15 @@ const toRetryAfterMs = (header: string | null): number | undefined => {
   const date = Date.parse(header);
 
   return Number.isNaN(date) ? undefined : Math.max(date - Date.now(), 0);
+};
+
+/** Resolves the `revalidate` option to the store the client will keep, if any. */
+const toEtagStore = (revalidate: boolean | EtagStore | undefined): EtagStore | undefined => {
+  if (!revalidate) {
+    return undefined;
+  }
+
+  return revalidate === true ? new EtagStore() : revalidate;
 };
 
 /**
@@ -322,6 +333,14 @@ export interface ClientOptions {
    * exactly once.
    */
   retry?: RetryOptions;
+  /**
+   * Ask the PokéAPI whether a response has changed, rather than downloading it
+   * again, once the {@link CacheStore} entry for it has expired.
+   *
+   * Pass `true` for a default {@link EtagStore}, or one of your own to size it.
+   * Leave empty and every expired entry is refetched in full.
+   */
+  revalidate?: boolean | EtagStore;
 }
 
 /**
@@ -337,6 +356,7 @@ export class BaseClient {
   private readonly logger: Logger | undefined;
   private readonly fetch: FetchLike;
   private readonly retry: RetryOptions | undefined;
+  private readonly etags: EtagStore | undefined;
   private readonly scope: RequestScope = {};
   /** Requests already on the wire, so concurrent callers share one round trip. */
   private readonly inFlight = new Map<string, InFlightRequest>();
@@ -348,6 +368,7 @@ export class BaseClient {
     this.logger = clientOptions?.logger;
     this.fetch = clientOptions?.fetch ?? ((input, init) => globalThis.fetch(input, init));
     this.retry = clientOptions?.retry;
+    this.etags = toEtagStore(clientOptions?.revalidate);
   }
 
   /**
@@ -424,9 +445,14 @@ export class BaseClient {
       // the count of round trips honest when several callers share one.
       const pending = this.inFlight.get(url);
       const entry = pending ?? this.dispatch(url, authorization, signal);
-      const { data, status } = await this.join(url, entry, signal);
+      const { data, status, revalidated } = await this.join(url, entry, signal);
 
-      this.logResponse(url, status, pending ? "in-flight" : "network", startedAt);
+      this.logResponse(
+        url,
+        status,
+        pending ? "in-flight" : revalidated ? "revalidated" : "network",
+        startedAt,
+      );
 
       return data as T;
     } catch (error) {
@@ -560,9 +586,14 @@ export class BaseClient {
     authorization: string | undefined,
     signal: AbortSignal | undefined,
   ): Promise<FetchedResource> {
-    const headers = authorization
-      ? { Accept: "application/json", Authorization: authorization }
-      : { Accept: "application/json" };
+    // Read once, before any attempt: an entry evicted while the request is in
+    // flight must not turn a 304 into a response with no body to go with it.
+    const known = this.etags?.get(url);
+    const headers = {
+      Accept: "application/json",
+      ...(authorization === undefined ? {} : { Authorization: authorization }),
+      ...(known === undefined ? {} : { "If-None-Match": known.etag }),
+    };
     const init = signal ? { headers, signal } : { headers };
     const attempts = this.retry ? Math.max(this.retry.attempts ?? DEFAULT_RETRY_ATTEMPTS, 1) : 1;
     const statuses = this.retry?.statuses ?? DEFAULT_RETRY_STATUSES;
@@ -584,8 +615,21 @@ export class BaseClient {
         continue;
       }
 
+      // Checked before `ok`, which a 304 is not: nothing changed, so the body
+      // that was sent with the validator is still the answer.
+      if (known !== undefined && response.status === 304) {
+        await this.cache?.set(url, known.value);
+
+        return { data: known.value, status: response.status, revalidated: true };
+      }
+
       if (response.ok) {
         const data: unknown = await response.json();
+        const etag = response.headers.get("ETag");
+
+        if (etag !== null) {
+          this.etags?.set(url, { etag, value: data });
+        }
 
         await this.cache?.set(url, data);
 
