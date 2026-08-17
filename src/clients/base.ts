@@ -174,6 +174,80 @@ interface InFlightRequest {
  * hand-written loop would.
  */
 const DEFAULT_PAGE_SIZE = 20;
+const DEFAULT_RETRY_ATTEMPTS = 3;
+const DEFAULT_INITIAL_DELAY = 300;
+const DEFAULT_MAX_DELAY = 5_000;
+/** Transient by definition: rate limiting, and the gateway failures around it. */
+const DEFAULT_RETRY_STATUSES = [429, 500, 502, 503, 504];
+
+/**
+ * ## Retry Options
+ * When a failed request is worth attempting again.
+ *
+ * Retrying is off unless this is given — a client that quietly triples its own
+ * traffic is not something to opt out of after the fact.
+ */
+export interface RetryOptions {
+  /** Attempts in total, the first one included. Defaults to 3. */
+  attempts?: number;
+  /** Statuses worth another attempt. Defaults to 429, 500, 502, 503 and 504. */
+  statuses?: number[];
+  /** The first wait, in milliseconds, doubling from there. Defaults to 300. */
+  initialDelay?: number;
+  /** The longest this client will ever wait between attempts. Defaults to 5000. */
+  maxDelay?: number;
+}
+
+/**
+ * Reads `Retry-After`, which RFC 9110 allows to be either a number of seconds or
+ * an HTTP date. Returns milliseconds, or nothing when the header is absent or
+ * unparseable.
+ */
+const toRetryAfterMs = (header: string | null): number | undefined => {
+  if (header === null) {
+    return undefined;
+  }
+
+  const seconds = Number(header);
+
+  if (Number.isFinite(seconds)) {
+    return Math.max(seconds, 0) * 1_000;
+  }
+
+  const date = Date.parse(header);
+
+  return Number.isNaN(date) ? undefined : Math.max(date - Date.now(), 0);
+};
+
+/**
+ * Whether an error is a request being cancelled rather than failing. A cancelled
+ * request is never retried: someone asked for it to stop.
+ */
+const isAbort = (error: unknown, signal: AbortSignal | undefined): boolean =>
+  signal?.aborted === true ||
+  (error instanceof Error && (error.name === "AbortError" || error.name === "TimeoutError"));
+
+/** Waits, unless the request is cancelled first. */
+const sleep = (ms: number, signal: AbortSignal | undefined): Promise<void> =>
+  new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(signal.reason);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      signal?.removeEventListener("abort", onAbort);
+      resolve();
+    }, ms);
+
+    const onAbort = (): void => {
+      clearTimeout(timer);
+      reject(signal?.reason);
+    };
+
+    signal?.addEventListener("abort", onAbort, { once: true });
+  });
+
 /**
  * ## List Page
  * The part of a resource list a walk needs: how much there is, and this page of
@@ -239,10 +313,15 @@ export interface ClientOptions {
    * Custom `fetch` implementation, for proxies, retries, cancellation or
    * instrumentation. Defaults to the global `fetch`.
    *
-   * Requests carry no timeout of their own: supply an `AbortSignal` here if you
-   * want one.
+   * Requests carry no timeout of their own: derive a scoped client with
+   * {@link BaseClient.with} if you want one.
    */
   fetch?: FetchLike;
+  /**
+   * When to attempt a failed request again. Leave empty to attempt each request
+   * exactly once.
+   */
+  retry?: RetryOptions;
 }
 
 /**
@@ -257,6 +336,7 @@ export class BaseClient {
   private readonly baseURL: string;
   private readonly logger: Logger | undefined;
   private readonly fetch: FetchLike;
+  private readonly retry: RetryOptions | undefined;
   private readonly scope: RequestScope = {};
   /** Requests already on the wire, so concurrent callers share one round trip. */
   private readonly inFlight = new Map<string, InFlightRequest>();
@@ -267,6 +347,7 @@ export class BaseClient {
       clientOptions?.cache === false ? undefined : (clientOptions?.cache ?? new MemoryCache());
     this.logger = clientOptions?.logger;
     this.fetch = clientOptions?.fetch ?? ((input, init) => globalThis.fetch(input, init));
+    this.retry = clientOptions?.retry;
   }
 
   /**
@@ -475,17 +556,84 @@ export class BaseClient {
     const headers = authorization
       ? { Accept: "application/json", Authorization: authorization }
       : { Accept: "application/json" };
-    const response = await this.fetch(url, signal ? { headers, signal } : { headers });
+    const init = signal ? { headers, signal } : { headers };
+    const attempts = this.retry ? Math.max(this.retry.attempts ?? DEFAULT_RETRY_ATTEMPTS, 1) : 1;
+    const statuses = this.retry?.statuses ?? DEFAULT_RETRY_STATUSES;
+    const maxDelay = this.retry?.maxDelay ?? DEFAULT_MAX_DELAY;
 
-    if (!response.ok) {
-      throw await toPokenodeError(response);
+    for (let attempt = 1; ; attempt += 1) {
+      const isLast = attempt >= attempts;
+      let response: Response;
+
+      try {
+        response = await this.fetch(url, init);
+      } catch (error) {
+        // A cancelled request is not a failed one, so no attempt follows it.
+        if (isLast || isAbort(error, signal)) {
+          throw error;
+        }
+
+        await this.backoff(url, attempt, undefined, undefined, signal);
+        continue;
+      }
+
+      if (response.ok) {
+        const data: unknown = await response.json();
+
+        await this.cache?.set(url, data);
+
+        return { data, status: response.status };
+      }
+
+      if (isLast || !statuses.includes(response.status)) {
+        throw await toPokenodeError(response);
+      }
+
+      const retryAfter = toRetryAfterMs(response.headers.get("Retry-After"));
+
+      // Asked to wait longer than this client is willing to: waiting less is
+      // exactly what the header exists to prevent, so the attempt is the last.
+      if (retryAfter !== undefined && retryAfter > maxDelay) {
+        throw await toPokenodeError(response);
+      }
+
+      // The body is going nowhere, and an undrained one holds its connection.
+      // Not awaited: an intercepted response may never settle the cancellation,
+      // and nothing here depends on it having finished.
+      response.body?.cancel().catch(() => {});
+      await this.backoff(url, attempt, response.status, retryAfter, signal);
     }
+  }
 
-    const data: unknown = await response.json();
+  /**
+   * Waits before the next attempt, and says so through the logger.
+   *
+   * The wait is half of a doubling window plus jitter over the other half, so
+   * clients that failed together do not come back together, and none of them
+   * comes back immediately. `Retry-After` replaces the calculation outright.
+   */
+  private async backoff(
+    url: string,
+    attempt: number,
+    status: number | undefined,
+    retryAfter: number | undefined,
+    signal: AbortSignal | undefined,
+  ): Promise<void> {
+    const initialDelay = this.retry?.initialDelay ?? DEFAULT_INITIAL_DELAY;
+    const maxDelay = this.retry?.maxDelay ?? DEFAULT_MAX_DELAY;
+    const window = Math.min(initialDelay * 2 ** (attempt - 1), maxDelay);
+    const delayMs = retryAfter ?? window / 2 + Math.random() * (window / 2);
 
-    await this.cache?.set(url, data);
+    this.logger?.debug({
+      event: "retry",
+      ...logMessage("pokeapi request failed, retrying"),
+      url,
+      attempt,
+      delayMs,
+      ...(status === undefined ? {} : { status }),
+    });
 
-    return { data, status: response.status };
+    await sleep(delayMs, signal);
   }
 
   private logResponse(

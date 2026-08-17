@@ -1,7 +1,7 @@
 import { BASE_URL, type Endpoint } from "@constants";
 import { delay, HttpResponse, http, type JsonBodyType } from "msw";
 
-import { BaseClient } from "../../src/clients/base";
+import { BaseClient, type RetryOptions } from "../../src/clients/base";
 import type { CacheStore } from "../../src/config/cache";
 import { PokenodeError } from "../../src/config/errors";
 import { server } from "../helpers/setup";
@@ -139,8 +139,13 @@ describe("BaseClient", () => {
     const client = new TestClient({
       cache: false,
       logger: {
-        debug: (payload) =>
-          events.push(payload.event === "request" ? "request" : `response ${payload.source}`),
+        debug: (payload) => {
+          if (payload.event === "response") {
+            events.push(`response ${payload.source}`);
+          } else if (payload.event === "request") {
+            events.push("request");
+          }
+        },
         error: () => {},
       },
     });
@@ -440,12 +445,13 @@ describe("BaseClient", () => {
     const events: string[] = [];
     const client = new TestClient({
       logger: {
-        debug: (payload) =>
-          events.push(
-            payload.event === "request"
-              ? `request ${payload.method} ${payload.url}`
-              : `response ${payload.url} ${payload.status} ${payload.source}`,
-          ),
+        debug: (payload) => {
+          if (payload.event === "request") {
+            events.push(`request ${payload.method} ${payload.url}`);
+          } else if (payload.event === "response") {
+            events.push(`response ${payload.url} ${payload.status} ${payload.source}`);
+          }
+        },
         error: ({ err }) => events.push(`error ${String(err)}`),
       },
     });
@@ -609,6 +615,35 @@ describe("BaseClient", () => {
 });
 
 /**
+ * Answers with each status in turn, then `{ id: 1 }`, and counts the attempts.
+ * `Retry-After` rides along on every failure when given.
+ */
+const failingHandler = (statuses: number[], retryAfter?: string) => {
+  const calls = { count: 0 };
+
+  server.use(
+    http.get(BERRY_URL, () => {
+      const status = statuses[calls.count];
+      calls.count += 1;
+
+      if (status === undefined) {
+        return HttpResponse.json({ id: 1 });
+      }
+
+      return HttpResponse.json(
+        { detail: "no" },
+        retryAfter === undefined ? { status } : { status, headers: { "Retry-After": retryAfter } },
+      );
+    }),
+  );
+
+  return calls;
+};
+
+/** Retries with no wait worth measuring, so a test asserts attempts, not timing. */
+const IMMEDIATE: RetryOptions = { attempts: 3, initialDelay: 0 };
+
+/**
  * Lets every pending callback run, so a request has reached the transport and
  * every concurrent caller has joined it before a test aborts anything.
  */
@@ -747,5 +782,126 @@ describe("BaseClient scope", () => {
     await client.get("/berry", 1);
 
     expect(received?.signal).toBeUndefined();
+  });
+});
+
+describe("BaseClient retry", () => {
+  it("should attempt a request once when retrying is not configured", async () => {
+    const calls = failingHandler([503]);
+
+    await expect(new TestClient().get("/berry", 1)).rejects.toThrow(PokenodeError);
+    expect(calls.count).toBe(1);
+  });
+
+  it("should attempt again after a retryable status", async () => {
+    const calls = failingHandler([503]);
+
+    await expect(new TestClient({ retry: IMMEDIATE }).get("/berry", 1)).resolves.toEqual({ id: 1 });
+    expect(calls.count).toBe(2);
+  });
+
+  it("should give up once it is out of attempts", async () => {
+    const calls = failingHandler([503, 503, 503, 503]);
+
+    const error = (await new TestClient({ retry: IMMEDIATE })
+      .get("/berry", 1)
+      .catch((caught: unknown) => caught)) as PokenodeError;
+
+    expect(PokenodeError.isPokenodeError(error)).toBe(true);
+    expect(error.status).toBe(503);
+    expect(calls.count).toBe(3);
+  });
+
+  it("should not attempt a status it was not told to retry again", async () => {
+    const calls = failingHandler([404]);
+
+    await expect(new TestClient({ retry: IMMEDIATE }).get("/berry", 1)).rejects.toThrow(
+      PokenodeError,
+    );
+    expect(calls.count).toBe(1);
+  });
+
+  it("should retry only the statuses it was given", async () => {
+    const calls = failingHandler([418]);
+
+    await expect(
+      new TestClient({ retry: { ...IMMEDIATE, statuses: [418] } }).get("/berry", 1),
+    ).resolves.toEqual({ id: 1 });
+    expect(calls.count).toBe(2);
+  });
+
+  it("should attempt again after a transport failure", async () => {
+    let calls = 0;
+    const client = new TestClient({
+      retry: IMMEDIATE,
+      fetch: (url, init) => {
+        calls += 1;
+        return calls === 1
+          ? Promise.reject(new TypeError("fetch failed"))
+          : fetch(url, init as RequestInit);
+      },
+    });
+
+    countingHandler(BERRY_URL);
+
+    await expect(client.get("/berry", 1)).resolves.toEqual({ id: 1 });
+    expect(calls).toBe(2);
+  });
+
+  it("should wait as long as Retry-After asks", async () => {
+    const calls = failingHandler([503], "0.05");
+    const startedAt = performance.now();
+
+    await new TestClient({ retry: { attempts: 2, initialDelay: 0 } }).get("/berry", 1);
+
+    expect(calls.count).toBe(2);
+    expect(performance.now() - startedAt).toBeGreaterThanOrEqual(45);
+  });
+
+  it("should give up rather than wait less than Retry-After asks", async () => {
+    const calls = failingHandler([503], "600");
+
+    await expect(
+      new TestClient({ retry: { ...IMMEDIATE, maxDelay: 1_000 } }).get("/berry", 1),
+    ).rejects.toThrow(PokenodeError);
+    expect(calls.count).toBe(1);
+  });
+
+  it("should stop waiting when the request is cancelled", async () => {
+    const calls = failingHandler([503, 503, 503]);
+    const client = new TestClient({ retry: { attempts: 3, initialDelay: 10_000 } });
+
+    await expect(client.with({ timeout: 20 }).get("/berry", 1)).rejects.toThrow(/abort|time/i);
+    expect(calls.count).toBe(1);
+  });
+
+  it("should share one sequence of attempts between concurrent callers", async () => {
+    const calls = failingHandler([503]);
+    const client = new TestClient({ cache: false, retry: IMMEDIATE });
+
+    const [first, second] = await Promise.all([client.get("/berry", 1), client.get("/berry", 1)]);
+
+    expect(calls.count).toBe(2);
+    expect(first).toEqual(second);
+  });
+
+  it("should report every attempt it retried to a supplied logger", async () => {
+    failingHandler([503, 500]);
+    const events: string[] = [];
+    const client = new TestClient({
+      retry: IMMEDIATE,
+      logger: {
+        debug: (payload) => {
+          if (payload.event === "retry") {
+            events.push(`retry ${payload.attempt} ${payload.status ?? "none"}`);
+          }
+        },
+        error: () => {},
+      },
+    });
+
+    await client.get("/berry", 1);
+
+    expect(events).toEqual(["retry 1 503", "retry 2 500"]);
   });
 });

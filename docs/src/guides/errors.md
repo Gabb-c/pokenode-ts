@@ -40,6 +40,14 @@ try {
 schema. It is `undefined` whenever the response body was not JSON — which includes the most common
 case, since the PokéAPI answers a 404 with the plain text `Not Found`.
 
+## Retried before it throws
+
+With [`retry`](./fetch#retries) configured, a 429 or a 5xx does not throw straight away — the client
+attempts again, and only the last failure becomes the `PokenodeError` you catch. Its `status` is the
+status of that final attempt.
+
+Nothing else changes: a 404 still throws immediately, and an abort is still never retried.
+
 ## Use the guard, not `instanceof`
 
 ```ts

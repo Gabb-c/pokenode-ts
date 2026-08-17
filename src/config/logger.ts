@@ -8,7 +8,7 @@
  */
 interface LogFields {
   /** Which point of the request lifecycle this is, for filtering. */
-  event: "request" | "response" | "error";
+  event: "request" | "response" | "retry" | "error";
   msg: string;
   message: string;
   /** The request URL, with any credentials the base URL carried removed. */
@@ -50,6 +50,24 @@ export interface LogResponsePayload extends LogFields {
 }
 
 /**
+ * ## Log Retry Payload
+ * An attempt failed and another one is coming.
+ *
+ * Only emitted when `retry` is configured, and never for the attempt that gives
+ * up — that one is a `response` or an `error` like any other. Counting these
+ * gives the round trips the PokéAPI saw beyond the ones it answered.
+ */
+export interface LogRetryPayload extends LogFields {
+  event: "retry";
+  /** Which attempt just failed, counting from one. */
+  attempt: number;
+  /** How long the client will wait before the next one, in milliseconds. */
+  delayMs: number;
+  /** The status that failed. Absent when the attempt never got a response. */
+  status?: number;
+}
+
+/**
  * ## Log Error Payload
  * A request failed.
  *
@@ -81,7 +99,7 @@ export interface LogErrorPayload extends LogFields {
  * logged unless a logger is passed, and a client never picks a level of its own.
  */
 export interface Logger {
-  debug(payload: LogRequestPayload | LogResponsePayload): void;
+  debug(payload: LogRequestPayload | LogResponsePayload | LogRetryPayload): void;
   error(payload: LogErrorPayload): void;
 }
 
@@ -103,10 +121,20 @@ export const logMessage = (text: string): { msg: string; message: string } => ({
  */
 export const consoleLogger: Logger = {
   debug(payload) {
+    if (payload.event === "request") {
+      console.log(`[ Request Config ] ${payload.method} | ${payload.url}`);
+      return;
+    }
+
+    if (payload.event === "retry") {
+      console.log(
+        `[ Retry ] ATTEMPT ${payload.attempt} | STATUS ${payload.status ?? "NONE"} | IN ${payload.delayMs.toFixed(0)}ms | ${payload.url}`,
+      );
+      return;
+    }
+
     console.log(
-      payload.event === "request"
-        ? `[ Request Config ] ${payload.method} | ${payload.url}`
-        : `[ Response ] STATUS ${payload.status} | ${payload.source.toUpperCase()} | ${payload.durationMs.toFixed(1)}ms`,
+      `[ Response ] STATUS ${payload.status} | ${payload.source.toUpperCase()} | ${payload.durationMs.toFixed(1)}ms`,
     );
   },
 

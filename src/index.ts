@@ -14,6 +14,7 @@ export {
   type Logger,
   type LogRequestPayload,
   type LogResponsePayload,
+  type LogRetryPayload,
 } from "@config/logger";
 export * from "@constants";
 export * as CONSTANTS from "@constants";
@@ -26,4 +27,5 @@ export type {
   ListPage,
   PaginateOptions,
   RequestScope,
+  RetryOptions,
 } from "./clients/base";

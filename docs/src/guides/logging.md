@@ -50,7 +50,12 @@ One object per event, with every field at the top level so a structured logger i
 | --- | --- | --- |
 | `request` | `debug` | `method`, `url` |
 | `response` | `debug` | `url`, `status`, `source`, `durationMs` |
+| `retry` | `debug` | `url`, `attempt`, `delayMs`, `status` |
 | `error` | `error` | `url`, `err`, `error` |
+
+`retry` only ever arrives when [`retry`](./fetch#retries) is configured, and only for an attempt that
+is followed by another one — the attempt that ends the request reports as a `response` or an `error`
+like any other. Its `status` is absent when the attempt never got a response at all.
 
 ```jsonc
 // pino
@@ -65,7 +70,7 @@ Two fields are deliberately duplicated, and both are there so that no library ne
   `Error` under any other key reaches the log as `{}`, with no message and no stack — while other
   libraries look for `error`.
 
-Filter on `event` to tell the three apart:
+Filter on `event` to tell them apart:
 
 ```ts
 const logger = {
@@ -76,7 +81,8 @@ const logger = {
 };
 ```
 
-The payload types are exported as `LogRequestPayload`, `LogResponsePayload` and `LogErrorPayload`.
+The payload types are exported as `LogRequestPayload`, `LogResponsePayload`, `LogRetryPayload` and
+`LogErrorPayload`.
 
 ## Pretty console output
 
