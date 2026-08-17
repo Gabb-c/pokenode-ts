@@ -108,8 +108,10 @@ declarations for its ESM and CJS builds, each with its own copy of that marker. 
 still assigns cleanly, but the marker no longer matches, so `T` falls back to `unknown` instead of
 the resource type.
 
-This needs a dependency between you and the library resolving pokenode-ts differently than you do,
-or two copies of it in `node_modules`. If a link ever comes back as `unknown` for no visible
+One install is enough: it happens whenever two places in a build resolve pokenode-ts under different
+module formats — a dependency between you and the library requiring it while you import it, a single
+file mixing `import` and `require` resolution, or two copies in `node_modules`. If a link ever comes
+back as `unknown` for no visible
 reason, that is why — name the type explicitly (`getResourceByUrl<Machine>(link.url)`) and it
 behaves as before. It is the same split that makes [`PokenodeError.isPokenodeError`](/guides/errors)
 the way to identify an error rather than `instanceof`.
