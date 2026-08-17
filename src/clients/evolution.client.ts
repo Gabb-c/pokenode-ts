@@ -17,39 +17,22 @@ import { BaseClient } from "./base";
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#evolution-section)
  */
 export class EvolutionClient extends BaseClient {
-  /**
-   * Get an Evolution Chain by its ID.
-   * @param id The Evolution Chain ID.
-   * @returns The matching Evolution Chain.
-   */
+  /** Get an Evolution Chain by its ID. */
   public async getEvolutionChainById(id: number): Promise<EvolutionChain> {
     return this.getResource(ENDPOINTS.EVOLUTION_CHAIN, id);
   }
 
-  /**
-   * Get an Evolution Trigger by its ID.
-   * @param id The Evolution Trigger ID.
-   * @returns The matching Evolution Trigger.
-   */
+  /** Get an Evolution Trigger by its ID. */
   public async getEvolutionTriggerById(id: number): Promise<EvolutionTrigger> {
     return this.getResource(ENDPOINTS.EVOLUTION_TRIGGER, id);
   }
 
-  /**
-   * Get an Evolution Trigger by its name.
-   * @param name The Evolution Trigger name.
-   * @returns The matching Evolution Trigger.
-   */
+  /** Get an Evolution Trigger by its name. */
   public async getEvolutionTriggerByName(name: string): Promise<EvolutionTrigger> {
     return this.getResource(ENDPOINTS.EVOLUTION_TRIGGER, name);
   }
 
-  /**
-   * List Evolution Chains.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Evolution Chains.
-   */
+  /** List Evolution Chains. Page defaults to 20 entries from offset 0. */
   public async listEvolutionChains(
     offset?: number,
     limit?: number,
@@ -57,12 +40,7 @@ export class EvolutionClient extends BaseClient {
     return this.getUnnamedListResource<EvolutionChain>(ENDPOINTS.EVOLUTION_CHAIN, offset, limit);
   }
 
-  /**
-   * List Evolution Triggers.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Evolution Triggers.
-   */
+  /** List Evolution Triggers. Page defaults to 20 entries from offset 0. */
   public async listEvolutionTriggers(
     offset?: number,
     limit?: number,

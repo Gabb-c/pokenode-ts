@@ -45,144 +45,83 @@ import { BaseClient } from "./base";
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#pokemon-section)
  */
 export class PokemonClient extends BaseClient {
-  /**
-   * Get an Ability by its name.
-   * @param name The Ability name.
-   * @returns The matching Ability.
-   */
+  /** Get an Ability by its name. */
   public async getAbilityByName(name: string): Promise<Ability> {
     return this.getResource(ENDPOINTS.ABILITY, name);
   }
 
-  /**
-   * Get an Ability by its ID.
-   * @param id The Ability ID.
-   * @returns The matching Ability.
-   */
+  /** Get an Ability by its ID. */
   public async getAbilityById(id: number): Promise<Ability> {
     return this.getResource(ENDPOINTS.ABILITY, id);
   }
 
-  /**
-   * Get a Characteristic by its ID.
-   * @param id The Characteristic ID.
-   * @returns The matching Characteristic.
-   */
+  /** Get a Characteristic by its ID. */
   public async getCharacteristicById(id: number): Promise<Characteristic> {
     return this.getResource(ENDPOINTS.CHARACTERISTIC, id);
   }
 
-  /**
-   * Get an Egg Group by its name.
-   * @param name The Egg Group name.
-   * @returns The matching Egg Group.
-   */
+  /** Get an Egg Group by its name. */
   public async getEggGroupByName(name: string): Promise<EggGroup> {
     return this.getResource(ENDPOINTS.EGG_GROUP, name);
   }
 
-  /**
-   * Get an Egg Group by its ID.
-   * @param id The Egg Group ID.
-   * @returns The matching Egg Group.
-   */
+  /** Get an Egg Group by its ID. */
   public async getEggGroupById(id: number): Promise<EggGroup> {
     return this.getResource(ENDPOINTS.EGG_GROUP, id);
   }
 
-  /**
-   * Get a Gender by its name.
-   * @param name The Gender name.
-   * @returns The matching Gender.
-   */
+  /** Get a Gender by its name. */
   public async getGenderByName(name: string): Promise<Gender> {
     return this.getResource(ENDPOINTS.GENDER, name);
   }
 
-  /**
-   * Get a Gender by its ID.
-   * @param id The Gender ID.
-   * @returns The matching Gender.
-   */
+  /** Get a Gender by its ID. */
   public async getGenderById(id: number): Promise<Gender> {
     return this.getResource(ENDPOINTS.GENDER, id);
   }
 
-  /**
-   * Get a Growth Rate by its name.
-   * @param name The Growth Rate name.
-   * @returns The matching Growth Rate.
-   */
+  /** Get a Growth Rate by its name. */
   public async getGrowthRateByName(name: string): Promise<GrowthRate> {
     return this.getResource(ENDPOINTS.GROWTH_RATE, name);
   }
 
-  /**
-   * Get a Growth Rate by its ID.
-   * @param id The Growth Rate ID.
-   * @returns The matching Growth Rate.
-   */
+  /** Get a Growth Rate by its ID. */
   public async getGrowthRateById(id: number): Promise<GrowthRate> {
     return this.getResource(ENDPOINTS.GROWTH_RATE, id);
   }
 
-  /**
-   * Get a Nature by its name.
-   * @param name The Nature name.
-   * @returns The matching Nature.
-   */
+  /** Get a Nature by its name. */
   public async getNatureByName(name: string): Promise<Nature> {
     return this.getResource(ENDPOINTS.NATURE, name);
   }
 
-  /**
-   * Get a Nature by its ID.
-   * @param id The Nature ID.
-   * @returns The matching Nature.
-   */
+  /** Get a Nature by its ID. */
   public async getNatureById(id: number): Promise<Nature> {
     return this.getResource(ENDPOINTS.NATURE, id);
   }
 
-  /**
-   * Get a Pokéathlon Stat by its name.
-   * @param name The Pokéathlon Stat name.
-   * @returns The matching Pokéathlon Stat.
-   */
+  /** Get a Pokéathlon Stat by its name. */
   public async getPokeathlonStatByName(name: string): Promise<PokeathlonStat> {
     return this.getResource(ENDPOINTS.POKEATHLON_STAT, name);
   }
 
-  /**
-   * Get a Pokéathlon Stat by its ID.
-   * @param id The Pokéathlon Stat ID.
-   * @returns The matching Pokéathlon Stat.
-   */
+  /** Get a Pokéathlon Stat by its ID. */
   public async getPokeathlonStatById(id: number): Promise<PokeathlonStat> {
     return this.getResource(ENDPOINTS.POKEATHLON_STAT, id);
   }
 
-  /**
-   * Get a Pokémon by its name.
-   * @param name The Pokémon name.
-   * @returns The matching Pokémon.
-   */
+  /** Get a Pokémon by its name. */
   public async getPokemonByName(name: string): Promise<Pokemon> {
     return this.getResource(ENDPOINTS.POKEMON, name);
   }
 
-  /**
-   * Get a Pokémon by its ID.
-   * @param id The Pokémon ID.
-   * @returns The matching Pokémon.
-   */
+  /** Get a Pokémon by its ID. */
   public async getPokemonById(id: number): Promise<Pokemon> {
     return this.getResource(ENDPOINTS.POKEMON, id);
   }
 
   /**
    * Get the areas a Pokémon can be encountered in, by its ID.
-   * @param id The Pokémon ID.
    * @returns Every location area the Pokémon appears in, with its encounter details.
    */
   public async getPokemonLocationAreaById(id: number): Promise<LocationAreaEncounter[]> {
@@ -191,138 +130,77 @@ export class PokemonClient extends BaseClient {
     return this.getResource(ENDPOINTS.POKEMON, `${id}/encounters`);
   }
 
-  /**
-   * Get a Pokémon Color by its name.
-   * @param name The Pokémon Color name.
-   * @returns The matching Pokémon Color.
-   */
+  /** Get a Pokémon Color by its name. */
   public async getPokemonColorByName(name: string): Promise<PokemonColor> {
     return this.getResource(ENDPOINTS.POKEMON_COLOR, name);
   }
 
-  /**
-   * Get a Pokémon Color by its ID.
-   * @param id The Pokémon Color ID.
-   * @returns The matching Pokémon Color.
-   */
+  /** Get a Pokémon Color by its ID. */
   public async getPokemonColorById(id: number): Promise<PokemonColor> {
     return this.getResource(ENDPOINTS.POKEMON_COLOR, id);
   }
 
-  /**
-   * Get a Pokémon Form by its name.
-   * @param name The Pokémon Form name.
-   * @returns The matching Pokémon Form.
-   */
+  /** Get a Pokémon Form by its name. */
   public async getPokemonFormByName(name: string): Promise<PokemonForm> {
     return this.getResource(ENDPOINTS.POKEMON_FORM, name);
   }
 
-  /**
-   * Get a Pokémon Form by its ID.
-   * @param id The Pokémon Form ID.
-   * @returns The matching Pokémon Form.
-   */
+  /** Get a Pokémon Form by its ID. */
   public async getPokemonFormById(id: number): Promise<PokemonForm> {
     return this.getResource(ENDPOINTS.POKEMON_FORM, id);
   }
 
-  /**
-   * Get a Pokémon Habitat by its name.
-   * @param name The Pokémon Habitat name.
-   * @returns The matching Pokémon Habitat.
-   */
+  /** Get a Pokémon Habitat by its name. */
   public async getPokemonHabitatByName(name: string): Promise<PokemonHabitat> {
     return this.getResource(ENDPOINTS.POKEMON_HABITAT, name);
   }
 
-  /**
-   * Get a Pokémon Habitat by its ID.
-   * @param id The Pokémon Habitat ID.
-   * @returns The matching Pokémon Habitat.
-   */
+  /** Get a Pokémon Habitat by its ID. */
   public async getPokemonHabitatById(id: number): Promise<PokemonHabitat> {
     return this.getResource(ENDPOINTS.POKEMON_HABITAT, id);
   }
 
-  /**
-   * Get a Pokémon Shape by its name.
-   * @param name The Pokémon Shape name.
-   * @returns The matching Pokémon Shape.
-   */
+  /** Get a Pokémon Shape by its name. */
   public async getPokemonShapeByName(name: string): Promise<PokemonShape> {
     return this.getResource(ENDPOINTS.POKEMON_SHAPE, name);
   }
 
-  /**
-   * Get a Pokémon Shape by its ID.
-   * @param id The Pokémon Shape ID.
-   * @returns The matching Pokémon Shape.
-   */
+  /** Get a Pokémon Shape by its ID. */
   public async getPokemonShapeById(id: number): Promise<PokemonShape> {
     return this.getResource(ENDPOINTS.POKEMON_SHAPE, id);
   }
 
-  /**
-   * Get a Pokémon Species by its name.
-   * @param name The Pokémon Species name.
-   * @returns The matching Pokémon Species.
-   */
+  /** Get a Pokémon Species by its name. */
   public async getPokemonSpeciesByName(name: string): Promise<PokemonSpecies> {
     return this.getResource(ENDPOINTS.POKEMON_SPECIES, name);
   }
 
-  /**
-   * Get a Pokémon Species by its ID.
-   * @param id The Pokémon Species ID.
-   * @returns The matching Pokémon Species.
-   */
+  /** Get a Pokémon Species by its ID. */
   public async getPokemonSpeciesById(id: number): Promise<PokemonSpecies> {
     return this.getResource(ENDPOINTS.POKEMON_SPECIES, id);
   }
 
-  /**
-   * Get a Stat by its name.
-   * @param name The Stat name.
-   * @returns The matching Stat.
-   */
+  /** Get a Stat by its name. */
   public async getStatByName(name: string): Promise<Stat> {
     return this.getResource(ENDPOINTS.STAT, name);
   }
 
-  /**
-   * Get a Stat by its ID.
-   * @param id The Stat ID.
-   * @returns The matching Stat.
-   */
+  /** Get a Stat by its ID. */
   public async getStatById(id: number): Promise<Stat> {
     return this.getResource(ENDPOINTS.STAT, id);
   }
 
-  /**
-   * Get a Type by its name.
-   * @param name The Type name.
-   * @returns The matching Type.
-   */
+  /** Get a Type by its name. */
   public async getTypeByName(name: string): Promise<Type> {
     return this.getResource(ENDPOINTS.TYPE, name);
   }
 
-  /**
-   * Get a Type by its ID.
-   * @param id The Type ID.
-   * @returns The matching Type.
-   */
+  /** Get a Type by its ID. */
   public async getTypeById(id: number): Promise<Type> {
     return this.getResource(ENDPOINTS.TYPE, id);
   }
 
-  /**
-   * List Abilities.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Abilities.
-   */
+  /** List Abilities. Page defaults to 20 entries from offset 0. */
   public async listAbilities(
     offset?: number,
     limit?: number,
@@ -330,12 +208,7 @@ export class PokemonClient extends BaseClient {
     return this.getListResource<Ability>(ENDPOINTS.ABILITY, offset, limit);
   }
 
-  /**
-   * List Characteristics.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Characteristics.
-   */
+  /** List Characteristics. Page defaults to 20 entries from offset 0. */
   public async listCharacteristics(
     offset?: number,
     limit?: number,
@@ -343,12 +216,7 @@ export class PokemonClient extends BaseClient {
     return this.getUnnamedListResource<Characteristic>(ENDPOINTS.CHARACTERISTIC, offset, limit);
   }
 
-  /**
-   * List Egg Groups.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Egg Groups.
-   */
+  /** List Egg Groups. Page defaults to 20 entries from offset 0. */
   public async listEggGroups(
     offset?: number,
     limit?: number,
@@ -356,22 +224,12 @@ export class PokemonClient extends BaseClient {
     return this.getListResource<EggGroup>(ENDPOINTS.EGG_GROUP, offset, limit);
   }
 
-  /**
-   * List Genders.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Genders.
-   */
+  /** List Genders. Page defaults to 20 entries from offset 0. */
   public async listGenders(offset?: number, limit?: number): Promise<NamedAPIResourceList<Gender>> {
     return this.getListResource<Gender>(ENDPOINTS.GENDER, offset, limit);
   }
 
-  /**
-   * List Growth Rates.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Growth Rates.
-   */
+  /** List Growth Rates. Page defaults to 20 entries from offset 0. */
   public async listGrowthRates(
     offset?: number,
     limit?: number,
@@ -379,22 +237,12 @@ export class PokemonClient extends BaseClient {
     return this.getListResource<GrowthRate>(ENDPOINTS.GROWTH_RATE, offset, limit);
   }
 
-  /**
-   * List Natures.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Natures.
-   */
+  /** List Natures. Page defaults to 20 entries from offset 0. */
   public async listNatures(offset?: number, limit?: number): Promise<NamedAPIResourceList<Nature>> {
     return this.getListResource<Nature>(ENDPOINTS.NATURE, offset, limit);
   }
 
-  /**
-   * List Pokéathlon Stats.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Pokéathlon Stats.
-   */
+  /** List Pokéathlon Stats. Page defaults to 20 entries from offset 0. */
   public async listPokeathlonStats(
     offset?: number,
     limit?: number,
@@ -402,12 +250,7 @@ export class PokemonClient extends BaseClient {
     return this.getListResource<PokeathlonStat>(ENDPOINTS.POKEATHLON_STAT, offset, limit);
   }
 
-  /**
-   * List Pokémon.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Pokémon.
-   */
+  /** List Pokémon. Page defaults to 20 entries from offset 0. */
   public async listPokemons(
     offset?: number,
     limit?: number,
@@ -415,12 +258,7 @@ export class PokemonClient extends BaseClient {
     return this.getListResource<Pokemon>(ENDPOINTS.POKEMON, offset, limit);
   }
 
-  /**
-   * List Pokémon Colors.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Pokémon Colors.
-   */
+  /** List Pokémon Colors. Page defaults to 20 entries from offset 0. */
   public async listPokemonColors(
     offset?: number,
     limit?: number,
@@ -428,12 +266,7 @@ export class PokemonClient extends BaseClient {
     return this.getListResource<PokemonColor>(ENDPOINTS.POKEMON_COLOR, offset, limit);
   }
 
-  /**
-   * List Pokémon Forms.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Pokémon Forms.
-   */
+  /** List Pokémon Forms. Page defaults to 20 entries from offset 0. */
   public async listPokemonForms(
     offset?: number,
     limit?: number,
@@ -441,12 +274,7 @@ export class PokemonClient extends BaseClient {
     return this.getListResource<PokemonForm>(ENDPOINTS.POKEMON_FORM, offset, limit);
   }
 
-  /**
-   * List Pokémon Habitats.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Pokémon Habitats.
-   */
+  /** List Pokémon Habitats. Page defaults to 20 entries from offset 0. */
   public async listPokemonHabitats(
     offset?: number,
     limit?: number,
@@ -454,12 +282,7 @@ export class PokemonClient extends BaseClient {
     return this.getListResource<PokemonHabitat>(ENDPOINTS.POKEMON_HABITAT, offset, limit);
   }
 
-  /**
-   * List Pokémon Shapes.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Pokémon Shapes.
-   */
+  /** List Pokémon Shapes. Page defaults to 20 entries from offset 0. */
   public async listPokemonShapes(
     offset?: number,
     limit?: number,
@@ -467,12 +290,7 @@ export class PokemonClient extends BaseClient {
     return this.getListResource<PokemonShape>(ENDPOINTS.POKEMON_SHAPE, offset, limit);
   }
 
-  /**
-   * List Pokémon Species.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Pokémon Species.
-   */
+  /** List Pokémon Species. Page defaults to 20 entries from offset 0. */
   public async listPokemonSpecies(
     offset?: number,
     limit?: number,
@@ -480,22 +298,12 @@ export class PokemonClient extends BaseClient {
     return this.getListResource<PokemonSpecies>(ENDPOINTS.POKEMON_SPECIES, offset, limit);
   }
 
-  /**
-   * List Stats.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Stats.
-   */
+  /** List Stats. Page defaults to 20 entries from offset 0. */
   public async listStats(offset?: number, limit?: number): Promise<NamedAPIResourceList<Stat>> {
     return this.getListResource<Stat>(ENDPOINTS.STAT, offset, limit);
   }
 
-  /**
-   * List Types.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Types.
-   */
+  /** List Types. Page defaults to 20 entries from offset 0. */
   public async listTypes(offset?: number, limit?: number): Promise<NamedAPIResourceList<Type>> {
     return this.getListResource<Type>(ENDPOINTS.TYPE, offset, limit);
   }

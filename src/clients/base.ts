@@ -315,11 +315,8 @@ export class BaseClient {
   /**
    * Retrieves a single resource from the PokéAPI by its endpoint and identifier.
    *
-   * @template T - The type of the resource to be returned.
-   * @param endpoint - The endpoint of the resource.
    * @param identifier - The identifier of the resource, or a path below the endpoint.
    *   Omit it to address the endpoint itself.
-   * @returns A promise that resolves to the requested resource.
    */
   protected async getResource<T>(endpoint: Endpoint, identifier?: string | number): Promise<T> {
     return this.request<T>(identifier === undefined ? endpoint : `${endpoint}/${identifier}`);
@@ -331,10 +328,6 @@ export class BaseClient {
    * A link knows what it points at, so passing one infers `T`; a bare string
    * does not, and needs `T` named.
    *
-   * @template T - The type of the resource to be returned.
-   * @param resource - The URL of the resource, or a link to it.
-   * @param baseURL - The base URL to use. Defaults to the one the client was built with.
-   * @returns A promise that resolves to the requested resource.
    * @throws {TypeError} If the URL is not valid, or names no endpoint under `baseURL`.
    */
   protected async getResourceByURL<T>(
@@ -350,10 +343,6 @@ export class BaseClient {
    * Retrieves a list of resources from the PokéAPI with pagination support.
    *
    * @template T - What the listed links resolve to.
-   * @param endpoint - The endpoint of the resource.
-   * @param offset - The offset for pagination. Defaults to 0.
-   * @param limit - The limit for pagination. Defaults to 20.
-   * @returns A promise that resolves to a list of named API resources.
    */
   protected async getListResource<T = unknown>(
     endpoint: Endpoint,
@@ -367,10 +356,6 @@ export class BaseClient {
    * Retrieves a list of resources that have no name to list, with pagination support.
    *
    * @template T - What the listed links resolve to.
-   * @param endpoint - The endpoint of the resource.
-   * @param offset - The offset for pagination. Defaults to 0.
-   * @param limit - The limit for pagination. Defaults to 20.
-   * @returns A promise that resolves to a list of unnamed API resources.
    */
   protected async getUnnamedListResource<T = unknown>(
     endpoint: Endpoint,

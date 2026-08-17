@@ -11,21 +11,12 @@ import { BaseClient } from "./base";
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#machines-section)
  */
 export class MachineClient extends BaseClient {
-  /**
-   * Get a Machine by its ID.
-   * @param id The Machine ID.
-   * @returns The matching Machine.
-   */
+  /** Get a Machine by its ID. */
   public async getMachineById(id: number): Promise<Machine> {
     return this.getResource(ENDPOINTS.MACHINE, id);
   }
 
-  /**
-   * List Machines.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Machines.
-   */
+  /** List Machines. Page defaults to 20 entries from offset 0. */
   public async listMachines(offset?: number, limit?: number): Promise<APIResourceList<Machine>> {
     return this.getUnnamedListResource<Machine>(ENDPOINTS.MACHINE, offset, limit);
   }

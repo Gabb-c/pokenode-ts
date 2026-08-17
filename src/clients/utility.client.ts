@@ -12,20 +12,12 @@ import { BaseClient } from "./base";
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#utility-section)
  */
 export class UtilityClient extends BaseClient {
-  /**
-   * Get a Language by its ID.
-   * @param id The Language ID.
-   * @returns The matching Language.
-   */
+  /** Get a Language by its ID. */
   public async getLanguageById(id: number): Promise<Language> {
     return this.getResource(ENDPOINTS.LANGUAGE, id);
   }
 
-  /**
-   * Get a Language by its name.
-   * @param name The Language name.
-   * @returns The matching Language.
-   */
+  /** Get a Language by its name. */
   public async getLanguageByName(name: string): Promise<Language> {
     return this.getResource(ENDPOINTS.LANGUAGE, name);
   }
@@ -51,12 +43,7 @@ export class UtilityClient extends BaseClient {
     return this.getResourceByURL<T>(resource);
   }
 
-  /**
-   * List Languages.
-   * @param offset Index of the first resource returned. Defaults to 0.
-   * @param limit How many resources per page. Defaults to 20.
-   * @returns A paginated list of Languages.
-   */
+  /** List Languages. Page defaults to 20 entries from offset 0. */
   public listLanguages(offset?: number, limit?: number): Promise<NamedAPIResourceList<Language>> {
     return this.getListResource<Language>(ENDPOINTS.LANGUAGE, offset, limit);
   }
