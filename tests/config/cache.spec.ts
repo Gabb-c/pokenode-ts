@@ -105,141 +105,230 @@ class FakeStorage implements WebStorageLike {
   }
 }
 
+/** An `AsyncStorage` stand-in: promise-returning, and enumerated by `getAllKeys`. */
+class FakeAsyncStorage implements WebStorageLike {
+  readonly entries = new Map<string, string>();
+
+  async getAllKeys(): Promise<readonly string[]> {
+    return [...this.entries.keys()];
+  }
+
+  async getItem(key: string): Promise<string | null> {
+    return this.entries.get(key) ?? null;
+  }
+
+  async setItem(key: string, value: string): Promise<void> {
+    this.entries.set(key, value);
+  }
+
+  async removeItem(key: string): Promise<void> {
+    this.entries.delete(key);
+  }
+}
+
 describe("WebStorageCache", () => {
-  it("should store and return a value", () => {
+  it("should store and return a value", async () => {
     const storage = new FakeStorage();
     const cache = new WebStorageCache({ storage });
 
-    cache.set("a", { id: 1 });
+    await cache.set("a", { id: 1 });
 
-    expect(cache.get("a")).toEqual({ id: 1 });
+    expect(await cache.get("a")).toEqual({ id: 1 });
   });
 
-  it("should namespace the keys it writes", () => {
+  it("should namespace the keys it writes", async () => {
     const storage = new FakeStorage();
 
-    new WebStorageCache({ storage, prefix: "custom:" }).set("a", 1);
+    await new WebStorageCache({ storage, prefix: "custom:" }).set("a", 1);
 
     expect([...storage.entries.keys()]).toEqual(["custom:a"]);
   });
 
-  it("should miss on unknown keys", () => {
-    expect(new WebStorageCache({ storage: new FakeStorage() }).get("nope")).toBeUndefined();
+  it("should miss on unknown keys", async () => {
+    expect(await new WebStorageCache({ storage: new FakeStorage() }).get("nope")).toBeUndefined();
   });
 
-  it("should ignore an unprefixed key of the same name", () => {
+  it("should ignore an unprefixed key of the same name", async () => {
     const storage = new FakeStorage();
     storage.setItem("a", JSON.stringify({ value: 1, expiresAt: Date.now() + 1000 }));
 
-    expect(new WebStorageCache({ storage }).get("a")).toBeUndefined();
+    expect(await new WebStorageCache({ storage }).get("a")).toBeUndefined();
   });
 
-  it("should return a copy rather than a reference", () => {
+  it("should return a copy rather than a reference", async () => {
     const cache = new WebStorageCache({ storage: new FakeStorage() });
     const value = { nested: { id: 1 } };
 
-    cache.set("a", value);
+    await cache.set("a", value);
     value.nested.id = 2;
 
-    expect(cache.get("a")).toEqual({ nested: { id: 1 } });
+    expect(await cache.get("a")).toEqual({ nested: { id: 1 } });
   });
 
-  it("should expire entries once the ttl elapses", () => {
+  it("should expire entries once the ttl elapses", async () => {
     vi.useFakeTimers();
 
     const storage = new FakeStorage();
     const cache = new WebStorageCache({ storage, ttl: 1000 });
-    cache.set("a", 1);
+    await cache.set("a", 1);
 
     vi.advanceTimersByTime(999);
-    expect(cache.get("a")).toBe(1);
+    expect(await cache.get("a")).toBe(1);
 
     vi.advanceTimersByTime(1);
-    expect(cache.get("a")).toBeUndefined();
+    expect(await cache.get("a")).toBeUndefined();
     expect(storage.length).toBe(0);
 
     vi.useRealTimers();
   });
 
-  it("should treat unreadable content as a miss and drop it", () => {
+  it("should treat unreadable content as a miss and drop it", async () => {
     const storage = new FakeStorage();
     storage.setItem("pokenode:a", "not json");
 
-    expect(new WebStorageCache({ storage }).get("a")).toBeUndefined();
+    expect(await new WebStorageCache({ storage }).get("a")).toBeUndefined();
     expect(storage.length).toBe(0);
   });
 
-  it("should make room by dropping expired entries when the quota is hit", () => {
+  it("should make room by dropping expired entries when the quota is hit", async () => {
     vi.useFakeTimers();
 
     const storage = new FakeStorage();
     const cache = new WebStorageCache({ storage, ttl: 1000 });
 
-    cache.set("a", 1);
-    cache.set("b", 2);
+    await cache.set("a", 1);
+    await cache.set("b", 2);
     storage.quota = 2;
 
     vi.advanceTimersByTime(2000);
-    cache.set("c", 3);
+    await cache.set("c", 3);
 
-    expect(cache.get("c")).toBe(3);
+    expect(await cache.get("c")).toBe(3);
     expect([...storage.entries.keys()]).toEqual(["pokenode:c"]);
 
     vi.useRealTimers();
   });
 
-  it("should drop the entries closest to expiring when nothing has expired", () => {
+  it("should drop the entries closest to expiring when nothing has expired", async () => {
     vi.useFakeTimers();
 
     const storage = new FakeStorage();
     const cache = new WebStorageCache({ storage, ttl: 10_000 });
 
     for (const key of ["a", "b", "c", "d"]) {
-      cache.set(key, key);
+      await cache.set(key, key);
       vi.advanceTimersByTime(1);
     }
 
     storage.quota = 4;
-    cache.set("e", "e");
+    await cache.set("e", "e");
 
-    expect(cache.get("a")).toBeUndefined();
-    expect(cache.get("b")).toBe("b");
-    expect(cache.get("e")).toBe("e");
+    expect(await cache.get("a")).toBeUndefined();
+    expect(await cache.get("b")).toBe("b");
+    expect(await cache.get("e")).toBe("e");
 
     vi.useRealTimers();
   });
 
-  it("should give up quietly when the entry cannot be stored at all", () => {
+  it("should give up quietly when the entry cannot be stored at all", async () => {
     const storage = new FakeStorage();
     storage.quota = 0;
 
     const cache = new WebStorageCache({ storage });
 
-    expect(() => cache.set("a", 1)).not.toThrow();
-    expect(cache.get("a")).toBeUndefined();
+    await expect(cache.set("a", 1)).resolves.toBeUndefined();
+    expect(await cache.get("a")).toBeUndefined();
   });
 
-  it("should drop a single entry on delete", () => {
+  it("should drop a single entry on delete", async () => {
     const storage = new FakeStorage();
     const cache = new WebStorageCache({ storage });
 
-    cache.set("a", 1);
-    cache.set("b", 2);
-    cache.delete("a");
+    await cache.set("a", 1);
+    await cache.set("b", 2);
+    await cache.delete("a");
 
-    expect(cache.get("a")).toBeUndefined();
-    expect(cache.get("b")).toBe(2);
+    expect(await cache.get("a")).toBeUndefined();
+    expect(await cache.get("b")).toBe(2);
   });
 
-  it("should clear only its own keys", () => {
+  it("should clear only its own keys", async () => {
     const storage = new FakeStorage();
     storage.setItem("app:session", "keep me");
 
     const cache = new WebStorageCache({ storage });
-    cache.set("a", 1);
-    cache.clear();
+    await cache.set("a", 1);
+    await cache.clear();
 
-    expect(cache.get("a")).toBeUndefined();
+    expect(await cache.get("a")).toBeUndefined();
     expect(storage.getItem("app:session")).toBe("keep me");
+  });
+
+  it("should treat a storage that refuses to be read as a miss", async () => {
+    const storage = new FakeStorage();
+    const cache = new WebStorageCache({ storage });
+
+    await cache.set("a", 1);
+    storage.getItem = () => {
+      throw new Error("SecurityError");
+    };
+
+    await expect(cache.get("a")).resolves.toBeUndefined();
+  });
+
+  it("should tolerate a storage that refuses to be enumerated", async () => {
+    const storage = new FakeStorage();
+    const cache = new WebStorageCache({ storage });
+
+    await cache.set("a", 1);
+    Object.defineProperty(storage, "length", {
+      get: () => {
+        throw new Error("SecurityError");
+      },
+    });
+
+    await expect(cache.clear()).resolves.toBeUndefined();
+  });
+
+  it("should work against a promise-based storage", async () => {
+    const storage = new FakeAsyncStorage();
+    const cache = new WebStorageCache({ storage });
+
+    await cache.set("a", { id: 1 });
+
+    expect(await cache.get("a")).toEqual({ id: 1 });
+  });
+
+  it("should clear only its own keys on a promise-based storage", async () => {
+    const storage = new FakeAsyncStorage();
+    await storage.setItem("app:session", "keep me");
+
+    const cache = new WebStorageCache({ storage });
+    await cache.set("a", 1);
+    await cache.clear();
+
+    expect(await cache.get("a")).toBeUndefined();
+    expect(await storage.getItem("app:session")).toBe("keep me");
+  });
+
+  it("should keep caching when the storage cannot be enumerated at all", async () => {
+    const entries = new Map<string, string>();
+    const storage: WebStorageLike = {
+      getItem: (key) => entries.get(key) ?? null,
+      setItem: (key, value) => {
+        entries.set(key, value);
+      },
+      removeItem: (key) => {
+        entries.delete(key);
+      },
+    };
+    const cache = new WebStorageCache({ storage });
+
+    await cache.set("a", 1);
+    expect(await cache.get("a")).toBe(1);
+
+    // Nothing to walk, so `clear` reaches no keys and leaves the entry in place.
+    await cache.clear();
+    expect(await cache.get("a")).toBe(1);
   });
 });

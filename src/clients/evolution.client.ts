@@ -1,5 +1,10 @@
 import { ENDPOINTS } from "@constants";
-import type { EvolutionChain, EvolutionTrigger, NamedAPIResourceList } from "@models";
+import type {
+  APIResourceList,
+  EvolutionChain,
+  EvolutionTrigger,
+  NamedAPIResourceList,
+} from "@models";
 import { BaseClient } from "./base";
 
 /**
@@ -48,8 +53,8 @@ export class EvolutionClient extends BaseClient {
   public async listEvolutionChains(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList<EvolutionChain>> {
-    return this.getListResource<EvolutionChain>(ENDPOINTS.EVOLUTION_CHAIN, offset, limit);
+  ): Promise<APIResourceList<EvolutionChain>> {
+    return this.getUnnamedListResource<EvolutionChain>(ENDPOINTS.EVOLUTION_CHAIN, offset, limit);
   }
 
   /**

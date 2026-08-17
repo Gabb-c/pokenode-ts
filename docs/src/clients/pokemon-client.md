@@ -73,7 +73,7 @@ console.log(luxray.stats.map((stat) => `${stat.stat.name}: ${stat.base_stat}`));
 | `getStatById(id)` | `Stat` |
 | `listStats(offset?, limit?)` | `NamedAPIResourceList` |
 | `getCharacteristicById(id)` | `Characteristic` |
-| `listCharacteristics(offset?, limit?)` | `NamedAPIResourceList` |
+| `listCharacteristics(offset?, limit?)` | `APIResourceList` |
 | `getPokeathlonStatByName(name)` | `PokeathlonStat` |
 | `getPokeathlonStatById(id)` | `PokeathlonStat` |
 | `listPokeathlonStats(offset?, limit?)` | `NamedAPIResourceList` |

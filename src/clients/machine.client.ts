@@ -1,5 +1,5 @@
 import { ENDPOINTS } from "@constants";
-import type { Machine, NamedAPIResourceList } from "@models";
+import type { APIResourceList, Machine } from "@models";
 import { BaseClient } from "./base";
 
 /**
@@ -26,10 +26,7 @@ export class MachineClient extends BaseClient {
    * @param limit How many resources per page. Defaults to 20.
    * @returns A paginated list of Machines.
    */
-  public async listMachines(
-    offset?: number,
-    limit?: number,
-  ): Promise<NamedAPIResourceList<Machine>> {
-    return this.getListResource<Machine>(ENDPOINTS.MACHINE, offset, limit);
+  public async listMachines(offset?: number, limit?: number): Promise<APIResourceList<Machine>> {
+    return this.getUnnamedListResource<Machine>(ENDPOINTS.MACHINE, offset, limit);
   }
 }

@@ -4,11 +4,19 @@ import { type Logger, type LogResponsePayload, logMessage } from "../config/logg
 import { BASE_URL, type Endpoint } from "../constants";
 import type {
   APIResource,
+  APIResourceList,
   NamedAPIResource,
   NamedAPIResourceList,
 } from "../models/Common/resource";
 
 const trimTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
+
+/** Builds the paginated request path shared by both list methods. */
+const listPath = (endpoint: Endpoint, offset: number, limit: number): string => {
+  const query = new URLSearchParams({ offset: String(offset), limit: String(limit) });
+
+  return `${endpoint}?${query}`;
+};
 
 /**
  * Drops the trailing slash from a request URL, leaving any query string alone.
@@ -295,7 +303,23 @@ export class BaseClient {
     offset = 0,
     limit = 20,
   ): Promise<NamedAPIResourceList<T>> {
-    const query = new URLSearchParams({ offset: String(offset), limit: String(limit) });
-    return this.request<NamedAPIResourceList<T>>(`${endpoint}?${query}`);
+    return this.request<NamedAPIResourceList<T>>(listPath(endpoint, offset, limit));
+  }
+
+  /**
+   * Retrieves a list of resources that have no name to list, with pagination support.
+   *
+   * @template T - What the listed links resolve to.
+   * @param endpoint - The endpoint of the resource.
+   * @param offset - The offset for pagination. Defaults to 0.
+   * @param limit - The limit for pagination. Defaults to 20.
+   * @returns A promise that resolves to a list of unnamed API resources.
+   */
+  protected async getUnnamedListResource<T = unknown>(
+    endpoint: Endpoint,
+    offset = 0,
+    limit = 20,
+  ): Promise<APIResourceList<T>> {
+    return this.request<APIResourceList<T>>(listPath(endpoint, offset, limit));
   }
 }

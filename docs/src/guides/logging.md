@@ -93,7 +93,7 @@ Will output:
 ```
 // success
 [ Request Config ] GET | https://pokeapi.co/api/v2/berry/cheri
-[ Response ] STATUS 200 | CACHED | 0.3ms
+[ Response ] STATUS 200 | CACHE | 0.3ms
 
 // error
 [ Request Config ] GET | https://pokeapi.co/api/v2/berry/cheri

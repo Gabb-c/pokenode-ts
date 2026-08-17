@@ -1,5 +1,11 @@
 import { ENDPOINTS } from "@constants";
-import type { ContestEffect, ContestType, NamedAPIResourceList, SuperContestEffect } from "@models";
+import type {
+  APIResourceList,
+  ContestEffect,
+  ContestType,
+  NamedAPIResourceList,
+  SuperContestEffect,
+} from "@models";
 import { BaseClient } from "./base";
 
 /**
@@ -71,8 +77,8 @@ export class ContestClient extends BaseClient {
   public async listContestEffects(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList<ContestEffect>> {
-    return this.getListResource<ContestEffect>(ENDPOINTS.CONTEST_EFFECT, offset, limit);
+  ): Promise<APIResourceList<ContestEffect>> {
+    return this.getUnnamedListResource<ContestEffect>(ENDPOINTS.CONTEST_EFFECT, offset, limit);
   }
 
   /**
@@ -84,7 +90,11 @@ export class ContestClient extends BaseClient {
   public async listSuperContestEffects(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList<SuperContestEffect>> {
-    return this.getListResource<SuperContestEffect>(ENDPOINTS.SUPER_CONTEST_EFFECT, offset, limit);
+  ): Promise<APIResourceList<SuperContestEffect>> {
+    return this.getUnnamedListResource<SuperContestEffect>(
+      ENDPOINTS.SUPER_CONTEST_EFFECT,
+      offset,
+      limit,
+    );
   }
 }

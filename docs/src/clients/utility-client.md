@@ -84,6 +84,37 @@ const first = await utility.getResourceByUrl(page.results[0]);
 //    ^? Pokemon
 ```
 
+### Lists without names
+
+Five sections have nothing to name their entries by — `machine`, `contest-effect`,
+`super-contest-effect`, `evolution-chain` and `characteristic` are identified by URL alone. Those
+methods return `APIResourceList` instead, whose entries are `{ url }` with no `name`:
+
+```ts
+const machines = await new MachineClient().listMachines();
+//    ^? APIResourceList<Machine>
+
+const machine = await utility.getResourceByUrl(machines.results[0]);
+//    ^? Machine
+```
+
+Everything else about them is the same — pagination, and following an entry through
+`getResourceByUrl`.
+
+::: warning A link that crosses the ESM/CJS boundary loses its type
+A link carries what it points at through a type-level marker, and the package ships separate
+declarations for its ESM and CJS builds, each with its own copy of that marker. A
+`NamedAPIResource` obtained through one build and passed to a `getResourceByUrl` from the other
+still assigns cleanly, but the marker no longer matches, so `T` falls back to `unknown` instead of
+the resource type.
+
+This needs a dependency between you and the library resolving pokenode-ts differently than you do,
+or two copies of it in `node_modules`. If a link ever comes back as `unknown` for no visible
+reason, that is why — name the type explicitly (`getResourceByUrl<Machine>(link.url)`) and it
+behaves as before. It is the same split that makes [`PokenodeError.isPokenodeError`](/guides/errors)
+the way to identify an error rather than `instanceof`.
+:::
+
 ### Which URLs are accepted
 
 The URL must name an endpoint under the client's `baseURL`. Anything else throws a `TypeError`

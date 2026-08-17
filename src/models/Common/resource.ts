@@ -5,6 +5,12 @@
  * every instantiation of it stays mutually assignable — so `NamedAPIResource<T>`
  * needs somewhere to carry `T`. This key exists only in the type system: it is
  * never present at runtime, and reading it is not the point.
+ *
+ * A `unique symbol` is nominal per declaration, and the package emits one set of
+ * declarations per module format — so a link crossing the ESM/CJS boundary keeps
+ * assigning structurally but stops carrying `T`, and comes back as `unknown`.
+ * Documented in `docs/src/clients/utility-client.md`, alongside the same split
+ * behind `PokenodeError.isPokenodeError`.
  */
 declare const RESOURCE_TYPE: unique symbol;
 
@@ -52,4 +58,24 @@ export interface APIResource<T = unknown> {
   url: string;
   /** Phantom. Never present at runtime. */
   readonly [RESOURCE_TYPE]?: T;
+}
+
+/**
+ * A paginated list whose entries are identified by URL alone.
+ *
+ * The `machine`, `contest-effect`, `super-contest-effect`, `evolution-chain` and
+ * `characteristic` sections have no names to list, so their entries carry a `url`
+ * and nothing else.
+ *
+ * @template T - What the listed links resolve to.
+ */
+export interface APIResourceList<T = unknown> {
+  /** The total number of resources available from this API. */
+  count: number;
+  /** The URL for the next page in the list. */
+  next: string | null;
+  /** The URL for the previous page in the list. */
+  previous: string | null;
+  /** A list of unnamed API resources. */
+  results: APIResource<T>[];
 }

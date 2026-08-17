@@ -1,6 +1,7 @@
 import { ENDPOINTS } from "@constants";
 import type {
   Ability,
+  APIResourceList,
   Characteristic,
   EggGroup,
   Gender,
@@ -338,8 +339,8 @@ export class PokemonClient extends BaseClient {
   public async listCharacteristics(
     offset?: number,
     limit?: number,
-  ): Promise<NamedAPIResourceList<Characteristic>> {
-    return this.getListResource<Characteristic>(ENDPOINTS.CHARACTERISTIC, offset, limit);
+  ): Promise<APIResourceList<Characteristic>> {
+    return this.getUnnamedListResource<Characteristic>(ENDPOINTS.CHARACTERISTIC, offset, limit);
   }
 
   /**

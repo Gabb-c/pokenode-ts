@@ -25,7 +25,7 @@ console.log(chain.chain.evolves_to[0].species.name); // "ivysaur"
 | Method | Returns |
 | --- | --- |
 | `getEvolutionChainById(id)` | `EvolutionChain` |
-| `listEvolutionChains(offset?, limit?)` | `NamedAPIResourceList` |
+| `listEvolutionChains(offset?, limit?)` | `APIResourceList` |
 
 ### Evolution triggers
 

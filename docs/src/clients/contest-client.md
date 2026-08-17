@@ -32,14 +32,14 @@ console.log(tough.berry_flavor.name); // "bitter"
 | Method | Returns |
 | --- | --- |
 | `getContestEffectById(id)` | `ContestEffect` |
-| `listContestEffects(offset?, limit?)` | `NamedAPIResourceList` |
+| `listContestEffects(offset?, limit?)` | `APIResourceList` |
 
 ### Super contest effects
 
 | Method | Returns |
 | --- | --- |
 | `getSuperContestEffectById(id)` | `SuperContestEffect` |
-| `listSuperContestEffects(offset?, limit?)` | `NamedAPIResourceList` |
+| `listSuperContestEffects(offset?, limit?)` | `APIResourceList` |
 
 ::: info
 Contest effects have no names upstream — the PokéAPI only addresses them by id, which is why there

@@ -19,6 +19,7 @@ import type * as M from "@models";
  */
 export interface Models {
   APIResource: M.APIResource;
+  APIResourceList: M.APIResourceList;
   Ability: M.Ability;
   AbilityEffectChange: M.AbilityEffectChange;
   AbilityFlavorText: M.AbilityFlavorText;
