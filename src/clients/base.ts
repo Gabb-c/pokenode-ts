@@ -1,6 +1,6 @@
 import { type CacheStore, MemoryCache } from "../config/cache";
 import { toPokenodeError } from "../config/errors";
-import { type Logger, logMessage } from "../config/logger";
+import { type Logger, type LogResponsePayload, logMessage } from "../config/logger";
 import { BASE_URL, type Endpoint } from "../constants";
 import type {
   APIResource,
@@ -89,6 +89,12 @@ const toEndpointPath = (resourceURL: string, baseURL: string): string => {
  */
 export type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
 
+/** A parsed response body and the status it arrived with. */
+interface FetchedResource {
+  data: unknown;
+  status: number;
+}
+
 /**
  * ## Client Options
  * Optional configuration accepted by every client.
@@ -129,7 +135,7 @@ export class BaseClient {
   private readonly logger: Logger | undefined;
   private readonly fetch: FetchLike;
   /** Requests already on the wire, so concurrent callers share one round trip. */
-  private readonly inFlight = new Map<string, Promise<unknown>>();
+  private readonly inFlight = new Map<string, Promise<FetchedResource>>();
 
   constructor(clientOptions?: ClientOptions) {
     this.baseURL = trimTrailingSlash(clientOptions?.baseURL ?? BASE_URL.REST);
@@ -173,52 +179,23 @@ export class BaseClient {
     if (cached !== undefined) {
       // A hit is timed like any other resolution: the number is small, but a
       // store on the far side of a network is not guaranteed to make it so.
-      this.logger?.debug({
-        event: "response",
-        ...logMessage("pokeapi response"),
-        url: redactCredentials(url),
-        status: 200,
-        cached: true,
-        durationMs: performance.now() - startedAt,
-      });
+      this.logResponse(url, 200, "cache", startedAt);
       return cached as T;
     }
 
+    // Every caller reports its own outcome, including one that only joined a
+    // request someone else started: a `request` event with no `response` to
+    // close it would make concurrent traffic unreadable. `source` is what keeps
+    // the count of round trips honest when several callers share one.
     const pending = this.inFlight.get(url);
+    const request = pending ?? this.dispatch(url);
 
-    if (pending) {
-      return pending as Promise<T>;
-    }
-
-    const request = this.fetchResource<T>(url, startedAt).finally(() => this.inFlight.delete(url));
-
-    this.inFlight.set(url, request);
-
-    return request;
-  }
-
-  private async fetchResource<T>(url: string, startedAt: number): Promise<T> {
     try {
-      const response = await this.fetch(url, { headers: { Accept: "application/json" } });
+      const { data, status } = await request;
 
-      if (!response.ok) {
-        throw await toPokenodeError(response);
-      }
+      this.logResponse(url, status, pending ? "in-flight" : "network", startedAt);
 
-      const data = (await response.json()) as T;
-
-      this.logger?.debug({
-        event: "response",
-        ...logMessage("pokeapi response"),
-        url: redactCredentials(url),
-        status: response.status,
-        cached: false,
-        durationMs: performance.now() - startedAt,
-      });
-
-      await this.cache?.set(url, data);
-
-      return data;
+      return data as T;
     } catch (error) {
       this.logger?.error({
         event: "error",
@@ -229,6 +206,45 @@ export class BaseClient {
       });
       throw error;
     }
+  }
+
+  /** Issues a request and remembers it, so a concurrent caller can share it. */
+  private dispatch(url: string): Promise<FetchedResource> {
+    const request = this.fetchResource(url).finally(() => this.inFlight.delete(url));
+
+    this.inFlight.set(url, request);
+
+    return request;
+  }
+
+  private async fetchResource(url: string): Promise<FetchedResource> {
+    const response = await this.fetch(url, { headers: { Accept: "application/json" } });
+
+    if (!response.ok) {
+      throw await toPokenodeError(response);
+    }
+
+    const data: unknown = await response.json();
+
+    await this.cache?.set(url, data);
+
+    return { data, status: response.status };
+  }
+
+  private logResponse(
+    url: string,
+    status: number,
+    source: LogResponsePayload["source"],
+    startedAt: number,
+  ): void {
+    this.logger?.debug({
+      event: "response",
+      ...logMessage("pokeapi response"),
+      url: redactCredentials(url),
+      status,
+      source,
+      durationMs: performance.now() - startedAt,
+    });
   }
 
   /**

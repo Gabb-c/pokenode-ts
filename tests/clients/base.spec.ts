@@ -133,6 +133,41 @@ describe("BaseClient", () => {
     expect(first).toEqual(second);
   });
 
+  it("should report an outcome to every caller sharing one request", async () => {
+    const calls = countingHandler(BERRY_URL);
+    const events: string[] = [];
+    const client = new TestClient({
+      cache: false,
+      logger: {
+        debug: (payload) =>
+          events.push(payload.event === "request" ? "request" : `response ${payload.source}`),
+        error: () => {},
+      },
+    });
+
+    await Promise.all([client.get("/berry", 1), client.get("/berry", 1)]);
+
+    expect(calls.count).toBe(1);
+    // Two calls in, two requests and two responses out — but only one of them
+    // reports a round trip, so counting `network` still counts what upstream saw.
+    expect(events).toEqual(["request", "request", "response network", "response in-flight"]);
+  });
+
+  it("should report a shared failure to every caller", async () => {
+    server.use(http.get(BERRY_URL, () => HttpResponse.json({}, { status: 500 })));
+
+    const errors: string[] = [];
+    const client = new TestClient({
+      cache: false,
+      logger: { debug: () => {}, error: ({ url }) => errors.push(url) },
+    });
+
+    const results = await Promise.allSettled([client.get("/berry", 1), client.get("/berry", 1)]);
+
+    expect(results.map((result) => result.status)).toEqual(["rejected", "rejected"]);
+    expect(errors).toEqual([BERRY_URL, BERRY_URL]);
+  });
+
   it("should stop sharing a request once it settles", async () => {
     const calls = countingHandler(BERRY_URL);
     const client = new TestClient({ cache: false });
@@ -373,7 +408,7 @@ describe("BaseClient", () => {
           events.push(
             payload.event === "request"
               ? `request ${payload.method} ${payload.url}`
-              : `response ${payload.url} ${payload.status} ${payload.cached}`,
+              : `response ${payload.url} ${payload.status} ${payload.source}`,
           ),
         error: ({ err }) => events.push(`error ${String(err)}`),
       },
@@ -384,9 +419,9 @@ describe("BaseClient", () => {
 
     expect(events).toEqual([
       `request GET ${BERRY_URL}`,
-      `response ${BERRY_URL} 200 false`,
+      `response ${BERRY_URL} 200 network`,
       `request GET ${BERRY_URL}`,
-      `response ${BERRY_URL} 200 true`,
+      `response ${BERRY_URL} 200 cache`,
     ]);
   });
 

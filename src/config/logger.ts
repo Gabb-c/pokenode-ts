@@ -32,8 +32,19 @@ export interface LogRequestPayload extends LogFields {
 export interface LogResponsePayload extends LogFields {
   event: "response";
   status: number;
-  /** Whether the response came from the cache rather than from a round trip. */
-  cached: boolean;
+  /**
+   * Where the response came from.
+   *
+   * - `network` — a round trip was made.
+   * - `cache` — served by the {@link CacheStore}; nothing left the process.
+   * - `in-flight` — an identical request was already on the wire and this caller
+   *   shared it, so it made no round trip of its own.
+   *
+   * Counting only `network` gives the number of requests the PokéAPI actually
+   * saw. Every caller reports, so counting all three gives the number of calls
+   * the application made.
+   */
+  source: "network" | "cache" | "in-flight";
   /** How long the client took to resolve the request, in milliseconds. */
   durationMs: number;
 }
@@ -95,7 +106,7 @@ export const consoleLogger: Logger = {
     console.log(
       payload.event === "request"
         ? `[ Request Config ] ${payload.method} | ${payload.url}`
-        : `[ Response ] STATUS ${payload.status} | ${payload.cached ? "CACHED" : "NOT CACHED"} | ${payload.durationMs.toFixed(1)}ms`,
+        : `[ Response ] STATUS ${payload.status} | ${payload.source.toUpperCase()} | ${payload.durationMs.toFixed(1)}ms`,
     );
   },
 

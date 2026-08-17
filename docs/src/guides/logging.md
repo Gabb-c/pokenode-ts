@@ -49,12 +49,12 @@ One object per event, with every field at the top level so a structured logger i
 | `event` | Method | Fields |
 | --- | --- | --- |
 | `request` | `debug` | `method`, `url` |
-| `response` | `debug` | `url`, `status`, `cached`, `durationMs` |
+| `response` | `debug` | `url`, `status`, `source`, `durationMs` |
 | `error` | `error` | `url`, `err`, `error` |
 
 ```jsonc
 // pino
-{"level":30,"event":"response","msg":"pokeapi response","url":"https://pokeapi.co/api/v2/berry/1","status":200,"cached":false,"durationMs":84.2}
+{"level":30,"event":"response","msg":"pokeapi response","url":"https://pokeapi.co/api/v2/berry/1","status":200,"source":"network","durationMs":84.2}
 ```
 
 Two fields are deliberately duplicated, and both are there so that no library needs an adapter:
@@ -102,9 +102,20 @@ Will output:
 
 ## Details worth knowing
 
-`debug` is called for cache hits too, with `cached` set to `true` and a status of `200` — no request
-left the process. `durationMs` covers everything the client did, so a hit is timed as well as a
-round trip; a store that lives across a network shows up here.
+Every call reports, whether or not it caused a request. `source` says which of the three happened:
+
+| `source` | Meaning |
+| --- | --- |
+| `network` | A round trip was made. |
+| `cache` | Served by the `CacheStore`; nothing left the process. Status is reported as `200`. |
+| `in-flight` | An identical request was already on the wire and this call shared it. |
+
+That distinction is what keeps counts honest. Two concurrent calls for the same resource produce
+**two** `request` events and **two** `response` events, but only one round trip — so count `source
+== 'network'` for what the PokéAPI actually saw, and all three for what your application asked for.
+
+`durationMs` covers everything the client did, so a cache hit and a shared request are timed like
+any other resolution; a store that lives across a network shows up here.
 
 `method` arrives uppercase, matching RFC 9110 and OpenTelemetry's `http.request.method`, so it can
 be forwarded as a label without normalising it first.

@@ -36,11 +36,11 @@ describe("consoleLogger", () => {
       message: "pokeapi response",
       url,
       status: 200,
-      cached: false,
+      source: "network",
       durationMs: 12.34,
     });
 
-    expect(consoleLogSpy).toHaveBeenCalledWith("[ Response ] STATUS 200 | NOT CACHED | 12.3ms");
+    expect(consoleLogSpy).toHaveBeenCalledWith("[ Response ] STATUS 200 | NETWORK | 12.3ms");
   });
 
   it("should flag cached responses", () => {
@@ -50,11 +50,11 @@ describe("consoleLogger", () => {
       message: "pokeapi response",
       url,
       status: 200,
-      cached: true,
+      source: "cache",
       durationMs: 0.04,
     });
 
-    expect(consoleLogSpy).toHaveBeenCalledWith("[ Response ] STATUS 200 | CACHED | 0.0ms");
+    expect(consoleLogSpy).toHaveBeenCalledWith("[ Response ] STATUS 200 | CACHE | 0.0ms");
   });
 
   it("should log an error", () => {
