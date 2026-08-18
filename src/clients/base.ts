@@ -1,4 +1,4 @@
-import { type CacheStore, EtagStore, MemoryCache } from "../config/cache";
+import { type CacheStore, type EtagEntry, EtagStore, MemoryCache } from "../config/cache";
 import { toPokenodeError } from "../config/errors";
 import { type Logger, type LogResponsePayload, logMessage } from "../config/logger";
 import { BASE_URL, type Endpoint } from "../constants";
@@ -156,6 +156,18 @@ interface FetchedResource {
   /** Whether the body came from an {@link EtagStore} rather than off the wire. */
   revalidated?: boolean;
 }
+
+/** Where a resolution came from, as the response log reports it. */
+const responseSource = (
+  pending: boolean,
+  revalidated: boolean | undefined,
+): LogResponsePayload["source"] => {
+  if (pending) {
+    return "in-flight";
+  }
+
+  return revalidated === true ? "revalidated" : "network";
+};
 
 /**
  * A request already on the wire, and what it takes to cancel it.
@@ -447,12 +459,7 @@ export class BaseClient {
       const entry = pending ?? this.dispatch(url, authorization, signal);
       const { data, status, revalidated } = await this.join(url, entry, signal);
 
-      this.logResponse(
-        url,
-        status,
-        pending ? "in-flight" : revalidated ? "revalidated" : "network",
-        startedAt,
-      );
+      this.logResponse(url, status, responseSource(pending !== undefined, revalidated), startedAt);
 
       return data as T;
     } catch (error) {
@@ -596,8 +603,6 @@ export class BaseClient {
     };
     const init = signal ? { headers, signal } : { headers };
     const attempts = this.retry ? Math.max(this.retry.attempts ?? DEFAULT_RETRY_ATTEMPTS, 1) : 1;
-    const statuses = this.retry?.statuses ?? DEFAULT_RETRY_STATUSES;
-    const maxDelay = this.retry?.maxDelay ?? DEFAULT_MAX_DELAY;
 
     for (let attempt = 1; ; attempt += 1) {
       const isLast = attempt >= attempts;
@@ -615,38 +620,13 @@ export class BaseClient {
         continue;
       }
 
-      // Checked before `ok`, which a 304 is not: nothing changed, so the body
-      // that was sent with the validator is still the answer.
-      if (known !== undefined && response.status === 304) {
-        await this.cache?.set(url, known.value);
+      const resolved = await this.resolveResponse(url, response, known);
 
-        return { data: known.value, status: response.status, revalidated: true };
+      if (resolved !== undefined) {
+        return resolved;
       }
 
-      if (response.ok) {
-        const data: unknown = await response.json();
-        const etag = response.headers.get("ETag");
-
-        if (etag !== null) {
-          this.etags?.set(url, { etag, value: data });
-        }
-
-        await this.cache?.set(url, data);
-
-        return { data, status: response.status };
-      }
-
-      if (isLast || !statuses.includes(response.status)) {
-        throw await toPokenodeError(response);
-      }
-
-      const retryAfter = toRetryAfterMs(response.headers.get("Retry-After"));
-
-      // Asked to wait longer than this client is willing to: waiting less is
-      // exactly what the header exists to prevent, so the attempt is the last.
-      if (retryAfter !== undefined && retryAfter > maxDelay) {
-        throw await toPokenodeError(response);
-      }
+      const retryAfter = await this.retryDelay(response, isLast);
 
       // The body is going nowhere, and an undrained one holds its connection.
       // Not awaited: an intercepted response may never settle the cancellation,
@@ -654,6 +634,64 @@ export class BaseClient {
       response.body?.cancel().catch(() => {});
       await this.backoff(url, attempt, response.status, retryAfter, signal);
     }
+  }
+
+  /**
+   * The resource a response carries, or nothing when it carries none and another
+   * attempt is the question.
+   */
+  private async resolveResponse(
+    url: string,
+    response: Response,
+    known: EtagEntry | undefined,
+  ): Promise<FetchedResource | undefined> {
+    // Checked before `ok`, which a 304 is not: nothing changed, so the body
+    // that was sent with the validator is still the answer.
+    if (known !== undefined && response.status === 304) {
+      await this.cache?.set(url, known.value);
+
+      return { data: known.value, status: response.status, revalidated: true };
+    }
+
+    if (!response.ok) {
+      return undefined;
+    }
+
+    const data: unknown = await response.json();
+    const etag = response.headers.get("ETag");
+
+    if (etag !== null) {
+      this.etags?.set(url, { etag, value: data });
+    }
+
+    await this.cache?.set(url, data);
+
+    return { data, status: response.status };
+  }
+
+  /**
+   * How long `Retry-After` asks this client to wait, or nothing when the wait is
+   * the backoff's to calculate.
+   *
+   * @throws {PokenodeError} If the failure is not one this client attempts again.
+   */
+  private async retryDelay(response: Response, isLast: boolean): Promise<number | undefined> {
+    const statuses = this.retry?.statuses ?? DEFAULT_RETRY_STATUSES;
+    const maxDelay = this.retry?.maxDelay ?? DEFAULT_MAX_DELAY;
+
+    if (isLast || !statuses.includes(response.status)) {
+      throw await toPokenodeError(response);
+    }
+
+    const retryAfter = toRetryAfterMs(response.headers.get("Retry-After"));
+
+    // Asked to wait longer than this client is willing to: waiting less is
+    // exactly what the header exists to prevent, so the attempt is the last.
+    if (retryAfter !== undefined && retryAfter > maxDelay) {
+      throw await toPokenodeError(response);
+    }
+
+    return retryAfter;
   }
 
   /**
