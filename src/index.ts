@@ -1,4 +1,19 @@
-export * from "@clients";
+export {
+  BerryClient,
+  ContestClient,
+  CurrencyClient,
+  EncounterClient,
+  EvolutionClient,
+  GameClient,
+  ItemClient,
+  LocationClient,
+  MachineClient,
+  MainClient,
+  MoveClient,
+  PokemonClient,
+  type ResolveOptions,
+  UtilityClient,
+} from "@clients";
 export {
   type CacheStore,
   type EtagEntry,
@@ -22,7 +37,13 @@ export {
 export * from "@constants";
 export * as CONSTANTS from "@constants";
 export * from "@models";
-export * from "@utils";
+export {
+  getPokemonSpriteUrl,
+  type Localized,
+  localize,
+  type PokemonSpriteOptions,
+  type SpriteVariant,
+} from "@utils";
 export type {
   ClientOptions,
   FetchLike,
