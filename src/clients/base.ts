@@ -2,13 +2,13 @@ import { type CacheStore, EtagStore, MemoryCache } from "../config/cache";
 import { toPokenodeError } from "../config/errors";
 import { type Logger, type LogResponsePayload, logMessage } from "../config/logger";
 import { BASE_URL, type Endpoint } from "../constants";
+import { DEFAULT_CONCURRENCY, mapWithConcurrency } from "../internal/pool";
 import type {
   APIResource,
   APIResourceList,
   NamedAPIResource,
   NamedAPIResourceList,
 } from "../models/common/resource";
-import { DEFAULT_CONCURRENCY, mapWithConcurrency } from "../utils/pool";
 
 /**
  * Scanned rather than matched with `/\/+$/`: that pattern backtracks through
