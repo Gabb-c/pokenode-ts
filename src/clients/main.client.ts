@@ -1,5 +1,5 @@
 import { type CacheStore, EtagStore, MemoryCache } from "../config/cache";
-import type { APIResource, NamedAPIResource } from "../models/Common/resource";
+import type { APIResource, NamedAPIResource } from "../models/common/resource";
 import { DEFAULT_CONCURRENCY, mapWithConcurrency } from "../utils/pool";
 import type { ClientOptions, RequestScope } from "./base";
 import { BerryClient } from "./berry.client";

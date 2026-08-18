@@ -1,0 +1,12 @@
+import type { Generation } from "../game/generation";
+import type { NamedAPIResource } from "./resource";
+
+/**
+ * The generation relevant to this game index.
+ */
+export interface GenerationGameIndex {
+  /** The internal id of an API resource within game data. */
+  game_index: number;
+  /** The generation relevant to this game index. */
+  generation: NamedAPIResource<Generation>;
+}

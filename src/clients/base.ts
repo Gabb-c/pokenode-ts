@@ -7,7 +7,7 @@ import type {
   APIResourceList,
   NamedAPIResource,
   NamedAPIResourceList,
-} from "../models/Common/resource";
+} from "../models/common/resource";
 import { DEFAULT_CONCURRENCY, mapWithConcurrency } from "../utils/pool";
 
 /**
