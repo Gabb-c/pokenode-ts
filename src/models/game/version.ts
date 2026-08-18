@@ -1,6 +1,6 @@
 import type { Name, NamedAPIResource } from "../common";
 import type { Region } from "../location/region";
-import type { MoveLearnMethod } from "../moves/moves";
+import type { MoveLearnMethod } from "../move/move";
 import type { Generation } from "./generation";
 import type { Pokedex } from "./pokedex";
 

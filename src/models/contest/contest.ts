@@ -1,7 +1,7 @@
 import type { BerryFlavor } from "../berry/berry";
 import type { Effect, NamedAPIResource } from "../common";
 import type { Language } from "../common/language";
-import type { Move } from "../moves/moves";
+import type { Move } from "../move/move";
 
 /**
  * ## Contest Type

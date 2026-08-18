@@ -1,5 +1,5 @@
 import type { Description, NamedAPIResource } from "../common";
-import type { Stat } from "./stats";
+import type { Stat } from "./stat";
 
 /**
  * ## Characteristic

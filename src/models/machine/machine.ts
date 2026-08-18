@@ -1,7 +1,7 @@
 import type { NamedAPIResource } from "../common";
 import type { VersionGroup } from "../game/version";
 import type { Item } from "../item/item";
-import type { Move } from "../moves/moves";
+import type { Move } from "../move/move";
 
 /**
  * ## Machine

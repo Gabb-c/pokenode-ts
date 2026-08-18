@@ -15,11 +15,11 @@ import type { Version, VersionGroup } from "../game/version";
 import type { Item } from "../item/item";
 import type { LocationArea } from "../location/location";
 import type { PalParkArea } from "../location/palpark";
-import type { Move, MoveLearnMethod } from "../moves/moves";
+import type { Move, MoveLearnMethod } from "../move/move";
 import type { Ability } from "./ability";
 import type { EggGroup } from "./egg-group";
-import type { GrowthRate } from "./growth-rates";
-import type { Stat } from "./stats";
+import type { GrowthRate } from "./growth-rate";
+import type { Stat } from "./stat";
 import type { Type } from "./type";
 
 /**

@@ -8,5 +8,5 @@ export * from "./game";
 export * from "./item";
 export * from "./location";
 export * from "./machine";
-export * from "./moves";
+export * from "./move";
 export * from "./pokemon";

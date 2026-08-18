@@ -1,7 +1,7 @@
 import type { APIResource, Name, NamedAPIResource } from "../common";
 import type { Item } from "../item/item";
-import type { Move, MoveDamageClass } from "../moves/moves";
-import type { Characteristic } from "./characteristics";
+import type { Move, MoveDamageClass } from "../move/move";
+import type { Characteristic } from "./characteristic";
 import type { Nature } from "./nature";
 
 /**

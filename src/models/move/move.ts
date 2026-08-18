@@ -12,7 +12,7 @@ import type { Generation } from "../game/generation";
 import type { VersionGroup } from "../game/version";
 import type { AbilityEffectChange } from "../pokemon";
 import type { Pokemon } from "../pokemon/pokemon";
-import type { Stat } from "../pokemon/stats";
+import type { Stat } from "../pokemon/stat";
 import type { Type } from "../pokemon/type";
 
 /**

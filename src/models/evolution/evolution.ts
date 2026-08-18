@@ -3,7 +3,7 @@ import type { VersionGroup } from "../game/version";
 import type { Item } from "../item/item";
 import type { Location } from "../location/location";
 import type { Region } from "../location/region";
-import type { Move } from "../moves/moves";
+import type { Move } from "../move/move";
 import type { PokemonForm, PokemonSpecies } from "../pokemon/pokemon";
 import type { Type } from "../pokemon/type";
 

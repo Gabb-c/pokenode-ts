@@ -1,8 +1,8 @@
 import type { BerryFlavor } from "../berry/berry";
 import type { Name, NamedAPIResource } from "../common";
-import type { MoveBattleStyle } from "../moves/moves";
+import type { MoveBattleStyle } from "../move/move";
 import type { PokeathlonStat } from "./pokeathlon-stat";
-import type { Stat } from "./stats";
+import type { Stat } from "./stat";
 
 /**
  * ## Nature

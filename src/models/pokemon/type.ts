@@ -1,6 +1,6 @@
 import type { GenerationGameIndex, Name, NamedAPIResource } from "../common";
 import type { Generation } from "../game/generation";
-import type { Move, MoveDamageClass } from "../moves/moves";
+import type { Move, MoveDamageClass } from "../move/move";
 import type { Pokemon } from "./pokemon";
 
 /**

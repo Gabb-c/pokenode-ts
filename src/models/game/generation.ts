@@ -1,6 +1,6 @@
 import type { Name, NamedAPIResource } from "../common";
 import type { Region } from "../location/region";
-import type { Move } from "../moves/moves";
+import type { Move } from "../move/move";
 import type { Ability } from "../pokemon/ability";
 import type { PokemonSpecies } from "../pokemon/pokemon";
 import type { Type } from "../pokemon/type";
