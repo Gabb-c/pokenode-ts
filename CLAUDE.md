@@ -26,7 +26,7 @@ Match CI before opening a PR: `pnpm lint:ci && pnpm typecheck && pnpm test:cover
 
 ## Architecture
 
-**Layers.** `src/models/` (pure types mirroring PokéAPI schemas) → `src/constants/` (endpoint paths + name→ID enum maps) → `src/clients/` (one class per PokéAPI section) → `src/index.ts` (single public barrel).
+**Layers.** `src/models/` (pure types mirroring PokéAPI schemas) → `src/constants/` (endpoint paths + name→ID enum maps) → `src/clients/` (one class per PokéAPI section) → `src/index.ts` (single public barrel). `src/utils/` holds public helpers; `src/internal/` holds helpers the barrel deliberately does not export.
 
 **`BaseClient` (`src/clients/base.ts`) holds all transport logic.** Every section client is a thin subclass whose methods just call `getResource(endpoint, id)`, `getResourceByURL(url)`, or `getListResource(endpoint, offset, limit)`. Adding an endpoint means: add the path to `src/constants/endpoints.ts`, the response type under `src/models/`, and a one-line method on the section client. Do not put fetch/cache/logging logic in a section client.
 
@@ -40,7 +40,7 @@ The request pipeline in `BaseClient.request` is: cache lookup → in-flight dedu
 
 **Cache** (`src/config/cache.ts`) — `CacheStore` is a 2-required-method interface (`get`/`set`, optional `delete`/`clear`), every method may return a promise so Redis/KV backends work unchanged. Default `MemoryCache` is LRU + TTL. `clear` is optional on purpose: the library must not flush someone's shared Redis.
 
-**Resource links** (`src/models/Common/resource.ts`) — `NamedAPIResource<T>`/`APIResource<T>` carry `T` on a phantom `unique symbol` key, which is what types `getResourceByUrl(link)`. Nominal per declaration, so a link crossing the ESM/CJS boundary degrades to `unknown` — same dual-build split as `PokenodeError` below. The five sections whose list entries have no `name` (`machine`, `contest-effect`, `super-contest-effect`, `evolution-chain`, `characteristic`) return `APIResourceList<T>` via `BaseClient.getUnnamedListResource`, not `NamedAPIResourceList<T>`.
+**Resource links** (`src/models/common/resource.ts`) — `NamedAPIResource<T>`/`APIResource<T>` carry `T` on a phantom `unique symbol` key, which is what types `getResourceByUrl(link)`. Nominal per declaration, so a link crossing the ESM/CJS boundary degrades to `unknown` — same dual-build split as `PokenodeError` below. The five sections whose list entries have no `name` (`machine`, `contest-effect`, `super-contest-effect`, `evolution-chain`, `characteristic`) return `APIResourceList<T>` via `BaseClient.getUnnamedListResource`, not `NamedAPIResourceList<T>`.
 
 **Errors** (`src/config/errors.ts`) — non-2xx rejects with `PokenodeError`; transport failures propagate untouched. `PokenodeError` is matched via the static `isPokenodeError` guard on a `kind` brand, **not** `instanceof` — a tree loading both the ESM and CJS build has two distinct classes. Keep the guard in any new error-handling code and docs.
 
@@ -82,6 +82,19 @@ itself is down, and files a `live-drift` issue on failure.
 ## Conventions
 
 - Biome owns formatting and linting (100 cols, 2 spaces, LF). Don't hand-format around it or loosen a rule to pass a diff.
+- **Naming.** Directories and files under `src/` and `tests/` are lowercase kebab-case. Role suffixes
+  are dotted, not hyphenated: `berry.client.ts`, `berry.spec.ts`, `drift.live.spec.ts`. A `src/models/`
+  file is named after the resource it describes, singular, and holds that resource's satellite types
+  with it (`stat.ts` holds `Stat`, `NatureStatAffectSets`, `MoveStatAffect`). A `src/constants/` file
+  is named after the collection it contains, so those stay plural (`berries.ts`, `moves.ts`) — the
+  section name is only singular where the file is not a plural set (`pokemon.ts`, `urls.ts`).
+  `useFilenamingConvention` enforces the file half of this; **it does not check directory names**, so
+  a PascalCase directory passes lint — that one is on review.
+- Filenames under `docs/src/` are exempt: with `cleanUrls` in `vercel.json` they *are* the published
+  URLs, so they stay hyphenated (`berry-client.md`) and renaming one breaks inbound links.
+- **`src/index.ts` names what it exports** from `@clients` and `@utils`, so adding a public API is a
+  deliberate edit rather than a side effect of exporting from a leaf file. `@models` and `@constants`
+  keep `export *` — every symbol in them is public by construction.
 - Conventional Commits, enforced by commitlint on `commit-msg`. release-please reads the history to pick the version and write the changelog, so `feat:`/`fix:`/`!` choices are functional, not cosmetic.
 - lefthook runs biome + `tsc --noEmit` on staged files pre-commit.
 - Behavior changes must update the matching page under `docs/src/` (guides + one page per client).

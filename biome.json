@@ -27,7 +27,17 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "preset": "recommended"
+      "preset": "recommended",
+      "style": {
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": {
+            "filenameCases": ["kebab-case"],
+            "strictCase": true,
+            "requireAscii": true
+          }
+        }
+      }
     }
   },
   "formatter": {
