@@ -95,6 +95,21 @@ set of links, see [Pagination](/guides/pagination).
 where you would look for it.
 :::
 
+## Scoping a request
+
+`with()` derives a client whose requests carry a signal, a timeout, or both — across all twelve
+sections at once, which is usually what a server handler wants:
+
+```ts
+const scoped = api.with({ signal: request.signal, timeout: 2000 });
+
+const pokemon = await scoped.pokemon.getPokemonByName('luxray');
+const species = await scoped.resolve(pokemon.species);
+```
+
+The derived client shares this one's cache and its in-flight requests, and leaves it untouched.
+Derive one per unit of work rather than per call. See [Cancellation](/guides/cancellation).
+
 ## Options
 
 `MainClient` takes the same [options](/guides/getting-started#configuring-a-client) as any client

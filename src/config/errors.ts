@@ -22,8 +22,12 @@ export class PokenodeError extends Error {
   /** Parsed response body, when the error response carried JSON. */
   readonly body: unknown;
 
-  constructor(response: Response, body: unknown) {
-    super(`Request to ${response.url} failed with status ${response.status}`);
+  /**
+   * @param message Overrides the default text, for a status whose failure is not
+   *   self-explanatory.
+   */
+  constructor(response: Response, body: unknown, message?: string) {
+    super(message ?? `Request to ${response.url} failed with status ${response.status}`);
 
     this.status = response.status;
     this.statusText = response.statusText;
@@ -47,7 +51,10 @@ export class PokenodeError extends Error {
  * it is JSON. The PokéAPI answers 404s with plain text, so a parse failure is
  * expected and leaves `body` undefined.
  */
-export const toPokenodeError = async (response: Response): Promise<PokenodeError> => {
+export const toPokenodeError = async (
+  response: Response,
+  message?: string,
+): Promise<PokenodeError> => {
   let body: unknown;
 
   try {
@@ -56,5 +63,5 @@ export const toPokenodeError = async (response: Response): Promise<PokenodeError
     body = undefined;
   }
 
-  return new PokenodeError(response, body);
+  return new PokenodeError(response, body, message);
 };

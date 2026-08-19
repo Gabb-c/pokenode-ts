@@ -98,15 +98,19 @@ console.log(page.count); // total number of Pokémon
 console.log(page.results[0]); // { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/1/' }
 ```
 
-To turn a reference into the resource it points at, hand its `url` to the
-[`UtilityClient`](/clients/utility-client):
+To turn a reference into the resource it points at, hand the reference itself to the
+[`UtilityClient`](/clients/utility-client) — a link carries what it points at, so nothing needs
+naming:
 
 ```ts
-import { UtilityClient, type Pokemon } from 'pokenode-ts';
+import { UtilityClient } from 'pokenode-ts';
 
 const utility = new UtilityClient();
-const bulbasaur = await utility.getResourceByUrl<Pokemon>(page.results[0].url);
+const bulbasaur = await utility.getResourceByUrl(page.results[0]);
+//    ^? Pokemon
 ```
+
+To walk every page rather than fetch one, see [Walking a whole section](#walking-a-whole-section).
 
 ## Using constants
 
@@ -164,7 +168,8 @@ const api = new PokemonClient({
   cache: new MemoryCache({ ttl: 60_000, maxEntries: 100 }),
   logger: consoleLogger,
   baseURL: 'https://pokeapi.co/api/v2',
-  fetch: (url, init) => fetch(url, { ...init, signal: AbortSignal.timeout(5000) }),
+  retry: { attempts: 3 },
+  revalidate: true,
 });
 ```
 
@@ -173,12 +178,31 @@ const api = new PokemonClient({
 | `cache` | An in-memory LRU store, 5 minute TTL | [Cache](/guides/cache) |
 | `logger` | None — nothing is logged | [Logging](/guides/logging) |
 | `fetch` | The global `fetch` | [Custom Fetch](/guides/fetch) |
+| `retry` | Off — each request is attempted once | [Retries](/guides/fetch#retries) |
+| `revalidate` | Off — an expired entry is downloaded again in full | [Revalidation](/guides/cache#revalidation) |
 | `baseURL` | `https://pokeapi.co/api/v2` | Point at a self-hosted PokéAPI |
+
+Cancellation is deliberately not on this list — see below.
 
 ::: tip Self-hosting the API
 The PokéAPI asks that you cache aggressively and, for anything heavy, [run your own
 instance](https://github.com/PokeAPI/pokeapi#docker). `baseURL` is how you point at it.
 :::
+
+## Timeouts and cancellation
+
+Clients carry no timeout, and a signal is not a client option: a signal belongs to one unit of work
+while a client outlives many, so a client built around one is dead the moment it aborts. Derive a
+**scoped** client instead, once per request handler or job:
+
+```ts
+const scoped = api.with({ signal: request.signal, timeout: 2000 });
+
+const pokemon = await scoped.getPokemonByName('luxray');
+```
+
+The derived client shares the original's cache and its in-flight requests, so scoping costs nothing
+in extra round trips. See [Cancellation](/guides/cancellation).
 
 ## Following links
 
@@ -191,17 +215,39 @@ import { MainClient } from 'pokenode-ts';
 const api = new MainClient();
 
 const pokemon = await api.pokemon.getPokemonByName('luxray');
-const species = await api.utility.getResourceByUrl(pokemon.species);
+const species = await api.resolve(pokemon.species);
 //    ^? PokemonSpecies
 
-const chain = await api.utility.getResourceByUrl(species.evolution_chain);
+const chain = await api.resolve(species.evolution_chain);
 //    ^? EvolutionChain
 ```
 
+`resolveAll()` takes several at once, four requests at a time, and returns them in the order given:
+
+```ts
+const types = await api.resolveAll(pokemon.types.map((slot) => slot.type));
+//    ^? Type[]
+```
+
 Because `MainClient` shares one cache across its twelve sub-clients, a resource reached this way is
-served from memory if any of them fetched it already. See the
-[Utility Client](/clients/utility-client) for the details, including what happens with a bare URL
-string.
+served from memory if any of them fetched it already. On a standalone client the same call spells
+`api.utility.getResourceByUrl(link)`. See the [Utility Client](/clients/utility-client) for the
+details, including what happens with a bare URL string.
+
+## Walking a whole section
+
+`paginate()` turns a `list*` method into an async iterable and manages the offset itself:
+
+```ts
+for await (const berry of api.berry.paginate((offset, limit) =>
+  api.berry.listBerries(offset, limit),
+)) {
+  console.log(berry.name); // one link at a time, every page
+}
+```
+
+Pass `{ resolve: true }` and each link is fetched for you, four at a time. Break out of the loop and
+nothing further is requested. See [Pagination](/guides/pagination).
 
 ## Coming from 1.x?
 

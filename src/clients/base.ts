@@ -55,9 +55,23 @@ const normalizeURL = (url: string): string => {
 /** A path segment naming an API version, as in `/api/v2/berry/1`. */
 const API_VERSION_SEGMENT = /^v\d+$/;
 
+/**
+ * Percent-decodes one userinfo component, leaving a component that cannot be
+ * decoded as it stands: `URL` accepts sequences `decodeURIComponent` rejects —
+ * `us%zzer` parses and then throws — and a credential nobody can decode is still
+ * worth sending as written rather than failing the request over.
+ */
+const decodeUserinfo = (component: string): string => {
+  try {
+    return decodeURIComponent(component);
+  } catch {
+    return component;
+  }
+};
+
 /** Base64-encodes userinfo as RFC 7617 wants it: UTF-8 bytes, percent-decoded. */
 const toBasicAuth = (username: string, password: string): string => {
-  const userinfo = `${decodeURIComponent(username)}:${decodeURIComponent(password)}`;
+  const userinfo = `${decodeUserinfo(username)}:${decodeUserinfo(password)}`;
   const bytes = new TextEncoder().encode(userinfo);
   let latin1 = "";
 
@@ -222,13 +236,21 @@ const toRetryAfterMs = (header: string | null): number | undefined => {
     return undefined;
   }
 
-  const seconds = Number(header);
+  // `Number("")` is a finite 0, which would read a blank header as permission to
+  // retry immediately — the opposite of what the header is ever sent to say.
+  const value = header.trim();
+
+  if (value === "") {
+    return undefined;
+  }
+
+  const seconds = Number(value);
 
   if (Number.isFinite(seconds)) {
     return Math.max(seconds, 0) * 1_000;
   }
 
-  const date = Date.parse(header);
+  const date = Date.parse(value);
 
   return Number.isNaN(date) ? undefined : Math.max(date - Date.now(), 0);
 };
@@ -647,7 +669,17 @@ export class BaseClient {
   ): Promise<FetchedResource | undefined> {
     // Checked before `ok`, which a 304 is not: nothing changed, so the body
     // that was sent with the validator is still the answer.
-    if (known !== undefined && response.status === 304) {
+    if (response.status === 304) {
+      if (known === undefined) {
+        // Nothing here asked for it, so nothing here can satisfy it — an
+        // intermediary added a validator of its own. Reported on its own terms
+        // rather than left to fall through as an unexplained failed status.
+        throw await toPokenodeError(
+          response,
+          `Request to ${response.url} was answered 304, but this client holds no response to reuse`,
+        );
+      }
+
       await this.cache?.set(url, known.value);
 
       return { data: known.value, status: response.status, revalidated: true };

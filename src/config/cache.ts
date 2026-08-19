@@ -284,7 +284,7 @@ export class WebStorageCache implements CacheStore {
 
   async clear(): Promise<void> {
     for (const key of await this.ownKeys()) {
-      await this.storage.removeItem(key);
+      await this.remove(key);
     }
   }
 

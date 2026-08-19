@@ -102,13 +102,17 @@ Transport failures — offline, DNS — are not wrapped. They reject with the na
 
 ## Timeouts and cancellation
 
-Neither 1.x nor 2.0 imposes a timeout, and clients add no `AbortSignal` of their own. Supply one
-through a [custom fetch](/guides/fetch):
+Neither 1.x nor 2.0 imposes a timeout of its own. In 2.0, derive a **scoped** client with `with()`
+rather than reaching for the constructor:
 
 ```js
-new BerryClient({
-  fetch: (url, init) => fetch(url, { ...init, signal: AbortSignal.timeout(5000) }),
-});
+const api = new BerryClient();
+
+await api.with({ timeout: 5000 }).getBerryByName('cheri');
 ```
+
+`with()` takes a `signal` too, and `MainClient#with` scopes all twelve sections at once. A signal
+belongs to one unit of work while a client outlives many, which is why it is not a client option.
+See [Cancellation](/guides/cancellation).
 
 An abort rejects with the runtime's own `DOMException`, not with a pokenode error.

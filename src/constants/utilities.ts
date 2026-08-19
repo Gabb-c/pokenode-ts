@@ -12,4 +12,5 @@ export const LANGUAGES = {
   JA: 11,
   ZH_HANS: 12,
   PT_BR: 13,
+  ES_419: 14,
 } as const;

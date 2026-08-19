@@ -519,6 +519,24 @@ describe("BaseClient", () => {
     ]);
   });
 
+  it("should send credentials it cannot percent-decode as they stand", async () => {
+    const sent: RequestInit["headers"][] = [];
+    // `URL` parses `%zz` happily; `decodeURIComponent` rejects it.
+    const client = new TestClient({
+      baseURL: "https://some%zzone:hunter2@poke.example/api/v2",
+      cache: false,
+      fetch: (_url, init) => {
+        sent.push(init?.headers);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await expect(client.get("/berry", 1)).resolves.toEqual({ id: 1 });
+    expect(sent).toEqual([
+      { Accept: "application/json", Authorization: `Basic ${btoa("some%zzone:hunter2")}` },
+    ]);
+  });
+
   it("should report the url of a failed request without its credentials", async () => {
     const logged: string[] = [];
     const messages: string[] = [];
@@ -965,6 +983,20 @@ describe("BaseClient revalidation", () => {
     expect(calls.sent).toEqual([null, null]);
     expect(calls.bodies).toBe(2);
   });
+
+  it("should say so when a 304 arrives with no stored response behind it", async () => {
+    // An intermediary answering 304 to a request this client sent no validator
+    // with: nothing here asked for it, so nothing here can satisfy it.
+    server.use(http.get(BERRY_URL, () => new HttpResponse(null, { status: 304 })));
+
+    const error = (await new TestClient({ cache: false, revalidate: true })
+      .get("/berry", 1)
+      .catch((caught: unknown) => caught)) as PokenodeError;
+
+    expect(PokenodeError.isPokenodeError(error)).toBe(true);
+    expect(error.status).toBe(304);
+    expect(error.message).toMatch(/no response to reuse/);
+  });
 });
 
 describe("BaseClient retry", () => {
@@ -1035,6 +1067,17 @@ describe("BaseClient retry", () => {
     const startedAt = performance.now();
 
     await new TestClient({ retry: { attempts: 2, initialDelay: 0 } }).get("/berry", 1);
+
+    expect(calls.count).toBe(2);
+    expect(performance.now() - startedAt).toBeGreaterThanOrEqual(45);
+  });
+
+  it("should back off normally when Retry-After is blank", async () => {
+    const calls = failingHandler([503], "  ");
+    const startedAt = performance.now();
+
+    // A blank header reads as `Number("") === 0`, which would retry instantly.
+    await new TestClient({ retry: { attempts: 2, initialDelay: 100 } }).get("/berry", 1);
 
     expect(calls.count).toBe(2);
     expect(performance.now() - startedAt).toBeGreaterThanOrEqual(45);

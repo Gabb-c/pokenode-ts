@@ -119,12 +119,24 @@ the way to identify an error rather than `instanceof`.
 
 ### Which URLs are accepted
 
-The URL must name an endpoint under the client's `baseURL`. Anything else throws a `TypeError`
-rather than issuing a request somewhere unexpected:
+The URL must be absolute, and it must name an endpoint — a path sitting below an API version
+segment, as in `/api/v2/berry/1`. Anything else throws a `TypeError` rather than issuing a request
+somewhere unexpected:
 
 ```ts
-await utility.getResourceByUrl('https://example.com/hello'); // TypeError
+await utility.getResourceByUrl('https://example.com/hello'); // TypeError — names no endpoint
 await utility.getResourceByUrl('/pokemon/1'); // TypeError — not absolute
+```
+
+A URL that names an endpoint but points at **another host** is not fetched from that host. The path
+below the version segment is re-resolved against this client's own `baseURL`, so a link copied from
+pokeapi.co and followed by a client aimed at your instance reaches your instance:
+
+```ts
+const api = new UtilityClient({ baseURL: 'https://poke.internal/api/v2' });
+
+await api.getResourceByUrl('https://pokeapi.co/api/v2/berry/1');
+// requests https://poke.internal/api/v2/berry/1
 ```
 
 Trailing slashes are fine. The PokéAPI's own links end in one, and they resolve to the same cache

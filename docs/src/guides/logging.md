@@ -101,6 +101,9 @@ Will output:
 [ Request Config ] GET | https://pokeapi.co/api/v2/berry/cheri
 [ Response ] STATUS 200 | CACHE | 0.3ms
 
+// retried, with `retry` configured
+[ Retry ] ATTEMPT 1 | STATUS 503 | IN 287ms | https://pokeapi.co/api/v2/berry/cheri
+
 // error
 [ Request Config ] GET | https://pokeapi.co/api/v2/berry/cheri
 [ Response Error ] https://pokeapi.co/api/v2/berry/cheri | CODE PokenodeError | Request to https://pokeapi.co/api/v2/berry/cheri failed with status 404

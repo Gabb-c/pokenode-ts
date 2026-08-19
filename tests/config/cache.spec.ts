@@ -264,6 +264,20 @@ describe("WebStorageCache", () => {
     expect(storage.getItem("app:session")).toBe("keep me");
   });
 
+  it("should tolerate a storage that refuses to drop a key on clear", async () => {
+    const storage = new FakeStorage();
+    const cache = new WebStorageCache({ storage });
+
+    await cache.set("a", 1);
+    storage.removeItem = () => {
+      throw new Error("SecurityError");
+    };
+
+    // Every other path treats a refusing storage as empty; clearing is no
+    // different, and `clearCache()` must not fail over a store it cannot tidy.
+    await expect(cache.clear()).resolves.toBeUndefined();
+  });
+
   it("should treat a storage that refuses to be read as a miss", async () => {
     const storage = new FakeStorage();
     const cache = new WebStorageCache({ storage });

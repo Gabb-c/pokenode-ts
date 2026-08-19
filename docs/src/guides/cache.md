@@ -107,6 +107,10 @@ if a cache miss is already rare.
 A revalidated response is reported to the [logger](./logging) with `source: 'revalidated'`, so it can
 be counted separately from a full download — it is a round trip, just a cheap one.
 
+A `304` answering a request the client sent no validator with — a proxy adding one of its own — is a
+response with no body and nothing here to pair it with. It rejects with a `PokenodeError` of status
+`304` saying so, rather than being reported as a plain failed status.
+
 ## Browser storage
 
 `WebStorageCache` keeps responses in `localStorage` or `sessionStorage`, so they survive a page

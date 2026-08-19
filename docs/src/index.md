@@ -21,23 +21,23 @@ hero:
 
 features:
   - icon: 🛠️
-    title: Built-in types
-    details: Every response is fully typed from the PokéAPI schema, so the shape of your data is checked at compile time rather than discovered at runtime.
+    title: Typed end to end
+    details: Every response is typed straight from the PokéAPI. A weekly job checks those types against the live API and opens an issue the moment one drifts.
   - icon: 🪶
     title: Zero dependencies
-    details: Nothing to install but the package itself. Native fetch does the work, and the whole library is a few kilobytes.
+    details: Nothing to install but the package. Native fetch does the work, in a few kilobytes.
+  - icon: 🔗
+    title: Follow any link
+    details: PokéAPI answers with links to more links. Hand one back and you get the resource it points at, already typed, without working out which client owns it.
   - icon: 📦
-    title: Caching that you control
-    details: Responses are cached in memory by default. Swap in Redis, a KV namespace, or anything else that implements CacheStore — or turn it off.
+    title: Caching you control
+    details: Responses are cached in memory out of the box. Point it at Redis, a KV namespace, or browser storage, or switch it off entirely.
+  - icon: 🛡️
+    title: Ready for a bad network
+    details: Backoff retries, timeouts, and cancellation that respects shared work. None of it runs unless you ask for it.
   - icon: 🔌
-    title: Bring your own transport
-    details: Pass a custom fetch to route through a proxy, add retries, attach headers, or impose a timeout.
-  - icon: 🌲
-    title: Pluggable logging
-    details: Point the request lifecycle at the console, at pino, or at a metrics collector. Nothing is logged unless you ask.
-  - icon: 🧭
-    title: One client or twelve
-    details: Reach for a focused client like PokemonClient, or use MainClient to get all of them sharing a single cache.
+    title: Fits your stack
+    details: Bring your own fetch and your own logger. Nothing is proxied or logged until you wire it up.
 ---
 
 <script setup>

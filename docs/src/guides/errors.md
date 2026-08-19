@@ -97,11 +97,15 @@ rejection.
 
 ## Timeouts
 
-Clients impose no timeout — `fetch` has none, and neither do we, so a request waits as long as the
-connection stays open. Supply one through a [custom fetch](/guides/fetch):
+Clients impose no timeout of their own — `fetch` has none, and neither do we, so a request waits as
+long as the connection stays open. Put one on a unit of work by deriving a
+[scoped client](/guides/cancellation):
 
 ```ts
-const api = new PokemonClient({
-  fetch: (url, init) => fetch(url, { ...init, signal: AbortSignal.timeout(5000) }),
-});
+const api = new PokemonClient();
+
+await api.with({ timeout: 5000 }).getPokemonByName('luxray');
 ```
+
+A [custom fetch](/guides/fetch) is still the right tool for a ceiling that applies to every request
+no matter who made it. The two compose, and whichever signal aborts first wins.
