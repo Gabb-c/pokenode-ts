@@ -21,13 +21,27 @@ export interface CacheStore {
 const DEFAULT_PREFIX = "pokenode:";
 
 /**
+ * How many entries a bounded store keeps.
+ *
+ * A non-finite limit falls back to the default rather than being clamped:
+ * `size >= NaN` is never true, and a bound that is never reached is not a bound
+ * — `maxEntries` is exactly the sort of option that arrives as
+ * `Number(process.env.CACHE_SIZE)`. Zero and below keep nothing.
+ */
+const entryLimit = (value: number | undefined, fallback: number): number =>
+  value !== undefined && Number.isFinite(value) ? Math.max(Math.floor(value), 0) : fallback;
+
+/**
  * ## Memory Cache Options
  * Used to configure the default in-memory store.
  */
 export interface MemoryCacheOptions {
   /** How long a cached response stays fresh, in milliseconds. Defaults to 5 minutes. */
   ttl?: number;
-  /** Maximum number of responses kept. The least recently used entry is evicted. Defaults to 500. */
+  /**
+   * Maximum number of responses kept. The least recently used entry is evicted.
+   * Defaults to 500; zero keeps none.
+   */
   maxEntries?: number;
 }
 
@@ -50,7 +64,7 @@ export class MemoryCache implements CacheStore {
 
   constructor(options?: MemoryCacheOptions) {
     this.ttl = options?.ttl ?? DEFAULT_TTL;
-    this.maxEntries = options?.maxEntries ?? DEFAULT_MAX_ENTRIES;
+    this.maxEntries = entryLimit(options?.maxEntries, DEFAULT_MAX_ENTRIES);
   }
 
   get(key: string): unknown {
@@ -75,6 +89,12 @@ export class MemoryCache implements CacheStore {
   set(key: string, value: unknown): void {
     // Delete first so an update moves the key to the most-recently-used end.
     this.entries.delete(key);
+
+    // A store with no room keeps nothing, rather than the one entry an eviction
+    // that has nothing to evict would leave behind.
+    if (this.maxEntries === 0) {
+      return;
+    }
 
     if (this.entries.size >= this.maxEntries) {
       const oldest = this.entries.keys().next();
@@ -114,7 +134,10 @@ export interface EtagEntry {
  * Used to configure an {@link EtagStore}.
  */
 export interface EtagStoreOptions {
-  /** How many URLs to remember. The least recently used is evicted. Defaults to 500. */
+  /**
+   * How many URLs to remember. The least recently used is evicted. Defaults to
+   * 500; zero remembers none.
+   */
   maxEntries?: number;
 }
 
@@ -138,7 +161,7 @@ export class EtagStore {
   private readonly maxEntries: number;
 
   constructor(options?: EtagStoreOptions) {
-    this.maxEntries = options?.maxEntries ?? DEFAULT_ETAG_ENTRIES;
+    this.maxEntries = entryLimit(options?.maxEntries, DEFAULT_ETAG_ENTRIES);
   }
 
   get(url: string): EtagEntry | undefined {
@@ -157,6 +180,10 @@ export class EtagStore {
 
   set(url: string, entry: EtagEntry): void {
     this.entries.delete(url);
+
+    if (this.maxEntries === 0) {
+      return;
+    }
 
     if (this.entries.size >= this.maxEntries) {
       const oldest = this.entries.keys().next();

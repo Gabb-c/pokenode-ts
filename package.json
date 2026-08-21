@@ -90,13 +90,13 @@
     {
       "name": "ESM",
       "path": "lib/index.js",
-      "limit": "11 kB",
+      "limit": "11.5 kB",
       "gzip": true
     },
     {
       "name": "CJS",
       "path": "lib/index.cjs",
-      "limit": "11.5 kB",
+      "limit": "12 kB",
       "gzip": true
     }
   ]

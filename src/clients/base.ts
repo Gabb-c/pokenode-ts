@@ -201,8 +201,10 @@ export abstract class ClientFacade {
   }
 
   /**
-   * Drops every cached response. A {@link CacheStore} that does not implement
-   * `clear` is left alone.
+   * Drops every cached response, and any `ETag` learned for one — otherwise the
+   * next request revalidates and is answered with the body just dropped.
+   *
+   * A {@link CacheStore} that does not implement `clear` is left alone.
    *
    * The store is the transport's, so a client sharing one with others clears
    * theirs too.

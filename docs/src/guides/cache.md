@@ -180,6 +180,9 @@ await api.getBerryByName('cheri'); // network again
 optional on `CacheStore`, so a store that does not implement it — a shared Redis instance you would
 rather the library not flush — is left untouched.
 
+Any `ETag` the client learned goes with it. An `EtagStore` holds the bodies it validated, so keeping
+it would answer the next request with the very body `clearCache()` was called to drop.
+
 ## How it works
 
 - Only successful responses are cached — a failed request is never stored, so a retry genuinely

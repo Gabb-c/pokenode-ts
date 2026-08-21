@@ -1098,7 +1098,7 @@ describe("BaseClient revalidation", () => {
     ]);
   });
 
-  it("should keep a body the cache has already dropped", async () => {
+  it("should forget its validators when the cache is cleared", async () => {
     const calls = revalidatingHandler();
     const client = new TestClient({ cache: new MemoryCache(), revalidate: true });
 
@@ -1106,9 +1106,10 @@ describe("BaseClient revalidation", () => {
     await client.clearCache();
 
     await expect(client.get("/berry", 1)).resolves.toEqual({ id: 1 });
-    // The cache lost it, the ETag store did not: revalidated, not downloaded.
-    expect(calls.sent).toEqual([null, 'W/"one"']);
-    expect(calls.bodies).toBe(1);
+    // Keeping the validator would answer with the body `clearCache` dropped, and
+    // hold it in memory besides. An entry lost to its TTL still revalidates.
+    expect(calls.sent).toEqual([null, null]);
+    expect(calls.bodies).toBe(2);
   });
 
   it("should share what it learned with a scoped client", async () => {
@@ -1138,6 +1139,17 @@ describe("BaseClient revalidation", () => {
     await client.get("/berry", 1);
 
     // Berry 1 was evicted by berry 2, so its second call carried no validator.
+    expect(calls.sent).toEqual([null, null]);
+    expect(calls.bodies).toBe(2);
+  });
+
+  it("should remember nothing when the store has no room", async () => {
+    const calls = revalidatingHandler();
+    const client = new TestClient({ cache: false, revalidate: new EtagStore({ maxEntries: 0 }) });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
     expect(calls.sent).toEqual([null, null]);
     expect(calls.bodies).toBe(2);
   });
@@ -1272,6 +1284,18 @@ describe("BaseClient retry", () => {
 
     expect(calls.count).toBe(3);
   }, 2_000);
+
+  it("should round a fractional attempt count down", async () => {
+    const calls = failingHandler([503, 503, 503]);
+
+    // `attempt >= 2.5` is first true at three, so a count between two and three
+    // used to buy an attempt that was not asked for.
+    await expect(
+      new TestClient({ retry: { ...IMMEDIATE, attempts: 2.5 } }).get("/berry", 1),
+    ).rejects.toThrow(PokenodeError);
+
+    expect(calls.count).toBe(2);
+  });
 
   it("should fall back to the default when a delay is not a number", async () => {
     const calls = failingHandler([503]);

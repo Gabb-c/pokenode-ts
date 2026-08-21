@@ -120,11 +120,15 @@ export class Transport {
   }
 
   /**
-   * Drops every cached response. A {@link CacheStore} that does not implement
-   * `clear` is left alone.
+   * Drops every cached response, and the validators held for them: an
+   * {@link EtagStore} keeps the bodies it learned, so leaving it would answer
+   * the next request with the very body that was just dropped.
+   *
+   * A {@link CacheStore} that does not implement `clear` is left alone.
    */
   async clear(): Promise<void> {
     await this.state.cache?.clear?.();
+    this.state.etags?.clear();
   }
 
   /**

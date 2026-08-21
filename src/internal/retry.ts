@@ -9,7 +9,9 @@ const DEFAULT_MAX_DELAY = 5_000;
 const DEFAULT_RETRY_STATUSES = [429, 500, 502, 503, 504];
 
 /**
- * How many attempts a request gets, the first one included.
+ * How many attempts a request gets, the first one included. A fractional count
+ * is rounded down, so `2.5` is two attempts rather than the three that
+ * `attempt >= attempts` would otherwise allow.
  *
  * A non-finite count falls back to the default rather than being clamped:
  * `Math.max(NaN, 1)` is `NaN`, and an attempt loop bounded by `NaN` never ends.
@@ -23,7 +25,7 @@ export const attemptCount = (retry: RetryOptions | undefined): number => {
 
   const requested = retry.attempts ?? DEFAULT_RETRY_ATTEMPTS;
 
-  return Number.isFinite(requested) ? Math.max(requested, 1) : DEFAULT_RETRY_ATTEMPTS;
+  return Number.isFinite(requested) ? Math.max(Math.floor(requested), 1) : DEFAULT_RETRY_ATTEMPTS;
 };
 
 /**
@@ -87,6 +89,11 @@ const sleep = (ms: number, signal: AbortSignal | undefined): Promise<void> =>
       signal?.removeEventListener("abort", onAbort);
       resolve();
     }, ms);
+
+    // Node holds the event loop open for a pending timer, so a wait between
+    // attempts would keep a process that has nothing else to do alive for it.
+    // Optional because a browser's `setTimeout` returns a number.
+    timer.unref?.();
 
     const onAbort = (): void => {
       clearTimeout(timer);
