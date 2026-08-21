@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/Gabb-c/pokenode-ts/compare/v2.1.0...v2.2.0) (2026-08-21)
+
+
+### Features
+
+* **client:** cancellation, pagination, resolution, retry and revalidation ([#1401](https://github.com/Gabb-c/pokenode-ts/issues/1401)) ([2d4c27d](https://github.com/Gabb-c/pokenode-ts/commit/2d4c27df022dd82e966388d75f0aa18b9dd8a18d))
+
 ## [2.1.0](https://github.com/Gabb-c/pokenode-ts/compare/v2.0.0...v2.1.0) (2026-08-17)
 
 
