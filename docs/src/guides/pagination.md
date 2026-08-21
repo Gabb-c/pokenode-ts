@@ -1,10 +1,10 @@
 ---
-description: "Walk every page of a PokéAPI list endpoint with pokenode-ts — paginate() yields entries one at a time, and resolves each link with bounded concurrency when you ask it to."
+description: "Walk every page of a PokéAPI list endpoint with pokenode-ts — paginate() yields entries one at a time and can resolve each link for you."
 ---
 
 # Pagination
 
-Every `list*` method returns one page:
+Every `list*` method returns a single page:
 
 ```ts
 const page = await api.berry.listBerries(0, 20);
@@ -13,7 +13,7 @@ page.count; // 64
 page.results; // 20 links
 ```
 
-To walk the whole section, name that method to `paginate()` and let it manage the offset:
+`paginate()` walks all of them. Name the list method and it manages the offset:
 
 ```ts
 import { MainClient } from 'pokenode-ts';
@@ -25,18 +25,17 @@ for await (const berry of api.berry.paginate('listBerries')) {
 }
 ```
 
-Only the list methods of the client you call it on are accepted, and the compiler completes them for
-you — `api.berry.paginate('listMachines')` does not type-check. What each entry is follows from the
-method named, so nothing needs annotating.
+Only that client's own list methods are accepted, and your editor completes them —
+`api.berry.paginate('listMachines')` won't type-check. Entry types come from the method you name, so
+there's nothing to annotate.
 
-`paginate()` is on every section client, and works with any list method — including the five sections
-whose entries have no name (`machine`, `contest-effect`, `super-contest-effect`, `evolution-chain`,
-`characteristic`), whose entries come back carrying a `url` and nothing else.
+It's on every section client, including the five whose entries have no name (`machine`,
+`contest-effect`, `super-contest-effect`, `evolution-chain`, `characteristic`). Those yield entries
+carrying just a `url`.
 
-## Walking a list of your own
+## Walking your own list
 
-A function is accepted in place of a name, for a page this client does not serve — a narrowed list,
-or an endpoint behind your own wrapper:
+Pass a function instead of a name for a list this client doesn't serve:
 
 ```ts
 for await (const berry of api.berry.paginate((offset, limit) =>
@@ -48,7 +47,7 @@ for await (const berry of api.berry.paginate((offset, limit) =>
 
 ## Resolving as you go
 
-The entries a list yields are links. Pass `resolve` to fetch each one and get the resource itself:
+List entries are links. Set `resolve` to fetch each one:
 
 ```ts
 for await (const berry of api.berry.paginate('listBerries', { resolve: true })) {
@@ -56,7 +55,7 @@ for await (const berry of api.berry.paginate('listBerries', { resolve: true })) 
 }
 ```
 
-Entries are yielded in the order the API listed them, whatever order the responses arrive in.
+Entries come back in the order the API listed them, regardless of which responses land first.
 
 ## Options
 
@@ -68,24 +67,22 @@ interface PaginateOptions {
 }
 ```
 
-`pageSize` defaults to 20 because that is what the PokéAPI itself returns for a list with no `limit`,
-so a walk with no options requests exactly what a hand-written loop would. Raise it to cut the number
-of round trips a full walk costs — the whole Pokémon section is ~66 requests at 20 per page, ~14 at
-100:
+Raise `pageSize` to cut round trips. The whole Pokémon section is ~66 requests at 20 per page, ~14
+at 100:
 
 ```ts
 api.pokemon.paginate('listPokemons', { pageSize: 100 });
 ```
 
 :::warning
-`concurrency` defaults to 4 on purpose. Walking a whole section resolved is hundreds of requests, and
-the [PokéAPI fair-use policy](https://pokeapi.co/docs/v2#fairuse) asks clients to be gentle. Raise it
+Walking a section with `resolve` is hundreds of requests. `concurrency` defaults to 4 because the
+[PokéAPI fair-use policy](https://pokeapi.co/docs/v2#fairuse) asks clients to go easy. Raise it
 against a local instance, not against pokeapi.co.
 :::
 
 ## Stopping early
 
-Break out of the loop and no further page is requested:
+`break` out of the loop and no further page is requested:
 
 ```ts
 for await (const berry of api.berry.paginate('listBerries')) {
@@ -96,7 +93,7 @@ for await (const berry of api.berry.paginate('listBerries')) {
 }
 ```
 
-To put a deadline on a walk, run it through a [scoped client](./cancellation):
+For a deadline on the whole walk, use a [scoped client](./cancellation):
 
 ```ts
 const scoped = api.with({ timeout: 30_000 });
@@ -107,6 +104,6 @@ for await (const berry of scoped.berry.paginate('listBerries')) {
 ```
 
 :::tip
-Every page and every resolved resource goes through the client's [cache](./cache), so a second walk
-over the same section costs nothing while the entries are still fresh.
+Pages and resolved resources both go through the [cache](./cache), so a second walk over the same
+section is free while the entries are still fresh.
 :::

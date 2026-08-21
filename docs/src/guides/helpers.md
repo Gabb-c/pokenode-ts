@@ -4,8 +4,7 @@ description: "Pure helpers in pokenode-ts — localize() picks the entry in the 
 
 # Helpers
 
-Functions that take what the API already gave you and hand back something more useful. They make no
-requests, so they need no client.
+Functions that work on data you already have. They make no requests, so they need no client.
 
 ## localize
 
@@ -20,7 +19,7 @@ species.names;
 // ]
 ```
 
-`localize()` picks one out:
+`localize()` picks one:
 
 ```ts
 import { localize, MainClient } from 'pokenode-ts';
@@ -33,28 +32,27 @@ localize(species.names, 'ja')?.name; // 'イーブイ'
 localize(species.flavor_text_entries)?.flavor_text;
 ```
 
-It works on anything the API publishes per language — `Name`, `FlavorText`, `Description`, `Effect`,
-`VerboseEffect` — and keeps the entry's own type, so the field you want is still there.
+It accepts anything the API publishes per language (`Name`, `FlavorText`, `Description`, `Effect`,
+`VerboseEffect`) and returns the entry's own type, so its fields are still there.
 
-The language is named the way the PokéAPI names it — **lower case throughout**, which is not how
-BCP 47 writes a script subtag. All fourteen: `ja-hrkt`, `ja-roma`, `ko`, `zh-hant`, `fr`, `de`, `es`,
-`it`, `en`, `cs`, `ja`, `zh-hans`, `pt-br`, `es-419`. `api.utility.listLanguages()` is the live list.
+Language tags are lower case, the way the PokéAPI writes them. All fourteen: `ja-hrkt`, `ja-roma`,
+`ko`, `zh-hant`, `fr`, `de`, `es`, `it`, `en`, `cs`, `ja`, `zh-hans`, `pt-br`, `es-419`.
+`api.utility.listLanguages()` is the live list.
 
-The tag is matched without regard to case, so the `ja-Hrkt` you would write anywhere else finds the
-same entry as `ja-hrkt`.
+Matching ignores case, so `ja-Hrkt` finds the same entry as `ja-hrkt`.
 
 ### When the language is missing
 
-You get `undefined`. Nothing is guessed, because which language to try instead is your decision:
+You get `undefined`. Pick your own fallback:
 
 ```ts
 const name = localize(species.names, 'ko') ?? localize(species.names, 'en');
 ```
 
-### When there is more than one
+### When there's more than one
 
 Some sections list several entries per language — flavor text, one per game version. `localize()`
-returns the first. Narrow it yourself when a particular version is what you meant:
+returns the first. Filter first if you want a particular one:
 
 ```ts
 const scarlet = species.flavor_text_entries.filter(

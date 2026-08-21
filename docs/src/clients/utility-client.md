@@ -41,9 +41,9 @@ pointing at other resources. `getResourceByUrl` follows one without working out 
 method it belongs to.
 
 ::: tip
-Every client carries `resolve()` and `resolveAll()`, which do exactly this — `api.pokemon.resolve(link)`
-saves reaching for a `UtilityClient` you otherwise have no use for. `getResourceByUrl` is the name
-this went out under in 2.0, and it stays.
+Every client carries `resolve()` and `resolveAll()`, which do the same thing, so
+`api.pokemon.resolve(link)` saves constructing a `UtilityClient` you have no other use for.
+`getResourceByUrl` is the 2.0 name and it stays.
 :::
 
 Pass the link itself and the result is typed for you — the link carries what it points at:
@@ -134,9 +134,9 @@ await utility.getResourceByUrl('https://example.com/hello'); // TypeError — na
 await utility.getResourceByUrl('/pokemon/1'); // TypeError — not absolute
 ```
 
-A URL that names an endpoint but points at **another host** is not fetched from that host. The path
-below the version segment is re-resolved against this client's own `baseURL`, so a link copied from
-pokeapi.co and followed by a client aimed at your instance reaches your instance:
+A URL naming an endpoint on **another host** isn't fetched from that host. The path below the
+version segment is re-resolved against this client's own `baseURL`, so a pokeapi.co link followed by
+a client aimed at your instance reaches your instance:
 
 ```ts
 const api = new UtilityClient({ baseURL: 'https://poke.internal/api/v2' });

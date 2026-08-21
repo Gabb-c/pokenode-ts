@@ -20,24 +20,36 @@ hero:
       link: https://github.com/Gabb-c/pokenode-ts
 
 features:
-  - icon: 🛠️
+  - icon: 🧩
     title: Typed end to end
-    details: Every response is typed straight from the PokéAPI. A weekly job checks those types against the live API and opens an issue the moment one drifts.
-  - icon: 🪶
-    title: Zero dependencies
-    details: Nothing to install but the package. Native fetch does the work, in a few kilobytes.
+    details: Every endpoint, every field, straight from the PokéAPI schema. A weekly job diffs those types against the live API and opens an issue when one drifts.
+    link: /guides/getting-started
+    linkText: Get started
   - icon: 🔗
-    title: Follow any link
-    details: PokéAPI answers with links to more links. Hand one back and you get the resource it points at, already typed, without working out which client owns it.
-  - icon: 📦
-    title: Caching you control
-    details: Responses are cached in memory out of the box. Point it at Redis, a KV namespace, or browser storage, or switch it off entirely.
+    title: Links, followed
+    details: PokéAPI answers with <code>{ name, url }</code> refs instead of data. <code>resolve(pokemon.species)</code> hands back the species, typed. <code>resolveAll()</code> takes the whole list, four requests at a time.
+    link: /clients/utility-client
+    linkText: Following links
+  - icon: 📖
+    title: Walk a whole section
+    details: <code>paginate('listPokemons')</code> iterates all 1,351 of them and keeps track of the offset. Break out of the loop and it stops fetching.
+    link: /guides/pagination
+    linkText: Pagination
+  - icon: 💾
+    title: Cached from the first call
+    details: The PokéAPI's fair-use policy asks you to cache. This does, in memory, out of the box. Swap in Redis, a KV namespace or localStorage, or switch it off.
+    link: /guides/cache
+    linkText: Caching
+  - icon: 🌐
+    title: Runs anywhere
+    details: Node, Deno, Bun, browsers, Cloudflare Workers. Native fetch, zero dependencies, ~11 kB gzipped.
+    link: /guides/getting-started#requirements
+    linkText: Requirements
   - icon: 🛡️
-    title: Ready for a bad network
-    details: Backoff retries, timeouts, and cancellation that respects shared work. None of it runs unless you ask for it.
-  - icon: 🔌
-    title: Fits your stack
-    details: Bring your own fetch and your own logger. Nothing is proxied or logged until you wire it up.
+    title: Survives a bad network
+    details: Opt-in retries with jittered backoff that honors <code>Retry-After</code>. Timeouts and cancellation through <code>with()</code>, where a shared request lives until its last caller gives up.
+    link: /guides/cancellation
+    linkText: Cancellation
 ---
 
 <script setup>

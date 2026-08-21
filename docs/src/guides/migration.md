@@ -111,8 +111,7 @@ const api = new BerryClient();
 await api.with({ timeout: 5000 }).getBerryByName('cheri');
 ```
 
-`with()` takes a `signal` too, and `MainClient#with` scopes all twelve sections at once. A signal
-belongs to one unit of work while a client outlives many, which is why it is not a client option.
-See [Cancellation](/guides/cancellation).
+`with()` takes a `signal` too, and `MainClient#with` scopes all twelve sections at once. See
+[Cancellation](/guides/cancellation).
 
 An abort rejects with the runtime's own `DOMException`, not with a pokenode error.

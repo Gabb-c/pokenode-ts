@@ -33,36 +33,34 @@ const surf = await api.move.getMoveByName('surf');
 | `api.pokemon` | [`PokemonClient`](/clients/pokemon-client) |
 | `api.utility` | [`UtilityClient`](/clients/utility-client) |
 
-Each is the same class you would construct directly, with the same methods.
+Each is the same class you'd construct directly, with the same methods.
 
 ## One transport for everything
 
-This is the reason to use `MainClient` over constructing clients yourself. All twelve share one
-cache, one set of `ETag` validators and one set of requests already on the wire, so a resource
-fetched through any of them is served from memory by the rest:
+This is the reason to reach for `MainClient`. All twelve share one cache, one set of `ETag`
+validators, and one set of requests already on the wire:
 
 ```ts
 const api = new MainClient();
 
 const species = await api.pokemon.getPokemonSpeciesByName('eevee');
 
-// Already in the cache from the call above — no second request.
+// Already cached by the call above — no second request.
 const same = await api.utility.getResourceByUrl(
   'https://pokeapi.co/api/v2/pokemon-species/eevee',
 );
 ```
 
-Two of them asking for the same URL at the same time make one round trip, not two:
+Two sections asking for the same URL at the same time make one round trip:
 
 ```ts
 const url = 'https://pokeapi.co/api/v2/berry/1';
 
-// One request. The second call joins the first instead of repeating it.
+// One request. The second call joins the first.
 await Promise.all([api.berry.resolve(url), api.pokemon.resolve(url)]);
 ```
 
-Construct the clients separately and you get a separate transport each, which is usually not what
-you want:
+Construct clients separately and each gets its own transport, which is usually not what you want:
 
 ```ts
 // Two transports. The same berry is fetched twice.
@@ -73,7 +71,7 @@ const main = new MainClient();
 ## Resolving links
 
 Most of what the PokéAPI returns is links. `resolve()` fetches what one points at, through the same
-shared cache — and the link carries its own type, so nothing needs to be named:
+shared cache, and the link carries its own type:
 
 ```ts
 const pokemon = await api.pokemon.getPokemonByName('luxray');
@@ -82,36 +80,35 @@ const species = await api.resolve(pokemon.species);
 //    ^? PokemonSpecies
 ```
 
-`resolveAll()` takes many, and hands them back in the order you gave them:
+`resolveAll()` takes many and returns them in the order you gave them:
 
 ```ts
 const types = await api.resolveAll(pokemon.types.map((slot) => slot.type));
 //    ^? Type[]
 ```
 
-At most four run at a time, because a Pokémon's worth of links is a lot of requests at once and the
-[PokéAPI fair-use policy](https://pokeapi.co/docs/v2#fairuse) asks clients to be gentle. Raise it
-when you are pointed at a local instance:
+At most four run at a time, since a Pokémon's worth of links is a lot of requests at once and the
+[PokéAPI fair-use policy](https://pokeapi.co/docs/v2#fairuse) asks clients to go easy. Raise it
+against a local instance:
 
 ```ts
 await api.resolveAll(links, { concurrency: 16 });
 ```
 
-The first failure rejects and no further link is fetched. To walk a whole list rather than a known
+The first failure rejects and no further link is fetched. To walk a whole list instead of a known
 set of links, see [Pagination](/guides/pagination).
 
 ::: tip
-`api.resolve(link)`, `api.utility.getResourceByUrl(link)` and `api.pokemon.resolve(link)` all do the
-same thing. `resolve()` and `resolveAll()` are on every client, and within one `MainClient` they all
-go through the same transport — so which one you call changes nothing. Construct a section client
-yourself and it carries a transport of its own, and then the receiver does decide the cache, the
-scope and the `baseURL`.
+Within one `MainClient`, `api.resolve(link)`, `api.utility.getResourceByUrl(link)` and
+`api.pokemon.resolve(link)` all go through the same transport, so it makes no difference which you
+call. Construct a section client yourself and it carries its own transport — then the receiver does
+decide the cache, the scope and the `baseURL`.
 :::
 
 ## Scoping a request
 
-`with()` derives a client whose requests carry a signal, a timeout, or both — across all twelve
-sections at once, which is usually what a server handler wants:
+`with()` derives a client whose requests carry a signal, a timeout, or both, across all twelve
+sections at once:
 
 ```ts
 const scoped = api.with({ signal: request.signal, timeout: 2000 });
@@ -120,8 +117,8 @@ const pokemon = await scoped.pokemon.getPokemonByName('luxray');
 const species = await scoped.resolve(pokemon.species);
 ```
 
-The derived client shares this one's transport, and leaves it untouched.
-Derive one per unit of work rather than per call. See [Cancellation](/guides/cancellation).
+The derived client shares this one's transport and leaves it untouched. Derive one per unit of work
+rather than per call — see [Cancellation](/guides/cancellation).
 
 ## Options
 
@@ -137,12 +134,12 @@ const api = new MainClient({
 });
 ```
 
-Pass a `cache` and every sub-client uses that one store. Pass `cache: false` and caching is off
+Pass a `cache` and every sub-client uses that store. Pass `cache: false` and caching is off
 everywhere.
 
 ::: tip
-A shared store fills up faster than a per-client one, since twelve clients now compete for the same
-`maxEntries`. If you use `MainClient` heavily, raise it.
+A shared store fills up faster than a per-client one, since twelve clients compete for the same
+`maxEntries`. Raise it if you use `MainClient` heavily.
 :::
 
 ## Clearing the cache
@@ -153,16 +150,16 @@ A shared store fills up faster than a per-client one, since twelve clients now c
 await api.clearCache();
 ```
 
-The store itself is exposed as `api.cache` — it is the same object as `api.berry.cache`, and it is
-`undefined` when caching is disabled. See the [Cache guide](/guides/cache).
+`api.berry.clearCache()` does the same thing for the same reason. Prefer `api.clearCache()`, which
+says what actually happens.
+
+The store is exposed as `api.cache` — the same object as `api.berry.cache`, and `undefined` when
+caching is disabled. See the [Cache guide](/guides/cache).
 
 ::: warning Changed in 2.2
 `api.cache` is now an accessor rather than a stored property. Reading it is unchanged, but it no
 longer appears in `Object.keys(api)` or survives a `{ ...api }` spread.
 :::
-
-Because the store is shared, `api.berry.clearCache()` empties it for every section too. Reach for
-`api.clearCache()` instead — it says what actually happens.
 
 ## Not a BaseClient
 
