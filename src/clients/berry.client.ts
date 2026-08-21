@@ -6,10 +6,11 @@ import { BaseClient } from "./base";
  * ### Berry Client
  *
  * Client used to access the Berry Endpoints:
- *  - [Berries](https://pokeapi.co/docs/v2#berries)
- *  - [Berry Firmnesses](https://pokeapi.co/docs/v2#berry-firmnesses)
- *  - [Berry Flavors](https://pokeapi.co/docs/v2#berry-flavors)
- * ---
+ *
+ * - [Berries](https://pokeapi.co/docs/v2#berries)
+ * - [Berry Firmnesses](https://pokeapi.co/docs/v2#berry-firmnesses)
+ * - [Berry Flavors](https://pokeapi.co/docs/v2#berry-flavors)
+ *
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#berries-section)
  */
 export class BerryClient extends BaseClient {

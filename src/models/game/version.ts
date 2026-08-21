@@ -7,6 +7,7 @@ import type { Pokedex } from "./pokedex";
 /**
  * ## Version
  * Versions of the games, e.g. Red, Blue or Yellow.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Core_series) for greater detail.
  */
 export interface Version {

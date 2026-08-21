@@ -5,6 +5,7 @@ import type { Nature } from "./nature";
  * ## Pokéathlon Stat
  * Pokéathlon Stats are different attributes of a Pokémon's performance in Pokéathlons.
  * In Pokéathlons, competitions happen on different courses; one for each of the different Pokéathlon stats.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9athlon) for greater detail.
  */
 export interface PokeathlonStat {

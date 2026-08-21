@@ -5,6 +5,7 @@ import type { Stat } from "./stat";
  * ## Characteristic
  * Characteristics indicate which stat contains a Pokémon's highest IV.
  * A Pokémon's Characteristic is determined by the remainder of its highest IV divided by 5 (gene_modulo).
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Characteristic) for greater detail.
  */
 export interface Characteristic {

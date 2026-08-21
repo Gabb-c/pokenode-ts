@@ -16,6 +16,16 @@ import type {
 export type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
 
 /**
+ * ## Resource Link
+ * Something naming a single resource: a link taken from a response, or its URL
+ * as a bare string.
+ *
+ * A link carries what it points at, so passing one infers `T`; a string does
+ * not, and needs `T` named.
+ */
+export type ResourceLink<T> = string | NamedAPIResource<T> | APIResource<T>;
+
+/**
  * ## Retry Options
  * When a failed request is worth attempting again.
  *
@@ -228,7 +238,7 @@ export abstract class ClientFacade {
    *
    * @throws {TypeError} If the URL is not valid, or names no PokéAPI endpoint.
    */
-  public async resolve<T>(resource: string | NamedAPIResource<T> | APIResource<T>): Promise<T> {
+  public async resolve<T>(resource: ResourceLink<T>): Promise<T> {
     return this.#transport.byURL<T>(resource);
   }
 
@@ -245,7 +255,7 @@ export abstract class ClientFacade {
    * ```
    */
   public async resolveAll<T>(
-    resources: readonly (string | NamedAPIResource<T> | APIResource<T>)[],
+    resources: readonly ResourceLink<T>[],
     options?: ResolveOptions,
   ): Promise<T[]> {
     return this.#transport.resolveAll<T>(resources, options?.concurrency);
@@ -270,10 +280,7 @@ export abstract class ClientFacade {
    *
    * @throws {TypeError} If the URL is not valid, or names no endpoint under `baseURL`.
    */
-  protected async getResourceByURL<T>(
-    resource: string | NamedAPIResource<T> | APIResource<T>,
-    baseURL?: string,
-  ): Promise<T> {
+  protected async getResourceByURL<T>(resource: ResourceLink<T>, baseURL?: string): Promise<T> {
     return this.#transport.byURL<T>(resource, baseURL);
   }
 

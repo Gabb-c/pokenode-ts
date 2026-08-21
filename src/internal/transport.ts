@@ -4,13 +4,14 @@ import type {
   ListFn,
   PaginateOptions,
   RequestScope,
+  ResourceLink,
   RetryOptions,
 } from "../clients/base";
 import { type CacheStore, type EtagEntry, EtagStore, MemoryCache } from "../config/cache";
 import { toPokenodeError } from "../config/errors";
 import { type Logger, type LogResponsePayload, logMessage } from "../config/logger";
 import { BASE_URL, type Endpoint } from "../constants";
-import type { APIResource, NamedAPIResource } from "../models/common/resource";
+import type { APIResource } from "../models/common/resource";
 import { InFlight } from "./inflight";
 import { DEFAULT_PAGE_SIZE, walk as walkPages } from "./paginate";
 import { DEFAULT_CONCURRENCY, mapWithConcurrency } from "./pool";
@@ -147,10 +148,7 @@ export class Transport {
   }
 
   /** Retrieves a resource by its URL, or by a link taken from another response. */
-  async byURL<T>(
-    resource: string | NamedAPIResource<T> | APIResource<T>,
-    baseURL = this.config.baseURL,
-  ): Promise<T> {
+  async byURL<T>(resource: ResourceLink<T>, baseURL = this.config.baseURL): Promise<T> {
     const url = typeof resource === "string" ? resource : resource.url;
 
     return this.request<T>(toEndpointPath(url, baseURL), baseURL);
@@ -163,7 +161,7 @@ export class Transport {
 
   /** Fetches what several links point at, in the order they were given. */
   async resolveAll<T>(
-    resources: readonly (string | NamedAPIResource<T> | APIResource<T>)[],
+    resources: readonly ResourceLink<T>[],
     concurrency = DEFAULT_CONCURRENCY,
   ): Promise<T[]> {
     return mapWithConcurrency(resources, concurrency, (resource) => this.byURL<T>(resource));
@@ -185,10 +183,12 @@ export class Transport {
    * base's own `/api/v2` path.
    */
   private async request<T>(path: string, baseURL = this.config.baseURL): Promise<T> {
+    const rooted = path.startsWith("/") ? path : `/${path}`;
+
     // Credentials leave the URL before anything else sees it: `fetch` rejects a
     // credentialed URL, and the cache key and log payload are built from this.
     const { url, authorization } = splitCredentials(
-      normalizeURL(`${trimTrailingSlash(baseURL)}${path.startsWith("/") ? path : `/${path}`}`),
+      normalizeURL(`${trimTrailingSlash(baseURL)}${rooted}`),
     );
 
     const startedAt = performance.now();

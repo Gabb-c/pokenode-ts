@@ -6,6 +6,7 @@ import type { Move } from "../move/move";
 /**
  * ## Contest Type
  * Contest types are categories judges used to weigh a Pokémon's condition in Pokémon contests.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Contest_condition) for greater detail.
  */
 export interface ContestType {
@@ -69,6 +70,7 @@ export interface ContestEffect {
  * specifically in [Diamond, Pearl](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Diamond_and_Pearl_Versions),
  * and [Platinum](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Platinum_Version).
  * In it, Pokémon are rated on their appearance and performance, rather than strength.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Super_Contest).
  */
 export interface SuperContestEffect {

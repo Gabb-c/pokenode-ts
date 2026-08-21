@@ -9,6 +9,7 @@ import type { Location } from "./location";
  * A region is an organized area of the Pokémon world.
  * Most often, the main difference between regions is
  * the species of Pokémon that can be encountered within them.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Region) for greater detail.
  */
 export type Region = {

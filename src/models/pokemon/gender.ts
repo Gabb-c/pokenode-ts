@@ -5,6 +5,7 @@ import type { PokemonSpecies } from "./pokemon";
  * ## Gender
  * Genders were introduced in Generation II for the purposes of breeding Pokémon
  * but can also result in visual differences or even different evolutionary lines.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Gender) for greater detail.
  */
 export interface Gender {

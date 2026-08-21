@@ -14,6 +14,7 @@ export interface GrowthRateExperienceLevel {
 /**
  * ## Growth Rate
  * Growth rates are the speed with which Pokémon gain levels through experience.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Experience) for greater detail.
  */
 export interface GrowthRate {

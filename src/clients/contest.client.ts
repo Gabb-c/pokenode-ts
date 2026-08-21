@@ -12,10 +12,11 @@ import { BaseClient } from "./base";
  * ### Contest Client
  *
  * Client used to access the Contest Endpoints:
- *  - [Contest Types](https://pokeapi.co/docs/v2#contest-types)
- *  - [Contest Effects](https://pokeapi.co/docs/v2#contest-effects)
- *  - [Super Contest Effects](https://pokeapi.co/docs/v2#super-contest-effects)
- * ---
+ *
+ * - [Contest Types](https://pokeapi.co/docs/v2#contest-types)
+ * - [Contest Effects](https://pokeapi.co/docs/v2#contest-effects)
+ * - [Super Contest Effects](https://pokeapi.co/docs/v2#super-contest-effects)
+ *
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#contests-section)
  */
 export class ContestClient extends BaseClient {

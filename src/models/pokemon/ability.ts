@@ -7,6 +7,7 @@ import type { Pokemon } from "./pokemon";
  * ## Ability
  * Abilities provide passive effects for Pokémon in battle or in the overworld.
  * Pokémon have multiple possible abilities but can have only one ability at a time.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Ability) for greater detail.
  */
 export interface Ability {

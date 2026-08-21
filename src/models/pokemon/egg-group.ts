@@ -5,6 +5,7 @@ import type { PokemonSpecies } from "./pokemon";
  * ## Egg Group
  * Egg Groups are categories which determine which Pokémon are able to interbreed.
  * Pokémon may belong to either one or two Egg Groups.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Egg_Group) for greater detail.
  */
 export interface EggGroup {

@@ -66,7 +66,7 @@ const toBasicAuth = (username: string, password: string): string => {
   let latin1 = "";
 
   for (const byte of bytes) {
-    latin1 += String.fromCharCode(byte);
+    latin1 += String.fromCodePoint(byte);
   }
 
   return `Basic ${btoa(latin1)}`;

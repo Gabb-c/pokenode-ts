@@ -17,19 +17,20 @@ import { UtilityClient } from "./utility.client";
  * ### Main Client
  *
  * The main client used to access all the PokéAPI Endpoints:
- *  - [Berries](https://pokeapi.co/docs/v2#berries-section)
- *  - [Contests](https://pokeapi.co/docs/v2#contests-section)
- *  - [Currencies](https://pokeapi.co/docs/v2#currencies-section)
- *  - [Encounters](https://pokeapi.co/docs/v2#encounters-section)
- *  - [Evolution](https://pokeapi.co/docs/v2#evolution-section)
- *  - [Games](https://pokeapi.co/docs/v2#games-section)
- *  - [Items](https://pokeapi.co/docs/v2#items-section)
- *  - [Locations](https://pokeapi.co/docs/v2#locations-section)
- *  - [Machines](https://pokeapi.co/docs/v2#machines-section)
- *  - [Moves](https://pokeapi.co/docs/v2#moves-section)
- *  - [Pokémon](https://pokeapi.co/docs/v2#pokemon-section)
- *  - [Utility](https://pokeapi.co/docs/v2#utility-section)
- * ---
+ *
+ * - [Berries](https://pokeapi.co/docs/v2#berries-section)
+ * - [Contests](https://pokeapi.co/docs/v2#contests-section)
+ * - [Currencies](https://pokeapi.co/docs/v2#currencies-section)
+ * - [Encounters](https://pokeapi.co/docs/v2#encounters-section)
+ * - [Evolution](https://pokeapi.co/docs/v2#evolution-section)
+ * - [Games](https://pokeapi.co/docs/v2#games-section)
+ * - [Items](https://pokeapi.co/docs/v2#items-section)
+ * - [Locations](https://pokeapi.co/docs/v2#locations-section)
+ * - [Machines](https://pokeapi.co/docs/v2#machines-section)
+ * - [Moves](https://pokeapi.co/docs/v2#moves-section)
+ * - [Pokémon](https://pokeapi.co/docs/v2#pokemon-section)
+ * - [Utility](https://pokeapi.co/docs/v2#utility-section)
+ *
  * All the clients below share a single transport, so a resource fetched through
  * one of them is served from cache by the rest — and two of them asking for the
  * same URL at once make one round trip, not two.

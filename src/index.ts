@@ -53,5 +53,6 @@ export type {
   PaginateOptions,
   RequestScope,
   ResolveOptions,
+  ResourceLink,
   RetryOptions,
 } from "./clients/base";

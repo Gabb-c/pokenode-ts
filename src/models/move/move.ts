@@ -84,6 +84,7 @@ export interface MoveCategory {
 /**
  * ## Move Battle Style
  * Styles of moves when used in the Battle Palace.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Battle_Frontier_(Generation_III)) for greater detail.
  */
 export interface MoveBattleStyle {
@@ -98,6 +99,7 @@ export interface MoveBattleStyle {
 /**
  * ## Move Ailment
  * Move Ailments are status conditions caused by moves used during battle.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Status_condition) for greater detail.
  */
 export interface MoveAilment {
@@ -202,6 +204,7 @@ export interface ContestComboSets {
  * Moves are the skills of Pokémon in battle. In battle, a Pokémon uses one move each turn.
  * Some moves (including those learned by Hidden Machine) can be used outside of battle as well,
  * usually for the purpose of removing obstacles or exploring new areas.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Move) for greater detail.
  */
 export interface Move {

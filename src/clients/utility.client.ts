@@ -1,14 +1,15 @@
 import { ENDPOINTS } from "@constants";
-import type { APIResource, Language, NamedAPIResource, NamedAPIResourceList } from "@models";
-import { BaseClient } from "./base";
+import type { Language, NamedAPIResourceList } from "@models";
+import { BaseClient, type ResourceLink } from "./base";
 
 /**
  * ### Utility Client
  *
  * Client used to access the Utility Endpoints:
- *  - [Languages](https://pokeapi.co/docs/v2#languages)
- *  - [Resources](https://pokeapi.co/docs/v2#resource-listspagination-section)
- * ---
+ *
+ * - [Languages](https://pokeapi.co/docs/v2#languages)
+ * - [Resources](https://pokeapi.co/docs/v2#resource-listspagination-section)
+ *
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#utility-section)
  */
 export class UtilityClient extends BaseClient {
@@ -38,9 +39,7 @@ export class UtilityClient extends BaseClient {
    * @returns The resource the URL points at.
    * @throws {TypeError} If the URL is not valid, or names no PokéAPI endpoint.
    */
-  public async getResourceByUrl<T>(
-    resource: string | NamedAPIResource<T> | APIResource<T>,
-  ): Promise<T> {
+  public async getResourceByUrl<T>(resource: ResourceLink<T>): Promise<T> {
     return this.resolve<T>(resource);
   }
 

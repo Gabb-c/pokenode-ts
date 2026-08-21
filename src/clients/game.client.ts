@@ -6,11 +6,12 @@ import { BaseClient } from "./base";
  * ### Game Client
  *
  * Client used to access the Game Endpoints:
- *  - [Generations](https://pokeapi.co/docs/v2#generations)
- *  - [Pokédexes](https://pokeapi.co/docs/v2#pokedexes)
- *  - [Versions](https://pokeapi.co/docs/v2#version)
- *  - [Version Groups](https://pokeapi.co/docs/v2#version-groups)
- * ---
+ *
+ * - [Generations](https://pokeapi.co/docs/v2#generations)
+ * - [Pokédexes](https://pokeapi.co/docs/v2#pokedexes)
+ * - [Versions](https://pokeapi.co/docs/v2#version)
+ * - [Version Groups](https://pokeapi.co/docs/v2#version-groups)
+ *
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#games-section)
  */
 export class GameClient extends BaseClient {

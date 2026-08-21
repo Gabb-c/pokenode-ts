@@ -7,6 +7,7 @@ import type { Stat } from "./stat";
 /**
  * ## Nature
  * Natures influence how a Pokémon's stats grow.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Nature) for greater detail.
  */
 export interface Nature {

@@ -5,6 +5,7 @@ import type { Name } from "../common";
  * Currencies are what items are bought and sold with. Most items are priced in
  * Pokémon Dollars, but a shop can trade in anything from Battle Points to
  * Volcanic Ash.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Currency) for greater detail.
  */
 export interface Currency {

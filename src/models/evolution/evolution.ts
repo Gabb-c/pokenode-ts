@@ -128,6 +128,7 @@ export interface EvolutionChain {
  * There are numerous methods of evolution which define how and when Pokémon evolve.
  * Most Pokémon will evolve by leveling up while others evolve through specific means,
  * such as being traded, achieving a certain amount of friendship or leveling at certain times, among others.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Methods_of_evolution) for greater detail.
  */
 export interface EvolutionTrigger {

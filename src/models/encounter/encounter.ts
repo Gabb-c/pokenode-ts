@@ -3,6 +3,7 @@ import type { Name, NamedAPIResource } from "../common";
 /**
  * ## Encounter Method
  * Methods by which the player can encounter Pokémon in the wild, e.g., walking in tall grass.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Wild_Pok%C3%A9mon) for greater detail.
  */
 export interface EncounterMethod {
@@ -19,7 +20,8 @@ export interface EncounterMethod {
 /**
  * ## Encounter Condition
  * Conditions which affect what Pokémon might appear in the wild, e.g., day or night.
- *  - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Time).
+ *
+ * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Time).
  */
 export interface EncounterCondition {
   /** The identifier for this resource. */
@@ -36,6 +38,7 @@ export interface EncounterCondition {
  * ## Encounter Condition Value
  * Encounter condition values are the various states that an encounter
  * condition can have, i.e., time of day can be either **day** or **night**
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Time).
  */
 export interface EncounterConditionValue {

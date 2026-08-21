@@ -6,6 +6,7 @@ import type { Region } from "./region";
  * ## Location
  * Locations that can be visited within the games.
  * Locations make up sizable portions of regions, like cities or routes.
+ *
  * - See the [List of Locations](https://bulbapedia.bulbagarden.net/wiki/List_of_locations_by_name).
  */
 export interface Location {
@@ -27,6 +28,7 @@ export interface Location {
  * ## Location Area
  * Location areas are sections of areas, such as floors in a building or cave.
  * Each area has its own set of possible Pokémon encounters.
+ *
  * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Area) for greater detail.
  */
 export interface LocationArea {

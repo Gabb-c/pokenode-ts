@@ -15,14 +15,15 @@ import { BaseClient } from "./base";
  * ### Move Client
  *
  * Client used to access the Move Endpoints:
- *  - [Moves](https://pokeapi.co/docs/v2#moves)
- *  - [Move Ailments](https://pokeapi.co/docs/v2#move-ailments)
- *  - [Move Battle Styles](https://pokeapi.co/docs/v2#move-battle-styles)
- *  - [Move Categories](https://pokeapi.co/docs/v2#move-categories)
- *  - [Move Damage Classes](https://pokeapi.co/docs/v2#move-damage-classes)
- *  - [Move Learn Methods](https://pokeapi.co/docs/v2#move-learn-methods)
- *  - [Move Targets](https://pokeapi.co/docs/v2#move-targets)
- * ---
+ *
+ * - [Moves](https://pokeapi.co/docs/v2#moves)
+ * - [Move Ailments](https://pokeapi.co/docs/v2#move-ailments)
+ * - [Move Battle Styles](https://pokeapi.co/docs/v2#move-battle-styles)
+ * - [Move Categories](https://pokeapi.co/docs/v2#move-categories)
+ * - [Move Damage Classes](https://pokeapi.co/docs/v2#move-damage-classes)
+ * - [Move Learn Methods](https://pokeapi.co/docs/v2#move-learn-methods)
+ * - [Move Targets](https://pokeapi.co/docs/v2#move-targets)
+ *
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#moves-section)
  */
 export class MoveClient extends BaseClient {
