@@ -1141,6 +1141,25 @@ describe("BaseClient.resolve", () => {
     expect(berries.map((berry) => berry.id)).toEqual([1, 2, 3]);
   });
 
+  it("should fall back to the default when the concurrency is not a number", async () => {
+    server.use(
+      http.get(`${BASE_URL.REST}/berry/:id`, ({ params }) =>
+        HttpResponse.json({ id: Number(params.id) }),
+      ),
+    );
+
+    const links = [1, 2, 3].map((id) => `${BASE_URL.REST}/berry/${id}/`);
+
+    // `Array.from({ length: NaN })` is empty, so a pool sized from a non-finite
+    // count used to run no work at all and hand back a hole per link — the same
+    // `Number(process.env.CONCURRENCY)` the retry attempt count guards against.
+    const berries = await new TestClient({ cache: false }).resolveAll<{ id: number }>(links, {
+      concurrency: Number.NaN,
+    });
+
+    expect(berries.map((berry) => berry.id)).toEqual([1, 2, 3]);
+  });
+
   it("should carry the scope it was derived with", async () => {
     server.use(
       http.get(BERRY_URL, async () => {
@@ -1194,6 +1213,31 @@ describe("BaseClient retry", () => {
 
     expect(calls.count).toBe(3);
   }, 2_000);
+
+  it("should fall back to the default when a delay is not a number", async () => {
+    const calls = failingHandler([503]);
+    const startedAt = performance.now();
+
+    // `setTimeout` reads a `NaN` delay as zero, so an unusable `initialDelay`
+    // used to spend every attempt at once — a retry storm out of one unset
+    // environment variable.
+    await new TestClient({ retry: { attempts: 2, initialDelay: Number.NaN } }).get("/berry", 1);
+
+    expect(calls.count).toBe(2);
+    expect(performance.now() - startedAt).toBeGreaterThanOrEqual(100);
+  }, 2_000);
+
+  it("should fall back to the default when the longest wait is not a number", async () => {
+    const calls = failingHandler([503], "600");
+
+    // `600 > NaN` is false, which read an unusable `maxDelay` as willingness to
+    // wait ten minutes.
+    await expect(
+      new TestClient({ retry: { ...IMMEDIATE, maxDelay: Number.NaN } }).get("/berry", 1),
+    ).rejects.toThrow(PokenodeError);
+
+    expect(calls.count).toBe(1);
+  });
 
   it("should not attempt a status it was not told to retry again", async () => {
     const calls = failingHandler([404]);

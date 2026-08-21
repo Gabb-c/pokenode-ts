@@ -27,6 +27,18 @@ export const attemptCount = (retry: RetryOptions | undefined): number => {
 };
 
 /**
+ * A configured wait, in milliseconds, or the default when it is not a number
+ * this client can wait for.
+ *
+ * A non-finite value falls back for the reason given on {@link attemptCount}:
+ * `setTimeout` reads a `NaN` delay as zero, and `x > NaN` is false, so an
+ * unusable option spends every attempt at once — or accepts any `Retry-After`
+ * it is sent.
+ */
+const delayOption = (value: number | undefined, fallback: number): number =>
+  value !== undefined && Number.isFinite(value) ? Math.max(value, 0) : fallback;
+
+/**
  * Reads `Retry-After`, which RFC 9110 allows to be either a number of seconds or
  * an HTTP date. Returns milliseconds, or nothing when the header is absent or
  * unparseable.
@@ -96,7 +108,7 @@ export const retryDelay = async (
   retry: RetryOptions | undefined,
 ): Promise<number | undefined> => {
   const statuses = retry?.statuses ?? DEFAULT_RETRY_STATUSES;
-  const maxDelay = retry?.maxDelay ?? DEFAULT_MAX_DELAY;
+  const maxDelay = delayOption(retry?.maxDelay, DEFAULT_MAX_DELAY);
 
   if (isLast || !statuses.includes(response.status)) {
     throw await toPokenodeError(response);
@@ -135,8 +147,8 @@ export interface BackoffOptions {
  */
 export const backoff = async (options: BackoffOptions): Promise<void> => {
   const { url, attempt, status, retryAfter, signal, retry, logger } = options;
-  const initialDelay = retry?.initialDelay ?? DEFAULT_INITIAL_DELAY;
-  const maxDelay = retry?.maxDelay ?? DEFAULT_MAX_DELAY;
+  const initialDelay = delayOption(retry?.initialDelay, DEFAULT_INITIAL_DELAY);
+  const maxDelay = delayOption(retry?.maxDelay, DEFAULT_MAX_DELAY);
   const window = Math.min(initialDelay * 2 ** (attempt - 1), maxDelay);
   const delayMs = retryAfter ?? window / 2 + Math.random() * (window / 2);
 

@@ -39,7 +39,12 @@ export const mapWithConcurrency = async <I, O>(
     }
   };
 
-  const workers = Array.from({ length: Math.min(Math.max(concurrency, 1), items.length) }, () =>
+  // A non-finite count falls back to the default rather than being clamped:
+  // `Math.max(NaN, 1)` is `NaN`, `Array.from({ length: NaN })` is empty, and a
+  // pool with no workers returns a hole per item instead of failing. This is
+  // exactly the sort of option that arrives as `Number(process.env.CONCURRENCY)`.
+  const requested = Number.isFinite(concurrency) ? concurrency : DEFAULT_CONCURRENCY;
+  const workers = Array.from({ length: Math.min(Math.max(requested, 1), items.length) }, () =>
     worker(),
   );
 
