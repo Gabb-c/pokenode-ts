@@ -22,6 +22,21 @@ const countBerryCalls = () => {
   return calls;
 };
 
+/** Like `countBerryCalls`, but slow enough for concurrent callers to overlap. */
+const countSlowBerryCalls = () => {
+  const calls = { count: 0 };
+
+  server.use(
+    http.get(BERRY_URL, async () => {
+      calls.count += 1;
+      await delay(20);
+      return HttpResponse.json({ id: 1 });
+    }),
+  );
+
+  return calls;
+};
+
 describe("MainClient", () => {
   it("should share one cache across its clients", async () => {
     const calls = countBerryCalls();
@@ -207,5 +222,42 @@ describe("MainClient", () => {
     client.with({ timeout: 1 });
 
     await expect(client.berry.getBerryById(1)).resolves.toEqual({ id: 1 });
+  });
+
+  it("should make one request when two of its clients ask for the same URL at once", async () => {
+    const calls = countSlowBerryCalls();
+    const client = new MainClient({ cache: false });
+
+    await Promise.all([client.berry.resolve(BERRY_URL), client.pokemon.resolve(BERRY_URL)]);
+
+    expect(calls.count).toBe(1);
+  });
+
+  it("should coalesce across its clients before the cache has anything to serve", async () => {
+    const calls = countSlowBerryCalls();
+    const client = new MainClient();
+
+    await Promise.all([client.berry.resolve(BERRY_URL), client.pokemon.resolve(BERRY_URL)]);
+
+    expect(calls.count).toBe(1);
+  });
+
+  it("should make one request when one client asks for the same URL twice at once", async () => {
+    const calls = countSlowBerryCalls();
+    const client = new MainClient({ cache: false });
+
+    await Promise.all([client.berry.resolve(BERRY_URL), client.berry.resolve(BERRY_URL)]);
+
+    expect(calls.count).toBe(1);
+  });
+
+  it("should share its in-flight requests with the client it scoped", async () => {
+    const calls = countSlowBerryCalls();
+    const client = new MainClient({ cache: false });
+    const scoped = client.with({ timeout: 1_000 });
+
+    await Promise.all([client.berry.resolve(BERRY_URL), scoped.pokemon.resolve(BERRY_URL)]);
+
+    expect(calls.count).toBe(1);
   });
 });

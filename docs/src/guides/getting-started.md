@@ -138,6 +138,12 @@ CONSTANTS.TYPES.FIRE; // 10
 CONSTANTS.LANGUAGES.EN; // 9
 ```
 
+::: tip
+Names and ids are percent-encoded on their way into the URL, so a value taken straight off a request
+— `getPokemonByName(req.query.name)` — can only ever address the resource it names. A name carrying
+a `?` or a `/` comes back as a 404 rather than as some other endpoint's response.
+:::
+
 ## Handling failures
 
 A non-2xx response rejects with a `PokenodeError` carrying the status and body:
@@ -230,9 +236,24 @@ const types = await api.resolveAll(pokemon.types.map((slot) => slot.type));
 ```
 
 Because `MainClient` shares one cache across its twelve sub-clients, a resource reached this way is
-served from memory if any of them fetched it already. On a standalone client the same call spells
-`api.utility.getResourceByUrl(link)`. See the [Utility Client](/clients/utility-client) for the
-details, including what happens with a bare URL string.
+served from memory if any of them fetched it already.
+
+`resolve()` and `resolveAll()` are on **every** client, not just `MainClient` — a link names a
+resource, not a section, so any client follows any link:
+
+```ts
+import { PokemonClient } from 'pokenode-ts';
+
+const api = new PokemonClient();
+const pokemon = await api.getPokemonByName('luxray');
+const species = await api.resolve(pokemon.species);
+//    ^? PokemonSpecies
+```
+
+What the receiver decides is the `baseURL` the link is re-resolved against, and the cache and
+[scope](#timeouts-and-cancellation) the request goes through. See the
+[Utility Client](/clients/utility-client) for the details, including what happens with a bare URL
+string.
 
 ## Walking a whole section
 

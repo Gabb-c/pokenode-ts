@@ -33,6 +33,78 @@ const recordingList = (count: number) => {
   };
 };
 
+describe("BaseClient.paginate by method name", () => {
+  it("should walk the named list method of the client it was called on", async () => {
+    const pages: [offset: number, limit: number][] = [];
+
+    server.use(
+      http.get(`${BASE_URL.REST}/berry`, ({ request }) => {
+        const query = new URL(request.url).searchParams;
+        const offset = Number(query.get("offset"));
+        const limit = Number(query.get("limit"));
+
+        pages.push([offset, limit]);
+
+        return HttpResponse.json(namedPage(offset, limit, 3));
+      }),
+    );
+
+    const names: string[] = [];
+
+    for await (const berry of new BerryClient().paginate("listBerries", { pageSize: 2 })) {
+      names.push(berry.name);
+    }
+
+    expect(names).toEqual(["berry-0", "berry-1", "berry-2"]);
+    expect(pages).toEqual([
+      [0, 2],
+      [2, 2],
+    ]);
+  });
+
+  it("should reach the named method through a derived client", async () => {
+    server.use(
+      http.get(`${BASE_URL.REST}/berry`, async () => {
+        await delay(80);
+        return HttpResponse.json(namedPage(0, 20, 3));
+      }),
+    );
+
+    // `with()` rebuilds through the constructor, so the named method is reached
+    // through `this` on the derived client and picks up its scope.
+    const walk = async (): Promise<void> => {
+      for await (const _berry of new BerryClient().with({ timeout: 20 }).paginate("listBerries")) {
+        // Drained for its requests, not its entries.
+      }
+    };
+
+    await expect(walk()).rejects.toThrow(/abort|time/i);
+  });
+
+  it("should resolve the links a named list yields", async () => {
+    server.use(
+      http.get(`${BASE_URL.REST}/berry`, ({ request }) => {
+        const query = new URL(request.url).searchParams;
+
+        return HttpResponse.json(
+          namedPage(Number(query.get("offset")), Number(query.get("limit")), 2),
+        );
+      }),
+      http.get(`${BASE_URL.REST}/berry/:id`, ({ params }) =>
+        HttpResponse.json({ id: Number(params.id), name: `berry-${Number(params.id) - 1}` }),
+      ),
+    );
+
+    const ids: number[] = [];
+
+    for await (const berry of new BerryClient().paginate("listBerries", { resolve: true })) {
+      ids.push(berry.id);
+    }
+
+    expect(ids).toEqual([1, 2]);
+  });
+});
+
 describe("BaseClient.paginate", () => {
   it("should walk every page of a list", async () => {
     const { pages, list } = recordingList(5);

@@ -13,13 +13,32 @@ page.count; // 64
 page.results; // 20 links
 ```
 
-To walk the whole section, hand that method to `paginate()` and let it manage the offset:
+To walk the whole section, name that method to `paginate()` and let it manage the offset:
 
 ```ts
 import { MainClient } from 'pokenode-ts';
 
 const api = new MainClient();
 
+for await (const berry of api.berry.paginate('listBerries')) {
+  console.log(berry.name);
+}
+```
+
+Only the list methods of the client you call it on are accepted, and the compiler completes them for
+you — `api.berry.paginate('listMachines')` does not type-check. What each entry is follows from the
+method named, so nothing needs annotating.
+
+`paginate()` is on every section client, and works with any list method — including the five sections
+whose entries have no name (`machine`, `contest-effect`, `super-contest-effect`, `evolution-chain`,
+`characteristic`), whose entries come back carrying a `url` and nothing else.
+
+## Walking a list of your own
+
+A function is accepted in place of a name, for a page this client does not serve — a narrowed list,
+or an endpoint behind your own wrapper:
+
+```ts
 for await (const berry of api.berry.paginate((offset, limit) =>
   api.berry.listBerries(offset, limit),
 )) {
@@ -27,19 +46,12 @@ for await (const berry of api.berry.paginate((offset, limit) =>
 }
 ```
 
-`paginate()` is on every section client, and works with any list method — including the five sections
-whose entries have no name (`machine`, `contest-effect`, `super-contest-effect`, `evolution-chain`,
-`characteristic`), whose entries come back carrying a `url` and nothing else.
-
 ## Resolving as you go
 
 The entries a list yields are links. Pass `resolve` to fetch each one and get the resource itself:
 
 ```ts
-for await (const berry of api.berry.paginate(
-  (offset, limit) => api.berry.listBerries(offset, limit),
-  { resolve: true },
-)) {
+for await (const berry of api.berry.paginate('listBerries', { resolve: true })) {
   console.log(berry.name, berry.growth_time);
 }
 ```
@@ -62,7 +74,7 @@ of round trips a full walk costs — the whole Pokémon section is ~66 requests 
 100:
 
 ```ts
-api.pokemon.paginate((offset, limit) => api.pokemon.listPokemons(offset, limit), { pageSize: 100 });
+api.pokemon.paginate('listPokemons', { pageSize: 100 });
 ```
 
 :::warning
@@ -76,9 +88,7 @@ against a local instance, not against pokeapi.co.
 Break out of the loop and no further page is requested:
 
 ```ts
-for await (const berry of api.berry.paginate((offset, limit) =>
-  api.berry.listBerries(offset, limit),
-)) {
+for await (const berry of api.berry.paginate('listBerries')) {
   if (berry.name.startsWith('lum')) {
     found = berry;
     break; // nothing more is fetched
@@ -91,9 +101,7 @@ To put a deadline on a walk, run it through a [scoped client](./cancellation):
 ```ts
 const scoped = api.with({ timeout: 30_000 });
 
-for await (const berry of scoped.berry.paginate((offset, limit) =>
-  scoped.berry.listBerries(offset, limit),
-)) {
+for await (const berry of scoped.berry.paginate('listBerries')) {
   // …
 }
 ```

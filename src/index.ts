@@ -11,7 +11,6 @@ export {
   MainClient,
   MoveClient,
   PokemonClient,
-  type ResolveOptions,
   UtilityClient,
 } from "@clients";
 export {
@@ -48,8 +47,10 @@ export type {
   ClientOptions,
   FetchLike,
   ListFn,
+  ListMethodName,
   ListPage,
   PaginateOptions,
   RequestScope,
+  ResolveOptions,
   RetryOptions,
 } from "./clients/base";

@@ -89,7 +89,8 @@ const api = new MainClient({ revalidate: new EtagStore({ maxEntries: 2000 }) });
 ```
 
 `MainClient` builds one store for all twelve sections, the same way it builds one cache, so an
-`ETag` learned through `api.pokemon` is used by `api.utility`.
+`ETag` learned through `api.pokemon` is used by `api.utility`. Both live on the single transport it
+hands to every section.
 
 ::: tip
 `EtagStore` is deliberately **not** a `CacheStore`. The two answer different questions — "is this
@@ -183,11 +184,12 @@ rather the library not flush — is left untouched.
 - Only successful responses are cached — a failed request is never stored, so a retry genuinely
   retries. See [Errors](/guides/errors).
 - Concurrent calls for the same URL share a single request, so a cold cache under load produces
-  one round trip rather than many.
+  one round trip rather than many. Under a `MainClient` this holds across sections too: `api.berry`
+  and `api.pokemon` asking for the same URL at once make one request between them.
 - `MemoryCache` evicts the least recently used entry once `maxEntries` is reached.
 - A store is per client instance unless you share one between clients yourself. `MainClient` is the
-  exception: its sub-clients share one store, so a resource fetched through `api.pokemon` is served
-  from memory by `api.utility`.
+  exception: its sub-clients share one transport, so a resource fetched through `api.pokemon` is
+  served from memory by `api.utility`.
 - A resource has one cache entry however it is reached. `getBerryById(1)` and `getResourceByUrl` on
   the PokéAPI's own slash-terminated link resolve to the same key.
 

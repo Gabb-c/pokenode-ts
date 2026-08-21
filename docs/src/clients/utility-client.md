@@ -40,6 +40,12 @@ Most PokéAPI responses are full of references rather than nested objects — `{
 pointing at other resources. `getResourceByUrl` follows one without working out which client and
 method it belongs to.
 
+::: tip
+Every client carries `resolve()` and `resolveAll()`, which do exactly this — `api.pokemon.resolve(link)`
+saves reaching for a `UtilityClient` you otherwise have no use for. `getResourceByUrl` is the name
+this went out under in 2.0, and it stays.
+:::
+
 Pass the link itself and the result is typed for you — the link carries what it points at:
 
 ```ts

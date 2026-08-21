@@ -1,7 +1,5 @@
-import { type CacheStore, EtagStore, MemoryCache } from "../config/cache";
-import { DEFAULT_CONCURRENCY, mapWithConcurrency } from "../internal/pool";
-import type { APIResource, NamedAPIResource } from "../models/common/resource";
-import type { ClientOptions, RequestScope } from "./base";
+import { Transport } from "../internal/transport";
+import { ClientFacade, type ClientOptions } from "./base";
 import { BerryClient } from "./berry.client";
 import { ContestClient } from "./contest.client";
 import { CurrencyClient } from "./currency.client";
@@ -14,15 +12,6 @@ import { MachineClient } from "./machine.client";
 import { MoveClient } from "./move.client";
 import { PokemonClient } from "./pokemon.client";
 import { UtilityClient } from "./utility.client";
-
-/**
- * ## Resolve Options
- * How {@link MainClient.resolveAll} fetches the links it was given.
- */
-export interface ResolveOptions {
-  /** Links fetched at a time. Defaults to 4. */
-  concurrency?: number;
-}
 
 /**
  * ### Main Client
@@ -41,14 +30,17 @@ export interface ResolveOptions {
  *  - [Pokémon](https://pokeapi.co/docs/v2#pokemon-section)
  *  - [Utility](https://pokeapi.co/docs/v2#utility-section)
  * ---
- * All the clients below share a single cache, so a resource fetched through one
- * of them is served from memory by the rest.
+ * All the clients below share a single transport, so a resource fetched through
+ * one of them is served from cache by the rest — and two of them asking for the
+ * same URL at once make one round trip, not two.
+ *
+ * Composes its sections rather than inheriting from them: it extends
+ * {@link ClientFacade}, not {@link BaseClient}, so it carries no endpoint of its
+ * own.
  *
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2)
  */
-export class MainClient {
-  public readonly cache: CacheStore | undefined;
-
+export class MainClient extends ClientFacade {
   public readonly berry: BerryClient;
   public readonly contest: ContestClient;
   public readonly currency: CurrencyClient;
@@ -62,105 +54,29 @@ export class MainClient {
   public readonly pokemon: PokemonClient;
   public readonly utility: UtilityClient;
 
-  constructor(clientOptions?: ClientOptions) {
-    const cache = clientOptions?.cache ?? new MemoryCache();
-    // Built here rather than twelve times over, for the same reason as the cache:
-    // an ETag learned through one section is worth having in all of them.
-    const revalidate =
-      clientOptions?.revalidate === true ? new EtagStore() : clientOptions?.revalidate;
-    const sharedOptions: ClientOptions = {
-      ...clientOptions,
-      cache,
-      ...(revalidate === undefined ? {} : { revalidate }),
-    };
+  constructor(options?: ClientOptions);
+  /** @internal Shares the transport a client already holds. */
+  constructor(source?: ClientOptions | Transport);
+  constructor(source?: ClientOptions | Transport) {
+    // Built here rather than read back off the facade, which keeps it private:
+    // one transport handed to all twelve, so a cached response, a learned ETag
+    // and a request already on the wire are each worth having in every section
+    // rather than only in the one that paid for it.
+    const transport = source instanceof Transport ? source : Transport.create(source);
 
-    this.cache = cache === false ? undefined : cache;
+    super(transport);
 
-    this.berry = new BerryClient(sharedOptions);
-    this.contest = new ContestClient(sharedOptions);
-    this.currency = new CurrencyClient(sharedOptions);
-    this.encounter = new EncounterClient(sharedOptions);
-    this.evolution = new EvolutionClient(sharedOptions);
-    this.game = new GameClient(sharedOptions);
-    this.item = new ItemClient(sharedOptions);
-    this.location = new LocationClient(sharedOptions);
-    this.machine = new MachineClient(sharedOptions);
-    this.move = new MoveClient(sharedOptions);
-    this.pokemon = new PokemonClient(sharedOptions);
-    this.utility = new UtilityClient(sharedOptions);
-  }
-
-  /**
-   * Fetches what a link points at, through the cache every client here shares.
-   *
-   * A link carries what it points at, so the result is typed without saying so:
-   *
-   * ```ts
-   * const pokemon = await api.pokemon.getPokemonByName('luxray');
-   * const species = await api.resolve(pokemon.species);
-   * //    ^? PokemonSpecies
-   * ```
-   *
-   * @throws {TypeError} If the URL is not valid, or names no PokéAPI endpoint.
-   */
-  public async resolve<T>(resource: string | NamedAPIResource<T> | APIResource<T>): Promise<T> {
-    return this.utility.getResourceByUrl(resource);
-  }
-
-  /**
-   * Fetches what several links point at, in the order they were given.
-   *
-   * At most `concurrency` requests run at a time — four by default, because the
-   * PokéAPI's fair-use policy asks clients not to flood it. The first failure
-   * rejects, and no further link is fetched.
-   *
-   * ```ts
-   * const pokemon = await api.pokemon.getPokemonByName('luxray');
-   * const types = await api.resolveAll(pokemon.types.map((slot) => slot.type));
-   * //    ^? Type[]
-   * ```
-   */
-  public async resolveAll<T>(
-    resources: readonly (string | NamedAPIResource<T> | APIResource<T>)[],
-    options?: ResolveOptions,
-  ): Promise<T[]> {
-    return mapWithConcurrency(resources, options?.concurrency ?? DEFAULT_CONCURRENCY, (resource) =>
-      this.utility.getResourceByUrl(resource),
-    );
-  }
-
-  /**
-   * Derives a client whose requests carry a signal, a timeout, or both, across
-   * every section at once. The derived client shares this one's cache and its
-   * in-flight requests.
-   *
-   * ```ts
-   * const scoped = api.with({ signal: request.signal, timeout: 2_000 });
-   *
-   * await scoped.pokemon.getPokemonByName('luxray');
-   * ```
-   */
-  public with(scope: RequestScope): MainClient {
-    const clone = Object.create(Object.getPrototypeOf(this) as object) as MainClient;
-
-    return Object.assign(clone, this, {
-      berry: this.berry.with(scope),
-      contest: this.contest.with(scope),
-      currency: this.currency.with(scope),
-      encounter: this.encounter.with(scope),
-      evolution: this.evolution.with(scope),
-      game: this.game.with(scope),
-      item: this.item.with(scope),
-      location: this.location.with(scope),
-      machine: this.machine.with(scope),
-      move: this.move.with(scope),
-      pokemon: this.pokemon.with(scope),
-      utility: this.utility.with(scope),
-    });
-  }
-
-  /** Drops every cached response, for all the clients at once. */
-  public async clearCache(): Promise<void> {
-    await this.cache?.clear?.();
+    this.berry = new BerryClient(transport);
+    this.contest = new ContestClient(transport);
+    this.currency = new CurrencyClient(transport);
+    this.encounter = new EncounterClient(transport);
+    this.evolution = new EvolutionClient(transport);
+    this.game = new GameClient(transport);
+    this.item = new ItemClient(transport);
+    this.location = new LocationClient(transport);
+    this.machine = new MachineClient(transport);
+    this.move = new MoveClient(transport);
+    this.pokemon = new PokemonClient(transport);
+    this.utility = new UtilityClient(transport);
   }
 }

@@ -8,8 +8,8 @@ import { server } from "../helpers/setup";
 
 /** Exposes the protected request helpers so they can be exercised directly. */
 class TestClient extends BaseClient {
-  get<T>(endpoint: Endpoint, identifier?: string | number): Promise<T> {
-    return this.getResource<T>(endpoint, identifier);
+  get<T>(endpoint: Endpoint, ...segments: (string | number)[]): Promise<T> {
+    return this.getResource<T>(endpoint, ...segments);
   }
 
   getByURL<T>(url: string, baseURL?: string): Promise<T> {
@@ -276,6 +276,64 @@ describe("BaseClient", () => {
     expect(requested).toEqual(["https://example.test/api/v2/berry?q=a/"]);
   });
 
+  it("should encode an identifier instead of letting it reach past the endpoint", async () => {
+    const requested: string[] = [];
+    const client = new TestClient({
+      cache: false,
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    // A name is whatever the caller passed, and `getBerryByName(req.query.name)`
+    // is the shape that call takes. Unencoded, a `?` addresses another query and
+    // a `/` another endpoint.
+    await client.get("/berry", "cheri?limit=99999");
+    await client.get("/berry", "../pokemon/1");
+    await client.get("/berry", "cheri#frag");
+
+    expect(requested).toEqual([
+      `${BASE_URL.REST}/berry/cheri%3Flimit%3D99999`,
+      `${BASE_URL.REST}/berry/..%2Fpokemon%2F1`,
+      `${BASE_URL.REST}/berry/cheri%23frag`,
+    ]);
+  });
+
+  it("should leave a valid resource name untouched", async () => {
+    const requested: string[] = [];
+    const client = new TestClient({
+      cache: false,
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await client.get("/berry", "chesto");
+    await client.get("/pokemon", "mr-mime");
+
+    expect(requested).toEqual([
+      `${BASE_URL.REST}/berry/chesto`,
+      `${BASE_URL.REST}/pokemon/mr-mime`,
+    ]);
+  });
+
+  it("should join a path below the endpoint without encoding the separator", async () => {
+    const requested: string[] = [];
+    const client = new TestClient({
+      cache: false,
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await client.get("/pokemon", 25, "encounters");
+
+    expect(requested).toEqual([`${BASE_URL.REST}/pokemon/25/encounters`]);
+  });
+
   it("should give a resource one cache key however it is reached", async () => {
     const calls = countingHandler(BERRY_URL);
     const client = new TestClient();
@@ -535,6 +593,47 @@ describe("BaseClient", () => {
     expect(sent).toEqual([
       { Accept: "application/json", Authorization: `Basic ${btoa("some%zzone:hunter2")}` },
     ]);
+  });
+
+  it("should leave a url it cannot parse exactly as it stands", async () => {
+    const requested: string[] = [];
+    const sent: RequestInit["headers"][] = [];
+    // Looks credentialed but has no scheme, so `URL` refuses it. Nothing can be
+    // stripped from a string nobody can parse, and `fetch` is the one to complain.
+    const client = new TestClient({
+      baseURL: "://someone:hunter2@poke.example/api/v2",
+      cache: false,
+      fetch: (url, init) => {
+        requested.push(url);
+        sent.push(init?.headers);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await client.get("/berry", 1);
+
+    expect(requested).toEqual(["://someone:hunter2@poke.example/api/v2/berry/1"]);
+    expect(sent).toEqual([{ Accept: "application/json" }]);
+  });
+
+  it("should not read an at sign in a path as credentials", async () => {
+    const requested: string[] = [];
+    const sent: RequestInit["headers"][] = [];
+    const client = new TestClient({
+      cache: false,
+      fetch: (url, init) => {
+        requested.push(url);
+        sent.push(init?.headers);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    // `@` is a legal path character, so a link can carry one with no userinfo
+    // in front of it. Only a parsed username or password is a credential.
+    await client.getByURL(`${BASE_URL.REST}/berry/a@b`);
+
+    expect(requested).toEqual([`${BASE_URL.REST}/berry/a@b`]);
+    expect(sent).toEqual([{ Accept: "application/json" }]);
   });
 
   it("should report the url of a failed request without its credentials", async () => {
@@ -999,6 +1098,63 @@ describe("BaseClient revalidation", () => {
   });
 });
 
+describe("BaseClient.resolve", () => {
+  it("should fetch what a link points at from a section client", async () => {
+    server.use(http.get(BERRY_URL, () => HttpResponse.json({ id: 1 })));
+
+    // No `MainClient` and no `UtilityClient` in sight: a link names a resource,
+    // not a section, so any client resolves any link.
+    await expect(new TestClient().resolve(`${BERRY_URL}/`)).resolves.toEqual({ id: 1 });
+  });
+
+  it("should resolve a link through its own cache", async () => {
+    let calls = 0;
+
+    server.use(
+      http.get(BERRY_URL, () => {
+        calls += 1;
+        return HttpResponse.json({ id: 1 });
+      }),
+    );
+
+    const client = new TestClient();
+
+    await client.get("/berry", 1);
+    await client.resolve(`${BERRY_URL}/`);
+
+    expect(calls).toBe(1);
+  });
+
+  it("should resolve many links in the order they were given", async () => {
+    server.use(
+      http.get(`${BASE_URL.REST}/berry/:id`, async ({ params }) => {
+        const id = Number(params.id);
+        // Answered slowest first, so completion order cannot be input order.
+        await delay((4 - id) * 20);
+        return HttpResponse.json({ id });
+      }),
+    );
+
+    const links = [1, 2, 3].map((id) => `${BASE_URL.REST}/berry/${id}/`);
+    const berries = await new TestClient({ cache: false }).resolveAll<{ id: number }>(links);
+
+    expect(berries.map((berry) => berry.id)).toEqual([1, 2, 3]);
+  });
+
+  it("should carry the scope it was derived with", async () => {
+    server.use(
+      http.get(BERRY_URL, async () => {
+        await delay(80);
+        return HttpResponse.json({ id: 1 });
+      }),
+    );
+
+    await expect(new TestClient().with({ timeout: 20 }).resolve(`${BERRY_URL}/`)).rejects.toThrow(
+      /abort|time/i,
+    );
+  });
+});
+
 describe("BaseClient retry", () => {
   it("should attempt a request once when retrying is not configured", async () => {
     const calls = failingHandler([503]);
@@ -1025,6 +1181,19 @@ describe("BaseClient retry", () => {
     expect(error.status).toBe(503);
     expect(calls.count).toBe(3);
   });
+
+  it("should fall back to the default when the attempt count is not a number", async () => {
+    const calls = failingHandler([503, 503, 503, 503]);
+
+    // `Math.max(NaN, 1)` is `NaN` and `attempt >= NaN` is never true, so an
+    // unbounded count used to loop forever. `attempts` is exactly the option
+    // that arrives as `Number(process.env.RETRIES)` with the variable unset.
+    await expect(
+      new TestClient({ retry: { ...IMMEDIATE, attempts: Number.NaN } }).get("/berry", 1),
+    ).rejects.toThrow(PokenodeError);
+
+    expect(calls.count).toBe(3);
+  }, 2_000);
 
   it("should not attempt a status it was not told to retry again", async () => {
     const calls = failingHandler([404]);
@@ -1090,6 +1259,48 @@ describe("BaseClient retry", () => {
       new TestClient({ retry: { ...IMMEDIATE, maxDelay: 1_000 } }).get("/berry", 1),
     ).rejects.toThrow(PokenodeError);
     expect(calls.count).toBe(1);
+  });
+
+  it("should read Retry-After as an http date", async () => {
+    const calls = failingHandler([503], new Date(Date.now() + 600_000).toUTCString());
+
+    // RFC 9110 allows a date as well as a number of seconds. Ten minutes is
+    // longer than this client will ever wait, so it gives up instead — which is
+    // also what proves the date was read rather than discarded as unparseable.
+    await expect(
+      new TestClient({ retry: { ...IMMEDIATE, maxDelay: 1_000 } }).get("/berry", 1),
+    ).rejects.toThrow(PokenodeError);
+
+    expect(calls.count).toBe(1);
+  });
+
+  it("should not wait when the request was cancelled before the wait began", async () => {
+    const controller = new AbortController();
+    let calls = 0;
+
+    const client = new TestClient({
+      cache: false,
+      retry: { attempts: 3, initialDelay: 20 },
+      fetch: () => {
+        calls += 1;
+        // Cancelled while the response is still being handed back, so the wait
+        // before the next attempt is asked to start on a signal already fired.
+        controller.abort(new Error("gave up"));
+        return Promise.resolve(Response.json({ detail: "no" }, { status: 503 }));
+      },
+    });
+
+    await expect(client.with({ signal: controller.signal }).get("/berry", 1)).rejects.toThrow(
+      "gave up",
+    );
+
+    // The caller gets its rejection from the scope either way. What the wait has
+    // to get right is stopping the attempt loop: an `abort` listener registered
+    // on a signal that has already fired never runs, so a wait that starts here
+    // runs to completion and sends a second request nobody is waiting for.
+    await delay(80);
+
+    expect(calls).toBe(1);
   });
 
   it("should stop waiting when the request is cancelled", async () => {

@@ -56,8 +56,9 @@ but it is not free, and `api.with({ … }).get…()` on every line reads worse t
 
 ## What a scoped client shares
 
-A derived client shares the cache **and** the in-flight requests of the client it came from. A scoped
-call joins an identical unscoped one already on the wire instead of repeating it:
+A derived client shares the **whole transport** of the client it came from — its cache, its `ETag`
+validators and the requests already on the wire. A scoped call joins an identical unscoped one
+already on the wire instead of repeating it:
 
 ```ts
 const scoped = api.with({ timeout: 2000 });

@@ -25,13 +25,14 @@ export class UtilityClient extends BaseClient {
   /**
    * Get any resource by its URL, or by a link taken from another response.
    *
-   * A link carries what it points at, so the result is typed without saying so:
-   *
    * ```ts
    * const pokemon = await api.pokemon.getPokemonByName('luxray');
    * const species = await api.utility.getResourceByUrl(pokemon.species);
    * //    ^? PokemonSpecies
    * ```
+   *
+   * Every client carries {@link BaseClient.resolve}, which does the same thing;
+   * this is the name it went out under, and it stays.
    *
    * @param resource The absolute URL of the resource, or a link to it.
    * @returns The resource the URL points at.
@@ -40,7 +41,7 @@ export class UtilityClient extends BaseClient {
   public async getResourceByUrl<T>(
     resource: string | NamedAPIResource<T> | APIResource<T>,
   ): Promise<T> {
-    return this.getResourceByURL<T>(resource);
+    return this.resolve<T>(resource);
   }
 
   /** List Languages. Page defaults to 20 entries from offset 0. */

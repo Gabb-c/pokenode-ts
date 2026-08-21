@@ -1,10 +1,10 @@
 ---
-description: "MainClient bundles all twelve pokenode-ts clients behind one object, sharing a single cache so a resource fetched through one is served from cache by the rest."
+description: "MainClient bundles all twelve pokenode-ts clients behind one object, sharing one transport so a resource fetched through one is served from cache by the rest."
 ---
 
 # Main Client
 
-Bundles all twelve clients behind one object, and gives them a **single shared cache**.
+Bundles all twelve clients behind one object, and gives them a **single shared transport**.
 
 ```ts
 import { MainClient } from 'pokenode-ts';
@@ -35,10 +35,11 @@ const surf = await api.move.getMoveByName('surf');
 
 Each is the same class you would construct directly, with the same methods.
 
-## One cache for everything
+## One transport for everything
 
 This is the reason to use `MainClient` over constructing clients yourself. All twelve share one
-store, so a resource fetched through any of them is served from memory by the rest:
+cache, one set of `ETag` validators and one set of requests already on the wire, so a resource
+fetched through any of them is served from memory by the rest:
 
 ```ts
 const api = new MainClient();
@@ -51,11 +52,20 @@ const same = await api.utility.getResourceByUrl(
 );
 ```
 
-Construct the clients separately and you get a separate cache each, which is usually not what you
-want:
+Two of them asking for the same URL at the same time make one round trip, not two:
 
 ```ts
-// Two caches. The same berry is fetched twice.
+const url = 'https://pokeapi.co/api/v2/berry/1';
+
+// One request. The second call joins the first instead of repeating it.
+await Promise.all([api.berry.resolve(url), api.pokemon.resolve(url)]);
+```
+
+Construct the clients separately and you get a separate transport each, which is usually not what
+you want:
+
+```ts
+// Two transports. The same berry is fetched twice.
 const berry = new BerryClient();
 const main = new MainClient();
 ```
@@ -91,8 +101,11 @@ The first failure rejects and no further link is fetched. To walk a whole list r
 set of links, see [Pagination](/guides/pagination).
 
 ::: tip
-`api.resolve(link)` and `api.utility.getResourceByUrl(link)` do the same thing — the first is just
-where you would look for it.
+`api.resolve(link)`, `api.utility.getResourceByUrl(link)` and `api.pokemon.resolve(link)` all do the
+same thing. `resolve()` and `resolveAll()` are on every client, and within one `MainClient` they all
+go through the same transport — so which one you call changes nothing. Construct a section client
+yourself and it carries a transport of its own, and then the receiver does decide the cache, the
+scope and the `baseURL`.
 :::
 
 ## Scoping a request
@@ -107,7 +120,7 @@ const pokemon = await scoped.pokemon.getPokemonByName('luxray');
 const species = await scoped.resolve(pokemon.species);
 ```
 
-The derived client shares this one's cache and its in-flight requests, and leaves it untouched.
+The derived client shares this one's transport, and leaves it untouched.
 Derive one per unit of work rather than per call. See [Cancellation](/guides/cancellation).
 
 ## Options
@@ -142,6 +155,14 @@ await api.clearCache();
 
 The store itself is exposed as `api.cache` — it is the same object as `api.berry.cache`, and it is
 `undefined` when caching is disabled. See the [Cache guide](/guides/cache).
+
+::: warning Changed in 2.2
+`api.cache` is now an accessor rather than a stored property. Reading it is unchanged, but it no
+longer appears in `Object.keys(api)` or survives a `{ ...api }` spread.
+:::
+
+Because the store is shared, `api.berry.clearCache()` empties it for every section too. Reach for
+`api.clearCache()` instead — it says what actually happens.
 
 ## Not a BaseClient
 

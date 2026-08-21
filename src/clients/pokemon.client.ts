@@ -127,7 +127,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonLocationAreaById(id: number): Promise<LocationAreaEncounter[]> {
     // Encounters hang off a single Pokémon rather than being an endpoint of
     // their own, so the path below `/pokemon` is addressed directly.
-    return this.getResource(ENDPOINTS.POKEMON, `${id}/encounters`);
+    return this.getResource(ENDPOINTS.POKEMON, id, "encounters");
   }
 
   /** Get a Pokémon Color by its name. */
