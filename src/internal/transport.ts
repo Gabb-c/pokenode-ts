@@ -11,6 +11,7 @@ import { toPokenodeError } from "../config/errors";
 import { type Logger, type LogResponsePayload, logMessage } from "../config/logger";
 import { BASE_URL, type Endpoint } from "../constants";
 import type { APIResource, NamedAPIResource } from "../models/common/resource";
+import { InFlight } from "./inflight";
 import { DEFAULT_PAGE_SIZE, walk as walkPages } from "./paginate";
 import { DEFAULT_CONCURRENCY, mapWithConcurrency } from "./pool";
 import { attemptCount, backoff, isAbort, retryDelay } from "./retry";
@@ -26,29 +27,15 @@ interface FetchedResource {
 
 /** Where a resolution came from, as the response log reports it. */
 const responseSource = (
-  pending: boolean,
+  joined: boolean,
   revalidated: boolean | undefined,
 ): LogResponsePayload["source"] => {
-  if (pending) {
+  if (joined) {
     return "in-flight";
   }
 
   return revalidated === true ? "revalidated" : "network";
 };
-
-/**
- * A request already on the wire, and what it takes to cancel it.
- *
- * `waiters` counts the callers still interested. The request is aborted only
- * when the last of them has left, so one caller giving up does not cancel the
- * round trip the others are sharing.
- */
-interface InFlightRequest {
-  promise: Promise<FetchedResource>;
-  /** Absent when the caller that started the request had nothing to cancel it with. */
-  controller: AbortController | undefined;
-  waiters: number;
-}
 
 /** Resolves the `revalidate` option to the store the client will keep, if any. */
 const toEtagStore = (revalidate: boolean | EtagStore | undefined): EtagStore | undefined => {
@@ -78,19 +65,19 @@ interface TransportState {
   cache: CacheStore | undefined;
   etags: EtagStore | undefined;
   /** Requests already on the wire, so concurrent callers share one round trip. */
-  inFlight: Map<string, InFlightRequest>;
+  inFlight: InFlight<FetchedResource>;
 }
 
 /**
  * ## Transport
  * Everything a client does that is not naming an endpoint: requests, caching,
- * request coalescing, retries, revalidation and logging. The URL, retry and
- * pagination rules it works to live beside it in `./url`, `./retry` and
- * `./paginate`.
+ * retries, revalidation and logging. The rules it works to live beside it, one
+ * concern per module — `./url`, `./retry`, `./paginate`, and `./inflight` for
+ * the coalescing of concurrent requests.
  *
- * Internal. One transport is built per {@link MainClient} and handed to all
- * twelve of its section clients, which is what makes a resource fetched through
- * one of them cached — and coalesced — for the rest.
+ * Internal. One transport is built per `MainClient` and handed to all twelve of
+ * its section clients, which is what makes a resource fetched through one of
+ * them cached — and coalesced — for the rest.
  */
 export class Transport {
   constructor(
@@ -112,7 +99,7 @@ export class Transport {
         cache:
           clientOptions?.cache === false ? undefined : (clientOptions?.cache ?? new MemoryCache()),
         etags: toEtagStore(clientOptions?.revalidate),
-        inFlight: new Map(),
+        inFlight: new InFlight(),
       },
     );
   }
@@ -232,14 +219,27 @@ export class Transport {
       // request someone else started: a `request` event with no `response` to
       // close it would make concurrent traffic unreadable. `source` is what keeps
       // the count of round trips honest when several callers share one.
-      const pending = this.state.inFlight.get(url);
-      const entry = pending ?? this.dispatch(url, authorization, signal);
-      const { data, status, revalidated } = await this.join(url, entry, signal);
+      const { value, joined } = await this.state.inFlight.share(url, signal, (requestSignal) =>
+        this.fetchResource(url, authorization, requestSignal),
+      );
 
-      this.logResponse(url, status, responseSource(pending !== undefined, revalidated), startedAt);
+      this.logResponse(url, value.status, responseSource(joined, value.revalidated), startedAt);
 
-      return data as T;
+      return value.data as T;
     } catch (error) {
+      // A cancelled request is not a failed one, by the same rule that stops the
+      // retry loop from attempting it again.
+      if (isAbort(error, signal)) {
+        this.config.logger?.debug({
+          event: "cancelled",
+          ...logMessage("pokeapi request cancelled"),
+          url,
+          reason: error,
+          durationMs: performance.now() - startedAt,
+        });
+        throw error;
+      }
+
       this.config.logger?.error({
         event: "error",
         ...logMessage("pokeapi request failed"),
@@ -266,103 +266,6 @@ export class Transport {
     const expiry = AbortSignal.timeout(timeout);
 
     return signal ? AbortSignal.any([signal, expiry]) : expiry;
-  }
-
-  /** Issues a request and remembers it, so a concurrent caller can share it. */
-  private dispatch(
-    url: string,
-    authorization: string | undefined,
-    signal: AbortSignal | undefined,
-  ): InFlightRequest {
-    // The request is cancelled through a controller of its own rather than the
-    // caller's signal: the callers sharing it come and go, and only the last one
-    // to leave may cancel it.
-    const controller = signal ? new AbortController() : undefined;
-    const entry: InFlightRequest = {
-      promise: this.fetchResource(url, authorization, controller?.signal),
-      controller,
-      waiters: 0,
-    };
-
-    entry.promise = entry.promise.finally(() => this.release(url, entry));
-
-    // A request abandoned by every caller rejects with nobody left awaiting it.
-    // This handler exists only so that rejection is not unhandled; each caller
-    // still sees the failure through its own `join`.
-    entry.promise.catch(() => {});
-
-    this.state.inFlight.set(url, entry);
-
-    return entry;
-  }
-
-  /**
-   * Forgets a request, unless a later caller has already replaced it: a request
-   * that was aborted leaves the map before it settles, and the one dispatched in
-   * its place must survive its predecessor finishing.
-   */
-  private release(url: string, entry: InFlightRequest): void {
-    if (this.state.inFlight.get(url) === entry) {
-      this.state.inFlight.delete(url);
-    }
-  }
-
-  /**
-   * Awaits a request, cancelling it if this caller was the last one interested.
-   *
-   * A caller with no signal never leaves early, so it holds the request open for
-   * everyone — including a scoped caller that joined later and gave up.
-   */
-  private join(
-    url: string,
-    entry: InFlightRequest,
-    signal: AbortSignal | undefined,
-  ): Promise<FetchedResource> {
-    entry.waiters += 1;
-
-    if (!signal) {
-      return entry.promise;
-    }
-
-    return new Promise<FetchedResource>((resolve, reject) => {
-      const leave = (): void => {
-        entry.waiters -= 1;
-
-        if (entry.waiters > 0) {
-          return;
-        }
-
-        // Dropped from the map before the abort settles it: a caller arriving in
-        // between would otherwise join a request already on its way out and
-        // inherit an abort it never asked for.
-        this.release(url, entry);
-        entry.controller?.abort(signal.reason);
-      };
-
-      if (signal.aborted) {
-        leave();
-        reject(signal.reason);
-        return;
-      }
-
-      const onAbort = (): void => {
-        leave();
-        reject(signal.reason);
-      };
-
-      signal.addEventListener("abort", onAbort, { once: true });
-
-      entry.promise.then(
-        (resource) => {
-          signal.removeEventListener("abort", onAbort);
-          resolve(resource);
-        },
-        (error: unknown) => {
-          signal.removeEventListener("abort", onAbort);
-          reject(error);
-        },
-      );
-    });
   }
 
   private async fetchResource(
@@ -442,6 +345,15 @@ export class Transport {
           response,
           `Request to ${response.url} was answered 304, but this client holds no response to reuse`,
         );
+      }
+
+      // RFC 9110 lets a 304 carry a validator of its own, and a server that
+      // re-encodes an unchanged body rotates it. Keeping the one that was sent
+      // would spend the next revalidation on a full body.
+      const refreshed = response.headers.get("ETag");
+
+      if (refreshed !== null && refreshed !== known.etag) {
+        this.state.etags?.set(url, { etag: refreshed, value: known.value });
       }
 
       await this.state.cache?.set(url, known.value);

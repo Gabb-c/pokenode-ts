@@ -97,6 +97,10 @@ await request; // rejects with: Error: client disconnected
 Aborts are never wrapped: `PokenodeError.isPokenodeError(error)` is `false` for them, the same as any
 other transport failure. See [Errors](./errors).
 
+A cancelled request reaches the [logger](./logging) as a `cancelled` event at `debug`, carrying the
+`reason` it was aborted with — not as an `error`, which is what keeps a handler that scopes every
+request from logging its own timeouts as failures.
+
 ## Composing with a custom fetch
 
 A [custom `fetch`](./fetch) can still attach a signal of its own — a process-wide ceiling, say. The

@@ -27,6 +27,7 @@ export {
 export { PokenodeError } from "@config/errors";
 export {
   consoleLogger,
+  type LogCancelledPayload,
   type LogErrorPayload,
   type Logger,
   type LogRequestPayload,

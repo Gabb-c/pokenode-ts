@@ -702,6 +702,33 @@ describe("BaseClient", () => {
     expect(errors[0]?.url).toBe(BERRY_URL);
   });
 
+  it("should report a cancellation without reporting a failure", async () => {
+    server.use(
+      http.get(BERRY_URL, async () => {
+        await delay(200);
+        return HttpResponse.json({ id: 1 });
+      }),
+    );
+
+    const events: string[] = [];
+    const errors: unknown[] = [];
+    const client = new TestClient({
+      cache: false,
+      logger: {
+        debug: (payload) => events.push(payload.event),
+        error: (payload) => errors.push(payload),
+      },
+    });
+
+    // A caller that hangs up asked for exactly this, so it closes its `request`
+    // on the debug channel. Reported as an error, a handler that scopes every
+    // request drowns its own error rate in its own timeouts.
+    await expect(client.with({ timeout: 20 }).get("/berry", 1)).rejects.toThrow(/abort|time/i);
+
+    expect(events).toEqual(["request", "cancelled"]);
+    expect(errors).toEqual([]);
+  });
+
   it("should stay silent without a logger", async () => {
     countingHandler(BERRY_URL);
     const log = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -996,6 +1023,38 @@ describe("BaseClient revalidation", () => {
     await client.get("/berry", 1);
 
     expect(sources).toEqual(["network", "revalidated"]);
+  });
+
+  it("should keep the validator a 304 carried", async () => {
+    const sent: (string | null)[] = [];
+    let tag = 'W/"one"';
+
+    server.use(
+      http.get(BERRY_URL, ({ request }) => {
+        const validator = request.headers.get("If-None-Match");
+        sent.push(validator);
+
+        if (validator === null) {
+          return HttpResponse.json({ id: 1 }, { headers: { ETag: tag } });
+        }
+
+        // RFC 9110 lets a 304 carry a validator of its own, and rotating one is
+        // how a server that re-encodes an unchanged body says so.
+        tag = 'W/"two"';
+
+        return new HttpResponse(null, { status: 304, headers: { ETag: tag } });
+      }),
+    );
+
+    const client = new TestClient({ cache: false, revalidate: true });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    // The third request carries what the second was answered with. Holding the
+    // stale one instead costs a full body on the next miss.
+    expect(sent).toEqual([null, 'W/"one"', 'W/"two"']);
   });
 
   it("should take the new body when the validator no longer matches", async () => {

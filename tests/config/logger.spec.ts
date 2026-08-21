@@ -57,6 +57,21 @@ describe("consoleLogger", () => {
     expect(consoleLogSpy).toHaveBeenCalledWith("[ Response ] STATUS 200 | CACHE | 0.0ms");
   });
 
+  it("should log a cancellation", () => {
+    consoleLogger.debug({
+      event: "cancelled",
+      msg: "pokeapi request cancelled",
+      message: "pokeapi request cancelled",
+      url,
+      reason: new Error("client disconnected"),
+      durationMs: 2_000,
+    });
+
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      "[ Cancelled ] https://pokeapi.co/api/v2/berry/1 | AFTER 2000.0ms",
+    );
+  });
+
   it("should log an error", () => {
     const error = new TypeError("fetch failed");
 

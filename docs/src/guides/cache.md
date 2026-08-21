@@ -81,7 +81,8 @@ const api = new MainClient({ revalidate: true });
 The client remembers the `ETag` each URL answered with, and the body it identified. When the cache
 misses, it asks the API whether that validator still holds. A `304 Not Modified` means the body it
 already has is still the answer — no payload crosses the wire, and the cache is refilled from memory.
-A `200` replaces both.
+A `200` replaces both. A `304` carrying a validator of its own replaces the one remembered, so the
+next revalidation sends what the API last named rather than a tag it has already rotated past.
 
 ```ts
 // Sized: how many URLs to remember, 500 by default.

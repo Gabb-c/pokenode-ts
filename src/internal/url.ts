@@ -88,6 +88,12 @@ export interface CredentiallessURL {
  *
  * A URL too malformed to parse cannot carry credentials in the first place, and
  * `fetch` is about to reject it anyway, so it is passed through untouched.
+ *
+ * The URL that comes back is what everything downstream keys on — the cache
+ * entry, the in-flight map, the log line — so two calls to the same host under
+ * different credentials share a cache entry and a round trip. That is the trade
+ * this exists for: one instance behind one set of credentials. A client per
+ * identity needs a `CacheStore` per identity to go with it.
  */
 export const splitCredentials = (url: string): CredentiallessURL => {
   if (!url.includes("@")) {

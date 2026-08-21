@@ -8,7 +8,7 @@
  */
 interface LogFields {
   /** Which point of the request lifecycle this is, for filtering. */
-  event: "request" | "response" | "retry" | "error";
+  event: "request" | "response" | "retry" | "cancelled" | "error";
   msg: string;
   message: string;
   /** The request URL, with any credentials the base URL carried removed. */
@@ -70,6 +70,23 @@ export interface LogRetryPayload extends LogFields {
 }
 
 /**
+ * ## Log Cancelled Payload
+ * A request was cancelled by the scope it was made through.
+ *
+ * A caller that hangs up asked for this, so it is not a failure and does not
+ * reach `error`: a handler that scopes every request would otherwise report its
+ * own timeouts as its error rate. Counting `response` and `cancelled` together
+ * accounts for every `request` logged.
+ */
+export interface LogCancelledPayload extends LogFields {
+  event: "cancelled";
+  /** `signal.reason`, or the `TimeoutError` a scoped timeout raised. */
+  reason: unknown;
+  /** How long the request had been running when it was cancelled, in milliseconds. */
+  durationMs: number;
+}
+
+/**
  * ## Log Error Payload
  * A request failed.
  *
@@ -97,11 +114,14 @@ export interface LogErrorPayload extends LogFields {
  * new PokemonClient({ logger: winston.createLogger() });
  * ```
  *
- * Requests and responses go to `debug`; failures go to `error`. Nothing is
- * logged unless a logger is passed, and a client never picks a level of its own.
+ * Requests, responses and cancellations go to `debug`; failures go to `error`.
+ * Nothing is logged unless a logger is passed, and a client never picks a level
+ * of its own.
  */
 export interface Logger {
-  debug(payload: LogRequestPayload | LogResponsePayload | LogRetryPayload): void;
+  debug(
+    payload: LogRequestPayload | LogResponsePayload | LogRetryPayload | LogCancelledPayload,
+  ): void;
   error(payload: LogErrorPayload): void;
 }
 
@@ -132,6 +152,11 @@ export const consoleLogger: Logger = {
       console.log(
         `[ Retry ] ATTEMPT ${payload.attempt} | STATUS ${payload.status ?? "NONE"} | IN ${payload.delayMs.toFixed(0)}ms | ${payload.url}`,
       );
+      return;
+    }
+
+    if (payload.event === "cancelled") {
+      console.log(`[ Cancelled ] ${payload.url} | AFTER ${payload.durationMs.toFixed(1)}ms`);
       return;
     }
 

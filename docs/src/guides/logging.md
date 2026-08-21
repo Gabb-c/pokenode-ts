@@ -31,9 +31,9 @@ const api = new PokemonClient({ logger: winston.createLogger() });
 const api = new PokemonClient({ logger: console });
 ```
 
-pino, winston, bunyan, roarr and `console` all satisfy the interface as they are. Requests and
-responses are logged at `debug`; failures at `error`. The client never picks a level of its own, and
-never logs at all without a `logger`.
+pino, winston, bunyan, roarr and `console` all satisfy the interface as they are. Requests,
+responses and cancellations are logged at `debug`; failures at `error`. The client never picks a
+level of its own, and never logs at all without a `logger`.
 
 ::: warning Coming from 2.0
 2.0 shipped a `Logger` with `request`, `response` and `error` methods taking positional arguments,
@@ -51,11 +51,18 @@ One object per event, with every field at the top level so a structured logger i
 | `request` | `debug` | `method`, `url` |
 | `response` | `debug` | `url`, `status`, `source`, `durationMs` |
 | `retry` | `debug` | `url`, `attempt`, `delayMs`, `status` |
+| `cancelled` | `debug` | `url`, `reason`, `durationMs` |
 | `error` | `error` | `url`, `err`, `error` |
 
 `retry` only ever arrives when [`retry`](./fetch#retries) is configured, and only for an attempt that
 is followed by another one — the attempt that ends the request reports as a `response` or an `error`
 like any other. Its `status` is absent when the attempt never got a response at all.
+
+`cancelled` closes a request that the [scope](./cancellation) it was made through aborted — a caller
+that went away, or a `timeout` that expired. It is logged at `debug`, not `error`: a handler that
+scopes every request asked for those cancellations, and reporting them as failures buries its real
+error rate. `reason` is the `signal.reason` given to `abort`, or the `TimeoutError` a `timeout`
+raised.
 
 ```jsonc
 // pino
@@ -81,8 +88,8 @@ const logger = {
 };
 ```
 
-The payload types are exported as `LogRequestPayload`, `LogResponsePayload`, `LogRetryPayload` and
-`LogErrorPayload`.
+The payload types are exported as `LogRequestPayload`, `LogResponsePayload`, `LogRetryPayload`,
+`LogCancelledPayload` and `LogErrorPayload`.
 
 ## Pretty console output
 
@@ -104,6 +111,9 @@ Will output:
 // retried, with `retry` configured
 [ Retry ] ATTEMPT 1 | STATUS 503 | IN 287ms | https://pokeapi.co/api/v2/berry/cheri
 
+// cancelled by its scope
+[ Cancelled ] https://pokeapi.co/api/v2/berry/cheri | AFTER 2000.0ms
+
 // error
 [ Request Config ] GET | https://pokeapi.co/api/v2/berry/cheri
 [ Response Error ] https://pokeapi.co/api/v2/berry/cheri | CODE PokenodeError | Request to https://pokeapi.co/api/v2/berry/cheri failed with status 404
@@ -124,6 +134,9 @@ That distinction is what keeps counts honest. Two concurrent calls for the same 
 **two** `request` events and **two** `response` events, but only one round trip — so count `network`
 and `revalidated` for what the PokéAPI actually saw, and all four for what your application asked
 for.
+
+Every `request` is closed by exactly one of `response`, `cancelled` or `error`, so the three together
+account for every call made.
 
 `durationMs` covers everything the client did, so a cache hit and a shared request are timed like
 any other resolution; a store that lives across a network shows up here.
