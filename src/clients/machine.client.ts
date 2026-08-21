@@ -6,8 +6,9 @@ import { BaseClient } from "./base";
  * ### Machine Client
  *
  * Client used to access the Machine Endpoints:
- *  - [Machines](https://pokeapi.co/docs/v2#machines)
- * ---
+ *
+ * - [Machines](https://pokeapi.co/docs/v2#machines)
+ *
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#machines-section)
  */
 export class MachineClient extends BaseClient {

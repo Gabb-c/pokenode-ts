@@ -20,24 +20,36 @@ hero:
       link: https://github.com/Gabb-c/pokenode-ts
 
 features:
-  - icon: 🛠️
-    title: Built-in types
-    details: Every response is fully typed from the PokéAPI schema, so the shape of your data is checked at compile time rather than discovered at runtime.
-  - icon: 🪶
-    title: Zero dependencies
-    details: Nothing to install but the package itself. Native fetch does the work, and the whole library is a few kilobytes.
-  - icon: 📦
-    title: Caching that you control
-    details: Responses are cached in memory by default. Swap in Redis, a KV namespace, or anything else that implements CacheStore — or turn it off.
-  - icon: 🔌
-    title: Bring your own transport
-    details: Pass a custom fetch to route through a proxy, add retries, attach headers, or impose a timeout.
-  - icon: 🌲
-    title: Pluggable logging
-    details: Point the request lifecycle at the console, at pino, or at a metrics collector. Nothing is logged unless you ask.
-  - icon: 🧭
-    title: One client or twelve
-    details: Reach for a focused client like PokemonClient, or use MainClient to get all of them sharing a single cache.
+  - icon: 🧩
+    title: Typed end to end
+    details: Every endpoint, every field, straight from the PokéAPI schema. A weekly job diffs those types against the live API and opens an issue when one drifts.
+    link: /guides/getting-started
+    linkText: Get started
+  - icon: 🔗
+    title: Links, followed
+    details: PokéAPI answers with <code>{ name, url }</code> refs instead of data. <code>resolve(pokemon.species)</code> hands back the species, typed. <code>resolveAll()</code> takes the whole list, four requests at a time.
+    link: /clients/utility-client
+    linkText: Following links
+  - icon: 📖
+    title: Walk a whole section
+    details: <code>paginate('listPokemons')</code> iterates all 1,351 of them and keeps track of the offset. Break out of the loop and it stops fetching.
+    link: /guides/pagination
+    linkText: Pagination
+  - icon: 💾
+    title: Cached from the first call
+    details: The PokéAPI's fair-use policy asks you to cache. This does, in memory, out of the box. Swap in Redis, a KV namespace or localStorage, or switch it off.
+    link: /guides/cache
+    linkText: Caching
+  - icon: 🌐
+    title: Runs anywhere
+    details: Node, Deno, Bun, browsers, Cloudflare Workers. Native fetch, zero dependencies, ~11 kB gzipped.
+    link: /guides/getting-started#requirements
+    linkText: Requirements
+  - icon: 🛡️
+    title: Survives a bad network
+    details: Opt-in retries with jittered backoff that honors <code>Retry-After</code>. Timeouts and cancellation through <code>with()</code>, where a shared request lives until its last caller gives up.
+    link: /guides/cancellation
+    linkText: Cancellation
 ---
 
 <script setup>

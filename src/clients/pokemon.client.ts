@@ -25,23 +25,24 @@ import { BaseClient } from "./base";
  * ### Pokémon Client
  *
  * Client used to access the Pokémon Endpoints:
- *  - [Abilities](https://pokeapi.co/docs/v2#abilities)
- *  - [Characteristics](https://pokeapi.co/docs/v2#characteristics)
- *  - [Egg Groups](https://pokeapi.co/docs/v2#egg-groups)
- *  - [Genders](https://pokeapi.co/docs/v2#genders)
- *  - [Growth Rates](https://pokeapi.co/docs/v2#growth-rates)
- *  - [Natures](https://pokeapi.co/docs/v2#natures)
- *  - [Pokéathlon Stats](https://pokeapi.co/docs/v2#pokeathlon-stats)
- *  - [Pokémon](https://pokeapi.co/docs/v2#pokemon)
- *  - [Pokémon Location Areas](https://pokeapi.co/docs/v2#pokemon-location-areas)
- *  - [Pokémon Colors](https://pokeapi.co/docs/v2#pokemon-colors)
- *  - [Pokémon Forms](https://pokeapi.co/docs/v2#pokemon-forms)
- *  - [Pokémon Habitats](https://pokeapi.co/docs/v2#pokemon-habitats)
- *  - [Pokémon Shapes](https://pokeapi.co/docs/v2#pokemon-shapes)
- *  - [Pokémon Species](https://pokeapi.co/docs/v2#pokemon-species)
- *  - [Stats](https://pokeapi.co/docs/v2#stats)
- *  - [Types](https://pokeapi.co/docs/v2#types)
- * ---
+ *
+ * - [Abilities](https://pokeapi.co/docs/v2#abilities)
+ * - [Characteristics](https://pokeapi.co/docs/v2#characteristics)
+ * - [Egg Groups](https://pokeapi.co/docs/v2#egg-groups)
+ * - [Genders](https://pokeapi.co/docs/v2#genders)
+ * - [Growth Rates](https://pokeapi.co/docs/v2#growth-rates)
+ * - [Natures](https://pokeapi.co/docs/v2#natures)
+ * - [Pokéathlon Stats](https://pokeapi.co/docs/v2#pokeathlon-stats)
+ * - [Pokémon](https://pokeapi.co/docs/v2#pokemon)
+ * - [Pokémon Location Areas](https://pokeapi.co/docs/v2#pokemon-location-areas)
+ * - [Pokémon Colors](https://pokeapi.co/docs/v2#pokemon-colors)
+ * - [Pokémon Forms](https://pokeapi.co/docs/v2#pokemon-forms)
+ * - [Pokémon Habitats](https://pokeapi.co/docs/v2#pokemon-habitats)
+ * - [Pokémon Shapes](https://pokeapi.co/docs/v2#pokemon-shapes)
+ * - [Pokémon Species](https://pokeapi.co/docs/v2#pokemon-species)
+ * - [Stats](https://pokeapi.co/docs/v2#stats)
+ * - [Types](https://pokeapi.co/docs/v2#types)
+ *
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#pokemon-section)
  */
 export class PokemonClient extends BaseClient {
@@ -127,7 +128,7 @@ export class PokemonClient extends BaseClient {
   public async getPokemonLocationAreaById(id: number): Promise<LocationAreaEncounter[]> {
     // Encounters hang off a single Pokémon rather than being an endpoint of
     // their own, so the path below `/pokemon` is addressed directly.
-    return this.getResource(ENDPOINTS.POKEMON, `${id}/encounters`);
+    return this.getResource(ENDPOINTS.POKEMON, id, "encounters");
   }
 
   /** Get a Pokémon Color by its name. */

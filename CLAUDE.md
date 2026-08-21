@@ -26,21 +26,27 @@ Match CI before opening a PR: `pnpm lint:ci && pnpm typecheck && pnpm test:cover
 
 ## Architecture
 
-**Layers.** `src/models/` (pure types mirroring PokéAPI schemas) → `src/constants/` (endpoint paths + name→ID enum maps) → `src/clients/` (one class per PokéAPI section) → `src/index.ts` (single public barrel).
+**Layers.** `src/models/` (pure types mirroring PokéAPI schemas) → `src/constants/` (endpoint paths + name→ID enum maps) → `src/clients/` (one class per PokéAPI section) → `src/index.ts` (single public barrel). `src/utils/` holds public helpers; `src/internal/` holds helpers the barrel deliberately does not export.
 
-**`BaseClient` (`src/clients/base.ts`) holds all transport logic.** Every section client is a thin subclass whose methods just call `getResource(endpoint, id)`, `getResourceByURL(url)`, or `getListResource(endpoint, offset, limit)`. Adding an endpoint means: add the path to `src/constants/endpoints.ts`, the response type under `src/models/`, and a one-line method on the section client. Do not put fetch/cache/logging logic in a section client.
+**`Transport` (`src/internal/transport.ts`) holds the request pipeline** — requests, caching, coalescing, revalidation and logging. The rules it works to live beside it, one concern per module: `src/internal/url.ts` (trimming, normalization, credential splitting, `toEndpointPath`), `src/internal/retry.ts` (attempt count, `Retry-After`, backoff, abort detection), `src/internal/paginate.ts` (`walk`), `src/internal/pool.ts` (`mapWithConcurrency`), `src/internal/inflight.ts` (`InFlight`, the coalescing of concurrent identical requests). `paginate.ts` takes a `resolve` callback rather than a transport, which is what keeps `transport.ts` ↔ `paginate.ts` from being a runtime cycle; `inflight.ts` takes a `start` callback for the same reason, and knows nothing about HTTP.
 
-The request pipeline in `BaseClient.request` is: cache lookup → in-flight dedupe map (concurrent identical URLs share one round trip) → `fetch`. Two invariants are load-bearing and documented inline:
+**Client classes** (`src/clients/base.ts`) — `ClientFacade` owns the transport and everything that is not an endpoint: `cache`, `with`, `clearCache`, `resolve`, `resolveAll`, the protected `getResource*` helpers and the protected `walk` bridge. `BaseClient extends ClientFacade` and adds only `paginate`; `MainClient extends ClientFacade` and adds only the twelve sections, so `mainClient instanceof BaseClient` stays `false` as 2.0 documented. Every section client is a thin `BaseClient` subclass whose methods just call `getResource(endpoint, id)`, `getResourceByURL(url)`, or `getListResource(endpoint, offset, limit)`. Adding an endpoint means: add the path to `src/constants/endpoints.ts`, the response type under `src/models/`, and a one-line method on the section client. Do not put fetch/cache/logging logic in a section client.
 
-- **URL normalization** — `getResource` builds `/berry/1` while `getResourceByURL` receives PokéAPI links ending in `/`. Both are normalized to one cache key or each caches the other's misses.
+**Keeping `Transport` out of the published types.** `base.ts` owns every public type and `transport.ts` imports them back with `import type` (erased, so the runtime graph stays one-directional). **Public types belong in `base.ts`, never in `src/internal/`** — that is where the barrel points, and `src/internal/` is by definition what the barrel does not export. Not exporting it is not enough on its own: a `protected` member keeps its type in the emitted `.d.ts`. Two things hold the line, and both must stay — `ClientFacade` stores the transport in a `#transport` private field (emitted as `#private;`), and the constructor that accepts one is a second overload tagged `@internal`, stripped by `"stripInternal": true` in `tsconfig.json`. `grep Transport lib/index.d.ts` after a build should find JSDoc prose and nothing else.
+
+The request pipeline in `Transport.request` is: cache lookup → `InFlight.share` (concurrent identical URLs share one round trip) → `fetch`. Two invariants are load-bearing and documented inline:
+
+- **URL normalization** — `Transport.resource` builds `/berry/1` while `Transport.byURL` receives PokéAPI links ending in `/`. Both are normalized to one cache key or each caches the other's misses. The key is also the credential-stripped URL, so calls to one host under different credentials share a cache entry and a round trip — a client per identity needs a `CacheStore` per identity.
 - **URL joining is string concatenation, not `new URL(path, base)`** — the base carries a `/api/v2` path that URL resolution would discard.
 - **`toEndpointPath`** re-resolves foreign absolute URLs against the client's own `baseURL` by parsed URL components (a raw-string version-marker search matches hosts like `api.v2.example.com`).
 
-**`MainClient`** composes all twelve section clients and passes them one shared `CacheStore`, so a resource fetched through one is served from cache by the rest.
+**`MainClient`** builds **one `Transport`** and passes it to all twelve section clients, so a resource fetched through one is served from cache by the rest, and two of them asking for the same URL at once make one round trip. Anything that must be shared belongs on `TransportState` (cache, ETag store, in-flight map) — adding a per-client field is how cross-section sharing silently breaks.
+
+**Scoped clients** — `with(scope)` rebuilds through the constructor (`new Client(transport.with(scope))`), never by cloning an instance. A derived transport keeps the same `TransportState` by reference and replaces only the scope. Section clients therefore must not declare a constructor that takes anything other than the `ClientOptions | Transport` the facade expects. `MainClient` does declare one, and computes the transport before `super()` so it can hand the same object to all twelve sections — it cannot read `#transport` back off the facade.
 
 **Cache** (`src/config/cache.ts`) — `CacheStore` is a 2-required-method interface (`get`/`set`, optional `delete`/`clear`), every method may return a promise so Redis/KV backends work unchanged. Default `MemoryCache` is LRU + TTL. `clear` is optional on purpose: the library must not flush someone's shared Redis.
 
-**Resource links** (`src/models/Common/resource.ts`) — `NamedAPIResource<T>`/`APIResource<T>` carry `T` on a phantom `unique symbol` key, which is what types `getResourceByUrl(link)`. Nominal per declaration, so a link crossing the ESM/CJS boundary degrades to `unknown` — same dual-build split as `PokenodeError` below. The five sections whose list entries have no `name` (`machine`, `contest-effect`, `super-contest-effect`, `evolution-chain`, `characteristic`) return `APIResourceList<T>` via `BaseClient.getUnnamedListResource`, not `NamedAPIResourceList<T>`.
+**Resource links** (`src/models/common/resource.ts`) — `NamedAPIResource<T>`/`APIResource<T>` carry `T` on a phantom `unique symbol` key, which is what types `getResourceByUrl(link)`. Nominal per declaration, so a link crossing the ESM/CJS boundary degrades to `unknown` — same dual-build split as `PokenodeError` below. The five sections whose list entries have no `name` (`machine`, `contest-effect`, `super-contest-effect`, `evolution-chain`, `characteristic`) return `APIResourceList<T>` via `ClientFacade.getUnnamedListResource`, not `NamedAPIResourceList<T>`.
 
 **Errors** (`src/config/errors.ts`) — non-2xx rejects with `PokenodeError`; transport failures propagate untouched. `PokenodeError` is matched via the static `isPokenodeError` guard on a `kind` brand, **not** `instanceof` — a tree loading both the ESM and CJS build has two distinct classes. Keep the guard in any new error-handling code and docs.
 
@@ -82,6 +88,19 @@ itself is down, and files a `live-drift` issue on failure.
 ## Conventions
 
 - Biome owns formatting and linting (100 cols, 2 spaces, LF). Don't hand-format around it or loosen a rule to pass a diff.
+- **Naming.** Directories and files under `src/` and `tests/` are lowercase kebab-case. Role suffixes
+  are dotted, not hyphenated: `berry.client.ts`, `berry.spec.ts`, `drift.live.spec.ts`. A `src/models/`
+  file is named after the resource it describes, singular, and holds that resource's satellite types
+  with it (`stat.ts` holds `Stat`, `NatureStatAffectSets`, `MoveStatAffect`). A `src/constants/` file
+  is named after the collection it contains, so those stay plural (`berries.ts`, `moves.ts`) — the
+  section name is only singular where the file is not a plural set (`pokemon.ts`, `urls.ts`).
+  `useFilenamingConvention` enforces the file half of this; **it does not check directory names**, so
+  a PascalCase directory passes lint — that one is on review.
+- Filenames under `docs/src/` are exempt: with `cleanUrls` in `vercel.json` they *are* the published
+  URLs, so they stay hyphenated (`berry-client.md`) and renaming one breaks inbound links.
+- **`src/index.ts` names what it exports** from `@clients` and `@utils`, so adding a public API is a
+  deliberate edit rather than a side effect of exporting from a leaf file. `@models` and `@constants`
+  keep `export *` — every symbol in them is public by construction.
 - Conventional Commits, enforced by commitlint on `commit-msg`. release-please reads the history to pick the version and write the changelog, so `feat:`/`fix:`/`!` choices are functional, not cosmetic.
 - lefthook runs biome + `tsc --noEmit` on staged files pre-commit.
 - Behavior changes must update the matching page under `docs/src/` (guides + one page per client).

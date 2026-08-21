@@ -1,15 +1,15 @@
 import { BASE_URL, type Endpoint } from "@constants";
 import { delay, HttpResponse, http, type JsonBodyType } from "msw";
 
-import { BaseClient } from "../../src/clients/base";
-import type { CacheStore } from "../../src/config/cache";
+import { BaseClient, type RetryOptions } from "../../src/clients/base";
+import { type CacheStore, EtagStore, MemoryCache } from "../../src/config/cache";
 import { PokenodeError } from "../../src/config/errors";
 import { server } from "../helpers/setup";
 
 /** Exposes the protected request helpers so they can be exercised directly. */
 class TestClient extends BaseClient {
-  get<T>(endpoint: Endpoint, identifier?: string | number): Promise<T> {
-    return this.getResource<T>(endpoint, identifier);
+  get<T>(endpoint: Endpoint, ...segments: (string | number)[]): Promise<T> {
+    return this.getResource<T>(endpoint, ...segments);
   }
 
   getByURL<T>(url: string, baseURL?: string): Promise<T> {
@@ -139,8 +139,13 @@ describe("BaseClient", () => {
     const client = new TestClient({
       cache: false,
       logger: {
-        debug: (payload) =>
-          events.push(payload.event === "request" ? "request" : `response ${payload.source}`),
+        debug: (payload) => {
+          if (payload.event === "response") {
+            events.push(`response ${payload.source}`);
+          } else if (payload.event === "request") {
+            events.push("request");
+          }
+        },
         error: () => {},
       },
     });
@@ -269,6 +274,64 @@ describe("BaseClient", () => {
     await client.getByURL("https://example.test/api/v2/berry?q=a/");
 
     expect(requested).toEqual(["https://example.test/api/v2/berry?q=a/"]);
+  });
+
+  it("should encode an identifier instead of letting it reach past the endpoint", async () => {
+    const requested: string[] = [];
+    const client = new TestClient({
+      cache: false,
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    // A name is whatever the caller passed, and `getBerryByName(req.query.name)`
+    // is the shape that call takes. Unencoded, a `?` addresses another query and
+    // a `/` another endpoint.
+    await client.get("/berry", "cheri?limit=99999");
+    await client.get("/berry", "../pokemon/1");
+    await client.get("/berry", "cheri#frag");
+
+    expect(requested).toEqual([
+      `${BASE_URL.REST}/berry/cheri%3Flimit%3D99999`,
+      `${BASE_URL.REST}/berry/..%2Fpokemon%2F1`,
+      `${BASE_URL.REST}/berry/cheri%23frag`,
+    ]);
+  });
+
+  it("should leave a valid resource name untouched", async () => {
+    const requested: string[] = [];
+    const client = new TestClient({
+      cache: false,
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await client.get("/berry", "chesto");
+    await client.get("/pokemon", "mr-mime");
+
+    expect(requested).toEqual([
+      `${BASE_URL.REST}/berry/chesto`,
+      `${BASE_URL.REST}/pokemon/mr-mime`,
+    ]);
+  });
+
+  it("should join a path below the endpoint without encoding the separator", async () => {
+    const requested: string[] = [];
+    const client = new TestClient({
+      cache: false,
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await client.get("/pokemon", 25, "encounters");
+
+    expect(requested).toEqual([`${BASE_URL.REST}/pokemon/25/encounters`]);
   });
 
   it("should give a resource one cache key however it is reached", async () => {
@@ -440,12 +503,13 @@ describe("BaseClient", () => {
     const events: string[] = [];
     const client = new TestClient({
       logger: {
-        debug: (payload) =>
-          events.push(
-            payload.event === "request"
-              ? `request ${payload.method} ${payload.url}`
-              : `response ${payload.url} ${payload.status} ${payload.source}`,
-          ),
+        debug: (payload) => {
+          if (payload.event === "request") {
+            events.push(`request ${payload.method} ${payload.url}`);
+          } else if (payload.event === "response") {
+            events.push(`response ${payload.url} ${payload.status} ${payload.source}`);
+          }
+        },
         error: ({ err }) => events.push(`error ${String(err)}`),
       },
     });
@@ -511,6 +575,65 @@ describe("BaseClient", () => {
     expect(sent).toEqual([
       { Accept: "application/json", Authorization: `Basic ${btoa("someone:hunter@2")}` },
     ]);
+  });
+
+  it("should send credentials it cannot percent-decode as they stand", async () => {
+    const sent: RequestInit["headers"][] = [];
+    // `URL` parses `%zz` happily; `decodeURIComponent` rejects it.
+    const client = new TestClient({
+      baseURL: "https://some%zzone:hunter2@poke.example/api/v2",
+      cache: false,
+      fetch: (_url, init) => {
+        sent.push(init?.headers);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await expect(client.get("/berry", 1)).resolves.toEqual({ id: 1 });
+    expect(sent).toEqual([
+      { Accept: "application/json", Authorization: `Basic ${btoa("some%zzone:hunter2")}` },
+    ]);
+  });
+
+  it("should leave a url it cannot parse exactly as it stands", async () => {
+    const requested: string[] = [];
+    const sent: RequestInit["headers"][] = [];
+    // Looks credentialed but has no scheme, so `URL` refuses it. Nothing can be
+    // stripped from a string nobody can parse, and `fetch` is the one to complain.
+    const client = new TestClient({
+      baseURL: "://someone:hunter2@poke.example/api/v2",
+      cache: false,
+      fetch: (url, init) => {
+        requested.push(url);
+        sent.push(init?.headers);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    await client.get("/berry", 1);
+
+    expect(requested).toEqual(["://someone:hunter2@poke.example/api/v2/berry/1"]);
+    expect(sent).toEqual([{ Accept: "application/json" }]);
+  });
+
+  it("should not read an at sign in a path as credentials", async () => {
+    const requested: string[] = [];
+    const sent: RequestInit["headers"][] = [];
+    const client = new TestClient({
+      cache: false,
+      fetch: (url, init) => {
+        requested.push(url);
+        sent.push(init?.headers);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    // `@` is a legal path character, so a link can carry one with no userinfo
+    // in front of it. Only a parsed username or password is a credential.
+    await client.getByURL(`${BASE_URL.REST}/berry/a@b`);
+
+    expect(requested).toEqual([`${BASE_URL.REST}/berry/a@b`]);
+    expect(sent).toEqual([{ Accept: "application/json" }]);
   });
 
   it("should report the url of a failed request without its credentials", async () => {
@@ -579,6 +702,33 @@ describe("BaseClient", () => {
     expect(errors[0]?.url).toBe(BERRY_URL);
   });
 
+  it("should report a cancellation without reporting a failure", async () => {
+    server.use(
+      http.get(BERRY_URL, async () => {
+        await delay(200);
+        return HttpResponse.json({ id: 1 });
+      }),
+    );
+
+    const events: string[] = [];
+    const errors: unknown[] = [];
+    const client = new TestClient({
+      cache: false,
+      logger: {
+        debug: (payload) => events.push(payload.event),
+        error: (payload) => errors.push(payload),
+      },
+    });
+
+    // A caller that hangs up asked for exactly this, so it closes its `request`
+    // on the debug channel. Reported as an error, a handler that scopes every
+    // request drowns its own error rate in its own timeouts.
+    await expect(client.with({ timeout: 20 }).get("/berry", 1)).rejects.toThrow(/abort|time/i);
+
+    expect(events).toEqual(["request", "cancelled"]);
+    expect(errors).toEqual([]);
+  });
+
   it("should stay silent without a logger", async () => {
     countingHandler(BERRY_URL);
     const log = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -605,5 +755,716 @@ describe("BaseClient", () => {
     await expect(client.get("/berry", 1)).rejects.toThrow(PokenodeError);
 
     expect(calls).toBe(2);
+  });
+});
+
+/**
+ * Answers with each status in turn, then `{ id: 1 }`, and counts the attempts.
+ * `Retry-After` rides along on every failure when given.
+ */
+const failingHandler = (statuses: number[], retryAfter?: string) => {
+  const calls = { count: 0 };
+
+  server.use(
+    http.get(BERRY_URL, () => {
+      const status = statuses[calls.count];
+      calls.count += 1;
+
+      if (status === undefined) {
+        return HttpResponse.json({ id: 1 });
+      }
+
+      return HttpResponse.json(
+        { detail: "no" },
+        retryAfter === undefined ? { status } : { status, headers: { "Retry-After": retryAfter } },
+      );
+    }),
+  );
+
+  return calls;
+};
+
+/** Retries with no wait worth measuring, so a test asserts attempts, not timing. */
+const IMMEDIATE: RetryOptions = { attempts: 3, initialDelay: 0 };
+
+/**
+ * Lets every pending callback run, so a request has reached the transport and
+ * every concurrent caller has joined it before a test aborts anything.
+ */
+const settle = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
+
+/** Answers `BERRY_URL` after `ms`, so a scope has something to give up on. */
+const slowHandler = (ms: number): void => {
+  server.use(
+    http.get(BERRY_URL, async () => {
+      await delay(ms);
+      return HttpResponse.json({ id: 1 });
+    }),
+  );
+};
+
+describe("BaseClient scope", () => {
+  it("should abort a request that outlives its timeout", async () => {
+    slowHandler(200);
+
+    const error = await new TestClient()
+      .with({ timeout: 10 })
+      .get("/berry", 1)
+      .catch((caught: unknown) => caught);
+
+    expect(PokenodeError.isPokenodeError(error)).toBe(false);
+    expect((error as Error).name).toBe("TimeoutError");
+  });
+
+  it("should reject with the reason the caller aborted with", async () => {
+    slowHandler(200);
+
+    const controller = new AbortController();
+    const reason = new Error("caller went away");
+    const request = new TestClient().with({ signal: controller.signal }).get("/berry", 1);
+
+    controller.abort(reason);
+
+    await expect(request).rejects.toBe(reason);
+  });
+
+  it("should reject a call made through an already-aborted scope", async () => {
+    const requested: string[] = [];
+    const client = new TestClient({
+      fetch: (url) => {
+        requested.push(url);
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+    const controller = new AbortController();
+
+    controller.abort(new Error("gone"));
+
+    await expect(client.with({ signal: controller.signal }).get("/berry", 1)).rejects.toThrow(
+      "gone",
+    );
+    // The point of the test: a scope that has already aborted makes no request.
+    expect(requested).toEqual([]);
+  });
+
+  it("should not serve a call made through an already-aborted scope from the cache", async () => {
+    const calls = countingHandler(BERRY_URL);
+    const client = new TestClient();
+    const controller = new AbortController();
+
+    await client.get("/berry", 1);
+    controller.abort(new Error("gone"));
+
+    await expect(client.with({ signal: controller.signal }).get("/berry", 1)).rejects.toThrow(
+      "gone",
+    );
+    expect(calls.count).toBe(1);
+  });
+
+  it("should keep a shared request alive for the callers that remain", async () => {
+    slowHandler(50);
+
+    const client = new TestClient({ cache: false });
+    const controller = new AbortController();
+
+    const abandoned = client.with({ signal: controller.signal }).get("/berry", 1);
+    const kept = client.get("/berry", 1);
+
+    await settle();
+    controller.abort(new Error("first caller left"));
+
+    await expect(abandoned).rejects.toThrow("first caller left");
+    await expect(kept).resolves.toEqual({ id: 1 });
+  });
+
+  it("should cancel the round trip once its last caller has left", async () => {
+    let observed: AbortSignal | undefined;
+    const client = new TestClient({
+      cache: false,
+      fetch: (url, init) => {
+        observed = init?.signal ?? undefined;
+        return fetch(url, init);
+      },
+    });
+
+    slowHandler(200);
+
+    const first = new AbortController();
+    const second = new AbortController();
+    const requests = [
+      client.with({ signal: first.signal }).get("/berry", 1),
+      client.with({ signal: second.signal }).get("/berry", 1),
+    ];
+
+    await settle();
+
+    first.abort(new Error("first"));
+    expect(observed?.aborted).toBe(false);
+
+    second.abort(new Error("second"));
+    expect(observed?.aborted).toBe(true);
+
+    await expect(Promise.allSettled(requests)).resolves.toHaveLength(2);
+  });
+
+  it("should share the cache and the in-flight request with the client it came from", async () => {
+    const calls = countingHandler(BERRY_URL);
+    const client = new TestClient();
+    const scoped = client.with({ timeout: 1_000 });
+
+    // Concurrent, so the second call can only be served by the in-flight map.
+    await Promise.all([client.get("/berry", 1), scoped.get("/berry", 1)]);
+    // Sequential, so this one can only be served by the shared cache.
+    await scoped.get("/berry", 1);
+
+    expect(calls.count).toBe(1);
+    expect(client.cache).toBe(scoped.cache);
+  });
+
+  it("should merge what each derivation adds to the scope", async () => {
+    slowHandler(200);
+
+    const controller = new AbortController();
+    const error = await new TestClient()
+      .with({ signal: controller.signal })
+      .with({ timeout: 10 })
+      .get("/berry", 1)
+      .catch((caught: unknown) => caught);
+
+    expect((error as Error).name).toBe("TimeoutError");
+  });
+
+  it("should leave the client it was derived from unscoped", async () => {
+    let received: RequestInit | undefined;
+    const client = new TestClient({
+      cache: false,
+      fetch: (_url, init) => {
+        received = init;
+        return Promise.resolve(Response.json({ id: 1 }));
+      },
+    });
+
+    client.with({ timeout: 10 });
+    await client.get("/berry", 1);
+
+    expect(received?.signal).toBeUndefined();
+  });
+});
+
+/**
+ * Answers with an `ETag`, and with 304 whenever the request already carries it.
+ * Records what each attempt sent, so a test can see the validator go out.
+ */
+const revalidatingHandler = (etag = 'W/"one"') => {
+  const calls = { sent: [] as (string | null)[], bodies: 0, tag: etag };
+
+  server.use(
+    http.get(BERRY_URL, ({ request }) => {
+      const sent = request.headers.get("If-None-Match");
+      calls.sent.push(sent);
+
+      if (sent === calls.tag) {
+        return new HttpResponse(null, { status: 304, headers: { ETag: calls.tag } });
+      }
+
+      calls.bodies += 1;
+
+      return HttpResponse.json({ id: 1 }, { headers: { ETag: calls.tag } });
+    }),
+  );
+
+  return calls;
+};
+
+describe("BaseClient revalidation", () => {
+  it("should send no validator when revalidation is off", async () => {
+    const calls = revalidatingHandler();
+    const client = new TestClient({ cache: false });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    expect(calls.sent).toEqual([null, null]);
+    expect(calls.bodies).toBe(2);
+  });
+
+  it("should revalidate an expired entry instead of downloading it again", async () => {
+    const calls = revalidatingHandler();
+    // No cache, so every call reaches the transport — the same position an
+    // expired entry leaves a client in, without waiting for a TTL.
+    const client = new TestClient({ cache: false, revalidate: true });
+
+    const first = await client.get("/berry", 1);
+    const second = await client.get("/berry", 1);
+
+    expect(calls.sent).toEqual([null, 'W/"one"']);
+    // One body downloaded, two resolutions.
+    expect(calls.bodies).toBe(1);
+    expect(second).toEqual(first);
+  });
+
+  it("should report a revalidated response as such", async () => {
+    revalidatingHandler();
+    const sources: string[] = [];
+    const client = new TestClient({
+      cache: false,
+      revalidate: true,
+      logger: {
+        debug: (payload) => {
+          if (payload.event === "response") {
+            sources.push(payload.source);
+          }
+        },
+        error: () => {},
+      },
+    });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    expect(sources).toEqual(["network", "revalidated"]);
+  });
+
+  it("should keep the validator a 304 carried", async () => {
+    const sent: (string | null)[] = [];
+    let tag = 'W/"one"';
+
+    server.use(
+      http.get(BERRY_URL, ({ request }) => {
+        const validator = request.headers.get("If-None-Match");
+        sent.push(validator);
+
+        if (validator === null) {
+          return HttpResponse.json({ id: 1 }, { headers: { ETag: tag } });
+        }
+
+        // RFC 9110 lets a 304 carry a validator of its own, and rotating one is
+        // how a server that re-encodes an unchanged body says so.
+        tag = 'W/"two"';
+
+        return new HttpResponse(null, { status: 304, headers: { ETag: tag } });
+      }),
+    );
+
+    const client = new TestClient({ cache: false, revalidate: true });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    // The third request carries what the second was answered with. Holding the
+    // stale one instead costs a full body on the next miss.
+    expect(sent).toEqual([null, 'W/"one"', 'W/"two"']);
+  });
+
+  it("should take the new body when the validator no longer matches", async () => {
+    const calls = revalidatingHandler();
+    const client = new TestClient({ cache: false, revalidate: true });
+
+    await client.get("/berry", 1);
+    calls.tag = 'W/"two"';
+
+    await expect(client.get("/berry", 1)).resolves.toEqual({ id: 1 });
+    expect(calls.bodies).toBe(2);
+    // The validator it learned the second time is the one it sends next.
+    await client.get("/berry", 1);
+    expect(calls.sent).toEqual([null, 'W/"one"', 'W/"two"']);
+  });
+
+  it("should write a revalidated body back to the cache", async () => {
+    const calls = revalidatingHandler();
+    // Every read misses, so the client always reaches the transport, and every
+    // write is recorded — which is what a store sees when its entries expire.
+    const store = new (class implements CacheStore {
+      readonly writes: [string, unknown][] = [];
+      get(): unknown {
+        return undefined;
+      }
+      set(key: string, value: unknown): void {
+        this.writes.push([key, value]);
+      }
+    })();
+
+    const client = new TestClient({ cache: store, revalidate: true });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    expect(calls.bodies).toBe(1);
+    // The second write came from the 304, and carries the body of the first.
+    expect(store.writes).toEqual([
+      [BERRY_URL, { id: 1 }],
+      [BERRY_URL, { id: 1 }],
+    ]);
+  });
+
+  it("should forget its validators when the cache is cleared", async () => {
+    const calls = revalidatingHandler();
+    const client = new TestClient({ cache: new MemoryCache(), revalidate: true });
+
+    await client.get("/berry", 1);
+    await client.clearCache();
+
+    await expect(client.get("/berry", 1)).resolves.toEqual({ id: 1 });
+    // Keeping the validator would answer with the body `clearCache` dropped, and
+    // hold it in memory besides. An entry lost to its TTL still revalidates.
+    expect(calls.sent).toEqual([null, null]);
+    expect(calls.bodies).toBe(2);
+  });
+
+  it("should share what it learned with a scoped client", async () => {
+    const calls = revalidatingHandler();
+    const client = new TestClient({ cache: false, revalidate: true });
+
+    await client.get("/berry", 1);
+    await client.with({ timeout: 1_000 }).get("/berry", 1);
+
+    expect(calls.sent).toEqual([null, 'W/"one"']);
+    expect(calls.bodies).toBe(1);
+  });
+
+  it("should forget the least recently used url once it is full", async () => {
+    const calls = revalidatingHandler();
+
+    server.use(
+      http.get(`${BASE_URL.REST}/berry/2`, () =>
+        HttpResponse.json({ id: 2 }, { headers: { ETag: 'W/"two"' } }),
+      ),
+    );
+
+    const client = new TestClient({ cache: false, revalidate: new EtagStore({ maxEntries: 1 }) });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 2);
+    await client.get("/berry", 1);
+
+    // Berry 1 was evicted by berry 2, so its second call carried no validator.
+    expect(calls.sent).toEqual([null, null]);
+    expect(calls.bodies).toBe(2);
+  });
+
+  it("should remember nothing when the store has no room", async () => {
+    const calls = revalidatingHandler();
+    const client = new TestClient({ cache: false, revalidate: new EtagStore({ maxEntries: 0 }) });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    expect(calls.sent).toEqual([null, null]);
+    expect(calls.bodies).toBe(2);
+  });
+
+  it("should say so when a 304 arrives with no stored response behind it", async () => {
+    // An intermediary answering 304 to a request this client sent no validator
+    // with: nothing here asked for it, so nothing here can satisfy it.
+    server.use(http.get(BERRY_URL, () => new HttpResponse(null, { status: 304 })));
+
+    const error = (await new TestClient({ cache: false, revalidate: true })
+      .get("/berry", 1)
+      .catch((caught: unknown) => caught)) as PokenodeError;
+
+    expect(PokenodeError.isPokenodeError(error)).toBe(true);
+    expect(error.status).toBe(304);
+    expect(error.message).toMatch(/no response to reuse/);
+  });
+});
+
+describe("BaseClient.resolve", () => {
+  it("should fetch what a link points at from a section client", async () => {
+    server.use(http.get(BERRY_URL, () => HttpResponse.json({ id: 1 })));
+
+    // No `MainClient` and no `UtilityClient` in sight: a link names a resource,
+    // not a section, so any client resolves any link.
+    await expect(new TestClient().resolve(`${BERRY_URL}/`)).resolves.toEqual({ id: 1 });
+  });
+
+  it("should resolve a link through its own cache", async () => {
+    let calls = 0;
+
+    server.use(
+      http.get(BERRY_URL, () => {
+        calls += 1;
+        return HttpResponse.json({ id: 1 });
+      }),
+    );
+
+    const client = new TestClient();
+
+    await client.get("/berry", 1);
+    await client.resolve(`${BERRY_URL}/`);
+
+    expect(calls).toBe(1);
+  });
+
+  it("should resolve many links in the order they were given", async () => {
+    server.use(
+      http.get(`${BASE_URL.REST}/berry/:id`, async ({ params }) => {
+        const id = Number(params.id);
+        // Answered slowest first, so completion order cannot be input order.
+        await delay((4 - id) * 20);
+        return HttpResponse.json({ id });
+      }),
+    );
+
+    const links = [1, 2, 3].map((id) => `${BASE_URL.REST}/berry/${id}/`);
+    const berries = await new TestClient({ cache: false }).resolveAll<{ id: number }>(links);
+
+    expect(berries.map((berry) => berry.id)).toEqual([1, 2, 3]);
+  });
+
+  it("should fall back to the default when the concurrency is not a number", async () => {
+    server.use(
+      http.get(`${BASE_URL.REST}/berry/:id`, ({ params }) =>
+        HttpResponse.json({ id: Number(params.id) }),
+      ),
+    );
+
+    const links = [1, 2, 3].map((id) => `${BASE_URL.REST}/berry/${id}/`);
+
+    // `Array.from({ length: NaN })` is empty, so a pool sized from a non-finite
+    // count used to run no work at all and hand back a hole per link — the same
+    // `Number(process.env.CONCURRENCY)` the retry attempt count guards against.
+    const berries = await new TestClient({ cache: false }).resolveAll<{ id: number }>(links, {
+      concurrency: Number.NaN,
+    });
+
+    expect(berries.map((berry) => berry.id)).toEqual([1, 2, 3]);
+  });
+
+  it("should carry the scope it was derived with", async () => {
+    server.use(
+      http.get(BERRY_URL, async () => {
+        await delay(80);
+        return HttpResponse.json({ id: 1 });
+      }),
+    );
+
+    await expect(new TestClient().with({ timeout: 20 }).resolve(`${BERRY_URL}/`)).rejects.toThrow(
+      /abort|time/i,
+    );
+  });
+});
+
+describe("BaseClient retry", () => {
+  it("should attempt a request once when retrying is not configured", async () => {
+    const calls = failingHandler([503]);
+
+    await expect(new TestClient().get("/berry", 1)).rejects.toThrow(PokenodeError);
+    expect(calls.count).toBe(1);
+  });
+
+  it("should attempt again after a retryable status", async () => {
+    const calls = failingHandler([503]);
+
+    await expect(new TestClient({ retry: IMMEDIATE }).get("/berry", 1)).resolves.toEqual({ id: 1 });
+    expect(calls.count).toBe(2);
+  });
+
+  it("should give up once it is out of attempts", async () => {
+    const calls = failingHandler([503, 503, 503, 503]);
+
+    const error = (await new TestClient({ retry: IMMEDIATE })
+      .get("/berry", 1)
+      .catch((caught: unknown) => caught)) as PokenodeError;
+
+    expect(PokenodeError.isPokenodeError(error)).toBe(true);
+    expect(error.status).toBe(503);
+    expect(calls.count).toBe(3);
+  });
+
+  it("should fall back to the default when the attempt count is not a number", async () => {
+    const calls = failingHandler([503, 503, 503, 503]);
+
+    // `Math.max(NaN, 1)` is `NaN` and `attempt >= NaN` is never true, so an
+    // unbounded count used to loop forever. `attempts` is exactly the option
+    // that arrives as `Number(process.env.RETRIES)` with the variable unset.
+    await expect(
+      new TestClient({ retry: { ...IMMEDIATE, attempts: Number.NaN } }).get("/berry", 1),
+    ).rejects.toThrow(PokenodeError);
+
+    expect(calls.count).toBe(3);
+  }, 2_000);
+
+  it("should round a fractional attempt count down", async () => {
+    const calls = failingHandler([503, 503, 503]);
+
+    // `attempt >= 2.5` is first true at three, so a count between two and three
+    // used to buy an attempt that was not asked for.
+    await expect(
+      new TestClient({ retry: { ...IMMEDIATE, attempts: 2.5 } }).get("/berry", 1),
+    ).rejects.toThrow(PokenodeError);
+
+    expect(calls.count).toBe(2);
+  });
+
+  it("should fall back to the default when a delay is not a number", async () => {
+    const calls = failingHandler([503]);
+    const startedAt = performance.now();
+
+    // `setTimeout` reads a `NaN` delay as zero, so an unusable `initialDelay`
+    // used to spend every attempt at once — a retry storm out of one unset
+    // environment variable.
+    await new TestClient({ retry: { attempts: 2, initialDelay: Number.NaN } }).get("/berry", 1);
+
+    expect(calls.count).toBe(2);
+    expect(performance.now() - startedAt).toBeGreaterThanOrEqual(100);
+  }, 2_000);
+
+  it("should fall back to the default when the longest wait is not a number", async () => {
+    const calls = failingHandler([503], "600");
+
+    // `600 > NaN` is false, which read an unusable `maxDelay` as willingness to
+    // wait ten minutes.
+    await expect(
+      new TestClient({ retry: { ...IMMEDIATE, maxDelay: Number.NaN } }).get("/berry", 1),
+    ).rejects.toThrow(PokenodeError);
+
+    expect(calls.count).toBe(1);
+  });
+
+  it("should not attempt a status it was not told to retry again", async () => {
+    const calls = failingHandler([404]);
+
+    await expect(new TestClient({ retry: IMMEDIATE }).get("/berry", 1)).rejects.toThrow(
+      PokenodeError,
+    );
+    expect(calls.count).toBe(1);
+  });
+
+  it("should retry only the statuses it was given", async () => {
+    const calls = failingHandler([418]);
+
+    await expect(
+      new TestClient({ retry: { ...IMMEDIATE, statuses: [418] } }).get("/berry", 1),
+    ).resolves.toEqual({ id: 1 });
+    expect(calls.count).toBe(2);
+  });
+
+  it("should attempt again after a transport failure", async () => {
+    let calls = 0;
+    const client = new TestClient({
+      retry: IMMEDIATE,
+      fetch: (url, init) => {
+        calls += 1;
+        return calls === 1
+          ? Promise.reject(new TypeError("fetch failed"))
+          : fetch(url, init as RequestInit);
+      },
+    });
+
+    countingHandler(BERRY_URL);
+
+    await expect(client.get("/berry", 1)).resolves.toEqual({ id: 1 });
+    expect(calls).toBe(2);
+  });
+
+  it("should wait as long as Retry-After asks", async () => {
+    const calls = failingHandler([503], "0.05");
+    const startedAt = performance.now();
+
+    await new TestClient({ retry: { attempts: 2, initialDelay: 0 } }).get("/berry", 1);
+
+    expect(calls.count).toBe(2);
+    expect(performance.now() - startedAt).toBeGreaterThanOrEqual(45);
+  });
+
+  it("should back off normally when Retry-After is blank", async () => {
+    const calls = failingHandler([503], "  ");
+    const startedAt = performance.now();
+
+    // A blank header reads as `Number("") === 0`, which would retry instantly.
+    await new TestClient({ retry: { attempts: 2, initialDelay: 100 } }).get("/berry", 1);
+
+    expect(calls.count).toBe(2);
+    expect(performance.now() - startedAt).toBeGreaterThanOrEqual(45);
+  });
+
+  it("should give up rather than wait less than Retry-After asks", async () => {
+    const calls = failingHandler([503], "600");
+
+    await expect(
+      new TestClient({ retry: { ...IMMEDIATE, maxDelay: 1_000 } }).get("/berry", 1),
+    ).rejects.toThrow(PokenodeError);
+    expect(calls.count).toBe(1);
+  });
+
+  it("should read Retry-After as an http date", async () => {
+    const calls = failingHandler([503], new Date(Date.now() + 600_000).toUTCString());
+
+    // RFC 9110 allows a date as well as a number of seconds. Ten minutes is
+    // longer than this client will ever wait, so it gives up instead — which is
+    // also what proves the date was read rather than discarded as unparseable.
+    await expect(
+      new TestClient({ retry: { ...IMMEDIATE, maxDelay: 1_000 } }).get("/berry", 1),
+    ).rejects.toThrow(PokenodeError);
+
+    expect(calls.count).toBe(1);
+  });
+
+  it("should not wait when the request was cancelled before the wait began", async () => {
+    const controller = new AbortController();
+    let calls = 0;
+
+    const client = new TestClient({
+      cache: false,
+      retry: { attempts: 3, initialDelay: 20 },
+      fetch: () => {
+        calls += 1;
+        // Cancelled while the response is still being handed back, so the wait
+        // before the next attempt is asked to start on a signal already fired.
+        controller.abort(new Error("gave up"));
+        return Promise.resolve(Response.json({ detail: "no" }, { status: 503 }));
+      },
+    });
+
+    await expect(client.with({ signal: controller.signal }).get("/berry", 1)).rejects.toThrow(
+      "gave up",
+    );
+
+    // The caller gets its rejection from the scope either way. What the wait has
+    // to get right is stopping the attempt loop: an `abort` listener registered
+    // on a signal that has already fired never runs, so a wait that starts here
+    // runs to completion and sends a second request nobody is waiting for.
+    await delay(80);
+
+    expect(calls).toBe(1);
+  });
+
+  it("should stop waiting when the request is cancelled", async () => {
+    const calls = failingHandler([503, 503, 503]);
+    const client = new TestClient({ retry: { attempts: 3, initialDelay: 10_000 } });
+
+    await expect(client.with({ timeout: 20 }).get("/berry", 1)).rejects.toThrow(/abort|time/i);
+    expect(calls.count).toBe(1);
+  });
+
+  it("should share one sequence of attempts between concurrent callers", async () => {
+    const calls = failingHandler([503]);
+    const client = new TestClient({ cache: false, retry: IMMEDIATE });
+
+    const [first, second] = await Promise.all([client.get("/berry", 1), client.get("/berry", 1)]);
+
+    expect(calls.count).toBe(2);
+    expect(first).toEqual(second);
+  });
+
+  it("should report every attempt it retried to a supplied logger", async () => {
+    failingHandler([503, 500]);
+    const events: string[] = [];
+    const client = new TestClient({
+      retry: IMMEDIATE,
+      logger: {
+        debug: (payload) => {
+          if (payload.event === "retry") {
+            events.push(`retry ${payload.attempt} ${payload.status ?? "none"}`);
+          }
+        },
+        error: () => {},
+      },
+    });
+
+    await client.get("/berry", 1);
+
+    expect(events).toEqual(["retry 1 503", "retry 2 500"]);
   });
 });

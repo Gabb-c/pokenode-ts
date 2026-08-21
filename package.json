@@ -44,7 +44,7 @@
     "lib"
   ],
   "types": "lib/index.d.ts",
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@11.22.0",
   "scripts": {
     "build": "tsdown",
     "docs:build": "vitepress build docs",
@@ -90,13 +90,13 @@
     {
       "name": "ESM",
       "path": "lib/index.js",
-      "limit": "9.5 kB",
+      "limit": "11.5 kB",
       "gzip": true
     },
     {
       "name": "CJS",
       "path": "lib/index.cjs",
-      "limit": "10 kB",
+      "limit": "12 kB",
       "gzip": true
     }
   ]

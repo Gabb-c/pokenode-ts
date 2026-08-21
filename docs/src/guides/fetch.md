@@ -4,8 +4,8 @@ description: "Pass a custom fetch to pokenode-ts to route requests through a pro
 
 # Custom Fetch
 
-Clients call the global `fetch` by default. Pass your own to route requests through a proxy, add
-retries, attach headers, or record metrics:
+Clients call the global `fetch` by default. Pass your own to route requests through a proxy, attach
+headers, or record metrics:
 
 ```ts
 interface ClientOptions {
@@ -13,9 +13,8 @@ interface ClientOptions {
 }
 ```
 
-There is deliberately no `agent` or `dispatcher` option: those are undici-specific, absent from the
-standard `RequestInit`, and meaningless outside Node. A fetch wrapper covers them and everything
-else.
+There's no `agent` or `dispatcher` option, because both are undici-specific, absent from the standard
+`RequestInit`, and meaningless outside Node. A fetch wrapper covers them.
 
 ## Proxies and custom agents
 
@@ -32,30 +31,8 @@ const api = new PokemonClient({
 });
 ```
 
-A process-wide `setGlobalDispatcher(new ProxyAgent(...))` also works and needs nothing from us. Use
-the `fetch` option when you want per-client isolation — two clients, two upstreams.
-
-## Retries
-
-```ts
-const withRetry = (attempts = 3) =>
-  async (url: string, init?: RequestInit): Promise<Response> => {
-    let lastError: unknown;
-
-    for (let attempt = 0; attempt < attempts; attempt++) {
-      try {
-        return await fetch(url, init);
-      } catch (error) {
-        lastError = error;
-        await new Promise((resolve) => setTimeout(resolve, 2 ** attempt * 100));
-      }
-    }
-
-    throw lastError;
-  };
-
-const api = new PokemonClient({ fetch: withRetry() });
-```
+A process-wide `setGlobalDispatcher(new ProxyAgent(...))` works too. Use the `fetch` option when you
+want per-client isolation: two clients, two upstreams.
 
 ## Extra headers
 
@@ -67,39 +44,61 @@ const api = new PokemonClient({
 });
 ```
 
-## Cancellation and timeouts
-
-Clients impose no timeout and no `AbortSignal` of their own — cancellation policy belongs to you.
-Supply a signal through the wrapper:
-
-```ts
-// Give up after 5 seconds
-const api = new PokemonClient({
-  fetch: (url, init) => fetch(url, { ...init, signal: AbortSignal.timeout(5000) }),
-});
-
-// Cancel on demand
-const controller = new AbortController();
-const cancellable = new PokemonClient({
-  fetch: (url, init) => fetch(url, { ...init, signal: controller.signal }),
-});
-
-// Both at once
-const combined = new PokemonClient({
-  fetch: (url, init) =>
-    fetch(url, { ...init, signal: AbortSignal.any([controller.signal, AbortSignal.timeout(5000)]) }),
-});
-```
-
-An abort surfaces as whatever your runtime throws — a `DOMException` named `AbortError` or
-`TimeoutError` — not as a pokenode error. `PokenodeError.isPokenodeError` returns `false` for it.
-
-:::warning
-Without a signal, a request waits as long as the connection stays open. `fetch` has no default
-timeout and neither do we.
+:::tip
+**Forward `init`.** It carries the `Accept` header. A wrapper that ignores it drops that header, and
+drops anything the client adds in future versions.
 :::
 
-:::tip
-**Forward `init`.** It carries the `Accept` header. A wrapper that ignores it drops that header,
-and drops anything the client adds in future versions.
+## Retries
+
+Clients attempt each request once. Pass `retry` and a failed one is attempted again:
+
+```ts
+const api = new PokemonClient({ retry: {} });
+```
+
+```ts
+interface RetryOptions {
+  attempts?: number; // total tries, first included, default 3
+  statuses?: number[]; // default [429, 500, 502, 503, 504]
+  initialDelay?: number; // ms before the second try, doubling, default 300
+  maxDelay?: number; // ceiling on any single wait, default 5000
+}
+```
+
+**What's retried.** The listed statuses, plus transport failures — a dropped connection, a DNS
+error. Nothing else: a 404 is an answer, and a cancelled request stays cancelled.
+
+**How long it waits.** Half of a doubling window plus jitter across the other half, capped at
+`maxDelay`, so clients that failed together don't all come back at the same moment. A
+[scoped](./cancellation) timeout applies during the wait, so a request can give up mid-backoff.
+
+**`Retry-After`.** Honored as written, whether the server sends seconds or a date. If it asks for
+longer than `maxDelay`, the client gives up instead of coming back sooner than it was told to.
+
+Each retry reaches the [logger](./logging) as an `event: 'retry'` payload. The attempt that finally
+succeeds or fails reports as a normal response or error.
+
+::: tip
+Only the successful attempt is [cached](./cache). Concurrent callers of the same URL share one
+sequence of attempts, not one sequence each.
+:::
+
+## Cancellation and timeouts
+
+Use [`with()`](./cancellation) rather than a fetch wrapper — a signal passed at construction lasts
+the client's whole life, and the first abort ends it:
+
+```ts
+const api = new PokemonClient();
+
+await api.with({ timeout: 5000 }).getPokemonByName('luxray');
+```
+
+A wrapper is still right for a policy that applies to every request no matter who made it, like a
+process-wide ceiling. Both compose, and whichever signal aborts first wins.
+
+:::warning
+Without a scope or a signal, a request waits as long as the connection stays open. `fetch` has no
+default timeout and neither do we.
 :::

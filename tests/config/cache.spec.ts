@@ -53,6 +53,30 @@ describe("MemoryCache", () => {
     expect(cache.get("b")).toBe(3);
   });
 
+  it("should keep nothing when maxEntries is zero", () => {
+    // An eviction with nothing to evict left the entry that triggered it behind,
+    // so a store asked to hold none held one.
+    const cache = new MemoryCache({ maxEntries: 0 });
+
+    cache.set("a", 1);
+
+    expect(cache.get("a")).toBeUndefined();
+  });
+
+  it("should fall back to the default when maxEntries is not a number", () => {
+    // `size >= NaN` is never true, and a bound never reached is not a bound —
+    // the option that arrives as `Number(process.env.CACHE_SIZE)` unset. Proven
+    // by filling past the default of 500, which an unbounded store would keep.
+    const cache = new MemoryCache({ maxEntries: Number.NaN });
+
+    for (let index = 0; index < 501; index += 1) {
+      cache.set(String(index), index);
+    }
+
+    expect(cache.get("0")).toBeUndefined();
+    expect(cache.get("500")).toBe(500);
+  });
+
   it("should drop a single entry on delete", () => {
     const cache = new MemoryCache();
 
@@ -262,6 +286,20 @@ describe("WebStorageCache", () => {
 
     expect(await cache.get("a")).toBeUndefined();
     expect(storage.getItem("app:session")).toBe("keep me");
+  });
+
+  it("should tolerate a storage that refuses to drop a key on clear", async () => {
+    const storage = new FakeStorage();
+    const cache = new WebStorageCache({ storage });
+
+    await cache.set("a", 1);
+    storage.removeItem = () => {
+      throw new Error("SecurityError");
+    };
+
+    // Every other path treats a refusing storage as empty; clearing is no
+    // different, and `clearCache()` must not fail over a store it cannot tidy.
+    await expect(cache.clear()).resolves.toBeUndefined();
   });
 
   it("should treat a storage that refuses to be read as a miss", async () => {

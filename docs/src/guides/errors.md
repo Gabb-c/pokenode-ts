@@ -5,8 +5,8 @@ description: "How pokenode-ts reports failures: PokenodeError for non-2xx respon
 # Errors
 
 Clients throw for exactly one thing: a response the PokéAPI answered with a non-2xx status.
-Everything else — a dropped connection, a DNS failure, an abort — propagates as whatever the
-runtime threw, untouched.
+Everything else — a dropped connection, a DNS failure, an abort — propagates as whatever the runtime
+threw.
 
 ## PokenodeError
 
@@ -36,9 +36,9 @@ try {
 | `body` | `unknown` | Parsed JSON body, when the response carried one |
 | `name` | `"PokenodeError"` | |
 
-`body` is `unknown` rather than a typed shape because the PokéAPI does not commit to an error
-schema. It is `undefined` whenever the response body was not JSON — which includes the most common
-case, since the PokéAPI answers a 404 with the plain text `Not Found`.
+`body` is `unknown` because the PokéAPI doesn't commit to an error schema, and it's `undefined`
+whenever the body wasn't JSON. That covers the most common case: the PokéAPI answers a 404 with the
+plain text `Not Found`.
 
 ## Use the guard, not `instanceof`
 
@@ -48,14 +48,14 @@ if (error instanceof PokenodeError) { /* ... */ } // ⚠️
 ```
 
 `instanceof` compares prototypes. A dependency tree that loads both the ESM and the CJS build of
-pokenode-ts — easily done, one transitive dependency is enough — ends up with two distinct
-`PokenodeError` classes, and an `instanceof` check against the wrong one is silently `false`. The
-error would fall through to your generic handler with no sign of why.
+pokenode-ts — one transitive dependency is enough — ends up with two distinct `PokenodeError`
+classes, and a check against the wrong one is silently `false`. The error falls through to your
+generic handler with no sign of why.
 
-`isPokenodeError` matches on a brand carried by the instance instead, so it holds across every
-copy of the class.
+`isPokenodeError` matches on a brand carried by the instance, so it holds across every copy of the
+class.
 
-## What is *not* wrapped
+## What isn't wrapped
 
 | Failure | What you catch |
 | --- | --- |
@@ -65,9 +65,9 @@ copy of the class.
 | `AbortSignal.timeout()` firing | `DOMException` named `TimeoutError` |
 | Malformed URL passed to `getResourceByUrl` | `TypeError` |
 
-`isPokenodeError` returns `false` for all of the second column. That is deliberate: an HTTP error
-means the API answered and told you something, while the rest mean the request never completed.
-The two usually want different handling — one is worth retrying, the other is worth reporting.
+`isPokenodeError` returns `false` for everything in the second column. An HTTP error means the API
+answered and told you something; the rest mean the request never completed. The two usually want
+different handling.
 
 ```ts
 try {
@@ -81,19 +81,24 @@ try {
 }
 ```
 
+## With retries on
+
+With [`retry`](./fetch#retries) configured, a 429 or 5xx doesn't throw straight away. The client
+attempts again, and only the last failure becomes the `PokenodeError` you catch, carrying the status
+of that final attempt.
+
+A 404 still throws immediately, and an abort is still never retried.
+
 ## Nothing is cached on failure
 
-A request that throws leaves the cache untouched, so a retry genuinely retries rather than
-replaying the failure. Concurrent calls for the same URL share one request and therefore share its
-rejection.
+A request that throws leaves the cache untouched, so a retry genuinely retries rather than replaying
+the failure. Concurrent calls for the same URL share one request, and share its rejection.
 
 ## Timeouts
 
-Clients impose no timeout — `fetch` has none, and neither do we, so a request waits as long as the
-connection stays open. Supply one through a [custom fetch](/guides/fetch):
+Clients impose no timeout of their own. Attach one to a unit of work with a
+[scoped client](/guides/cancellation):
 
 ```ts
-const api = new PokemonClient({
-  fetch: (url, init) => fetch(url, { ...init, signal: AbortSignal.timeout(5000) }),
-});
+await api.with({ timeout: 5000 }).getPokemonByName('luxray');
 ```

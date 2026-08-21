@@ -8,7 +8,7 @@
  */
 interface LogFields {
   /** Which point of the request lifecycle this is, for filtering. */
-  event: "request" | "response" | "error";
+  event: "request" | "response" | "retry" | "cancelled" | "error";
   msg: string;
   message: string;
   /** The request URL, with any credentials the base URL carried removed. */
@@ -39,13 +39,50 @@ export interface LogResponsePayload extends LogFields {
    * - `cache` — served by the {@link CacheStore}; nothing left the process.
    * - `in-flight` — an identical request was already on the wire and this caller
    *   shared it, so it made no round trip of its own.
+   * - `revalidated` — a round trip was made, the API answered 304, and the body
+   *   already held for that URL was reused. Cheap, but not free.
    *
-   * Counting only `network` gives the number of requests the PokéAPI actually
-   * saw. Every caller reports, so counting all three gives the number of calls
-   * the application made.
+   * Counting `network` and `revalidated` gives the number of requests the
+   * PokéAPI actually saw. Every caller reports, so counting all four gives the
+   * number of calls the application made.
    */
-  source: "network" | "cache" | "in-flight";
+  source: "network" | "cache" | "in-flight" | "revalidated";
   /** How long the client took to resolve the request, in milliseconds. */
+  durationMs: number;
+}
+
+/**
+ * ## Log Retry Payload
+ * An attempt failed and another one is coming.
+ *
+ * Only emitted when `retry` is configured, and never for the attempt that gives
+ * up — that one is a `response` or an `error` like any other. Counting these
+ * gives the round trips the PokéAPI saw beyond the ones it answered.
+ */
+export interface LogRetryPayload extends LogFields {
+  event: "retry";
+  /** Which attempt just failed, counting from one. */
+  attempt: number;
+  /** How long the client will wait before the next one, in milliseconds. */
+  delayMs: number;
+  /** The status that failed. Absent when the attempt never got a response. */
+  status?: number;
+}
+
+/**
+ * ## Log Cancelled Payload
+ * A request was cancelled by the scope it was made through.
+ *
+ * A caller that hangs up asked for this, so it is not a failure and does not
+ * reach `error`: a handler that scopes every request would otherwise report its
+ * own timeouts as its error rate. Counting `response` and `cancelled` together
+ * accounts for every `request` logged.
+ */
+export interface LogCancelledPayload extends LogFields {
+  event: "cancelled";
+  /** `signal.reason`, or the `TimeoutError` a scoped timeout raised. */
+  reason: unknown;
+  /** How long the request had been running when it was cancelled, in milliseconds. */
   durationMs: number;
 }
 
@@ -77,11 +114,14 @@ export interface LogErrorPayload extends LogFields {
  * new PokemonClient({ logger: winston.createLogger() });
  * ```
  *
- * Requests and responses go to `debug`; failures go to `error`. Nothing is
- * logged unless a logger is passed, and a client never picks a level of its own.
+ * Requests, responses and cancellations go to `debug`; failures go to `error`.
+ * Nothing is logged unless a logger is passed, and a client never picks a level
+ * of its own.
  */
 export interface Logger {
-  debug(payload: LogRequestPayload | LogResponsePayload): void;
+  debug(
+    payload: LogRequestPayload | LogResponsePayload | LogRetryPayload | LogCancelledPayload,
+  ): void;
   error(payload: LogErrorPayload): void;
 }
 
@@ -103,10 +143,25 @@ export const logMessage = (text: string): { msg: string; message: string } => ({
  */
 export const consoleLogger: Logger = {
   debug(payload) {
+    if (payload.event === "request") {
+      console.log(`[ Request Config ] ${payload.method} | ${payload.url}`);
+      return;
+    }
+
+    if (payload.event === "retry") {
+      console.log(
+        `[ Retry ] ATTEMPT ${payload.attempt} | STATUS ${payload.status ?? "NONE"} | IN ${payload.delayMs.toFixed(0)}ms | ${payload.url}`,
+      );
+      return;
+    }
+
+    if (payload.event === "cancelled") {
+      console.log(`[ Cancelled ] ${payload.url} | AFTER ${payload.durationMs.toFixed(1)}ms`);
+      return;
+    }
+
     console.log(
-      payload.event === "request"
-        ? `[ Request Config ] ${payload.method} | ${payload.url}`
-        : `[ Response ] STATUS ${payload.status} | ${payload.source.toUpperCase()} | ${payload.durationMs.toFixed(1)}ms`,
+      `[ Response ] STATUS ${payload.status} | ${payload.source.toUpperCase()} | ${payload.durationMs.toFixed(1)}ms`,
     );
   },
 

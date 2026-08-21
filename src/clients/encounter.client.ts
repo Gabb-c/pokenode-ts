@@ -11,10 +11,11 @@ import { BaseClient } from "./base";
  * ### Encounter Client
  *
  * Client used to access the Encounter Endpoints:
- *  - [Encounter Methods](https://pokeapi.co/docs/v2#encounter-methods)
- *  - [Encounter Conditions](https://pokeapi.co/docs/v2#encounter-conditions)
- *  - [Encounter Condition Values](https://pokeapi.co/docs/v2#encounter-condition-values)
- * ---
+ *
+ * - [Encounter Methods](https://pokeapi.co/docs/v2#encounter-methods)
+ * - [Encounter Conditions](https://pokeapi.co/docs/v2#encounter-conditions)
+ * - [Encounter Condition Values](https://pokeapi.co/docs/v2#encounter-condition-values)
+ *
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#encounters-section)
  */
 export class EncounterClient extends BaseClient {

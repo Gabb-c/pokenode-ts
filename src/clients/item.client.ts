@@ -13,12 +13,13 @@ import { BaseClient } from "./base";
  * ### Item Client
  *
  * Client used to access the Item Endpoints:
- *  - [Items](https://pokeapi.co/docs/v2#item)
- *  - [Item Attributes](https://pokeapi.co/docs/v2#item-attributes)
- *  - [Item Categories](https://pokeapi.co/docs/v2#item-categories)
- *  - [Item Fling Effects](https://pokeapi.co/docs/v2#item-fling-effects)
- *  - [Item Pockets](https://pokeapi.co/docs/v2#item-pockets)
- * ---
+ *
+ * - [Items](https://pokeapi.co/docs/v2#item)
+ * - [Item Attributes](https://pokeapi.co/docs/v2#item-attributes)
+ * - [Item Categories](https://pokeapi.co/docs/v2#item-categories)
+ * - [Item Fling Effects](https://pokeapi.co/docs/v2#item-fling-effects)
+ * - [Item Pockets](https://pokeapi.co/docs/v2#item-pockets)
+ *
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#items-section)
  */
 export class ItemClient extends BaseClient {

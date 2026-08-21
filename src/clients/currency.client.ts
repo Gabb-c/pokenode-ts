@@ -6,8 +6,9 @@ import { BaseClient } from "./base";
  * ### Currency Client
  *
  * Client used to access the Currency Endpoints:
- *  - [Currencies](https://pokeapi.co/docs/v2#currencies)
- * ---
+ *
+ * - [Currencies](https://pokeapi.co/docs/v2#currencies)
+ *
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#currencies-section)
  */
 export class CurrencyClient extends BaseClient {

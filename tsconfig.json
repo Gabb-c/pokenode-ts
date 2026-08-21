@@ -6,6 +6,9 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
+    // Drops `@internal` declarations from the emitted types, which is what keeps the internal
+    // `Transport` out of `lib/index.d.ts` while `src/` can still pass one around.
+    "stripInternal": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
     "noUnusedLocals": true,

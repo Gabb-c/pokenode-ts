@@ -11,9 +11,10 @@ import { BaseClient } from "./base";
  * ### Evolution Client
  *
  * Client used to access the Evolution Endpoints:
- *  - [Evolution Chains](https://pokeapi.co/docs/v2#evolution-chains)
- *  - [Evolution Triggers](https://pokeapi.co/docs/v2#evolution-triggers)
- * ---
+ *
+ * - [Evolution Chains](https://pokeapi.co/docs/v2#evolution-chains)
+ * - [Evolution Triggers](https://pokeapi.co/docs/v2#evolution-triggers)
+ *
  * See [PokéAPI Documentation](https://pokeapi.co/docs/v2#evolution-section)
  */
 export class EvolutionClient extends BaseClient {
