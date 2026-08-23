@@ -5,6 +5,7 @@ import {
   formatRequirements,
   pathTo,
   REQUIREMENT_PHRASES,
+  requirementPhrases,
   requirementsOf,
 } from "@utils";
 
@@ -523,5 +524,51 @@ const triggers: [name: string, phrase: string][] = [
 describe("every trigger", () => {
   it.each(triggers)("should render %s", (name, rendered) => {
     expect(formatRequirements(requirementsOf(detail({ trigger: link(name) })))).toBe(rendered);
+  });
+});
+
+describe("formatRequirements naming", () => {
+  const display = new Map([
+    ["water-stone", "Pedra da Água"],
+    ["mt-coronet", "Monte Coroa"],
+  ]);
+  const named = (resource: { name: string }) => display.get(resource.name) ?? resource.name;
+
+  it("should name resources the way it was told to", () => {
+    expect(
+      formatRequirements(requirementsOf(stone("water-stone", "red-blue")), { name: named }),
+    ).toBe("use Pedra da Água");
+  });
+
+  it("should apply the namer to every kind that names a resource", () => {
+    const rendered = formatRequirements(
+      requirementsOf(detail({ location: link("mt-coronet"), held_item: link("water-stone") })),
+      { name: named },
+    );
+
+    expect(rendered).toBe("level up, holding Pedra da Água, at Monte Coroa");
+  });
+
+  // The two halves of a translation, and neither needs the other.
+  it("should combine with a phrase override", () => {
+    const rendered = formatRequirements(
+      requirementsOf(detail({ trigger: link("use-item"), item: link("water-stone") })),
+      { name: named, phrases: { item: ({ item }) => `usar ${named(item)}` } },
+    );
+
+    expect(rendered).toBe("usar Pedra da Água");
+  });
+
+  it("should leave the API's own names alone by default", () => {
+    expect(formatRequirements(requirementsOf(detail({ location: link("mt-coronet") })))).toBe(
+      "level up, at mt coronet",
+    );
+  });
+
+  it("should build a table a caller can hold on to", () => {
+    const phrases = requirementPhrases(named);
+
+    expect(phrases.item({ kind: "item", item: link("water-stone") })).toBe("use Pedra da Água");
+    expect(phrases["min-level"]({ kind: "min-level", level: 16 })).toBe("at level 16");
   });
 });

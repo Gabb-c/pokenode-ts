@@ -43,9 +43,10 @@ export interface EvolutionStep {
  */
 export interface FlattenOptions {
   /**
-   * Keep only the details tagged with this version group, by name, and drop the
-   * steps left with none. The tag is the game that introduced the method, not
-   * every game it applies in — see {@link flattenChain}.
+   * Keep only the details tagged with this version group, by the name the API
+   * gives it — `sword-shield`, not `Sword/Shield` — and drop the steps left with
+   * none. The tag is the game that introduced the method, not every game it
+   * applies in — see {@link flattenChain}.
    */
   versionGroup?: string;
 }
@@ -113,6 +114,10 @@ export const flattenChain = (chain: EvolutionChain, options?: FlattenOptions): E
  * ```ts
  * pathTo(chain, 'dustox')?.map((step) => step.to.name); // ['cascoon', 'dustox']
  * ```
+ *
+ * Matched against the name the API gives a species, which is not the name a game
+ * displays: `localize(species.names)` is `Papilord` in French and finds nothing
+ * here. Pass the link itself when you have one.
  *
  * @returns The steps, `[]` when `species` is the root the chain starts from, and
  *   `undefined` when the chain does not contain it. The two empty answers are
@@ -349,47 +354,83 @@ export type RequirementPhrases = {
 };
 
 /**
+ * ## Resource Namer
+ * How a resource a requirement names is written out.
+ *
+ * @param resource The item, move, species, location, region, form or type the
+ *   requirement carries.
+ * @returns What to print for it.
+ */
+export type ResourceNamer = (resource: NamedAPIResource<unknown>) => string;
+
+/**
+ * Builds the English table around a way of naming resources.
+ *
+ * Everything except the name is fixed; `namer` is the one thing a caller who
+ * keeps the English sentence still has to replace, because `spaced` prints what
+ * the API calls a resource and no localized name is derivable from it.
+ *
+ * ```ts
+ * const names = new Map([['water-stone', 'Pedra da Água']]);
+ *
+ * requirementPhrases((resource) => names.get(resource.name) ?? resource.name);
+ * ```
+ *
+ * @param namer How to write a resource out. Defaults to the API's own name, with
+ *   the hyphens turned to spaces.
+ */
+export const requirementPhrases = (namer: ResourceNamer = spaced): RequirementPhrases => ({
+  trigger: ({ trigger }) => TRIGGERS[trigger.name as EvolutionTriggerName] ?? namer(trigger),
+  item: ({ item }) => `use ${namer(item)}`,
+  "held-item": ({ item }) => `holding ${namer(item)}`,
+  "min-level": ({ level }) => `at level ${level}`,
+  "min-happiness": ({ happiness }) => `with at least ${happiness} happiness`,
+  "min-beauty": ({ beauty }) => `with at least ${beauty} beauty`,
+  "min-affection": ({ affection }) => `with at least ${affection} affection`,
+  "known-move": ({ move }) => `knowing ${namer(move)}`,
+  "known-move-type": ({ type }) => `knowing a ${namer(type)}-type move`,
+  "used-move": ({ move }) => `after using ${namer(move)}`,
+  "min-move-count": ({ count }) => `${count} times`,
+  "min-steps": ({ steps }) => `after ${steps} steps`,
+  "min-damage-taken": ({ damage }) => `after taking ${damage} damage`,
+  location: ({ location }) => `at ${namer(location)}`,
+  region: ({ region }) => `in ${namer(region)}`,
+  "time-of-day": ({ time }) => TIMES[time],
+  gender: ({ gender }) => `as a ${GENDERS[gender] ?? `gender ${gender}`}`,
+  "relative-physical-stats": ({ comparison }) =>
+    `with Attack ${COMPARISONS[String(comparison)]} Defense`,
+  "party-species": ({ species }) => `with ${namer(species)} in the party`,
+  "party-type": ({ type }) => `with a ${namer(type)}-type in the party`,
+  "trade-species": ({ species }) => `traded for ${namer(species)}`,
+  "base-form": ({ form }) => `in its ${namer(form)} form`,
+  "evolved-form": ({ form }) => `into its ${namer(form)} form`,
+  "needs-overworld-rain": () => "while it is raining",
+  "turn-upside-down": () => "with the console upside down",
+  "near-special-rock": () => "near a special rock",
+  "needs-multiplayer": () => "in multiplayer",
+});
+
+/**
  * ## Requirement Phrases
- * The English {@link formatRequirements} renders with. Exported so a caller can
- * replace the wording of one kind — or all of them, in another language — without
- * rebuilding the rest of the renderer around it.
+ * The English {@link formatRequirements} renders with, naming resources the way
+ * the API does. Exported so a caller can replace the wording of one kind — or
+ * all of them, in another language — without rebuilding the rest of the renderer
+ * around it, and so an override can fall back to the default for what it does
+ * not handle.
  *
  * ```ts
  * formatRequirements(requirements, {
  *   phrases: { 'min-happiness': ({ happiness }) => `com ${happiness} de felicidade` },
  * });
+ *
+ * formatRequirements(requirements, {
+ *   phrases: {
+ *     trigger: (requirement) => MINE[requirement.trigger.name] ?? REQUIREMENT_PHRASES.trigger(requirement),
+ *   },
+ * });
  * ```
  */
-export const REQUIREMENT_PHRASES: RequirementPhrases = {
-  trigger: ({ trigger }) => TRIGGERS[trigger.name as EvolutionTriggerName] ?? spaced(trigger),
-  item: ({ item }) => `use ${spaced(item)}`,
-  "held-item": ({ item }) => `holding ${spaced(item)}`,
-  "min-level": ({ level }) => `at level ${level}`,
-  "min-happiness": ({ happiness }) => `with at least ${happiness} happiness`,
-  "min-beauty": ({ beauty }) => `with at least ${beauty} beauty`,
-  "min-affection": ({ affection }) => `with at least ${affection} affection`,
-  "known-move": ({ move }) => `knowing ${spaced(move)}`,
-  "known-move-type": ({ type }) => `knowing a ${type.name}-type move`,
-  "used-move": ({ move }) => `after using ${spaced(move)}`,
-  "min-move-count": ({ count }) => `${count} times`,
-  "min-steps": ({ steps }) => `after ${steps} steps`,
-  "min-damage-taken": ({ damage }) => `after taking ${damage} damage`,
-  location: ({ location }) => `at ${spaced(location)}`,
-  region: ({ region }) => `in ${spaced(region)}`,
-  "time-of-day": ({ time }) => TIMES[time],
-  gender: ({ gender }) => `as a ${GENDERS[gender] ?? `gender ${gender}`}`,
-  "relative-physical-stats": ({ comparison }) =>
-    `with Attack ${COMPARISONS[String(comparison)]} Defense`,
-  "party-species": ({ species }) => `with ${spaced(species)} in the party`,
-  "party-type": ({ type }) => `with a ${type.name}-type in the party`,
-  "trade-species": ({ species }) => `traded for ${spaced(species)}`,
-  "base-form": ({ form }) => `in its ${spaced(form)} form`,
-  "evolved-form": ({ form }) => `into its ${spaced(form)} form`,
-  "needs-overworld-rain": () => "while it is raining",
-  "turn-upside-down": () => "with the console upside down",
-  "near-special-rock": () => "near a special rock",
-  "needs-multiplayer": () => "in multiplayer",
-};
+export const REQUIREMENT_PHRASES: RequirementPhrases = requirementPhrases();
 
 /**
  * The table is keyed by `kind` and the union is discriminated by it, so the two
@@ -404,6 +445,16 @@ const phrase = (requirement: EvolutionRequirement, phrases: RequirementPhrases):
  * How {@link formatRequirements} words what it renders.
  */
 export interface FormatOptions {
+  /**
+   * How to write out the resources the requirements name. Defaults to the API's
+   * own name with the hyphens turned to spaces — `water stone`.
+   *
+   * This is the half of a translation that `phrases` cannot do: a display name
+   * is `localize(item.names)`, which is a request, so it has to come from the
+   * caller. Applied to the default table, and to nothing a `phrases` entry
+   * overrides — that entry is handed the resource and names it however it likes.
+   */
+  name?: ResourceNamer;
   /**
    * Wording for the kinds named, {@link REQUIREMENT_PHRASES} for the rest —
    * everything around it, including the `use-item` de-duplication, stays.
@@ -430,7 +481,19 @@ export interface FormatOptions {
  * ```
  *
  * Resources are named the way the API names them, not the way a game displays
- * them. `localize(item.names)` is the display name, and it costs a request.
+ * them. `localize(item.names)` is the display name, it costs a request, and
+ * `name` is where it goes:
+ *
+ * ```ts
+ * const items = await api.resolveAll(links);
+ * const display = new Map(items.map((item) => [item.name, localize(item.names)?.name]));
+ *
+ * formatRequirements(requirements, { name: (resource) => display.get(resource.name) ?? resource.name });
+ * // 'use Water Stone'
+ * ```
+ *
+ * The two options are the two halves of a translation and are independent:
+ * `phrases` is the words the library supplies, `name` the words the API does.
  *
  * A `use-item` trigger and the item it uses are one phrase, since "use an item,
  * use water stone" says it twice. That holds under `phrases` too: the trigger is
@@ -441,7 +504,9 @@ export const formatRequirements = (
   requirements: readonly EvolutionRequirement[],
   options?: FormatOptions,
 ): string => {
-  const phrases = { ...REQUIREMENT_PHRASES, ...options?.phrases };
+  // Rebuilt only when a namer was given: the default table is already built.
+  const table = options?.name ? requirementPhrases(options.name) : REQUIREMENT_PHRASES;
+  const phrases = { ...table, ...options?.phrases };
 
   const usesItem =
     requirements.some((requirement) => requirement.kind === "item") &&

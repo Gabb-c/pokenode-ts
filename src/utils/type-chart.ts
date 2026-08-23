@@ -185,6 +185,10 @@ export function effectiveness(
  * generation: it answers the same question from the defender's own types, which
  * is one or two resources rather than the whole section. This is the form that
  * takes a `generation`, because only the attacking type carries the history.
+ *
+ * Keyed by the name the API gives a type, which is not the name a game displays:
+ * `localize(type.names)` is what a table headed in French needs, and it is a
+ * property of the resource rather than of this table.
  */
 export const defensiveProfile = (
   types: readonly Type[],
@@ -230,6 +234,9 @@ export const defensiveProfile = (
  * `generation` option for exactly the reason the entries are total — a defending
  * type's arrays are the current chart, and they have no way to say that an
  * attacking type did not exist yet. That question needs {@link defensiveProfile}.
+ *
+ * Keyed by the API's name for a type, as {@link defensiveProfile} is;
+ * `localize(type.names)` is the displayed one.
  */
 export const defensiveProfileFrom = (
   defending: readonly Type[],

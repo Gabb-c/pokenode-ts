@@ -99,7 +99,23 @@ in another language, or as anything other than a sentence — drops it and its p
 bundle.
 
 Resources are named the way the API names them, not the way a game displays them: `water stone`,
-not `Water Stone`. The display name is `localize(item.names)`, and it costs a request.
+not `Water Stone`. The display name is `localize(item.names)`, it costs a request, and `name` is
+where you put it:
+
+```ts
+const items = await api.resolveAll(links);
+const display = new Map(items.map((item) => [item.name, localize(item.names, 'fr')?.name]));
+
+formatRequirements(requirements, {
+  name: (resource) => display.get(resource.name) ?? resource.name,
+});
+// 'use Pierre Eau'
+```
+
+The namer applies to every kind that names a resource — items, moves, species, locations, regions,
+forms, types. It's the half of a translation `phrases` can't do: the library supplies the connective
+words, the API supplies the names, and `name` is the only way the second half can reach you, since
+fetching them is a request this function can't make.
 
 ### Changing the words
 
@@ -124,6 +140,20 @@ formatRequirements(requirements, {
   phrases: { ...REQUIREMENT_PHRASES, trigger: () => 'troca', 'min-level': ({ level }) => `no nível ${level}` },
 });
 ```
+
+An override can also fall back to the default for what it doesn't handle, which is how you reword
+two of the sixteen triggers without restating the other fourteen:
+
+```ts
+formatRequirements(requirements, {
+  phrases: {
+    trigger: (requirement) => MINE[requirement.trigger.name] ?? REQUIREMENT_PHRASES.trigger(requirement),
+  },
+});
+```
+
+`requirementPhrases(namer)` builds the same table around a namer, if you want to hold one rather
+than pass `name` on every call.
 
 ## What the data cannot tell you
 
