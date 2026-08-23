@@ -38,14 +38,33 @@ export * from "@constants";
 export * as CONSTANTS from "@constants";
 export * from "@models";
 export {
+  defensiveProfile,
+  defensiveProfileFrom,
+  type EvolutionRequirement,
+  type EvolutionStep,
+  effectiveness,
+  type FlattenOptions,
+  type FormatOptions,
+  flattenChain,
+  formatRequirements,
+  type GenerationScope,
   getPokemonSpriteUrl,
   type Localized,
+  type LocalizeOptions,
   localize,
+  localizeAll,
   type PokemonSpriteOptions,
+  pathTo,
+  REQUIREMENT_PHRASES,
+  type RequirementPhrases,
+  relationsFor,
+  requirementsOf,
+  resourceId,
   type SpriteVariant,
 } from "@utils";
 export type {
   ClientOptions,
+  ClientStats,
   FetchLike,
   ListFn,
   ListMethodName,

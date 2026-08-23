@@ -1,5 +1,6 @@
 import type {
   ClientOptions,
+  ClientStats,
   FetchLike,
   ListFn,
   PaginateOptions,
@@ -67,6 +68,8 @@ interface TransportState {
   etags: EtagStore | undefined;
   /** Requests already on the wire, so concurrent callers share one round trip. */
   inFlight: InFlight<FetchedResource>;
+  /** One count per resolution, by where it came from. Shared for the same reason. */
+  counts: Record<LogResponsePayload["source"], number>;
 }
 
 /**
@@ -101,8 +104,22 @@ export class Transport {
           clientOptions?.cache === false ? undefined : (clientOptions?.cache ?? new MemoryCache()),
         etags: toEtagStore(clientOptions?.revalidate),
         inFlight: new InFlight(),
+        counts: { network: 0, cache: 0, "in-flight": 0, revalidated: 0 },
       },
     );
+  }
+
+  /** The counts so far, as a snapshot: the state behind them keeps moving. */
+  get stats(): ClientStats {
+    const { network, cache, revalidated } = this.state.counts;
+
+    return {
+      network,
+      cache,
+      inFlight: this.state.counts["in-flight"],
+      revalidated,
+      roundTrips: network + revalidated,
+    };
   }
 
   /** The store backing this transport, or `undefined` when caching is disabled. */
@@ -215,7 +232,7 @@ export class Transport {
       if (cached !== undefined) {
         // A hit is timed like any other resolution: the number is small, but a
         // store on the far side of a network is not guaranteed to make it so.
-        this.logResponse(url, 200, "cache", startedAt);
+        this.recordResponse(url, 200, "cache", startedAt);
         return cached as T;
       }
 
@@ -227,7 +244,7 @@ export class Transport {
         this.fetchResource(url, authorization, requestSignal),
       );
 
-      this.logResponse(url, value.status, responseSource(joined, value.revalidated), startedAt);
+      this.recordResponse(url, value.status, responseSource(joined, value.revalidated), startedAt);
 
       return value.data as T;
     } catch (error) {
@@ -381,12 +398,19 @@ export class Transport {
     return { data, status: response.status };
   }
 
-  private logResponse(
+  /**
+   * The one place a resolution is accounted for, however it was resolved — which
+   * is what keeps {@link Transport.stats} and the response log saying the same
+   * thing about the same request.
+   */
+  private recordResponse(
     url: string,
     status: number,
     source: LogResponsePayload["source"],
     startedAt: number,
   ): void {
+    this.state.counts[source] += 1;
+
     this.config.logger?.debug({
       event: "response",
       ...logMessage("pokeapi response"),

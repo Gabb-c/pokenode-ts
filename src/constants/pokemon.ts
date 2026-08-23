@@ -84,12 +84,17 @@ export const POKEMON_HABITATS = {
   CAVE: 1,
   FOREST: 2,
   GRASSLAND: 3,
-  MONTAIN: 4,
+  MOUNTAIN: 4,
   RARE: 5,
   ROUGH_TERRAIN: 6,
   SEA: 7,
   URBAN: 8,
   WATERS_EDGE: 9,
+  /**
+   * @deprecated Misspelled: the endpoint names this `mountain`.
+   *   Use {@link POKEMON_HABITATS.MOUNTAIN}. Removed in 3.0.
+   */
+  MONTAIN: 4,
 } as const;
 
 export const POKEMON_SHAPES = {
@@ -118,6 +123,7 @@ export const STATS = {
   SPEED: 6,
   ACCURACY: 7,
   EVASION: 8,
+  SPECIAL: 9,
 } as const;
 
 export const TYPES = {
@@ -139,6 +145,43 @@ export const TYPES = {
   DRAGON: 16,
   DARK: 17,
   FAIRY: 18,
+  STELLAR: 19,
   UNKNOWN: 10_001,
   SHADOW: 10_002,
 } as const;
+
+/**
+ * ## Type Name
+ * A battle type as the PokéAPI names it, which is what a
+ * `NamedAPIResource<Type>` carries and what the type chart is keyed by.
+ *
+ * The eighteen types a Pokémon can be, and `stellar`, which is a Tera type and
+ * nothing else. `unknown` and `shadow` are in {@link TYPES} but not here: they
+ * are artefacts of Generation II's internals and of Colosseum/XD, they appear in
+ * no damage relation, and a table keyed by them would be a table with two entries
+ * nothing can ever fill.
+ *
+ * Written out rather than derived from {@link TYPES}, for the same reason
+ * `GenerationName` is: the set is closed, and the two exclusions are a decision
+ * rather than a transformation.
+ */
+export type TypeName =
+  | "normal"
+  | "fighting"
+  | "flying"
+  | "poison"
+  | "ground"
+  | "rock"
+  | "bug"
+  | "ghost"
+  | "steel"
+  | "fire"
+  | "water"
+  | "grass"
+  | "electric"
+  | "psychic"
+  | "ice"
+  | "dragon"
+  | "dark"
+  | "fairy"
+  | "stellar";

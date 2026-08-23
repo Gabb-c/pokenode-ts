@@ -99,6 +99,31 @@ export interface ClientOptions {
 }
 
 /**
+ * ## Client Stats
+ * How many resolutions came from where, since the client was built.
+ *
+ * One count per `source` a {@link LogResponsePayload} reports, which is the only
+ * thing that tells a cache hit from a revalidation from a real round trip once
+ * the promise has settled. A failed request is counted by neither: it resolved
+ * nothing, and it is the logger's `error` event that has it.
+ */
+export interface ClientStats {
+  /** Responses downloaded in full. */
+  network: number;
+  /** Responses answered from the {@link CacheStore}, with no request made. */
+  cache: number;
+  /** Callers that joined a request already on the wire rather than repeating it. */
+  inFlight: number;
+  /** Responses the PokéAPI answered `304` for, served from the {@link EtagStore}. */
+  revalidated: number;
+  /**
+   * Requests the PokéAPI actually saw: `network + revalidated`. A revalidation is
+   * a round trip that saved a body, not a request that never happened.
+   */
+  roundTrips: number;
+}
+
+/**
  * ## List Page
  * The part of a resource list a walk needs: how much there is, and this page of
  * it. Both {@link NamedAPIResourceList} and {@link APIResourceList} qualify.
@@ -186,6 +211,27 @@ export abstract class ClientFacade {
   /** The store backing this client, or `undefined` when caching is disabled. */
   public get cache(): CacheStore | undefined {
     return this.#transport.cache;
+  }
+
+  /**
+   * How many resolutions came from where.
+   *
+   * ```ts
+   * await api.pokemon.getPokemonByName('luxray');
+   * await api.pokemon.getPokemonByName('luxray');
+   *
+   * api.stats; // { network: 1, cache: 1, inFlight: 0, revalidated: 0, roundTrips: 1 }
+   * ```
+   *
+   * The counts are the transport's, so they cover every section of a
+   * {@link MainClient} and every client derived with {@link ClientFacade.with} —
+   * the same sharing that makes one cache serve all of them.
+   *
+   * A snapshot, read at the moment it is asked for. Keeping one to compare
+   * against later means keeping the object, not the client.
+   */
+  public get stats(): ClientStats {
+    return this.#transport.stats;
   }
 
   /**

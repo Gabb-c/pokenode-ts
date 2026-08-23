@@ -102,6 +102,10 @@ Two concurrent calls for the same resource produce **two** `request` events and 
 events, but only one round trip. Count `network` and `revalidated` for what the PokéAPI actually saw,
 and all four for what your application asked for.
 
+[`api.stats`](./cache#counting-what-it-saved) keeps those counts for you, if a tally is all you were
+after. The logger is what you want when the individual requests matter — which URLs, in what order,
+how long each took.
+
 **`durationMs`** covers everything the client did, so cache hits and shared requests are timed like
 any other resolution. A store that lives across a network shows up here.
 

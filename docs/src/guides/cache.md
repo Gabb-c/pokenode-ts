@@ -182,6 +182,38 @@ Any `ETag` the client learned goes too, so the next request downloads rather tha
 optional on `CacheStore`, so a store that doesn't implement it — a shared Redis instance you'd rather
 the library not flush — is left untouched.
 
+## Counting what it saved
+
+`stats` says where each resolution came from:
+
+```ts
+const api = new MainClient();
+
+await api.pokemon.getPokemonByName('luxray');
+await api.pokemon.getPokemonByName('luxray');
+
+api.stats;
+// { network: 1, cache: 1, inFlight: 0, revalidated: 0, roundTrips: 1 }
+```
+
+Once a promise has settled there is nothing else to tell a cache hit from a real request, so this is
+what answers "is the cache doing anything". `roundTrips` is `network + revalidated` — the requests
+the PokéAPI actually saw. A revalidation is one of them: what it saved is the body, not the trip.
+
+The counts belong to the transport, so they cover every section of a `MainClient` and every client
+derived with `with()` — the same sharing that makes one cache serve all of them. A failed request
+counts as nothing; it resolved nothing, and the [`error` event](/guides/logging#events) is where it
+shows up.
+
+Reading `stats` gives a snapshot. Keep the object to compare against later:
+
+```ts
+const before = api.stats;
+await renderTeam();
+
+console.log(api.stats.roundTrips - before.roundTrips); // what that render cost
+```
+
 ## How it works
 
 - Only successful responses are cached, so a retry genuinely retries. See [Errors](/guides/errors).
