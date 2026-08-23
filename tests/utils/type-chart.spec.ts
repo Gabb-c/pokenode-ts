@@ -166,6 +166,14 @@ describe("relationsFor", () => {
     expect(relationsFor(future, "generation-ix")).toBe(FIRE.damage_relations);
   });
 
+  // The mirror of the case above, and the one that matters when the API adds a
+  // generation before this library does: -1 would sort before every type's debut
+  // and report that nothing existed yet.
+  it("should fall back to the current chart for a generation it does not know", () => {
+    expect(relationsFor(FIRE, "generation-x" as GenerationName)).toBe(FIRE.damage_relations);
+    expect(relationsFor(FAIRY, "generation-x" as GenerationName)).toBe(FAIRY.damage_relations);
+  });
+
   it("should return relations for the generation the type was introduced in", () => {
     expect(relationsFor(STEEL, "generation-ii")).toBeDefined();
     expect(relationsFor(FAIRY, "generation-vi")).toBe(FAIRY.damage_relations);
@@ -324,6 +332,15 @@ describe("defensiveProfileFrom", () => {
         .map((key) => key.toLowerCase())
         .sort(),
     );
+  });
+
+  // Total, not `Partial`: the loop assigns every name, so a caller handling
+  // `undefined` would be handling something that cannot happen.
+  it("should type every entry as present", () => {
+    const profile = defensiveProfileFrom([GHOST_DEFENDING]);
+
+    expectTypeOf(profile).toEqualTypeOf<Record<TypeName, number>>();
+    expectTypeOf(profile.fire).toEqualTypeOf<number>();
   });
 
   it("should return neutral everywhere for no defending types", () => {

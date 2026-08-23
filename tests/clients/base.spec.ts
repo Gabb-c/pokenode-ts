@@ -1533,6 +1533,58 @@ describe("BaseClient.stats", () => {
     expect(client.stats).toEqual(scoped.stats);
   });
 
+  // The number the API saw, which is not the number of resolutions: a retried
+  // request is one `network` and three requests, and the attempts are the half a
+  // caller cannot otherwise see.
+  it("should count every attempt a retried request made", async () => {
+    const calls = failingHandler([503, 500]);
+    const client = new TestClient({ retry: IMMEDIATE });
+
+    await client.get("/berry", 1);
+
+    expect(calls.count).toBe(3);
+    expect(client.stats).toMatchObject({ network: 1, roundTrips: 3 });
+  });
+
+  it("should count the round trip a revalidation made", async () => {
+    revalidatingHandler();
+    const client = new TestClient({ cache: false, revalidate: true });
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    expect(client.stats).toMatchObject({ revalidated: 1, roundTrips: 2 });
+  });
+
+  it("should count no round trip for a cache hit", async () => {
+    countingHandler(BERRY_URL);
+    const client = new TestClient();
+
+    await client.get("/berry", 1);
+    await client.get("/berry", 1);
+
+    expect(client.stats).toMatchObject({ cache: 1, roundTrips: 1 });
+  });
+
+  it("should subtract a snapshot from the counts since", async () => {
+    countingHandler(`${BASE_URL.REST}/berry/:id`);
+    const client = new TestClient();
+
+    await client.get("/berry", 1);
+    const before = client.stats;
+
+    await client.get("/berry", 2);
+    await client.get("/berry", 2);
+
+    expect(client.statsSince(before)).toEqual({
+      network: 1,
+      cache: 1,
+      inFlight: 0,
+      revalidated: 0,
+      roundTrips: 1,
+    });
+  });
+
   it("should return a snapshot rather than a live view", async () => {
     countingHandler(BERRY_URL);
     const client = new TestClient();

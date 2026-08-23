@@ -70,6 +70,12 @@ interface TransportState {
   inFlight: InFlight<FetchedResource>;
   /** One count per resolution, by where it came from. Shared for the same reason. */
   counts: Record<LogResponsePayload["source"], number>;
+  /**
+   * Requests that left the process, counted where they are made rather than
+   * where they resolve: a resolution retried twice is one `network` and three of
+   * these, and only this number is what the API saw.
+   */
+  roundTrips: { count: number };
 }
 
 /**
@@ -105,6 +111,7 @@ export class Transport {
         etags: toEtagStore(clientOptions?.revalidate),
         inFlight: new InFlight(),
         counts: { network: 0, cache: 0, "in-flight": 0, revalidated: 0 },
+        roundTrips: { count: 0 },
       },
     );
   }
@@ -118,7 +125,7 @@ export class Transport {
       cache,
       inFlight: this.state.counts["in-flight"],
       revalidated,
-      roundTrips: network + revalidated,
+      roundTrips: this.state.roundTrips.count,
     };
   }
 
@@ -311,6 +318,10 @@ export class Transport {
       let response: Response;
 
       try {
+        // Counted before the call rather than after: an attempt that throws
+        // still left the process, and a retry loop nobody can see is what makes
+        // a client cost more than its caller thinks.
+        this.state.roundTrips.count += 1;
         response = await this.config.fetch(url, init);
       } catch (error) {
         // A cancelled request is not a failed one, so no attempt follows it.

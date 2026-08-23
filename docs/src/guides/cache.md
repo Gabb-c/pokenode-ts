@@ -197,22 +197,33 @@ api.stats;
 ```
 
 Once a promise has settled there is nothing else to tell a cache hit from a real request, so this is
-what answers "is the cache doing anything". `roundTrips` is `network + revalidated` — the requests
-the PokéAPI actually saw. A revalidation is one of them: what it saved is the body, not the trip.
+what answers "is the cache doing anything".
+
+`roundTrips` is counted separately from the rest, because it is a different question. The four
+sources count **resolutions** — what your application asked for. `roundTrips` counts **requests that
+left the process** — what the PokéAPI saw. They differ in both directions: a revalidation is a round
+trip that saved a body rather than a request that never happened, and a resolution the
+[`retry`](/guides/errors#with-retries-on) option attempted three times is one `network` and three
+round trips.
+That second half is invisible to a caller, and it is the half that shows up in someone's rate limit.
 
 The counts belong to the transport, so they cover every section of a `MainClient` and every client
-derived with `with()` — the same sharing that makes one cache serve all of them. A failed request
-counts as nothing; it resolved nothing, and the [`error` event](/guides/logging#events) is where it
-shows up.
+derived with `with()` — the same sharing that makes one cache serve all of them. A failed resolution
+counts as no source; the [`error` event](/guides/logging#events) is where it shows up, though the
+attempts it made are still in `roundTrips`.
 
-Reading `stats` gives a snapshot. Keep the object to compare against later:
+`statsSince()` measures one unit of work:
 
 ```ts
 const before = api.stats;
 await renderTeam();
 
-console.log(api.stats.roundTrips - before.roundTrips); // what that render cost
+api.statsSince(before).roundTrips; // what that render cost
 ```
+
+There is no way to reset the counts, deliberately: the transport behind them is shared, so zeroing
+it for one measurement zeroes it for anything else measuring. Subtraction is the same answer without
+the shared mutation.
 
 ## How it works
 

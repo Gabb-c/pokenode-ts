@@ -117,8 +117,13 @@ export interface ClientStats {
   /** Responses the PokéAPI answered `304` for, served from the {@link EtagStore}. */
   revalidated: number;
   /**
-   * Requests the PokéAPI actually saw: `network + revalidated`. A revalidation is
-   * a round trip that saved a body, not a request that never happened.
+   * Requests that left the process — what the PokéAPI actually saw.
+   *
+   * Not `network + revalidated`. A revalidation is a round trip that saved a
+   * body rather than a request that never happened, so it is in here; and a
+   * resolution the `retry` option attempted three times is one `network` and
+   * three of these. The attempts are the half a caller cannot see, and they are
+   * the half that shows up in someone else's rate limit.
    */
   roundTrips: number;
 }
@@ -232,6 +237,34 @@ export abstract class ClientFacade {
    */
   public get stats(): ClientStats {
     return this.#transport.stats;
+  }
+
+  /**
+   * What has been counted since `snapshot` was taken.
+   *
+   * ```ts
+   * const before = api.stats;
+   * await renderTeam();
+   *
+   * api.statsSince(before).roundTrips; // what that render cost
+   * ```
+   *
+   * There is no way to reset the counts, and this is why: the transport behind
+   * them is shared by every section of a {@link MainClient} and by every client
+   * derived with {@link ClientFacade.with}, so zeroing it for one measurement
+   * zeroes it for whatever else is measuring. Subtraction is the same answer
+   * without the shared mutation.
+   */
+  public statsSince(snapshot: ClientStats): ClientStats {
+    const now = this.#transport.stats;
+
+    return {
+      network: now.network - snapshot.network,
+      cache: now.cache - snapshot.cache,
+      inFlight: now.inFlight - snapshot.inFlight,
+      revalidated: now.revalidated - snapshot.revalidated,
+      roundTrips: now.roundTrips - snapshot.roundTrips,
+    };
   }
 
   /**

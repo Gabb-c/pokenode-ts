@@ -433,6 +433,24 @@ export const requirementPhrases = (namer: ResourceNamer = spaced): RequirementPh
 export const REQUIREMENT_PHRASES: RequirementPhrases = requirementPhrases();
 
 /**
+ * The table built for a namer, kept so that rendering a list does not rebuild
+ * twenty-seven closures per row. Weak, so a namer closed over a component's
+ * props is not held alive by having been used once.
+ */
+const tables = new WeakMap<ResourceNamer, RequirementPhrases>();
+
+const tableFor = (namer: ResourceNamer | undefined): RequirementPhrases => {
+  if (namer === undefined) {
+    return REQUIREMENT_PHRASES;
+  }
+
+  const built = tables.get(namer) ?? requirementPhrases(namer);
+  tables.set(namer, built);
+
+  return built;
+};
+
+/**
  * The table is keyed by `kind` and the union is discriminated by it, so the two
  * are known to line up — but only one entry at a time, which is not something an
  * index of the whole table can be written to say.
@@ -453,6 +471,9 @@ export interface FormatOptions {
    * is `localize(item.names)`, which is a request, so it has to come from the
    * caller. Applied to the default table, and to nothing a `phrases` entry
    * overrides — that entry is handed the resource and names it however it likes.
+   *
+   * Hold the function rather than writing it inline: the table built around a
+   * namer is kept and reused, and a new closure per call is a new table per call.
    */
   name?: ResourceNamer;
   /**
@@ -504,9 +525,7 @@ export const formatRequirements = (
   requirements: readonly EvolutionRequirement[],
   options?: FormatOptions,
 ): string => {
-  // Rebuilt only when a namer was given: the default table is already built.
-  const table = options?.name ? requirementPhrases(options.name) : REQUIREMENT_PHRASES;
-  const phrases = { ...table, ...options?.phrases };
+  const phrases = { ...tableFor(options?.name), ...options?.phrases };
 
   const usesItem =
     requirements.some((requirement) => requirement.kind === "item") &&

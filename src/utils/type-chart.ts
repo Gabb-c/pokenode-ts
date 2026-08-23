@@ -18,14 +18,18 @@ const TYPE_NAMES: ReadonlySet<string> = new Set(
 
 const isTypeName = (name: string): name is TypeName => TYPE_NAMES.has(name);
 
+/** A generation {@link GENERATIONS} does not know, which is one this build predates. */
+const UNKNOWN = -1;
+
 /**
- * The id {@link GENERATIONS} gives a generation, or `-1` for a name that is not
- * one. Generations are compared by this rather than by name, which does not sort.
+ * The id {@link GENERATIONS} gives a generation, or {@link UNKNOWN} for a name
+ * that is not one. Generations are compared by this rather than by name, which
+ * does not sort.
  */
 const rank = (name: string): number => {
   const key = name.toUpperCase().replace(/-/g, "_") as keyof typeof GENERATIONS;
 
-  return GENERATIONS[key] ?? -1;
+  return GENERATIONS[key] ?? UNKNOWN;
 };
 
 /** The offensive arrays of a {@link TypeRelations}, and what each one means. */
@@ -102,6 +106,14 @@ export const relationsFor = (
   }
 
   const wanted = rank(generation);
+
+  // A generation this build has never heard of is a later one than it knows, so
+  // the current chart is the best answer available. Ranking it -1 instead would
+  // put it before every type's debut and report that nothing existed yet, which
+  // is the same wrong answer the check below exists to avoid.
+  if (wanted === UNKNOWN) {
+    return type.damage_relations;
+  }
 
   // Checked before the entries are: Steel's only past entry is `generation-v`,
   // which would otherwise answer for generation I, where Steel did not exist.
@@ -238,10 +250,11 @@ export const defensiveProfile = (
  * Keyed by the API's name for a type, as {@link defensiveProfile} is;
  * `localize(type.names)` is the displayed one.
  */
-export const defensiveProfileFrom = (
-  defending: readonly Type[],
-): Partial<Record<TypeName, number>> => {
-  const profile: Partial<Record<TypeName, number>> = {};
+export const defensiveProfileFrom = (defending: readonly Type[]): Record<TypeName, number> => {
+  // Total rather than `Partial`, and asserted because the loop is what makes it
+  // so: `TYPE_NAMES` is {@link TypeName}'s own runtime image, and
+  // `constants.live.spec.ts` is what holds the two to the same set.
+  const profile = {} as Record<TypeName, number>;
 
   for (const name of TYPE_NAMES) {
     profile[name as TypeName] = defending.reduce(
