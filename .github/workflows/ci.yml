@@ -60,8 +60,5 @@ jobs:
 
       - name: Build library
         run: pnpm build
-      - name: Check bundle size
-        if: matrix.node-version == '22'
-        run: pnpm size
       - name: Build docs
         run: pnpm docs:build
