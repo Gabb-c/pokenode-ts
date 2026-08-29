@@ -277,7 +277,7 @@ const TRIGGERS: Record<EvolutionTriggerName, string> = {
 };
 
 /** A resource name as prose: the API writes them kebab-cased and lower case. */
-const spaced = (resource: NamedAPIResource<unknown>): string => resource.name.replace(/-/g, " ");
+const spaced = (resource: NamedAPIResource<unknown>): string => resource.name.replaceAll("-", " ");
 
 /**
  * Every time of day as a phrase. Exhaustive over {@link EvolutionTimeOfDay}, so

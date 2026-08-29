@@ -95,7 +95,7 @@ const asNames = (constant: Readonly<Record<string, number>>): Record<string, num
     }
 
     claimed.add(id);
-    names[key.toLowerCase().replace(/_/g, "-")] = id;
+    names[key.toLowerCase().replaceAll("_", "-")] = id;
   }
 
   return names;

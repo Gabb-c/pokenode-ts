@@ -27,7 +27,7 @@ const UNKNOWN = -1;
  * does not sort.
  */
 const rank = (name: string): number => {
-  const key = name.toUpperCase().replace(/-/g, "_") as keyof typeof GENERATIONS;
+  const key = name.toUpperCase().replaceAll("-", "_") as keyof typeof GENERATIONS;
 
   return GENERATIONS[key] ?? UNKNOWN;
 };
