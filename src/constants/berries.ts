@@ -64,6 +64,10 @@ export const BERRIES = {
   CUSTAP: 62,
   JABOCA: 63,
   ROWAP: 64,
+  KEE: 65,
+  MARANGA: 66,
+  HOPO: 67,
+  ROSELI: 68,
 } as const;
 
 /** Enum of Berry Firmnesses (NAME - ID) */

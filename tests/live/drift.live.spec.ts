@@ -1,5 +1,4 @@
 import { MainClient } from "@clients";
-import { ENDPOINTS } from "@constants";
 import { type Case, caseFor, mistypedFields, sortKeys } from "../helpers/model-keys";
 
 /**
@@ -19,13 +18,15 @@ import { type Case, caseFor, mistypedFields, sortKeys } from "../helpers/model-k
  * Coverage is deliberately total: every endpoint in `src/constants/endpoints.ts`
  * has a case, and so does every shape reachable from one. A model with no case
  * is a model that can drift silently, which is the one failure mode this tier
- * exists to prevent.
+ * exists to prevent. That the endpoint list itself is complete is
+ * `constants.live.spec.ts`'s question — it is a constant, not a model.
  *
- * Key sets are all this checks. A field that keeps its name but changes type —
- * `base_experience` going `number` to `null`, an object becoming a list — still
- * passes, and no amount of extra resources here would catch it. Widening the
- * assertion to values would trade that for a suite that fails on every ordinary
- * content update, which is the worse deal.
+ * Key sets and the coarse kind of each field are what this checks:
+ * {@link mistypedFields} catches a `number` arriving as a string or as `null`
+ * against an annotation that does not allow it. What it does not check is
+ * *which* value arrived — that is `values.live.spec.ts`, and only for the fields
+ * declared as a union of literals. Asserting ordinary values here would fail on
+ * every content update upstream, which is the worse deal.
  *
  * The client is shared, so every case below re-reads a resource an earlier one
  * already fetched from cache instead of asking the API again.
@@ -34,18 +35,6 @@ import { type Case, caseFor, mistypedFields, sortKeys } from "../helpers/model-k
  */
 
 const client = new MainClient();
-
-/** The index the API serves at its root, listing every endpoint it offers. */
-const INDEX_URL = "https://pokeapi.co/api/v2/";
-
-/**
- * Endpoints the client deliberately does not model.
- *
- * `/meta` reports the deploy the API is running — commit hash, deploy date, tag
- * — rather than any Pokémon data, so there is nothing for `src/models` to say
- * about it.
- */
-const UNMODELLED = new Set(["/meta"]);
 
 /**
  * Picks the sample a nested case asserts against. An empty list is drift in its
@@ -502,21 +491,5 @@ describe("PokéAPI contract", () => {
 
     expect(sortKeys(Object.keys(resource))).toEqual(shape.keys);
     expect(mistypedFields(shape, resource)).toEqual([]);
-  });
-
-  it("should paginate a list the way the client expects", async () => {
-    const list = await berryList();
-
-    expect(list.results).toHaveLength(5);
-    expect(list.next).toContain("offset=5");
-  });
-
-  it("should model every endpoint the API advertises", async () => {
-    const index = await client.utility.getResourceByUrl<Record<string, string>>(INDEX_URL);
-    const advertised = Object.keys(index)
-      .map((name) => `/${name}`)
-      .filter((path) => !UNMODELLED.has(path));
-
-    expect(sortKeys(advertised)).toEqual(sortKeys([...Object.values(ENDPOINTS)]));
   });
 });

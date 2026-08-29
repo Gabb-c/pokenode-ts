@@ -57,9 +57,18 @@ export const ITEM_CATEGORIES = {
   Z_CRYSTALS: 46,
   SPECIES_CANDIES: 47,
   CATCHING_BONUS: 48,
-  DYNAMAX_CRISTALS: 49,
+  DYNAMAX_CRYSTALS: 49,
   NATURE_MINTS: 50,
   CURRY_INGREDIENTS: 51,
+  TERA_SHARD: 52,
+  SANDWICH_INGREDIENTS: 53,
+  TM_MATERIALS: 54,
+  PICNIC: 55,
+  /**
+   * @deprecated Misspelled: the endpoint names this `dynamax-crystals`.
+   *   Use {@link ITEM_CATEGORIES.DYNAMAX_CRYSTALS}. Removed in 3.0.
+   */
+  DYNAMAX_CRISTALS: 49,
 } as const;
 
 export const ITEM_FLING_EFFECTS = {

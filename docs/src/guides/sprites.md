@@ -23,6 +23,15 @@ getPokemonSpriteUrl(25, { variant: 'showdown', back: true, shiny: true });
 Sprites are keyed by ID — a name is not addressable. Reach for
 [`getPokemonByName`](/clients/pokemon-client) first if that is all you have.
 
+A list page has no IDs either, only links. [`resourceId()`](./helpers#resourceid) reads one out of a
+link, which is how a grid of every Pokémon renders off a single list request:
+
+```ts
+import { getPokemonSpriteUrl, resourceId } from 'pokenode-ts';
+
+page.results.map((link) => getPokemonSpriteUrl(resourceId(link)));
+```
+
 ## Variants
 
 | `variant` | Set | Format | `shiny` | `back` | `female` |

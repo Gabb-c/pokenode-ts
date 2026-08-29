@@ -63,6 +63,8 @@ export const MOVE_LEARN_METHODS = {
   XD_SHADOW: 8,
   XD_PURIFICATION: 9,
   FORM_CHANGE: 10,
+  ZYGARDE_CUBE: 11,
+  TRAIN: 12,
 } as const;
 
 export const MOVE_TARGETS = {
@@ -78,7 +80,13 @@ export const MOVE_TARGETS = {
   SELECTED_POKEMON: 10,
   ALL_OPPONENTS: 11,
   ENTIRE_FIELD: 12,
-  USER_AND_ALIES: 13,
+  USER_AND_ALLIES: 13,
   ALL_POKEMON: 14,
   ALL_ALLIES: 15,
+  FAINTING_POKEMON: 16,
+  /**
+   * @deprecated Misspelled: the endpoint names this `user-and-allies`.
+   *   Use {@link MOVE_TARGETS.USER_AND_ALLIES}. Removed in 3.0.
+   */
+  USER_AND_ALIES: 13,
 } as const;

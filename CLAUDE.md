@@ -77,13 +77,25 @@ empty test file. Anything
 needing a real `Response` (status codes, abort signals, cache behavior) belongs in `base.spec.ts`
 with MSW instead.
 
-`tests/live/drift.live.spec.ts` asserts the key set of one resource per section — plus the nested
-shapes a top-level key set never reaches — against what `src/models` declares. Rows are built by
-`caseFor` in `tests/helpers/model-keys.ts`, which infers the model from the fetch and makes the
-compiler prove the key list is exactly its `keyof`, so `pnpm typecheck` catches a list that has
-drifted from its type. A failure in the live run is upstream drift, not a regression; it means the
-models need updating. `.github/workflows/live.yml` runs it weekly, skips the check when the PokéAPI
+The live tier is split by **what a failure means**, not by section — the file that fails is the
+first half of the diagnosis:
+
+| File | Asserts | A failure means |
+| --- | --- | --- |
+| `drift.live.spec.ts` | key set and coarse field kinds of one resource per model | `src/models` is out of date |
+| `values.live.spec.ts` | the values behind fields typed as a union of literals | a union in `src/models` is wrong in either direction |
+| `constants.live.spec.ts` | every id→name map, `TypeName`, and `ENDPOINTS` against the API's own index | `src/constants` is out of date |
+| `contract.live.spec.ts` | behaviour the client relies on: 304s, page shape, sprite URLs | a feature has silently stopped working |
+
+`drift` rows are built by `caseFor` in `tests/helpers/model-keys.ts`, which infers the model from
+the fetch and makes the compiler prove the key list is exactly its `keyof`, so `pnpm typecheck`
+catches a list that has drifted from its type. `constants` reads ids off the list links with
+`resourceId` rather than resolving each resource, which is what keeps thirty-six maps to one request
+per section. `.github/workflows/live.yml` runs the tier weekly, skips the check when the PokéAPI
 itself is down, and files a `live-drift` issue on failure.
+
+Adding a constant means adding its row to `constants.live.spec.ts`. A map with no row is a map that
+can go stale into 404s — which is what `TYPES` did, missing `stellar` until the row existed.
 
 ## Conventions
 
@@ -108,13 +120,43 @@ itself is down, and files a `live-drift` issue on failure.
 
 ## PokéAPI & Pokémon references
 
-Check these before changing models, endpoints, or constants — the API schema is the source of truth for `src/models/`.
+The API is the source of truth for `src/models/` and `src/constants/`. These sources are not
+interchangeable — using the wrong one for a question is how wrong types get written.
 
-- **PokéAPI v2 docs** — https://pokeapi.co/docs/v2 (per-section anchors, e.g. `#berries-section`, are what client JSDoc links to)
-- **PokéAPI repo** — https://github.com/PokeAPI/pokeapi (schema changes, data updates, self-hosting via Docker)
-- **PokéAPI sprites repo** — https://github.com/PokeAPI/sprites (what the sprite URLs in responses point at)
-- **PokéAPI fair use policy** — https://pokeapi.co/docs/v2#fairuse (why caching is on by default; run a local instance for heavy traffic)
-- **PokéAPI Insomnia collection** — https://insomnia.rest/run/?label=Pok%C3%A9API&uri=https%3A%2F%2Fraw.githubusercontent.com%2FGabb-c%2Fpokeapi-insomnia-collection%2Fmain%2Fpokeapi.json (poke at raw responses by hand)
-- **Bulbapedia** — https://bulbapedia.bulbagarden.net (game-mechanics meaning behind fields: natures, flavors, growth rates, egg groups)
-- **Serebii** — https://www.serebii.net (fastest for newly released game data)
-- **Smogon** — https://www.smogon.com/dex/ (competitive semantics of stats, abilities, moves)
+**Shape, casing, enum values, ids, counts — the live endpoint, and nothing else.**
+
+    curl -s https://pokeapi.co/api/v2/evolution-chain/67 | jq .
+    curl -s 'https://pokeapi.co/api/v2/evolution-trigger?limit=100' | jq '.results'
+
+A literal union (`"day" | "night"`, `1 | 0 | -1`) is a claim about values that only the wire can
+support. Sample several resources before narrowing: a field that is `""` in the first chain you open
+is `"night"` in the sixth.
+
+**Field semantics the JSON cannot show — the [PokeAPI repo](https://github.com/PokeAPI/pokeapi).**
+Seed data in [`data/v2/csv/`](https://github.com/PokeAPI/pokeapi/tree/master/data/v2/csv) is the
+upstream for every id→name map; the serializers in `pokeapi/v2/` settle ambiguous fields. Example:
+`evolution_details[].version_group` is the game that *introduced* a method, not the games it applies
+in — no single payload reveals that.
+
+**Anchors and the field list — [the docs page](https://pokeapi.co/docs/v2).** Its per-section
+anchors (`#berries-section`) are what client JSDoc links to. Do **not** transcribe its Description
+column into types: that column is English prose and the Type column is coarse. It describes
+`time_of_day` as *"The required time of day. Day or night."*, type `string`; the API emits `"day"`,
+`"night"` or `""`, and `"Day" | "Night"` shipped because that sentence was read as an enum.
+
+**What values mean in the games — never wire shape.**
+
+- [Bulbapedia](https://bulbapedia.bulbagarden.net) — mechanics behind a field: natures, flavors,
+  growth rates, egg groups, evolution conditions.
+- [Serebii](https://www.serebii.net) — fastest for newly released game data.
+- [Smogon](https://www.smogon.com/dex/) — competitive semantics of stats, abilities, moves.
+
+Also: [sprites repo](https://github.com/PokeAPI/sprites) (what sprite URLs point at) ·
+[Insomnia collection](https://insomnia.rest/run/?label=Pok%C3%A9API&uri=https%3A%2F%2Fraw.githubusercontent.com%2FGabb-c%2Fpokeapi-insomnia-collection%2Fmain%2Fpokeapi.json)
+(poke at raw responses by hand) · [fair use](https://pokeapi.co/docs/v2#fairuse) — validating costs
+requests, so sample and cache rather than sweeping a section.
+
+**Pin what you validate.** A fact checked once decays. `tests/live/constants.live.spec.ts` compares
+whole id→name maps against the listable endpoints; `values.live.spec.ts` compares the values of the
+fields typed as literal unions; `drift.live.spec.ts` compares key sets and field kinds. Narrowing a type from live
+data means adding the live case that keeps it honest.

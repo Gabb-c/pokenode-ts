@@ -1,5 +1,5 @@
 import type { Name } from "@models";
-import { localize } from "@utils";
+import { localize, localizeAll } from "@utils";
 
 const named = (language: string, name: string): Name => ({
   name,
@@ -38,5 +38,52 @@ describe("localize", () => {
     const entries = [named("en", "first"), named("en", "second")];
 
     expect(localize(entries)?.name).toBe("first");
+  });
+
+  it("should take the language as an option", () => {
+    expect(localize(NAMES, { language: "de" })?.name).toBe("Evoli");
+    expect(localize(NAMES, {})?.name).toBe("Eevee");
+  });
+
+  it("should fall back only when the language it was asked for is absent", () => {
+    expect(localize(NAMES, { language: "ko", fallback: "en" })?.name).toBe("Eevee");
+    expect(localize(NAMES, { language: "de", fallback: "en" })?.name).toBe("Evoli");
+  });
+
+  it("should return nothing when the fallback is absent too", () => {
+    expect(localize(NAMES, { language: "ko", fallback: "fr" })).toBeUndefined();
+  });
+});
+
+describe("localizeAll", () => {
+  // What flavor text needs: one entry per version, all in the same language, and
+  // `localize` answering with whichever the API happened to list first.
+  const ENTRIES: Name[] = [
+    named("en", "red"),
+    named("de", "rot"),
+    named("en", "blue"),
+    named("en", "yellow"),
+  ];
+
+  it("should return every entry in the language, in order", () => {
+    expect(localizeAll(ENTRIES, "en").map((entry) => entry.name)).toEqual([
+      "red",
+      "blue",
+      "yellow",
+    ]);
+  });
+
+  it("should default to English", () => {
+    expect(localizeAll(ENTRIES)).toHaveLength(3);
+  });
+
+  it("should return an empty list for a language that is absent", () => {
+    expect(localizeAll(ENTRIES, "ko")).toEqual([]);
+  });
+
+  it("should fall back as a whole", () => {
+    expect(
+      localizeAll(ENTRIES, { language: "ko", fallback: "de" }).map((entry) => entry.name),
+    ).toEqual(["rot"]);
   });
 });

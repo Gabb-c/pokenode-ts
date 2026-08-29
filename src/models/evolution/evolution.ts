@@ -8,6 +8,14 @@ import type { PokemonForm, PokemonSpecies } from "../pokemon/pokemon";
 import type { Type } from "../pokemon/type";
 
 /**
+ * ## Evolution Time Of Day
+ * The times of day an evolution can be tied to, lower case as the API writes
+ * them. `dusk` is Lycanroc's Dusk Form and `full-moon` is Ursaluna, so this is
+ * wider than the day/night pair the endpoint documentation describes.
+ */
+export type EvolutionTimeOfDay = "day" | "night" | "dusk" | "full-moon";
+
+/**
  * ## Evolution Detail
  * All details regarding the specific details of the referenced Pokémon species evolution.
  */
@@ -45,8 +53,8 @@ export interface EvolutionDetail {
   party_type: NamedAPIResource<Type> | null;
   /** The required relation between the Pokémon's Attack and Defense stats. 1 means Attack > Defense. 0 means Attack = Defense. -1 means Attack < Defense. */
   relative_physical_stats: 1 | 0 | -1 | null;
-  /** The required time of day. Day or night. */
-  time_of_day: "Day" | "Night" | "";
+  /** The required time of day, or `""` when any time will do. */
+  time_of_day: EvolutionTimeOfDay | "";
   /** Pokémon species for which this one must be traded. */
   trade_species: NamedAPIResource<PokemonSpecies> | null;
   /** Whether or not the 3DS needs to be turned upside-down as this Pokémon levels up. */
@@ -123,6 +131,30 @@ export interface EvolutionChain {
 }
 
 /**
+ * ## Evolution Trigger Name
+ * Every trigger the PokéAPI publishes, in the order `/evolution-trigger` lists
+ * them — which is the order their ids run in, and the order
+ * {@link EVOLUTION_TRIGGERS} mirrors.
+ */
+export type EvolutionTriggerName =
+  | "level-up"
+  | "trade"
+  | "use-item"
+  | "shed"
+  | "spin"
+  | "tower-of-darkness"
+  | "tower-of-waters"
+  | "three-critical-hits"
+  | "take-damage"
+  | "other"
+  | "agile-style-move"
+  | "strong-style-move"
+  | "recoil-damage"
+  | "use-move"
+  | "three-defeated-bisharp"
+  | "gimmighoul-coins";
+
+/**
  * ## Evolution Trigger
  * Evolution triggers are the events and conditions that cause a Pokémon to evolve.
  * There are numerous methods of evolution which define how and when Pokémon evolve.
@@ -135,7 +167,7 @@ export interface EvolutionTrigger {
   /** The identifier for this resource. */
   id: number;
   /** The name for this resource. */
-  name: "level-up" | "trade" | "use-item" | "shed" | "other";
+  name: EvolutionTriggerName;
   /** The name of this resource listed in different languages. */
   names: Name[];
   /** A list of Pokémon species that result from this evolution trigger. */

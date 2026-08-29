@@ -182,6 +182,49 @@ Any `ETag` the client learned goes too, so the next request downloads rather tha
 optional on `CacheStore`, so a store that doesn't implement it — a shared Redis instance you'd rather
 the library not flush — is left untouched.
 
+## Counting what it saved
+
+`stats` says where each resolution came from:
+
+```ts
+const api = new MainClient();
+
+await api.pokemon.getPokemonByName('luxray');
+await api.pokemon.getPokemonByName('luxray');
+
+api.stats;
+// { network: 1, cache: 1, inFlight: 0, revalidated: 0, roundTrips: 1 }
+```
+
+Once a promise has settled there is nothing else to tell a cache hit from a real request, so this is
+what answers "is the cache doing anything".
+
+`roundTrips` is counted separately from the rest, because it is a different question. The four
+sources count **resolutions** — what your application asked for. `roundTrips` counts **requests that
+left the process** — what the PokéAPI saw. They differ in both directions: a revalidation is a round
+trip that saved a body rather than a request that never happened, and a resolution the
+[`retry`](/guides/errors#with-retries-on) option attempted three times is one `network` and three
+round trips.
+That second half is invisible to a caller, and it is the half that shows up in someone's rate limit.
+
+The counts belong to the transport, so they cover every section of a `MainClient` and every client
+derived with `with()` — the same sharing that makes one cache serve all of them. A failed resolution
+counts as no source; the [`error` event](/guides/logging#events) is where it shows up, though the
+attempts it made are still in `roundTrips`.
+
+`statsSince()` measures one unit of work:
+
+```ts
+const before = api.stats;
+await renderTeam();
+
+api.statsSince(before).roundTrips; // what that render cost
+```
+
+There is no way to reset the counts, deliberately: the transport behind them is shared, so zeroing
+it for one measurement zeroes it for anything else measuring. Subtraction is the same answer without
+the shared mutation.
+
 ## How it works
 
 - Only successful responses are cached, so a retry genuinely retries. See [Errors](/guides/errors).

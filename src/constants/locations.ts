@@ -8,6 +8,8 @@ export const REGIONS = {
   ALOLA: 7,
   GALAR: 8,
   HISUI: 9,
+  PALDEA: 10,
+  ORRE: 11,
 } as const;
 
 export const PAL_PARK_AREAS = {

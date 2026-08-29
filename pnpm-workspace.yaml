@@ -3,3 +3,15 @@ allowBuilds:
   lefthook: true
   msw: true
   vue-demi: true
+minimumReleaseAgeExclude:
+  - lefthook-darwin-arm64@2.1.12
+  - lefthook-darwin-x64@2.1.12
+  - lefthook-freebsd-arm64@2.1.12
+  - lefthook-freebsd-x64@2.1.12
+  - lefthook-linux-arm64@2.1.12
+  - lefthook-linux-x64@2.1.12
+  - lefthook-openbsd-arm64@2.1.12
+  - lefthook-openbsd-x64@2.1.12
+  - lefthook-windows-arm64@2.1.12
+  - lefthook-windows-x64@2.1.12
+  - lefthook@2.1.12
