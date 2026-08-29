@@ -245,13 +245,72 @@ const modelFiles = (dir: string): string[] =>
   });
 
 /** `export type Name =`, with whatever follows on the same line. */
-const TYPE_ALIAS = /^export type (\w+)\s*=\s*(.*)$/;
+const TYPE_ALIAS = /^export type (\w+)\s*=(.*)$/;
 
 /** A named union of literals, as {@link parseAnnotation} resolves it. */
 interface Alias {
   kind: "string" | "number";
   values: (string | number)[];
 }
+
+/**
+ * One alias declaration body as the values it permits, or `null` when it is not
+ * a union of literals.
+ *
+ * Literals only, and one level deep. An alias built out of other aliases stays
+ * unresolved and its field reads as an object, which fails loudly rather than
+ * quietly widening the check.
+ */
+const aliasOf = (text: string): Alias | null => {
+  const members = text
+    .trim()
+    .replace(/;$/, "")
+    .replace(/^\|/, "")
+    .split("|")
+    .map((member) => member.trim());
+
+  if (members.every((member) => member.startsWith('"') && member.endsWith('"'))) {
+    return { kind: "string", values: members.map((member) => member.slice(1, -1)) };
+  }
+
+  if (members.every((member) => /^-?\d+$/.test(member))) {
+    return { kind: "number", values: members.map(Number) };
+  }
+
+  return null;
+};
+
+/**
+ * The literal unions one file declares, buffering a declaration until it ends in
+ * a semicolon so one spread over several lines is read as the one union it is.
+ */
+const aliasesIn = (file: string): [string, Alias][] => {
+  const found: [string, Alias][] = [];
+  let pending: { name: string; text: string } | null = null;
+
+  for (const line of readFileSync(file, "utf8").split("\n")) {
+    if (pending === null) {
+      const alias = TYPE_ALIAS.exec(line);
+
+      // `export type X = {` opens an object body, which `declaredShapes` reads.
+      if (alias === null || alias[2]?.endsWith("{") === true) continue;
+
+      pending = { name: alias[1] as string, text: alias[2] ?? "" };
+    } else {
+      pending.text += ` ${line.trim()}`;
+    }
+
+    if (!pending.text.trimEnd().endsWith(";")) continue;
+
+    const alias = aliasOf(pending.text);
+
+    if (alias !== null) found.push([pending.name, alias]);
+
+    pending = null;
+  }
+
+  return found;
+};
 
 /**
  * The literal unions `src/models` declares under a name, so a field annotated
@@ -261,58 +320,35 @@ interface Alias {
  * matches the same `^[A-Z]\w*$`, so `name: EvolutionTriggerName` would be
  * recorded as an object and every live string reported as mistyped, while the
  * values it permits went unchecked.
- *
- * One level deep, and literals only. An alias built out of other aliases stays
- * unresolved and its field reads as an object, which fails loudly rather than
- * quietly widening the check.
  */
-const literalAliases = (): Map<string, Alias> => {
-  const aliases = new Map<string, Alias>();
-
-  for (const file of modelFiles(MODELS_DIR)) {
-    const lines = readFileSync(file, "utf8").split("\n");
-    let pending: { name: string; text: string } | null = null;
-
-    for (const line of lines) {
-      if (pending === null) {
-        const alias = TYPE_ALIAS.exec(line);
-
-        // `export type X = {` opens an object body, which `declaredShapes` reads.
-        if (alias === null || alias[2]?.endsWith("{") === true) continue;
-
-        pending = { name: alias[1] as string, text: alias[2] ?? "" };
-      } else {
-        pending.text += ` ${line.trim()}`;
-      }
-
-      if (!pending.text.trimEnd().endsWith(";")) continue;
-
-      const members = pending.text
-        .trim()
-        .replace(/;$/, "")
-        .replace(/^\|/, "")
-        .split("|")
-        .map((member) => member.trim());
-      const strings = members.every((member) => member.startsWith('"') && member.endsWith('"'));
-      const numbers = members.every((member) => /^-?\d+$/.test(member));
-
-      if (strings) {
-        aliases.set(pending.name, {
-          kind: "string",
-          values: members.map((member) => member.slice(1, -1)),
-        });
-      } else if (numbers) {
-        aliases.set(pending.name, { kind: "number", values: members.map(Number) });
-      }
-
-      pending = null;
-    }
-  }
-
-  return aliases;
-};
+const literalAliases = (): Map<string, Alias> => new Map(modelFiles(MODELS_DIR).flatMap(aliasesIn));
 
 const ALIASES = literalAliases();
+
+/** What an array annotation says its elements are. */
+const elementKind = (element: string): Kind =>
+  element === "string" || element === "number" || element === "boolean" ? element : "object";
+
+/**
+ * Widens a field by a member that names a type: the values of the union it
+ * stands for, or an object when the name is not one this reader resolved.
+ */
+const widenByAlias = (field: Field, type: string): void => {
+  const alias = ALIASES.get(type);
+
+  if (alias === undefined) {
+    field.kinds.add("object");
+    field.literals = null;
+
+    return;
+  }
+
+  field.kinds.add(alias.kind);
+
+  for (const value of alias.values) {
+    field.literals?.add(value);
+  }
+};
 
 /**
  * Turns one annotation into the coarse shape {@link mistypedFields} checks.
@@ -353,25 +389,11 @@ const parseAnnotation = (model: string, key: string, annotation: string): Field 
       field.kinds.add("number");
       field.literals?.add(Number(type));
     } else if (type.endsWith("[]")) {
-      const element = type.slice(0, -2);
-
       field.kinds.add("array");
       field.literals = null;
-      field.element =
-        element === "string" || element === "number" || element === "boolean" ? element : "object";
+      field.element = elementKind(type.slice(0, -2));
     } else if (/^[A-Z]\w*(<[A-Z]\w*>)?$/.test(type)) {
-      const alias = ALIASES.get(type);
-
-      if (alias === undefined) {
-        field.kinds.add("object");
-        field.literals = null;
-      } else {
-        field.kinds.add(alias.kind);
-
-        for (const value of alias.values) {
-          field.literals?.add(value);
-        }
-      }
+      widenByAlias(field, type);
     } else {
       throw new Error(
         `${model}.${key} is declared \`${annotation}\`, which ` +

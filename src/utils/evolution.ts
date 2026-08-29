@@ -193,6 +193,42 @@ export type EvolutionRequirement =
   | { kind: "needs-multiplayer" };
 
 /**
+ * One reader per field an {@link EvolutionDetail} can set, in the order the
+ * requirements come out, each `null` when its field is unset.
+ */
+const READERS: ((detail: EvolutionDetail) => EvolutionRequirement | null)[] = [
+  ({ item }) => (item === null ? null : { kind: "item", item }),
+  ({ held_item: item }) => (item === null ? null : { kind: "held-item", item }),
+  ({ min_level: level }) => (level === null ? null : { kind: "min-level", level }),
+  ({ min_happiness: happiness }) =>
+    happiness === null ? null : { kind: "min-happiness", happiness },
+  ({ min_beauty: beauty }) => (beauty === null ? null : { kind: "min-beauty", beauty }),
+  ({ min_affection: affection }) =>
+    affection === null ? null : { kind: "min-affection", affection },
+  ({ known_move: move }) => (move === null ? null : { kind: "known-move", move }),
+  ({ known_move_type: type }) => (type === null ? null : { kind: "known-move-type", type }),
+  ({ used_move: move }) => (move === null ? null : { kind: "used-move", move }),
+  ({ min_move_count: count }) => (count === null ? null : { kind: "min-move-count", count }),
+  ({ min_steps: steps }) => (steps === null ? null : { kind: "min-steps", steps }),
+  ({ min_damage_taken: damage }) => (damage === null ? null : { kind: "min-damage-taken", damage }),
+  ({ location }) => (location === null ? null : { kind: "location", location }),
+  ({ region }) => (region === null ? null : { kind: "region", region }),
+  ({ time_of_day: time }) => (time === "" ? null : { kind: "time-of-day", time }),
+  ({ gender }) => (gender === null ? null : { kind: "gender", gender }),
+  ({ relative_physical_stats: comparison }) =>
+    comparison === null ? null : { kind: "relative-physical-stats", comparison },
+  ({ party_species: species }) => (species === null ? null : { kind: "party-species", species }),
+  ({ party_type: type }) => (type === null ? null : { kind: "party-type", type }),
+  ({ trade_species: species }) => (species === null ? null : { kind: "trade-species", species }),
+  ({ base_form: form }) => (form === null ? null : { kind: "base-form", form }),
+  ({ evolved_form: form }) => (form === null ? null : { kind: "evolved-form", form }),
+  ({ needs_overworld_rain: rain }) => (rain ? { kind: "needs-overworld-rain" } : null),
+  ({ turn_upside_down: upsideDown }) => (upsideDown ? { kind: "turn-upside-down" } : null),
+  ({ near_special_rock: rock }) => (rock ? { kind: "near-special-rock" } : null),
+  ({ needs_multiplayer: multiplayer }) => (multiplayer ? { kind: "needs-multiplayer" } : null),
+];
+
+/**
  * The conditions one {@link EvolutionDetail} sets out, with everything it left
  * unset dropped.
  *
@@ -212,93 +248,10 @@ export type EvolutionRequirement =
  * for truthiness: `relative_physical_stats` is `0` when Attack has to equal
  * Defense, and `time_of_day` is `''`.
  */
-export const requirementsOf = (detail: EvolutionDetail): EvolutionRequirement[] => {
-  const requirements: EvolutionRequirement[] = [{ kind: "trigger", trigger: detail.trigger }];
-
-  if (detail.item !== null) {
-    requirements.push({ kind: "item", item: detail.item });
-  }
-  if (detail.held_item !== null) {
-    requirements.push({ kind: "held-item", item: detail.held_item });
-  }
-  if (detail.min_level !== null) {
-    requirements.push({ kind: "min-level", level: detail.min_level });
-  }
-  if (detail.min_happiness !== null) {
-    requirements.push({ kind: "min-happiness", happiness: detail.min_happiness });
-  }
-  if (detail.min_beauty !== null) {
-    requirements.push({ kind: "min-beauty", beauty: detail.min_beauty });
-  }
-  if (detail.min_affection !== null) {
-    requirements.push({ kind: "min-affection", affection: detail.min_affection });
-  }
-  if (detail.known_move !== null) {
-    requirements.push({ kind: "known-move", move: detail.known_move });
-  }
-  if (detail.known_move_type !== null) {
-    requirements.push({ kind: "known-move-type", type: detail.known_move_type });
-  }
-  if (detail.used_move !== null) {
-    requirements.push({ kind: "used-move", move: detail.used_move });
-  }
-  if (detail.min_move_count !== null) {
-    requirements.push({ kind: "min-move-count", count: detail.min_move_count });
-  }
-  if (detail.min_steps !== null) {
-    requirements.push({ kind: "min-steps", steps: detail.min_steps });
-  }
-  if (detail.min_damage_taken !== null) {
-    requirements.push({ kind: "min-damage-taken", damage: detail.min_damage_taken });
-  }
-  if (detail.location !== null) {
-    requirements.push({ kind: "location", location: detail.location });
-  }
-  if (detail.region !== null) {
-    requirements.push({ kind: "region", region: detail.region });
-  }
-  if (detail.time_of_day !== "") {
-    requirements.push({ kind: "time-of-day", time: detail.time_of_day });
-  }
-  if (detail.gender !== null) {
-    requirements.push({ kind: "gender", gender: detail.gender });
-  }
-  if (detail.relative_physical_stats !== null) {
-    requirements.push({
-      kind: "relative-physical-stats",
-      comparison: detail.relative_physical_stats,
-    });
-  }
-  if (detail.party_species !== null) {
-    requirements.push({ kind: "party-species", species: detail.party_species });
-  }
-  if (detail.party_type !== null) {
-    requirements.push({ kind: "party-type", type: detail.party_type });
-  }
-  if (detail.trade_species !== null) {
-    requirements.push({ kind: "trade-species", species: detail.trade_species });
-  }
-  if (detail.base_form !== null) {
-    requirements.push({ kind: "base-form", form: detail.base_form });
-  }
-  if (detail.evolved_form !== null) {
-    requirements.push({ kind: "evolved-form", form: detail.evolved_form });
-  }
-  if (detail.needs_overworld_rain) {
-    requirements.push({ kind: "needs-overworld-rain" });
-  }
-  if (detail.turn_upside_down) {
-    requirements.push({ kind: "turn-upside-down" });
-  }
-  if (detail.near_special_rock) {
-    requirements.push({ kind: "near-special-rock" });
-  }
-  if (detail.needs_multiplayer) {
-    requirements.push({ kind: "needs-multiplayer" });
-  }
-
-  return requirements;
-};
+export const requirementsOf = (detail: EvolutionDetail): EvolutionRequirement[] => [
+  { kind: "trigger", trigger: detail.trigger },
+  ...READERS.flatMap((read) => read(detail) ?? []),
+];
 
 /**
  * Every trigger as a verb phrase. Exhaustive over {@link EvolutionTriggerName},
@@ -339,6 +292,9 @@ const TIMES: Record<EvolutionTimeOfDay, string> = {
 };
 
 const GENDERS: Record<number, string> = { 1: "female", 2: "male", 3: "genderless" };
+
+/** Unknown ids name themselves, so a gender added upstream still renders. */
+const genderName = (gender: number): string => GENDERS[gender] ?? `gender ${gender}`;
 
 const COMPARISONS: Record<string, string> = { "1": ">", "0": "=", "-1": "<" };
 
@@ -396,7 +352,7 @@ export const requirementPhrases = (namer: ResourceNamer = spaced): RequirementPh
   location: ({ location }) => `at ${namer(location)}`,
   region: ({ region }) => `in ${namer(region)}`,
   "time-of-day": ({ time }) => TIMES[time],
-  gender: ({ gender }) => `as a ${GENDERS[gender] ?? `gender ${gender}`}`,
+  gender: ({ gender }) => `as a ${genderName(gender)}`,
   "relative-physical-stats": ({ comparison }) =>
     `with Attack ${COMPARISONS[String(comparison)]} Defense`,
   "party-species": ({ species }) => `with ${namer(species)} in the party`,
