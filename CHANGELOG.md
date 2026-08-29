@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/Gabb-c/pokenode-ts/compare/v2.2.0...v2.3.0) (2026-08-29)
+
+
+### Features
+
+* add chart, evolution helpers, and improve reporting utilities ([c72b218](https://github.com/Gabb-c/pokenode-ts/commit/c72b2181ab9c3de75aeeba7c8ee48c0f5613736e))
+
 ## [2.2.0](https://github.com/Gabb-c/pokenode-ts/compare/v2.1.0...v2.2.0) (2026-08-21)
 
 
