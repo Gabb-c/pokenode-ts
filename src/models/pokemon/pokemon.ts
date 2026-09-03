@@ -362,6 +362,8 @@ export interface GenerationIISprites {
 
 /** Crystal sprites. */
 export interface Crystal {
+  /** The animated sprites of this Pokémon. */
+  animated: CrystalAnimated;
   /** The default depiction of this Pokémon from the back in battle. */
   back_default: string | null;
   /** The shiny depiction of this Pokémon from the back in battle. */
@@ -378,6 +380,14 @@ export interface Crystal {
   front_shiny_transparent: string | null;
   /** The transparent depiction of this Pokémon from the front in battle. */
   front_transparent: string | null;
+}
+
+/** Animated Crystal sprites. */
+export interface CrystalAnimated {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
 }
 
 /** Gold sprites of this Pokémon. */
@@ -524,6 +534,8 @@ export interface Platinum {
 export interface GenerationVSprites {
   /** Black-white sprites of this Pokémon. */
   "black-white": BlackWhite;
+  /** Menu icons of this Pokémon. */
+  icons: GenerationVIcons;
 }
 
 /** Black/White sprites. */
@@ -565,6 +577,20 @@ export interface Animated {
   front_female: string | null;
   /** The shiny female depiction of this Pokémon from the back in battle. */
   front_shiny_female: string | null;
+}
+
+/** Generation-V menu icons. */
+export interface GenerationVIcons {
+  /** The animated menu icon of this Pokémon. */
+  animated: GenerationVAnimatedIcons;
+  /** The menu icon of this Pokémon. */
+  front_default: string | null;
+}
+
+/** Animated Generation-V menu icons. */
+export interface GenerationVAnimatedIcons {
+  /** The animated menu icon of this Pokémon. */
+  front_default: string | null;
 }
 
 /** Generation-VI Sprites. */
@@ -745,6 +771,8 @@ export interface PokemonForm {
    * having a specific ability. Empty for forms that are not triggered.
    */
   trigger_conditions: PokemonFormCondition[];
+  /** The flavor text of this Pokémon form, in every language it is published in. */
+  flavor_text_entries: FlavorText[];
 }
 
 /** A condition that causes a Pokémon to take on a particular form. */

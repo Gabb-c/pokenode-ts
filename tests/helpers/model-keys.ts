@@ -41,6 +41,7 @@ export interface Models {
   ContestName: M.ContestName;
   ContestType: M.ContestType;
   Crystal: M.Crystal;
+  CrystalAnimated: M.CrystalAnimated;
   Currency: M.Currency;
   Description: M.Description;
   DiamondPearl: M.DiamondPearl;
@@ -78,6 +79,8 @@ export interface Models {
   GenerationVIITypeSprites: M.GenerationVIITypeSprites;
   GenerationVISprites: M.GenerationVISprites;
   GenerationVITypeSprites: M.GenerationVITypeSprites;
+  GenerationVAnimatedIcons: M.GenerationVAnimatedIcons;
+  GenerationVIcons: M.GenerationVIcons;
   GenerationVSprites: M.GenerationVSprites;
   GenerationVTypeSprites: M.GenerationVTypeSprites;
   GenerationViiIcons: M.GenerationViiIcons;

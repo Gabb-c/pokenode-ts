@@ -407,6 +407,7 @@ const SPRITES: Case[] = [
   caseFor("Yellow", async () => (await generationISprites()).yellow),
   caseFor("GenerationIISprites", generationIISprites),
   caseFor("Crystal", async () => (await generationIISprites()).crystal),
+  caseFor("CrystalAnimated", async () => (await generationIISprites()).crystal.animated),
   caseFor("Gold", async () => (await generationIISprites()).gold),
   caseFor("Silver", async () => (await generationIISprites()).silver),
   caseFor("GenerationIIISprites", generationIIISprites),
@@ -420,6 +421,8 @@ const SPRITES: Case[] = [
   caseFor("GenerationVSprites", generationVSprites),
   caseFor("BlackWhite", blackWhiteSprites),
   caseFor("Animated", async () => (await blackWhiteSprites()).animated),
+  caseFor("GenerationVIcons", async () => (await generationVSprites()).icons),
+  caseFor("GenerationVAnimatedIcons", async () => (await generationVSprites()).icons.animated),
   caseFor("GenerationVISprites", generationVISprites),
   caseFor(
     "OmegarubyAlphasapphire",

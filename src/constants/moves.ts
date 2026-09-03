@@ -21,6 +21,7 @@ export const MOVE_AILMENTS = {
   INGRAIN: 21,
   SILENCE: 24,
   TAR_SHOT: 42,
+  PROTECT: 43,
 } as const;
 
 export const MOVE_BATTLE_STYLES = {
