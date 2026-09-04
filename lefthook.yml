@@ -1,16 +1,77 @@
-# Binaries are invoked via node_modules/.bin rather than bare names: lefthook
-# does not extend PATH with the local bin directory.
 pre-commit:
-  parallel: true
+  piped: true
   jobs:
-    - name: biome
-      run: node_modules/.bin/biome check --write --no-errors-on-unmatched {staged_files}
-      glob: "*.{js,ts,cjs,mjs,jsx,tsx,json,jsonc}"
-      stage_fixed: true
+    - name: guards
+      group:
+        parallel: true
+        jobs:
+          - name: no-env-files
+            glob: "{.env,.env.*}"
+            exclude: ".env.example"
+            run: 'echo "refusing to commit env file(s): {staged_files}" && exit 1'
 
+          - name: no-foreign-lockfiles
+            glob: "{package-lock.json,npm-shrinkwrap.json,yarn.lock,bun.lock,bun.lockb}"
+            run: 'echo "this repo is pnpm-only, unstage: {staged_files}" && exit 1'
+
+          # Compares package.json's dependency fields against HEAD rather than the whole
+          # file, so a version bump or a script edit does not demand a lockfile change.
+          - name: lockfile-sync
+            glob: "package.json"
+            run: |
+              git rev-parse --verify HEAD >/dev/null 2>&1 || exit 0
+              deps() { node -e 'let s="";process.stdin.on("data",c=>s+=c).on("end",()=>{const p=JSON.parse(s);console.log(JSON.stringify([p.dependencies,p.devDependencies,p.peerDependencies,p.optionalDependencies,p.pnpm,p.packageManager]))})'; }
+              [ "$(git show HEAD:package.json | deps)" = "$(git show :package.json | deps)" ] && exit 0
+              git diff --cached --name-only | grep -qx 'pnpm-lock.yaml' && exit 0
+              echo "dependencies changed without pnpm-lock.yaml: run pnpm install and stage the lockfile"
+              exit 1
+
+    - name: checks
+      group:
+        parallel: true
+        jobs:
+          - name: biome
+            run: node_modules/.bin/biome check --write --no-errors-on-unmatched {staged_files}
+            glob: "*.{js,ts,cjs,mjs,jsx,tsx,json,jsonc}"
+            stage_fixed: true
+
+          # Globs are `<dir>/**`, not `<dir>/**/*.ts`: lefthook's `**` requires at least one
+          # directory, so the narrower form silently skips `src/index.ts`.
+          - name: typecheck
+            run: node_modules/.bin/tsc --noEmit
+            glob: "src/**"
+
+          - name: typecheck-tests
+            run: node_modules/.bin/tsc --noEmit -p tests
+            glob: "tests/**"
+
+          - name: typecheck-docs
+            run: node_modules/.bin/tsc --noEmit -p docs/.vitepress
+            glob: "docs/.vitepress/**"
+
+pre-push:
+  parallel: true
+  skip:
+    - merge
+    - rebase
+  jobs:
     - name: typecheck
-      run: node_modules/.bin/tsc --noEmit
-      glob: "src/**/*.ts"
+      run: pnpm typecheck
+
+    - name: test
+      run: pnpm test:run
+
+post-merge:
+  jobs:
+    - name: install
+      glob: "pnpm-lock.yaml"
+      run: pnpm install --frozen-lockfile
+
+post-checkout:
+  jobs:
+    - name: install
+      glob: "pnpm-lock.yaml"
+      run: pnpm install --frozen-lockfile
 
 commit-msg:
   jobs:

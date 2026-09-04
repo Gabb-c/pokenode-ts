@@ -151,3 +151,14 @@ tsconfig.vitest-temp.json
 
 # SWC
 .swc
+
+# Lockfiles of other package managers: pnpm-lock.yaml is the only one this repo keeps
+package-lock.json
+npm-shrinkwrap.json
+yarn.lock
+bun.lock
+bun.lockb
+
+# Env files: the generated block above only covers `.env` and the `*.local` variants
+.env.*
+!.env.example
