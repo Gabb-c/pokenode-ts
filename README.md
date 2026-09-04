@@ -1,15 +1,15 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/Gabb-c/pokenode-ts/main/docs/src/public/site-logo.svg" width="96" alt="" />
+<img src="https://raw.githubusercontent.com/Gabb-c/pokenode-ts/main/docs/src/public/site-logo.svg" width="96" alt="pokenode-ts-logo" />
 
 # Pokenode-ts
 
 **A typed [PokéAPI](https://pokeapi.co/) client with zero runtime dependencies.**
 
 [![npm version](https://img.shields.io/npm/v/pokenode-ts?logo=npm)](https://www.npmjs.com/package/pokenode-ts)
+[![min+gzip](https://img.shields.io/bundlejs/size/pokenode-ts?label=min%2Bgzip)](https://bundlejs.com/?q=pokenode-ts)
 [![CI](https://github.com/Gabb-c/pokenode-ts/actions/workflows/ci.yml/badge.svg)](https://github.com/Gabb-c/pokenode-ts/actions/workflows/ci.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
-[![install size](https://packagephobia.com/badge?p=pokenode-ts)](https://packagephobia.com/result?p=pokenode-ts)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
 
 [**Documentation**](https://pokenode-ts.vercel.app/) ·
 [Getting started](https://pokenode-ts.vercel.app/guides/getting-started) ·
@@ -19,23 +19,28 @@
 
 ---
 
+## Install
+
 ```bash
 npm install pokenode-ts
 ```
+
+Node 22+, Deno, Bun, browsers, edge runtimes.
+
+## Usage
 
 ```ts
 import { PokemonClient } from 'pokenode-ts';
 
 const api = new PokemonClient();
-
 const luxray = await api.getPokemonByName('luxray');
 
-console.log(luxray.name); // "luxray"
-console.log(luxray.types.map((slot) => slot.type.name)); // ["electric"]
+luxray.types.map((slot) => slot.type.name); // ["electric"]
+
+const ability = await api.resolve(luxray.abilities[0].ability); // typed Ability
 ```
 
-Need more than one section of the API? `MainClient` bundles all twelve clients behind one object,
-sharing a single cache:
+`MainClient` bundles all twelve section clients behind one object, sharing a single cache:
 
 ```ts
 import { MainClient } from 'pokenode-ts';
@@ -46,27 +51,25 @@ await api.pokemon.getPokemonByName('luxray');
 await api.berry.getBerryByName('cheri');
 ```
 
+Non-2xx responses reject with `PokenodeError`. Match it with the static guard — `instanceof`
+breaks across the ESM/CJS boundary:
+
+```ts
+if (PokenodeError.isPokenodeError(err)) err.status; // 404
+```
+
 ## Features
 
-- 🛠️ **Typed end to end** — every response mirrors the PokéAPI schema, checked at compile time.
-- 🪶 **Zero dependencies** — native `fetch`. Node 22+, Deno, Bun, browsers, edge runtimes.
-- 📦 **Caching you control** — in-memory by default; swap in Redis, KV, or any `CacheStore`.
-- 🔌 **Your transport** — pass a custom `fetch` for proxies, retries, headers, or timeouts.
-- 🌲 **Pluggable logging** — console, pino, a metrics collector, or nothing at all.
-- 🧭 **One client or twelve** — a focused client, or `MainClient` sharing one cache across all.
-
-## Documentation
-
-Guides and a page per client live at **[pokenode-ts.vercel.app](https://pokenode-ts.vercel.app/)**.
-
-| Guide | |
-| --- | --- |
-| [Getting started](https://pokenode-ts.vercel.app/guides/getting-started) | Installation, first request, choosing a client |
-| [Errors](https://pokenode-ts.vercel.app/guides/errors) | What throws, what doesn't, and how to tell |
-| [Cache](https://pokenode-ts.vercel.app/guides/cache) | Tuning the default store, or supplying your own |
-| [Logging](https://pokenode-ts.vercel.app/guides/logging) | The `Logger` interface |
-| [Custom Fetch](https://pokenode-ts.vercel.app/guides/fetch) | Proxies, retries, headers, timeouts |
-| [Migrating to 2.0](https://pokenode-ts.vercel.app/guides/migration) | Coming from the Axios-based 1.x |
+- **Typed end to end** — responses mirror the PokéAPI schema, checked at compile time.
+- **Zero dependencies** — native `fetch`, nothing else.
+- **Caching you control** — in-memory by default, or any `CacheStore` (Redis, KV).
+- **Yours to wire up** — a custom `fetch` for proxies and retries; `with({ signal, timeout })` per
+  request; a logger, or none.
+- **More than a wrapper** — type-chart effectiveness, evolution-chain flattening, sprite URLs,
+  localized names.
+- **Conditional requests** — ETag revalidation; concurrent identical URLs share one round trip.
+- **Pagination** — `for await (const berry of api.berry.paginate('listBerries'))`.
+- **One client or twelve** — focused clients, or `MainClient` sharing one cache.
 
 ## Fair use
 
@@ -76,16 +79,12 @@ The PokéAPI is free and community-run. Pokenode-ts caches by default, which cov
 
 ## Contributing
 
-Bug reports, docs fixes, and pull requests are welcome — see
-[CONTRIBUTING.md](.github/CONTRIBUTING.md). Commits follow
-[Conventional Commits](https://www.conventionalcommits.org/).
-
-- Liked it? [Give it a star ⭐](https://github.com/Gabb-c/pokenode-ts)
-- Found a problem? [Open an issue 🔎](https://github.com/Gabb-c/pokenode-ts/issues)
-- Find it useful? [Buy me a coffee ❤️](https://github.com/sponsors/Gabb-c)
+Issues and pull requests are welcome — see
+[CONTRIBUTING.md](https://github.com/Gabb-c/pokenode-ts/blob/main/.github/CONTRIBUTING.md).
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/). If it's useful to you,
+[star it](https://github.com/Gabb-c/pokenode-ts) or
+[sponsor it](https://github.com/sponsors/Gabb-c).
 
 ## License
 
-[MIT](LICENSE)
-
-![Analytics](https://repobeats.axiom.co/api/embed/f71a113e3161e1d054170c94e4ac3fcfc960cdd4.svg 'Repobeats analytics image')
+[MIT](https://github.com/Gabb-c/pokenode-ts/blob/main/LICENSE)
