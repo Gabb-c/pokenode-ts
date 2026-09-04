@@ -4,7 +4,6 @@ on:
   push:
     branches: [main]
 
-# Only one release may be in flight at a time; never cancel a partial publish.
 concurrency:
   group: release
   cancel-in-progress: false
@@ -13,8 +12,6 @@ permissions:
   contents: read
 
 jobs:
-  # Maintains a standing release PR. Merging that PR tags the release and
-  # flips release_created, which gates the publish job below.
   release-please:
     name: Release PR
     runs-on: ubuntu-latest
@@ -34,8 +31,6 @@ jobs:
     if: ${{ needs.release-please.outputs.release-created == 'true' }}
     runs-on: ubuntu-latest
     permissions:
-      # Mints the OIDC token for npm trusted publishing. With it, no NPM_TOKEN
-      # is needed and provenance attestations are generated automatically.
       id-token: write
       contents: read
     steps:
@@ -46,14 +41,7 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Ensure npm supports trusted publishing
-        # Trusted publishing needs npm >= 11.5.1. Too old an npm falls back to
-        # token auth and fails confusingly rather than loudly. Pinned rather
-        # than @latest so a publish never picks up an npm nobody has run yet;
-        # bump it by hand.
         run: npm install -g npm@12.0.2 --ignore-scripts
-
-      - name: Build
-        run: pnpm build
 
       - name: Publish
         run: npm publish

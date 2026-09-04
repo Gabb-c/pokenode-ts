@@ -1,16 +1,9 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { defineConfig } from "tsdown";
 import pkg from "./package.json" with { type: "json" };
 
 const { author, description, homepage, license, name, version } = pkg;
-
-const isCI = Boolean(process.env.CI);
-
-// reproducible builds: honour SOURCE_DATE_EPOCH when set, else today
-const buildDate = new Date(
-  process.env.SOURCE_DATE_EPOCH ? Number(process.env.SOURCE_DATE_EPOCH) * 1000 : Date.now(),
-)
-  .toISOString()
-  .slice(0, 10);
 
 const banner = `/**
  *  _
@@ -22,21 +15,38 @@ const banner = `/**
  * Docs:    ${homepage}
  * Author:  ${author.name} <${author.url}>
  * License: ${license}
- * Built:   ${buildDate}
  *
  * @license ${license}
  * @preserve
  */`;
+
+const assertTransportStripped = async (file: string) => {
+  const declarations = (await readFile(file, "utf8")).replace(/\/\*[\s\S]*?\*\//g, "");
+
+  if (declarations.includes("Transport")) {
+    throw new Error(`${file} leaks the internal Transport type — stripInternal did not apply`);
+  }
+};
+
+const isIndexFile = (fileName: string): boolean => /^index\.(?:js|cjs)$/.test(fileName);
 
 export default defineConfig({
   entry: ["src/index.ts"],
   outDir: "lib",
   format: ["esm", "cjs"],
   platform: "neutral",
+  target: ["node22", "baseline-widely-available"],
   dts: true,
   sourcemap: true,
-  minify: isCI,
+  minify: false,
   publint: true,
   attw: true,
-  outputOptions: { banner },
+  banner: ({ fileName }) => (isIndexFile(fileName) ? { js: banner } : { dts: banner }),
+  hooks: {
+    "build:done": async ({ options }) => {
+      await assertTransportStripped(
+        path.join(options.outDir, options.format === "cjs" ? "index.d.cts" : "index.d.ts"),
+      );
+    },
+  },
 });
