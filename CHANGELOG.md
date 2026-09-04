@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/Gabb-c/pokenode-ts/compare/v2.3.0...v2.3.1) (2026-09-04)
+
+
+### Bug Fixes
+
+* **constants:** add protect move ailment ([#1407](https://github.com/Gabb-c/pokenode-ts/issues/1407)) ([ffa0845](https://github.com/Gabb-c/pokenode-ts/commit/ffa0845e44670eb62792fe3ac922610b914534e5))
+
 ## [2.3.0](https://github.com/Gabb-c/pokenode-ts/compare/v2.2.0...v2.3.0) (2026-08-29)
 
 
