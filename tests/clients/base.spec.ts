@@ -183,6 +183,26 @@ describe("BaseClient", () => {
     expect(calls.count).toBe(2);
   });
 
+  it("should stop sharing a request that failed", async () => {
+    let calls = 0;
+
+    server.use(
+      http.get(BERRY_URL, () => {
+        calls += 1;
+        return HttpResponse.json({}, { status: 500 });
+      }),
+    );
+
+    const client = new TestClient({ cache: false });
+
+    await expect(client.get("/berry", 1)).rejects.toThrow(/failed with status 500/);
+    await expect(client.get("/berry", 1)).rejects.toThrow(/failed with status 500/);
+
+    // A failure forgotten is a url that can recover; one remembered is an entry
+    // that outlives its request and answers every later caller with it.
+    expect(calls).toBe(2);
+  });
+
   it("should not share a cache between clients", async () => {
     const calls = countingHandler(BERRY_URL);
 
@@ -905,6 +925,75 @@ describe("BaseClient scope", () => {
     expect(observed?.aborted).toBe(true);
 
     await expect(Promise.allSettled(requests)).resolves.toHaveLength(2);
+  });
+
+  it("should not hand an abandoned request's cancellation to a later caller", async () => {
+    let calls = 0;
+
+    server.use(
+      http.get(BERRY_URL, async () => {
+        calls += 1;
+        await delay(50);
+        return HttpResponse.json({ id: 1 });
+      }),
+    );
+
+    const client = new TestClient({ cache: false });
+    const controller = new AbortController();
+    const abandoned = client.with({ signal: controller.signal }).get("/berry", 1);
+
+    await settle();
+    controller.abort(new Error("caller left"));
+
+    // Dispatched in the window between the abort and the round trip it cancels
+    // settling: joining the dying request here inherits an abort it never asked
+    // for.
+    const later = client.get("/berry", 1);
+
+    await expect(abandoned).rejects.toThrow("caller left");
+    await expect(later).resolves.toEqual({ id: 1 });
+    expect(calls).toBe(2);
+  });
+
+  it("should keep sharing the request that replaced an abandoned one", async () => {
+    // Hand-settled, so the abandoned round trip is still on the wire when its
+    // replacement is dispatched — the order the identity check in `release`
+    // exists for.
+    const started: ((response: Response) => void)[] = [];
+    let dispatched = 0;
+    const answer = (id: number): void => started.shift()?.(Response.json({ id }));
+    const client = new TestClient({
+      cache: false,
+      fetch: () =>
+        new Promise<Response>((resolve) => {
+          dispatched += 1;
+          started.push(resolve);
+        }),
+    });
+
+    const controller = new AbortController();
+    const abandoned = client.with({ signal: controller.signal }).get("/berry", 1);
+
+    await settle();
+    controller.abort(new Error("caller left"));
+    await expect(abandoned).rejects.toThrow("caller left");
+
+    const replacement = client.get("/berry", 1);
+    await settle();
+
+    answer(0);
+    await settle();
+
+    // Joins the replacement rather than dispatching a third round trip, which
+    // is what the abandoned request finishing would have cost.
+    const joined = client.get("/berry", 1);
+    await settle();
+    expect(dispatched).toBe(2);
+
+    answer(1);
+
+    await expect(replacement).resolves.toEqual({ id: 1 });
+    await expect(joined).resolves.toEqual({ id: 1 });
   });
 
   it("should share the cache and the in-flight request with the client it came from", async () => {
