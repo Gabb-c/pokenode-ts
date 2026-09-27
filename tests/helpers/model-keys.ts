@@ -33,6 +33,7 @@ export interface Models {
   BlackWhite: M.BlackWhite;
   BrilliantDiamondShiningPearl: M.BrilliantDiamondShiningPearl;
   ChainLink: M.ChainLink;
+  Champions: M.Champions;
   Characteristic: M.Characteristic;
   ContestComboDetail: M.ContestComboDetail;
   ContestComboSets: M.ContestComboSets;
@@ -49,6 +50,7 @@ export interface Models {
   Effect: M.Effect;
   EggGroup: M.EggGroup;
   Emerald: M.Emerald;
+  EmeraldAnimated: M.EmeraldAnimated;
   Encounter: M.Encounter;
   EncounterCondition: M.EncounterCondition;
   EncounterConditionValue: M.EncounterConditionValue;
@@ -57,18 +59,23 @@ export interface Models {
   EncounterPokemonDetail: M.EncounterPokemonDetail;
   EncounterVersionDetails: M.EncounterVersionDetails;
   EvolutionChain: M.EvolutionChain;
+  EvolutionConditionExpression: M.EvolutionConditionExpression;
   EvolutionDetail: M.EvolutionDetail;
   EvolutionTrigger: M.EvolutionTrigger;
+  EvolutionVariable: M.EvolutionVariable;
   FireredLeafgreen: M.FireredLeafgreen;
   FlavorBerryMap: M.FlavorBerryMap;
   FlavorText: M.FlavorText;
   Gender: M.Gender;
   Generation: M.Generation;
   GenerationGameIndex: M.GenerationGameIndex;
+  GenerationIIIIcons: M.GenerationIIIIcons;
   GenerationIIISprites: M.GenerationIIISprites;
   GenerationIIITypeSprites: M.GenerationIIITypeSprites;
   GenerationIISprites: M.GenerationIISprites;
   GenerationISprites: M.GenerationISprites;
+  GenerationIVAnimated: M.GenerationIVAnimated;
+  GenerationIVIcons: M.GenerationIVIcons;
   GenerationIVSprites: M.GenerationIVSprites;
   GenerationIVTypeSprites: M.GenerationIVTypeSprites;
   GenerationIXSprites: M.GenerationIXSprites;
@@ -77,6 +84,7 @@ export interface Models {
   GenerationVIIITypeSprites: M.GenerationVIIITypeSprites;
   GenerationVIISprites: M.GenerationVIISprites;
   GenerationVIITypeSprites: M.GenerationVIITypeSprites;
+  GenerationVIIcons: M.GenerationVIIcons;
   GenerationVISprites: M.GenerationVISprites;
   GenerationVITypeSprites: M.GenerationVITypeSprites;
   GenerationVAnimatedIcons: M.GenerationVAnimatedIcons;
@@ -101,6 +109,8 @@ export interface Models {
   ItemPrice: M.ItemPrice;
   ItemSprites: M.ItemSprites;
   Language: M.Language;
+  LetsGoPikachuLetsGoEevee: M.LetsGoPikachuLetsGoEevee;
+  LetsGoPikachuLetsGoEeveeIcons: M.LetsGoPikachuLetsGoEeveeIcons;
   Location: M.Location;
   LocationArea: M.LocationArea;
   LocationAreaEncounter: M.LocationAreaEncounter;
@@ -128,6 +138,10 @@ export interface Models {
   NatureStatAffectSets: M.NatureStatAffectSets;
   NatureStatChange: M.NatureStatChange;
   OfficialArtwork: M.OfficialArtwork;
+  OfficialArtworkGenerationI: M.OfficialArtworkGenerationI;
+  OfficialArtworkGenerationII: M.OfficialArtworkGenerationII;
+  OfficialArtworkVersion: M.OfficialArtworkVersion;
+  OfficialArtworkVersions: M.OfficialArtworkVersions;
   OmegarubyAlphasapphire: M.OmegarubyAlphasapphire;
   OtherPokemonSprites: M.OtherPokemonSprites;
   PalParkArea: M.PalParkArea;
@@ -145,9 +159,7 @@ export interface Models {
   PokemonEntry: M.PokemonEntry;
   PokemonForm: M.PokemonForm;
   PokemonFormCondition: M.PokemonFormCondition;
-  PokemonFormGenerationVIIISprites: M.PokemonFormGenerationVIIISprites;
   PokemonFormSprites: M.PokemonFormSprites;
-  PokemonFormVersionSprites: M.PokemonFormVersionSprites;
   PokemonHabitat: M.PokemonHabitat;
   PokemonHeldItem: M.PokemonHeldItem;
   PokemonHeldItemVersion: M.PokemonHeldItemVersion;
@@ -166,6 +178,7 @@ export interface Models {
   PokemonStat: M.PokemonStat;
   PokemonType: M.PokemonType;
   RedBlue: M.RedBlue;
+  RedGreenJapan: M.RedGreenJapan;
   Region: M.Region;
   RubySapphire: M.RubySapphire;
   ScarletViolet: M.ScarletViolet;

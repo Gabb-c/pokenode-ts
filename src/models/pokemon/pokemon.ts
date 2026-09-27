@@ -276,6 +276,36 @@ export interface OfficialArtwork {
   front_default: string | null;
   /** The shiny depiction of this Pokémon from the front in battle. */
   front_shiny: string | null;
+  /** The artwork published for earlier games. */
+  versions: OfficialArtworkVersions;
+}
+
+/** Official Artwork of earlier games. */
+export interface OfficialArtworkVersions {
+  /** Generation-I artwork of this Pokémon. */
+  "generation-i": OfficialArtworkGenerationI;
+  /** Generation-II artwork of this Pokémon. */
+  "generation-ii": OfficialArtworkGenerationII;
+}
+
+/** Generation-I Official Artwork. */
+export interface OfficialArtworkGenerationI {
+  /** Red and Blue artwork of this Pokémon. */
+  "red-and-blue": OfficialArtworkVersion;
+  /** Red and Green artwork of this Pokémon. */
+  "red-and-green": OfficialArtworkVersion;
+}
+
+/** Generation-II Official Artwork. */
+export interface OfficialArtworkGenerationII {
+  /** Gold and Silver artwork of this Pokémon. */
+  "gold-and-silver": OfficialArtworkVersion;
+}
+
+/** The Official Artwork of one game. */
+export interface OfficialArtworkVersion {
+  /** The default depiction of this Pokémon. */
+  front_default: string | null;
 }
 
 /** Home sprites. */
@@ -314,6 +344,8 @@ export interface Showdown {
 export interface GenerationISprites {
   /** Red-blue sprites of this Pokémon. */
   "red-blue": RedBlue;
+  /** Red-Green sprites of this Pokémon, from the Japanese release. */
+  "red-green-japan": RedGreenJapan;
   /** Yellow sprites of this Pokémon. */
   yellow: Yellow;
 }
@@ -326,28 +358,52 @@ export interface RedBlue {
   back_gray: string | null;
   /** The transparent depiction of this Pokémon from the back in battle. */
   back_transparent: string | null;
+  /** The transparent gray depiction of this Pokémon from the back in battle. */
+  back_transparent_gray: string | null;
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
   /** The gray depiction of this Pokémon from the front in battle. */
   front_gray: string | null;
   /** The transparent depiction of this Pokémon from the front in battle. */
   front_transparent: string | null;
+  /** The transparent gray depiction of this Pokémon from the front in battle. */
+  front_transparent_gray: string | null;
+}
+
+/** Red/Green sprites, from the Japanese release. */
+export interface RedGreenJapan {
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The gray depiction of this Pokémon from the back in battle. */
+  back_gray: string | null;
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The gray depiction of this Pokémon from the front in battle. */
+  front_gray: string | null;
 }
 
 /** Yellow sprites. */
 export interface Yellow {
   /** The default depiction of this Pokémon from the back in battle. */
   back_default: string | null;
+  /** The Game Boy Color depiction of this Pokémon from the back in battle. */
+  back_gbc: string | null;
   /** The gray depiction of this Pokémon from the back in battle. */
   back_gray: string | null;
   /** The transparent depiction of this Pokémon from the back in battle. */
   back_transparent: string | null;
+  /** The transparent gray depiction of this Pokémon from the back in battle. */
+  back_transparent_gray: string | null;
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
+  /** The Game Boy Color depiction of this Pokémon from the front in battle. */
+  front_gbc: string | null;
   /** The gray depiction of this Pokémon from the front in battle. */
   front_gray: string | null;
   /** The transparent depiction of this Pokémon from the front in battle. */
   front_transparent: string | null;
+  /** The transparent gray depiction of this Pokémon from the front in battle. */
+  front_transparent_gray: string | null;
 }
 
 /** Generation-II Sprites. */
@@ -396,10 +452,16 @@ export interface Gold {
   back_default: string | null;
   /** The shiny depiction of this Pokémon from the back in battle. */
   back_shiny: string | null;
+  /** The transparent shiny depiction of this Pokémon from the back in battle. */
+  back_shiny_transparent: string | null;
+  /** The transparent depiction of this Pokémon from the back in battle. */
+  back_transparent: string | null;
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
   /** The shiny depiction of this Pokémon from the front in battle. */
   front_shiny: string | null;
+  /** The transparent shiny depiction of this Pokémon from the front in battle. */
+  front_shiny_transparent: string | null;
   /** The transparent depiction of this Pokémon from the front in battle. */
   front_transparent: string | null;
 }
@@ -410,10 +472,16 @@ export interface Silver {
   back_default: string | null;
   /** The shiny depiction of this Pokémon from the back in battle. */
   back_shiny: string | null;
+  /** The transparent shiny depiction of this Pokémon from the back in battle. */
+  back_shiny_transparent: string | null;
+  /** The transparent depiction of this Pokémon from the back in battle. */
+  back_transparent: string | null;
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
   /** The shiny depiction of this Pokémon from the front in battle. */
   front_shiny: string | null;
+  /** The transparent shiny depiction of this Pokémon from the front in battle. */
+  front_shiny_transparent: string | null;
   /** The transparent depiction of this Pokémon from the front in battle. */
   front_transparent: string | null;
 }
@@ -424,16 +492,42 @@ export interface GenerationIIISprites {
   emerald: Emerald;
   /** Firered-Leafgreen sprites of this Pokémon. */
   "firered-leafgreen": FireredLeafgreen;
+  /** Menu icons of this Pokémon. */
+  icons: GenerationIIIIcons;
   /** Ruby-Sapphire sprites of this Pokémon. */
   "ruby-sapphire": RubySapphire;
 }
 
 /** Emerald sprites. */
 export interface Emerald {
+  /** The animated sprites of this Pokémon. */
+  animated: EmeraldAnimated;
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle. */
+  back_shiny: string | null;
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
   /** The shiny depiction of this Pokémon from the front in battle. */
   front_shiny: string | null;
+}
+
+/** Animated Emerald sprites. */
+export interface EmeraldAnimated {
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle. */
+  back_shiny: string | null;
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
+}
+
+/** Generation-III menu icons. */
+export interface GenerationIIIIcons {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
 }
 
 /** FireRed LeafGreen sprites. */
@@ -466,12 +560,16 @@ export interface GenerationIVSprites {
   "diamond-pearl": DiamondPearl;
   /** Heartgold-Soulsilver sprites of this Pokémon. */
   "heartgold-soulsilver": HeartgoldSoulsilver;
+  /** Menu icons of this Pokémon. */
+  icons: GenerationIVIcons;
   /** Platinum sprites of this Pokémon. */
   platinum: Platinum;
 }
 
 /** Diamond-Pearl sprites of this Pokémon. */
 export interface DiamondPearl {
+  /** The animated sprites of this Pokémon. */
+  animated: GenerationIVAnimated;
   /** The default depiction of this Pokémon from the back in battle. */
   back_default: string | null;
   /** The shiny depiction of this Pokémon from the back in battle. */
@@ -492,6 +590,8 @@ export interface DiamondPearl {
 
 /** HeartGold-SoulSilver sprites of this Pokémon. */
 export interface HeartgoldSoulsilver {
+  /** The animated sprites of this Pokémon. */
+  animated: GenerationIVAnimated;
   /** The default depiction of this Pokémon from the back in battle. */
   back_default: string | null;
   /** The shiny depiction of this Pokémon from the back in battle. */
@@ -512,6 +612,8 @@ export interface HeartgoldSoulsilver {
 
 /** Platinum sprites of this Pokémon. */
 export interface Platinum {
+  /** The animated sprites of this Pokémon. */
+  animated: GenerationIVAnimated;
   /** The default depiction of this Pokémon from the back in battle. */
   back_default: string | null;
   /** The shiny depiction of this Pokémon from the back in battle. */
@@ -528,6 +630,24 @@ export interface Platinum {
   front_female: string | null;
   /** The shiny female depiction of this Pokémon from the back in battle. */
   front_shiny_female: string | null;
+}
+
+/** Animated Generation-IV sprites. */
+export interface GenerationIVAnimated {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the front in battle. */
+  front_shiny_female: string | null;
+}
+
+/** Generation-IV menu icons. */
+export interface GenerationIVIcons {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
 }
 
 /** Generation-V Sprites. */
@@ -595,33 +715,59 @@ export interface GenerationVAnimatedIcons {
 
 /** Generation-VI Sprites. */
 export interface GenerationVISprites {
+  /** Menu icons of this Pokémon. */
+  icons: GenerationVIIcons;
   /** Omegaruby-Alphasapphire sprites of this Pokémon. */
   "omegaruby-alphasapphire": OmegarubyAlphasapphire;
   /** X-Y sprites of this Pokémon. */
   "x-y": XY;
 }
 
+/** Generation-VI menu icons. */
+export interface GenerationVIIcons {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+}
+
 /** Omega/Ruby Alpha/Sapphire sprites. */
 export interface OmegarubyAlphasapphire {
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The female depiction of this Pokémon from the back in battle. */
+  back_female: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle. */
+  back_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle. */
+  back_shiny_female: string | null;
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
   /** The female depiction of this Pokémon from the front in battle. */
   front_female: string | null;
   /** The shiny depiction of this Pokémon from the front in battle. */
   front_shiny: string | null;
-  /** The shiny female depiction of this Pokémon from the back in battle. */
+  /** The shiny female depiction of this Pokémon from the front in battle. */
   front_shiny_female: string | null;
 }
 
 /** XY sprites. */
 export interface XY {
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The female depiction of this Pokémon from the back in battle. */
+  back_female: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle. */
+  back_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle. */
+  back_shiny_female: string | null;
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
   /** The female depiction of this Pokémon from the front in battle. */
   front_female: string | null;
   /** The shiny depiction of this Pokémon from the front in battle. */
   front_shiny: string | null;
-  /** The shiny female depiction of this Pokémon from the back in battle. */
+  /** The shiny female depiction of this Pokémon from the front in battle. */
   front_shiny_female: string | null;
 }
 
@@ -629,6 +775,8 @@ export interface XY {
 export interface GenerationVIISprites {
   /** Icon sprites of this Pokémon. */
   icons: GenerationViiIcons;
+  /** Let's Go Pikachu and Let's Go Eevee sprites of this Pokémon. */
+  "lets-go-pikachu-lets-go-eevee": LetsGoPikachuLetsGoEevee;
   /** Ultra-sun-ultra-moon sprites of this Pokémon. */
   "ultra-sun-ultra-moon": UltraSunUltraMoon;
 }
@@ -641,15 +789,51 @@ export interface GenerationViiIcons {
   front_female: string | null;
 }
 
-/** Ultra Sun Ultra Moon sprites. */
-export interface UltraSunUltraMoon {
+/** Let's Go Pikachu and Let's Go Eevee sprites. */
+export interface LetsGoPikachuLetsGoEevee {
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The female depiction of this Pokémon from the back in battle. */
+  back_female: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle. */
+  back_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle. */
+  back_shiny_female: string | null;
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
   /** The female depiction of this Pokémon from the front in battle. */
   front_female: string | null;
   /** The shiny depiction of this Pokémon from the front in battle. */
   front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the front in battle. */
+  front_shiny_female: string | null;
+  /** Menu icons of this Pokémon. */
+  icons: LetsGoPikachuLetsGoEeveeIcons;
+}
+
+/** Let's Go Pikachu and Let's Go Eevee menu icons. */
+export interface LetsGoPikachuLetsGoEeveeIcons {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+}
+
+/** Ultra Sun Ultra Moon sprites. */
+export interface UltraSunUltraMoon {
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The female depiction of this Pokémon from the back in battle. */
+  back_female: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle. */
+  back_shiny: string | null;
   /** The shiny female depiction of this Pokémon from the back in battle. */
+  back_shiny_female: string | null;
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the front in battle. */
   front_shiny_female: string | null;
 }
 
@@ -673,14 +857,22 @@ export interface GenerationViiiIcons {
 export interface BrilliantDiamondShiningPearl {
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
-  /** The female depiction of this Pokémon from the front in battle. */
-  front_female: string | null;
 }
 
 /** Generation-IX Sprites */
 export interface GenerationIXSprites {
+  /** Pokémon Champions sprites of this Pokémon. */
+  champions: Champions;
   /** Scarlet and Violet sprites of this Pokémon. */
   "scarlet-violet": ScarletViolet;
+}
+
+/** Pokémon Champions sprites. */
+export interface Champions {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
 }
 
 /** Scarlet and Violet sprites. */
@@ -807,27 +999,10 @@ export interface PokemonFormSprites {
   back_shiny: string | null;
   /** The shiny female depiction of this Pokémon form from the back in battle. */
   back_shiny_female: string | null;
+  /** Dream World, Official Artwork, Home and Showdown sprites of this Pokémon form. */
+  other: OtherPokemonSprites;
   /** Version Sprites of this Pokémon form. */
-  versions: PokemonFormVersionSprites;
-}
-
-/**
- * Version sprites of a Pokémon form.
- *
- * Only the two generations that ship form-specific sprites appear, which is why
- * this is not the Pokémon-level {@link VersionSprites}.
- */
-export interface PokemonFormVersionSprites {
-  /** Generation-VIII Sprites of this Pokémon form. */
-  "generation-viii": PokemonFormGenerationVIIISprites;
-  /** Generation-IX Sprites of this Pokémon form. */
-  "generation-ix": GenerationIXSprites;
-}
-
-/** Generation-VIII sprites of a Pokémon form. */
-export interface PokemonFormGenerationVIIISprites {
-  /** Brilliant Diamond and Shining Pearl sprites of this Pokémon form. */
-  "brilliant-diamond-shining-pearl": BrilliantDiamondShiningPearl;
+  versions: VersionSprites;
 }
 
 /**

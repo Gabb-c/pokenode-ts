@@ -8,16 +8,25 @@ export const EVOLUTION_TRIGGERS = {
   TOWER_OF_WATERS: 7,
   THREE_CRITICAL_HITS: 8,
   TAKE_DAMAGE: 9,
-  OTHER: 10,
+  IN_BATTLE_LEVEL_UP: 10,
   AGILE_STYLE_MOVE: 11,
   STRONG_STYLE_MOVE: 12,
   RECOIL_DAMAGE: 13,
   USE_MOVE: 14,
   THREE_DEFEATED_BISHARP: 15,
   GIMMIGHOUL_COINS: 16,
+  MELTAN_CANDIES: 17,
+  UNCLASSIFIED: 18,
   /**
    * @deprecated Misspelled: the endpoint names this trigger `tower-of-waters`.
    *   Use {@link EVOLUTION_TRIGGERS.TOWER_OF_WATERS}. Removed in 3.0.
    */
   TOWER_OF_WATER: 7,
+} as const;
+
+export const EVOLUTION_VARIABLES = {
+  ENCRYPTION_CONSTANT: 1,
+  PERSONALITY_VALUE: 2,
+  SPIN_DIRECTION: 3,
+  SPIN_DURATION: 4,
 } as const;

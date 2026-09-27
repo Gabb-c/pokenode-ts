@@ -90,7 +90,7 @@ first half of the diagnosis:
 `drift` rows are built by `caseFor` in `tests/helpers/model-keys.ts`, which infers the model from
 the fetch and makes the compiler prove the key list is exactly its `keyof`, so `pnpm typecheck`
 catches a list that has drifted from its type. `constants` reads ids off the list links with
-`resourceId` rather than resolving each resource, which is what keeps thirty-six maps to one request
+`resourceId` rather than resolving each resource, which is what keeps thirty-seven maps to one request
 per section. `.github/workflows/live.yml` runs the tier weekly, skips the check when the PokéAPI
 itself is down, and files a `live-drift` issue on failure.
 

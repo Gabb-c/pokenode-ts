@@ -1,11 +1,11 @@
 ---
-description: "Fetch evolution chains and the triggers that advance them from the PokéAPI evolution section with the typed EvolutionClient."
+description: "Fetch evolution chains, triggers and variables from the PokéAPI evolution section with the typed EvolutionClient."
 ---
 
 # Evolution Client
 
 Covers the PokéAPI's [evolution section](https://pokeapi.co/docs/v2#evolution-section): evolution
-chains, and the triggers that advance them.
+chains, the triggers that advance them, and the hidden values some evolutions are decided by.
 
 ```ts
 import { EvolutionClient } from 'pokenode-ts';
@@ -34,6 +34,18 @@ console.log(chain.chain.evolves_to[0].species.name); // "ivysaur"
 | `getEvolutionTriggerByName(name)` | `EvolutionTrigger` |
 | `getEvolutionTriggerById(id)` | `EvolutionTrigger` |
 | `listEvolutionTriggers(offset?, limit?)` | `NamedAPIResourceList` |
+
+### Evolution variables
+
+| Method | Returns |
+| --- | --- |
+| `getEvolutionVariableByName(name)` | `EvolutionVariable` |
+| `getEvolutionVariableById(id)` | `EvolutionVariable` |
+| `listEvolutionVariables(offset?, limit?)` | `NamedAPIResourceList` |
+
+An `EvolutionVariable` — the encryption constant, the personality value, the direction and length
+of Milcery's spin — is what an `EvolutionDetail.condition_expression` reads. Its `source` says
+whether the value is stored on the Pokémon (`pokemon`) or supplied by the player (`player-input`). See [hidden values](/guides/evolution#hidden-values).
 
 ::: info
 Evolution chains have no names upstream, so there is no `getEvolutionChainByName`. To go from a
@@ -77,9 +89,10 @@ const chain = await new UtilityClient().getResourceByUrl<EvolutionChain>(
 ## Using constants
 
 ```ts
-import { EvolutionClient, EVOLUTION_TRIGGERS } from 'pokenode-ts';
+import { EvolutionClient, EVOLUTION_TRIGGERS, EVOLUTION_VARIABLES } from 'pokenode-ts';
 
 const api = new EvolutionClient();
 
 const levelUp = await api.getEvolutionTriggerById(EVOLUTION_TRIGGERS.LEVEL_UP);
+const ec = await api.getEvolutionVariableById(EVOLUTION_VARIABLES.ENCRYPTION_CONSTANT);
 ```

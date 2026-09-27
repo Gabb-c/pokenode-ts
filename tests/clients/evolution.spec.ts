@@ -1,5 +1,5 @@
 import { EvolutionClient } from "@clients";
-import { EVOLUTION_TRIGGERS } from "@constants";
+import { EVOLUTION_TRIGGERS, EVOLUTION_VARIABLES } from "@constants";
 
 import { type EndpointCase, expectEndpoint } from "../helpers/stub-fetch";
 
@@ -25,6 +25,21 @@ describe("EvolutionClient", () => {
       "listEvolutionTriggers",
       "/evolution-trigger?offset=0&limit=20",
       (c) => c.listEvolutionTriggers(),
+    ],
+    [
+      "getEvolutionVariableById",
+      "/evolution-variable/1",
+      (c) => c.getEvolutionVariableById(EVOLUTION_VARIABLES.ENCRYPTION_CONSTANT),
+    ],
+    [
+      "getEvolutionVariableByName",
+      "/evolution-variable/personality-value",
+      (c) => c.getEvolutionVariableByName("personality-value"),
+    ],
+    [
+      "listEvolutionVariables",
+      "/evolution-variable?offset=0&limit=20",
+      (c) => c.listEvolutionVariables(),
     ],
   ] satisfies EndpointCase<EvolutionClient>[])(
     "%s should request %s",

@@ -1,6 +1,7 @@
 import type {
   ChainLink,
   EvolutionChain,
+  EvolutionConditionExpression,
   EvolutionDetail,
   EvolutionTimeOfDay,
   EvolutionTrigger,
@@ -9,6 +10,7 @@ import type {
   Location,
   Move,
   NamedAPIResource,
+  Nature,
   PokemonForm,
   PokemonSpecies,
   Region,
@@ -185,8 +187,10 @@ export type EvolutionRequirement =
   | { kind: "party-species"; species: NamedAPIResource<PokemonSpecies> }
   | { kind: "party-type"; type: NamedAPIResource<Type> }
   | { kind: "trade-species"; species: NamedAPIResource<PokemonSpecies> }
-  | { kind: "base-form"; form: NamedAPIResource<PokemonForm> }
+  | { kind: "required-form"; form: NamedAPIResource<PokemonForm> }
   | { kind: "evolved-form"; form: NamedAPIResource<PokemonForm> }
+  | { kind: "allowed-natures"; natures: NamedAPIResource<Nature>[] }
+  | { kind: "condition"; condition: EvolutionConditionExpression }
   | { kind: "needs-overworld-rain" }
   | { kind: "turn-upside-down" }
   | { kind: "near-special-rock" }
@@ -220,8 +224,12 @@ const READERS: ((detail: EvolutionDetail) => EvolutionRequirement | null)[] = [
   ({ party_species: species }) => (species === null ? null : { kind: "party-species", species }),
   ({ party_type: type }) => (type === null ? null : { kind: "party-type", type }),
   ({ trade_species: species }) => (species === null ? null : { kind: "trade-species", species }),
-  ({ base_form: form }) => (form === null ? null : { kind: "base-form", form }),
-  ({ evolved_form: form }) => (form === null ? null : { kind: "evolved-form", form }),
+  ({ required_pokemon_form: form }) => (form === null ? null : { kind: "required-form", form }),
+  ({ evolved_pokemon_form: form }) => (form === null ? null : { kind: "evolved-form", form }),
+  ({ allowed_natures: natures }) =>
+    natures === null ? null : { kind: "allowed-natures", natures },
+  ({ condition_expression: condition }) =>
+    condition === null ? null : { kind: "condition", condition },
   ({ needs_overworld_rain: rain }) => (rain ? { kind: "needs-overworld-rain" } : null),
   ({ turn_upside_down: upsideDown }) => (upsideDown ? { kind: "turn-upside-down" } : null),
   ({ near_special_rock: rock }) => (rock ? { kind: "near-special-rock" } : null),
@@ -238,7 +246,7 @@ const READERS: ((detail: EvolutionDetail) => EvolutionRequirement | null)[] = [
  * //   { kind: 'trigger', trigger: { name: 'level-up', … } },
  * //   { kind: 'min-happiness', happiness: 160 },
  * //   { kind: 'time-of-day', time: 'night' },
- * //   { kind: 'base-form', form: { name: 'eevee', … } },
+ * //   { kind: 'required-form', form: { name: 'eevee', … } },
  * // ]
  * ```
  *
@@ -267,13 +275,15 @@ const TRIGGERS: Record<EvolutionTriggerName, string> = {
   "tower-of-waters": "train in the Tower of Waters",
   "three-critical-hits": "land three critical hits in one battle",
   "take-damage": "take damage",
-  other: "an in-game event",
+  "in-battle-level-up": "level up during a battle",
   "agile-style-move": "use agile style moves",
   "strong-style-move": "use strong style moves",
   "recoil-damage": "take recoil damage",
   "use-move": "use a move",
   "three-defeated-bisharp": "defeat three pack-leading Bisharp",
   "gimmighoul-coins": "collect Gimmighoul Coins",
+  "meltan-candies": "feed Meltan Candies in Pokémon GO",
+  unclassified: "an unclassified method",
 };
 
 /** A resource name as prose: the API writes them kebab-cased and lower case. */
@@ -313,7 +323,7 @@ export type RequirementPhrases = {
  * ## Resource Namer
  * How a resource a requirement names is written out.
  *
- * @param resource The item, move, species, location, region, form or type the
+ * @param resource The item, move, species, location, region, form, nature or type the
  *   requirement carries.
  * @returns What to print for it.
  */
@@ -358,8 +368,12 @@ export const requirementPhrases = (namer: ResourceNamer = spaced): RequirementPh
   "party-species": ({ species }) => `with ${namer(species)} in the party`,
   "party-type": ({ type }) => `with a ${namer(type)}-type in the party`,
   "trade-species": ({ species }) => `traded for ${namer(species)}`,
-  "base-form": ({ form }) => `in its ${namer(form)} form`,
+  "required-form": ({ form }) => `in its ${namer(form)} form`,
   "evolved-form": ({ form }) => `into its ${namer(form)} form`,
+  "allowed-natures": ({ natures }) =>
+    `with a ${natures.map((nature) => namer(nature)).join(" or ")} nature`,
+  condition: ({ condition }) =>
+    condition.percentage_chance === null ? "" : `with a ${condition.percentage_chance}% chance`,
   "needs-overworld-rain": () => "while it is raining",
   "turn-upside-down": () => "with the console upside down",
   "near-special-rock": () => "near a special rock",
@@ -390,7 +404,7 @@ export const REQUIREMENT_PHRASES: RequirementPhrases = requirementPhrases();
 
 /**
  * The table built for a namer, kept so that rendering a list does not rebuild
- * twenty-seven closures per row. Weak, so a namer closed over a component's
+ * twenty-nine closures per row. Weak, so a namer closed over a component's
  * props is not held alive by having been used once.
  */
 const tables = new WeakMap<ResourceNamer, RequirementPhrases>();
@@ -476,6 +490,10 @@ export interface FormatOptions {
  * use water stone" says it twice. That holds under `phrases` too: the trigger is
  * dropped before anything is rendered, so an overridden `item` is still what says
  * the item is used.
+ *
+ * A phrase that renders as `""` is left out of the sentence. The default table
+ * does this for a `condition` with no `percentage_chance` — Milcery's spin, which
+ * the trigger already names — and an override can do it to hide any kind.
  */
 export const formatRequirements = (
   requirements: readonly EvolutionRequirement[],
@@ -492,5 +510,6 @@ export const formatRequirements = (
   return requirements
     .filter((requirement) => !(usesItem && requirement.kind === "trigger"))
     .map((requirement) => phrase(requirement, phrases))
+    .filter((text) => text !== "")
     .join(", ");
 };

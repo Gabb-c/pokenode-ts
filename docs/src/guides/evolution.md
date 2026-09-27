@@ -142,7 +142,7 @@ formatRequirements(requirements, {
 ```
 
 An override can also fall back to the default for what it doesn't handle, which is how you reword
-two of the sixteen triggers without restating the other fourteen:
+two of the eighteen triggers without restating the other sixteen:
 
 ```ts
 formatRequirements(requirements, {
@@ -155,8 +155,27 @@ formatRequirements(requirements, {
 `requirementPhrases(namer)` builds the same table around a namer, if you want to hold one rather
 than pass `name` on every call.
 
-## What the data cannot tell you
+## Hidden values
 
-Wurmple evolves into Silcoon or Cascoon on a hidden personality value. The API gives both branches
-identical details — `level-up` at level 7 — so nothing here can separate them. Same shape, same
-conditions, two outcomes.
+Wurmple evolves into Silcoon or Cascoon on a value the games never show. Both branches share every
+visible condition — `level-up` at level 7 — and differ only in `condition_expression`, which comes
+out of `requirementsOf` as a `condition` requirement:
+
+```ts
+// { kind: 'condition', condition: {
+//     expression: 'EC 16 >> 10 % 4 <=',
+//     percentage_chance: 50,
+//     variables: [{ name: 'encryption-constant', … }],
+// } }
+```
+
+`expression` is postfix over the symbols of its `variables`, which resolve to an
+`EvolutionVariable`. `formatRequirements` renders only the odds — `with a 50% chance` — since the
+expression is not something to show a player.
+
+Not every expression is about chance. Milcery's Alcremie forms turn on how the player spins it, and
+their expressions read `spin-direction` and `spin-duration` — variables whose `source` is
+`player-input` rather than `pokemon`. Those carry `percentage_chance: null`, and `formatRequirements`
+leaves the requirement out of the sentence — `spin, holding strawberry sweet, during the day, into
+its alcremie vanilla cream strawberry sweet form`; it is still in `requirementsOf` for a caller that
+wants to render it. A `phrases` override that returns `''` drops a kind the same way.

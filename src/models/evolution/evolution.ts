@@ -1,9 +1,10 @@
-import type { Name, NamedAPIResource } from "../common";
+import type { Description, Name, NamedAPIResource } from "../common";
 import type { VersionGroup } from "../game/version";
 import type { Item } from "../item/item";
 import type { Location } from "../location/location";
 import type { Region } from "../location/region";
 import type { Move } from "../move/move";
+import type { Nature } from "../pokemon/nature";
 import type { PokemonForm, PokemonSpecies } from "../pokemon/pokemon";
 import type { Type } from "../pokemon/type";
 
@@ -73,9 +74,9 @@ export interface EvolutionDetail {
   /** The region this evolution must occur in. */
   region: NamedAPIResource<Region> | null;
   /** The form the evolving Pokémon must be in for this evolution to occur. */
-  base_form: NamedAPIResource<PokemonForm> | null;
+  required_pokemon_form: NamedAPIResource<PokemonForm> | null;
   /** The form this evolution produces. */
-  evolved_form: NamedAPIResource<PokemonForm> | null;
+  evolved_pokemon_form: NamedAPIResource<PokemonForm> | null;
   /**
    * The move that must be used by the evolving Pokémon species during the evolution trigger event
    * in order to evolve into this Pokémon species.
@@ -90,6 +91,34 @@ export interface EvolutionDetail {
    * species.
    */
   min_damage_taken: number | null;
+  /** The natures the evolving Pokémon must have one of, e.g. Toxtricity's Amped and Low Key forms. */
+  allowed_natures: NamedAPIResource<Nature>[] | null;
+  /**
+   * A check over hidden values or the player's input the evolution must pass, e.g. Wurmple into
+   * Silcoon or Cascoon, or how Milcery is spun.
+   */
+  condition_expression: EvolutionConditionExpression | null;
+}
+
+/**
+ * ## Evolution Condition Expression
+ * A check against values the games hide from the player, or against how the
+ * player performed the evolution, which decides between evolutions that
+ * otherwise share every requirement.
+ */
+export interface EvolutionConditionExpression {
+  /**
+   * The check in postfix notation over the variables' symbols, e.g.
+   * `"EC 100 % 0 !="` — the encryption constant is not a multiple of 100.
+   */
+  expression: string;
+  /**
+   * The share of Pokémon, in percent, that pass the check. `null` when the check
+   * reads the player's input, which the player chooses rather than rolls.
+   */
+  percentage_chance: number | null;
+  /** The values the expression reads. */
+  variables: NamedAPIResource<EvolutionVariable>[];
 }
 
 /**
@@ -146,13 +175,15 @@ export type EvolutionTriggerName =
   | "tower-of-waters"
   | "three-critical-hits"
   | "take-damage"
-  | "other"
+  | "in-battle-level-up"
   | "agile-style-move"
   | "strong-style-move"
   | "recoil-damage"
   | "use-move"
   | "three-defeated-bisharp"
-  | "gimmighoul-coins";
+  | "gimmighoul-coins"
+  | "meltan-candies"
+  | "unclassified";
 
 /**
  * ## Evolution Trigger
@@ -172,4 +203,50 @@ export interface EvolutionTrigger {
   names: Name[];
   /** A list of Pokémon species that result from this evolution trigger. */
   pokemon_species: NamedAPIResource<PokemonSpecies>[];
+}
+
+/**
+ * ## Evolution Variable Name
+ * Every variable the PokéAPI publishes, in id order, the order
+ * {@link EVOLUTION_VARIABLES} mirrors.
+ */
+export type EvolutionVariableName =
+  | "encryption-constant"
+  | "personality-value"
+  | "spin-direction"
+  | "spin-duration";
+
+/**
+ * ## Evolution Variable Source
+ * Where a variable's value comes from: `pokemon` for data stored on the Pokémon,
+ * such as its encryption constant, `player-input` for something the player does
+ * while evolving it, such as spinning Milcery.
+ */
+export type EvolutionVariableSource = "pokemon" | "player-input";
+
+/**
+ * ## Evolution Variable
+ * A value an {@link EvolutionConditionExpression} reads: either one the games
+ * generate for each Pokémon and hide from the player, or one the player supplies
+ * while evolving it.
+ *
+ * - See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Personality_value) for greater detail.
+ */
+export interface EvolutionVariable {
+  /** The identifier for this resource. */
+  id: number;
+  /** The name for this resource. */
+  name: EvolutionVariableName;
+  /** The symbol an expression refers to this variable by, e.g. `EC`. */
+  symbol: string;
+  /** The type the games store this value as, e.g. `uint32`. */
+  data_type: string;
+  /** Whether the value is stored on the Pokémon or supplied by the player. */
+  source: EvolutionVariableSource;
+  /** The version group this variable was introduced in. */
+  version_group: NamedAPIResource<VersionGroup>;
+  /** The name of this resource listed in different languages. */
+  names: Name[];
+  /** The description of this resource listed in different languages. */
+  descriptions: Description[];
 }

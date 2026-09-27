@@ -1,4 +1,10 @@
-import type { ChainLink, EvolutionChain, EvolutionDetail, NamedAPIResource } from "@models";
+import type {
+  ChainLink,
+  EvolutionChain,
+  EvolutionConditionExpression,
+  EvolutionDetail,
+  NamedAPIResource,
+} from "@models";
 import {
   type EvolutionRequirement,
   flattenChain,
@@ -39,12 +45,14 @@ const detail = (partial: Partial<EvolutionDetail> = {}): EvolutionDetail => ({
   near_special_rock: false,
   needs_multiplayer: false,
   region: null,
-  base_form: null,
-  evolved_form: null,
+  required_pokemon_form: null,
+  evolved_pokemon_form: null,
   used_move: null,
   min_move_count: null,
   min_steps: null,
   min_damage_taken: null,
+  allowed_natures: null,
+  condition_expression: null,
   ...partial,
 });
 
@@ -300,6 +308,29 @@ describe("formatRequirements", () => {
     );
   });
 
+  // Milcery's spin: the expression reads the player's input, so there are no odds to state.
+  it("should leave out a condition that has no chance", () => {
+    const spin: EvolutionConditionExpression = {
+      expression: "SPIN_DIR 0 == SPIN_SEC 5 < &&",
+      percentage_chance: null,
+      variables: [link("spin-direction"), link("spin-duration")],
+    };
+    const requirements = requirementsOf(
+      detail({ trigger: link("spin"), time_of_day: "day", condition_expression: spin }),
+    );
+
+    expect(requirements).toContainEqual({ kind: "condition", condition: spin });
+    expect(formatRequirements(requirements)).toBe("spin, during the day");
+  });
+
+  it("should leave out a kind an override renders as nothing", () => {
+    expect(
+      formatRequirements(requirementsOf(detail({ min_level: 30 })), {
+        phrases: { trigger: () => "" },
+      }),
+    ).toBe("at level 30");
+  });
+
   it("should take the wording of one kind from the caller and leave the rest", () => {
     const rendered = formatRequirements(
       requirementsOf(detail({ min_happiness: 160, time_of_day: "night" })),
@@ -333,6 +364,12 @@ describe("formatRequirements", () => {
     ).toBe("troca, no nível 30");
   });
 });
+
+const condition: EvolutionConditionExpression = {
+  expression: "EC 100 % 0 !=",
+  percentage_chance: 99,
+  variables: [link("encryption-constant")],
+};
 
 /**
  * Every kind, with the field that produces it and the phrase it renders as. The
@@ -453,16 +490,28 @@ const kinds: [
     "traded for karrablast",
   ],
   [
-    "base-form",
-    { base_form: link("darumaka-galar") },
-    { kind: "base-form", form: link("darumaka-galar") },
+    "required-form",
+    { required_pokemon_form: link("darumaka-galar") },
+    { kind: "required-form", form: link("darumaka-galar") },
     "in its darumaka galar form",
   ],
   [
     "evolved-form",
-    { evolved_form: link("darmanitan-galar-zen") },
+    { evolved_pokemon_form: link("darmanitan-galar-zen") },
     { kind: "evolved-form", form: link("darmanitan-galar-zen") },
     "into its darmanitan galar zen form",
+  ],
+  [
+    "allowed-natures",
+    { allowed_natures: [link("hardy"), link("jolly")] },
+    { kind: "allowed-natures", natures: [link("hardy"), link("jolly")] },
+    "with a hardy or jolly nature",
+  ],
+  [
+    "condition",
+    { condition_expression: condition },
+    { kind: "condition", condition },
+    "with a 99% chance",
   ],
   [
     "needs-overworld-rain",
@@ -512,13 +561,15 @@ const triggers: [name: string, phrase: string][] = [
   ["tower-of-waters", "train in the Tower of Waters"],
   ["three-critical-hits", "land three critical hits in one battle"],
   ["take-damage", "take damage"],
-  ["other", "an in-game event"],
+  ["in-battle-level-up", "level up during a battle"],
   ["agile-style-move", "use agile style moves"],
   ["strong-style-move", "use strong style moves"],
   ["recoil-damage", "take recoil damage"],
   ["use-move", "use a move"],
   ["three-defeated-bisharp", "defeat three pack-leading Bisharp"],
   ["gimmighoul-coins", "collect Gimmighoul Coins"],
+  ["meltan-candies", "feed Meltan Candies in Pokémon GO"],
+  ["unclassified", "an unclassified method"],
 ];
 
 describe("every trigger", () => {
