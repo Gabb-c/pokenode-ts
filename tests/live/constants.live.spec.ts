@@ -23,6 +23,7 @@ import {
   ENCOUNTER_METHODS,
   ENDPOINTS,
   EVOLUTION_TRIGGERS,
+  EVOLUTION_VARIABLES,
   GENDERS,
   GENERATIONS,
   GROWTH_RATES,
@@ -69,7 +70,7 @@ import { sortKeys } from "../helpers/model-keys";
  * So every map is here. The ids come off the links a list page already carries —
  * `resourceId(link)` — rather than by resolving each resource for its `id`,
  * which is the difference between one request per section and one per resource.
- * Thirty-six sections cost fewer requests this way than three did before.
+ * Thirty-seven sections cost fewer requests this way than three did before.
  */
 
 /** What a listed link has to carry for its id to be read. */
@@ -146,6 +147,11 @@ const cases: [name: string, declared: Record<string, number>, links: Links][] = 
     "EVOLUTION_TRIGGERS",
     asNames(EVOLUTION_TRIGGERS),
     () => evolution.paginate("listEvolutionTriggers", PAGE),
+  ],
+  [
+    "EVOLUTION_VARIABLES",
+    asNames(EVOLUTION_VARIABLES),
+    () => evolution.paginate("listEvolutionVariables", PAGE),
   ],
   ["GENERATIONS", asNames(GENERATIONS), () => game.paginate("listGenerations", PAGE)],
   ["POKEDEXES", asNames(POKEDEXES), () => game.paginate("listPokedexes", PAGE)],

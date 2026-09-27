@@ -1,8 +1,54 @@
 ---
-description: "Upgrade pokenode-ts from 1.x to 2.0: Axios gives way to native fetch, the peer dependencies are gone, and client options and error handling change."
+description: "Upgrade pokenode-ts across major versions: 3.0 follows the PokéAPI's reworked evolution data; 2.0 replaces Axios with native fetch."
 ---
 
-# Migrating from 1.x to 2.0
+# Migrating
+
+## From 2.x to 3.0
+
+The PokéAPI reworked its evolution data and grew its sprite tree, and 3.0 follows both. The fields
+2.x declared for the old shapes no longer arrive, so code reading them was already getting
+`undefined`.
+
+### `EvolutionDetail`
+
+- `base_form` is now `required_pokemon_form`, and `evolved_form` is now `evolved_pokemon_form`.
+- New: `allowed_natures` (Toxtricity's forms) and `condition_expression` (Wurmple, Maushold) — see
+  [hidden values](/guides/evolution#hidden-values).
+
+### Evolution triggers
+
+- Trigger 10 is `in-battle-level-up` upstream, no longer `other`. `EVOLUTION_TRIGGERS.OTHER` is now
+  `EVOLUTION_TRIGGERS.IN_BATTLE_LEVEL_UP`, and `EvolutionTriggerName` drops `'other'`.
+- New: `meltan-candies` (17) and `unclassified` (18).
+
+### Requirements
+
+- `requirementsOf` emits `{ kind: 'required-form' }` where it emitted `{ kind: 'base-form' }`.
+  A `phrases` override keyed `'base-form'` must be renamed.
+- New kinds `allowed-natures` and `condition`. A `switch` over `kind` that is checked for
+  exhaustiveness needs cases for both.
+
+### Evolution variables
+
+New endpoint: `EvolutionClient` gains `getEvolutionVariableById`, `getEvolutionVariableByName` and
+`listEvolutionVariables`, with `ENDPOINTS.EVOLUTION_VARIABLE` and `EVOLUTION_VARIABLES`.
+Variables carry a `source`: `pokemon` (`encryption-constant`, `personality-value`) or
+`player-input` (`spin-direction`, `spin-duration`). An expression over player input has
+`percentage_chance: null`.
+
+### Sprites
+
+- `BrilliantDiamondShiningPearl` drops `front_female`, which upstream no longer publishes.
+- `PokemonFormSprites` now carries the whole tree, like `PokemonSprites`: `other` is new, and
+  `versions` is a `VersionSprites`. `PokemonFormVersionSprites` and
+  `PokemonFormGenerationVIIISprites` are removed — use `VersionSprites` and `GenerationVIIISprites`.
+- New sprite sets, all additions: official artwork `versions`, `red-green-japan`,
+  `lets-go-pikachu-lets-go-eevee` and `champions`; gray, Game Boy Color and transparent variants in
+  generations I and II; `animated` sets for Emerald and generation IV; back sprites for generations
+  VI and VII; `icons` for generations III, IV and VI.
+
+## From 1.x to 2.0
 
 Version 2.0 replaces Axios with the platform's native `fetch`. `pokenode-ts` now ships with **no
 runtime dependencies** and runs anywhere `fetch` exists — Node 22+, Deno, Bun, browsers, and edge
@@ -11,7 +57,7 @@ runtimes.
 Every client method keeps the same name, arguments, and return type. Installation, client options,
 and error handling change.
 
-## Installation
+### Installation
 
 Axios and its cache interceptor are no longer peer dependencies. Uninstall them if nothing else in
 your project uses them:
@@ -21,7 +67,7 @@ npm uninstall axios axios-cache-interceptor
 npm install pokenode-ts
 ```
 
-## Cache options
+### Cache options
 
 `cacheOptions` is replaced by a single `cache` slot: omit it for the default in-memory store, pass
 `false` to disable caching, or supply your own. Anything shaped for the old interceptor —
@@ -40,7 +86,7 @@ implementation — see [Bring your own store](/guides/cache#bring-your-own-store
 
 See the [Cache guide](/guides/cache) for the full behavior.
 
-## Logging
+### Logging
 
 `logs: true` is replaced by a `logger` slot, so requests can be reported somewhere other than the
 console. Pass the bundled `consoleLogger` for the 1.x behavior:
@@ -55,7 +101,7 @@ new BerryClient({ logger: consoleLogger });
 
 See the [Logging guide](/guides/logging) for the `Logger` interface.
 
-## Renamed and removed exports
+### Renamed and removed exports
 
 - `ClientArgs` is now `ClientOptions`. The fields are unchanged apart from `logs`.
 - `ENDPOINTS.POKEMON_LOCATION_AREA` is gone. It held the template `/pokemon/:id/encounters` rather
@@ -66,12 +112,12 @@ See the [Logging guide](/guides/logging) for the `Logger` interface.
 - `ItemClient#listItemFilingEffects` is now `listItemFlingEffects`. The old name was a typo — the
   endpoint is `item-fling-effect`, named after the move **Fling**. Behavior is unchanged.
 
-## MainClient
+### MainClient
 
 `MainClient` no longer extends `BaseClient`, so `mainClient instanceof BaseClient` is now `false`.
 Its sub-clients are unchanged, and they now share one cache rather than holding one each.
 
-## Errors
+### Errors
 
 Failed requests used to reject with an `AxiosError`. A non-2xx response now rejects with a
 `PokenodeError`, which carries the response details directly:
@@ -100,7 +146,7 @@ one is silently `false`. The guard matches on a brand instead, so it holds eithe
 Transport failures — offline, DNS — are not wrapped. They reject with the native `TypeError` that
 `fetch` produced. See the [Errors guide](/guides/errors) for the full breakdown.
 
-## Timeouts and cancellation
+### Timeouts and cancellation
 
 Neither 1.x nor 2.0 imposes a timeout of its own. In 2.0, derive a **scoped** client with `with()`
 rather than reaching for the constructor:

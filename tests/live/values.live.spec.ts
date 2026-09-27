@@ -31,19 +31,25 @@ type Observed = Set<string | number | null>;
 const literalsOf = (field: Field): Observed =>
   new Set(field.literals === null ? [] : [...field.literals]);
 
+/** One field read off every resource of a listable endpoint. */
+const valuesOf =
+  <T>(list: () => AsyncIterable<T>, read: (resource: T) => string | number | null) =>
+  async (): Promise<Observed> => {
+    const seen: Observed = new Set();
+
+    for await (const resource of list()) {
+      seen.add(read(resource));
+    }
+
+    return seen;
+  };
+
 /**
  * A name field whose union is the whole of a listable endpoint: the names the
  * endpoint lists are the values, so one page settles it.
  */
-const namesOf = (list: () => AsyncIterable<{ name: string }>) => async (): Promise<Observed> => {
-  const seen: Observed = new Set();
-
-  for await (const resource of list()) {
-    seen.add(resource.name);
-  }
-
-  return seen;
-};
+const namesOf = (list: () => AsyncIterable<{ name: string }>) =>
+  valuesOf(list, (resource) => resource.name);
 
 /**
  * The seed table behind the evolution endpoints.
@@ -135,6 +141,19 @@ const cases: [label: string, field: Field, observe: () => Promise<Observed>][] =
     "EvolutionTrigger.name",
     fieldOf("EvolutionTrigger", "name"),
     namesOf(() => new EvolutionClient().paginate("listEvolutionTriggers", { resolve: true })),
+  ],
+  [
+    "EvolutionVariable.name",
+    fieldOf("EvolutionVariable", "name"),
+    namesOf(() => new EvolutionClient().paginate("listEvolutionVariables", { resolve: true })),
+  ],
+  [
+    "EvolutionVariable.source",
+    fieldOf("EvolutionVariable", "source"),
+    valuesOf(
+      () => new EvolutionClient().paginate("listEvolutionVariables", { resolve: true }),
+      (variable) => variable.source,
+    ),
   ],
 
   // Values buried in `evolution_details`, which is where the one-resource check

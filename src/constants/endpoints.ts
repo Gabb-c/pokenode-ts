@@ -14,6 +14,7 @@ export const ENDPOINTS = {
   ENCOUNTER_CONDITION_VALUE: "/encounter-condition-value",
   EVOLUTION_CHAIN: "/evolution-chain",
   EVOLUTION_TRIGGER: "/evolution-trigger",
+  EVOLUTION_VARIABLE: "/evolution-variable",
   GENERATION: "/generation",
   POKEDEX: "/pokedex",
   VERSION: "/version",

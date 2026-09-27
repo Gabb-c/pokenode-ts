@@ -189,6 +189,8 @@ const typeSprites = async () => (await normalType()).sprites;
  */
 const pokemonSprites = async () => (await bulbasaur()).sprites;
 const otherSprites = async () => present((await pokemonSprites()).other, "other sprites");
+const officialArtwork = async () => (await otherSprites())["official-artwork"];
+const officialArtworkVersions = async () => (await officialArtwork()).versions;
 const versionSprites = async () => (await pokemonSprites()).versions;
 const generationISprites = async () => (await versionSprites())["generation-i"];
 const generationIISprites = async () => (await versionSprites())["generation-ii"];
@@ -199,9 +201,9 @@ const generationVISprites = async () => (await versionSprites())["generation-vi"
 const generationVIISprites = async () => (await versionSprites())["generation-vii"];
 const generationVIIISprites = async () => (await versionSprites())["generation-viii"];
 const generationIXSprites = async () => (await versionSprites())["generation-ix"];
+const letsGo = async () => (await generationVIISprites())["lets-go-pikachu-lets-go-eevee"];
 const blackWhiteSprites = async () => (await generationVSprites())["black-white"];
 const formSprites = async () => (await bulbasaurForm()).sprites;
-const formVersionSprites = async () => (await formSprites()).versions;
 
 /*
  * Pikachu's wild encounters. The dig is four levels deep, so each level is
@@ -254,6 +256,28 @@ const chainLink = async () => (await evolutionChain()).chain;
 const evolvesTo = async () => sample((await chainLink()).evolves_to, "evolution");
 const evolutionDetail = async () =>
   sample((await evolvesTo()).evolution_details, "evolution detail");
+const conditionExpression = async () => {
+  // Wurmple into Silcoon is decided by a hidden value, so its detail carries the
+  // expression that the Bulbasaur chain above leaves null.
+  const silcoon = sample(
+    (await client.evolution.getEvolutionChainById(135)).chain.evolves_to,
+    "evolution",
+  );
+  const detail = sample(silcoon.evolution_details, "evolution detail");
+
+  return present(detail.condition_expression, "condition expression");
+};
+const spinExpression = async () => {
+  // Milcery's spin reads the player's input, so its expression has no odds —
+  // the `null` a Wurmple expression never shows.
+  const alcremie = sample(
+    (await client.evolution.getEvolutionChainById(452)).chain.evolves_to,
+    "evolution",
+  );
+  const detail = sample(alcremie.evolution_details, "evolution detail");
+
+  return present(detail.condition_expression, "condition expression");
+};
 
 /** One resource per endpoint in `src/constants/endpoints.ts`. */
 const RESOURCES: Case[] = [
@@ -271,6 +295,9 @@ const RESOURCES: Case[] = [
   ),
   caseFor("EvolutionChain", evolutionChain),
   caseFor("EvolutionTrigger", () => client.evolution.getEvolutionTriggerByName("level-up")),
+  caseFor("EvolutionVariable", () =>
+    client.evolution.getEvolutionVariableByName("encryption-constant"),
+  ),
   caseFor("Generation", () => client.game.getGenerationByName("generation-i")),
   caseFor("Pokedex", pokedex),
   caseFor("Version", () => client.game.getVersionByName("red")),
@@ -391,6 +418,8 @@ const NESTED: Case[] = [
   caseFor("PokemonFormCondition", formCondition),
   caseFor("ChainLink", chainLink),
   caseFor("EvolutionDetail", evolutionDetail),
+  caseFor("EvolutionConditionExpression", conditionExpression),
+  caseFor("EvolutionConditionExpression", spinExpression),
 ];
 
 /** The Pokémon sprite tree, one case per level. */
@@ -398,12 +427,26 @@ const SPRITES: Case[] = [
   caseFor("PokemonSprites", pokemonSprites),
   caseFor("OtherPokemonSprites", otherSprites),
   caseFor("DreamWorld", async () => (await otherSprites()).dream_world),
-  caseFor("OfficialArtwork", async () => (await otherSprites())["official-artwork"]),
+  caseFor("OfficialArtwork", officialArtwork),
+  caseFor("OfficialArtworkVersions", officialArtworkVersions),
+  caseFor(
+    "OfficialArtworkGenerationI",
+    async () => (await officialArtworkVersions())["generation-i"],
+  ),
+  caseFor(
+    "OfficialArtworkGenerationII",
+    async () => (await officialArtworkVersions())["generation-ii"],
+  ),
+  caseFor(
+    "OfficialArtworkVersion",
+    async () => (await officialArtworkVersions())["generation-i"]["red-and-blue"],
+  ),
   caseFor("Home", async () => (await otherSprites()).home),
   caseFor("Showdown", async () => (await otherSprites()).showdown),
   caseFor("VersionSprites", versionSprites),
   caseFor("GenerationISprites", generationISprites),
   caseFor("RedBlue", async () => (await generationISprites())["red-blue"]),
+  caseFor("RedGreenJapan", async () => (await generationISprites())["red-green-japan"]),
   caseFor("Yellow", async () => (await generationISprites()).yellow),
   caseFor("GenerationIISprites", generationIISprites),
   caseFor("Crystal", async () => (await generationIISprites()).crystal),
@@ -412,10 +455,14 @@ const SPRITES: Case[] = [
   caseFor("Silver", async () => (await generationIISprites()).silver),
   caseFor("GenerationIIISprites", generationIIISprites),
   caseFor("Emerald", async () => (await generationIIISprites()).emerald),
+  caseFor("EmeraldAnimated", async () => (await generationIIISprites()).emerald.animated),
+  caseFor("GenerationIIIIcons", async () => (await generationIIISprites()).icons),
   caseFor("FireredLeafgreen", async () => (await generationIIISprites())["firered-leafgreen"]),
   caseFor("RubySapphire", async () => (await generationIIISprites())["ruby-sapphire"]),
   caseFor("GenerationIVSprites", generationIVSprites),
   caseFor("DiamondPearl", async () => (await generationIVSprites())["diamond-pearl"]),
+  caseFor("GenerationIVAnimated", async () => (await generationIVSprites()).platinum.animated),
+  caseFor("GenerationIVIcons", async () => (await generationIVSprites()).icons),
   caseFor("HeartgoldSoulsilver", async () => (await generationIVSprites())["heartgold-soulsilver"]),
   caseFor("Platinum", async () => (await generationIVSprites()).platinum),
   caseFor("GenerationVSprites", generationVSprites),
@@ -429,8 +476,11 @@ const SPRITES: Case[] = [
     async () => (await generationVISprites())["omegaruby-alphasapphire"],
   ),
   caseFor("XY", async () => (await generationVISprites())["x-y"]),
+  caseFor("GenerationVIIcons", async () => (await generationVISprites()).icons),
   caseFor("GenerationVIISprites", generationVIISprites),
   caseFor("GenerationViiIcons", async () => (await generationVIISprites()).icons),
+  caseFor("LetsGoPikachuLetsGoEevee", letsGo),
+  caseFor("LetsGoPikachuLetsGoEeveeIcons", async () => (await letsGo()).icons),
   caseFor("UltraSunUltraMoon", async () => (await generationVIISprites())["ultra-sun-ultra-moon"]),
   caseFor("GenerationVIIISprites", generationVIIISprites),
   caseFor("GenerationViiiIcons", async () => (await generationVIIISprites()).icons),
@@ -439,13 +489,9 @@ const SPRITES: Case[] = [
     async () => (await generationVIIISprites())["brilliant-diamond-shining-pearl"],
   ),
   caseFor("GenerationIXSprites", generationIXSprites),
+  caseFor("Champions", async () => (await generationIXSprites()).champions),
   caseFor("ScarletViolet", async () => (await generationIXSprites())["scarlet-violet"]),
   caseFor("PokemonFormSprites", formSprites),
-  caseFor("PokemonFormVersionSprites", formVersionSprites),
-  caseFor(
-    "PokemonFormGenerationVIIISprites",
-    async () => (await formVersionSprites())["generation-viii"],
-  ),
 ];
 
 /*
