@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/Gabb-c/pokenode-ts/compare/v2.3.1...v3.0.0) (2026-09-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* **models:** sync evolution and sprite models with PokéAPI ([#1412](https://github.com/Gabb-c/pokenode-ts/issues/1412))
+
+### Bug Fixes
+
+* **models:** sync evolution and sprite models with PokéAPI ([#1412](https://github.com/Gabb-c/pokenode-ts/issues/1412)) ([40545d2](https://github.com/Gabb-c/pokenode-ts/commit/40545d20dca061992ea48fda3cc37d0cbcad8d7f))
+
 ## [2.3.1](https://github.com/Gabb-c/pokenode-ts/compare/v2.3.0...v2.3.1) (2026-09-04)
 
 
