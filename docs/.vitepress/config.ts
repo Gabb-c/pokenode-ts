@@ -63,7 +63,12 @@ export default defineConfig({
     externalLinkIcon: true,
     logo: { src: "/site-logo.svg", width: 24, height: 24 },
     footer: {
-      message: `Made with ❤️<br/>Released under the ${license} License`,
+      message: [
+        `Released under the ${license} License.`,
+        'Data from <a href="https://pokeapi.co">PokéAPI</a>.',
+        "Not affiliated with or endorsed by Nintendo, Creatures Inc., GAME FREAK inc. or The Pokémon Company.",
+        "Pokémon and Pokémon character names are trademarks of Nintendo.",
+      ].join("<br/>"),
       copyright: `Copyright © 2021-${new Date().getFullYear()} ${author.name}`,
     },
     socialLinks: [

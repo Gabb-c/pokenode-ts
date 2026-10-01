@@ -11,6 +11,15 @@ const COVER_URL = `${SITE_URL}${SITE_COVER.path}`;
 export const headConfig: HeadConfig[] = [
   ["link", { rel: "icon", href: SITE_LOGO, type: "image/svg+xml" }],
   ["link", { rel: "apple-touch-icon", href: SITE_LOGO }],
+  ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
+  ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
+  [
+    "link",
+    {
+      rel: "stylesheet",
+      href: "https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Martian+Mono:wght@400;600&display=swap",
+    },
+  ],
   ["meta", { name: "theme-color", content: "#FF3962" }],
   ["meta", { property: "og:type", content: "website" }],
   ["meta", { property: "og:site_name", content: SITE_TITLE }],

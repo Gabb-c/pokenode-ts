@@ -75,3 +75,63 @@ html::-webkit-scrollbar-thumb {
   background-color: var(--pk-brand);
   color: #ffffff;
 }
+
+/* Home hero: the Pokédex card replaces the default image and sits on its blurred glow. */
+.VPHero .name {
+  font-family: "Chakra Petch", var(--vp-font-family-base);
+  letter-spacing: 0.01em;
+}
+
+.VPHero.has-image .image-bg {
+  width: 280px;
+  height: 280px;
+}
+
+.VPHero.has-image .image {
+  order: 3;
+  margin: 40px 0 0;
+}
+
+.VPHero.has-image .image-container {
+  display: flex;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  transform: none;
+}
+
+@media (min-width: 960px) {
+  .VPHero.has-image .image {
+    order: 2;
+    margin: 0 0 0 48px;
+  }
+
+  .VPHero.has-image .image-container {
+    align-items: center;
+    height: 100%;
+  }
+
+  .VPHero.has-image .image-bg {
+    width: 420px;
+    height: 420px;
+  }
+}
+
+/* Feature labels name the API each card covers, so they read as code rather than a 48px tile. */
+.VPFeatures .VPFeature .icon {
+  width: fit-content;
+  height: 28px;
+  padding: 0 10px;
+  background-color: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  font-family: "Martian Mono", var(--vp-font-family-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Page titles share the hero's display face; everything below them stays Inter. */
+.vp-doc h1 {
+  font-family: "Chakra Petch", var(--vp-font-family-base);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
