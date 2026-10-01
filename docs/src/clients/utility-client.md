@@ -1,4 +1,5 @@
 ---
+section: utility
 description: "Fetch languages and follow any resource URL the PokéAPI hands you, with the typed UtilityClient."
 ---
 

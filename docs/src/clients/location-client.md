@@ -1,4 +1,5 @@
 ---
+section: locations
 description: "Fetch regions, locations, the areas inside them, and Pal Park from the PokéAPI locations section with the typed LocationClient."
 ---
 

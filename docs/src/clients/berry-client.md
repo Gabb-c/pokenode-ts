@@ -1,4 +1,5 @@
 ---
+section: berries
 description: "Fetch berries, their firmness, and their flavors from the PokéAPI berries section with the typed BerryClient."
 ---
 

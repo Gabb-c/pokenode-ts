@@ -1,4 +1,5 @@
 ---
+section: machines
 description: "Fetch the TMs and HMs that teach moves from the PokéAPI machines section with the typed MachineClient."
 ---
 
