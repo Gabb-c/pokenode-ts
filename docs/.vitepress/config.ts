@@ -4,20 +4,38 @@ import { defineConfig, type HeadConfig } from "vitepress";
 
 import { author, license, description as packageDescription } from "../../package.json";
 import { headConfig } from "./meta/head-config";
+import { renderIcons, webManifest } from "./meta/icons";
 import { OG_IMAGE, type OgCard, ogImagePath, renderOgImage } from "./meta/og-image";
 import { navbarItems, sidebarRoutes } from "./meta/routes";
 import { isSectionKey, sectionPaths } from "./meta/sections";
-import { SITE_TITLE, SITE_URL } from "./meta/site";
+import { SITE_LOGO, SITE_TITLE, SITE_URL } from "./meta/site";
 import { SOCIAL_LINKS } from "./meta/social-links";
 
 // Resolved against this file, not the cwd, so the build works from any directory.
 const ASSETS_DIR = join(import.meta.dirname, "assets");
+const PUBLIC_DIR = join(import.meta.dirname, "../src/public");
 
 const readSvg = (fileName: string): string => readFileSync(join(ASSETS_DIR, fileName), "utf-8");
 
 /** `cleanUrls` drops the extension, so `guides/cache.md` is served at `/guides/cache`. */
 const canonicalUrl = (relativePath: string): string =>
   `${SITE_URL}/${relativePath.replace(/(^|\/)index\.md$/, "$1").replace(/\.md$/, "")}`;
+
+const HOME_URL = `${SITE_URL}/`;
+
+const structuredData = (description: string): string =>
+  JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    name: SITE_TITLE,
+    description,
+    url: HOME_URL,
+    codeRepository: SOCIAL_LINKS.GITHUB.link,
+    programmingLanguage: "TypeScript",
+    runtimePlatform: ["Node.js", "Deno", "Bun", "Browser"],
+    license: `https://spdx.org/licenses/${license}.html`,
+    author: { "@type": "Person", name: author.name, url: author.url },
+  });
 
 /** Filled by `transformPageData`, rendered to PNGs by `buildEnd`, keyed by image path. */
 const ogCards = new Map<string, OgCard>();
@@ -40,8 +58,7 @@ export default defineConfig({
   // Open Graph title/description so search results and link previews are not all identical.
   transformPageData(pageData) {
     const url = canonicalUrl(pageData.relativePath);
-    // The home page has no title of its own — fall back to the site-wide pairing rather than
-    // emitting a dangling " | Pokenode-ts".
+    // a page with no title falls back to the site-wide pairing rather than a dangling " | Pokenode-ts"
     const pageTitle: string = pageData.frontmatter.title || pageData.title;
     const title = pageTitle
       ? `${pageTitle} | ${SITE_TITLE}`
@@ -53,10 +70,10 @@ export default defineConfig({
     const imageUrl = `${SITE_URL}${imagePath}`;
     const section: unknown = pageData.frontmatter.section;
     ogCards.set(imagePath, {
-      title: pageTitle || pageData.frontmatter.hero?.text || SITE_TITLE,
-      // the home description is the package one, which repeats the hero text used as its title
+      // the home card shows the hero, not the shorter title and description written for search
+      title: pageData.frontmatter.hero?.text || pageTitle || SITE_TITLE,
       description: pageData.frontmatter.hero?.tagline || description,
-      label: url === `${SITE_URL}/` ? new URL(SITE_URL).host : new URL(url).pathname,
+      label: url === HOME_URL ? new URL(SITE_URL).host : new URL(url).pathname,
       paths: isSectionKey(section) ? sectionPaths(section) : [],
     });
 
@@ -74,6 +91,9 @@ export default defineConfig({
       ["meta", { name: "twitter:image", content: imageUrl }],
       ["meta", { name: "twitter:image:alt", content: title }],
     ];
+    if (url === HOME_URL) {
+      pageHead.push(["script", { type: "application/ld+json" }, structuredData(description)]);
+    }
 
     pageData.frontmatter.head = [...(pageData.frontmatter.head ?? []), ...pageHead];
   },
@@ -85,6 +105,9 @@ export default defineConfig({
       mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, await renderOgImage(card));
     }
+    const logo = readFileSync(join(PUBLIC_DIR, SITE_LOGO), "utf-8");
+    for (const [fileName, icon] of renderIcons(logo)) writeFileSync(join(outDir, fileName), icon);
+    writeFileSync(join(outDir, "site.webmanifest"), webManifest(packageDescription));
   },
   themeConfig: {
     nav: navbarItems,

@@ -1,5 +1,7 @@
 ---
 layout: home
+title: Typed PokéAPI client for TypeScript
+description: Typed PokéAPI client for Node, Deno, Bun and browsers. Zero runtime dependencies, built-in caching, and types checked against the live API every day.
 
 hero:
   name: Pokenode-ts
