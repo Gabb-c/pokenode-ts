@@ -61,7 +61,7 @@ projects in `vitest.config.ts`:
 | --- | --- | --- | --- |
 | Unit — endpoint mapping | `tests/clients/<section>.spec.ts` | `pnpm test` (`unit` project) | none, stubbed `fetch` |
 | Transport — cache, dedupe, errors, URL normalization | `tests/clients/base.spec.ts`, `tests/clients/main.spec.ts` | `pnpm test` (`unit` project) | none, MSW |
-| Drift | `tests/live/*.live.spec.ts` | `pnpm test:live` (`live` project), weekly cron only | **live PokéAPI** |
+| Drift | `tests/live/*.live.spec.ts` | `pnpm test:live` (`live` project), daily cron only | **live PokéAPI** |
 
 **`pnpm test` is hermetic and must stay that way.** `tests/helpers/setup.ts` starts MSW with *no*
 default handlers and `onUnhandledFrame: "error"`, so any request a test did not explicitly mock
@@ -91,8 +91,12 @@ first half of the diagnosis:
 the fetch and makes the compiler prove the key list is exactly its `keyof`, so `pnpm typecheck`
 catches a list that has drifted from its type. `constants` reads ids off the list links with
 `resourceId` rather than resolving each resource, which is what keeps thirty-seven maps to one request
-per section. `.github/workflows/live.yml` runs the tier weekly, skips the check when the PokéAPI
-itself is down, and files a `live-drift` issue on failure.
+per section. `.github/workflows/live.yml` runs the tier daily, skips the check when the PokéAPI
+itself is down, and on failure hands triage to Claude Code (`anthropics/claude-code-action`,
+subscription token in `CLAUDE_CODE_OAUTH_TOKEN`). Claude files a fresh `live-drift` issue per drift
+no open issue already describes — closed issues are never reopened — and one `fix/live-drift-*` PR
+closing them. If the Claude step fails, a placeholder issue is filed when none is open and the run
+goes red. The PR is a draft of the fix, not a verdict: check the commit type before merging.
 
 Adding a constant means adding its row to `constants.live.spec.ts`. A map with no row is a map that
 can go stale into 404s — which is what `TYPES` did, missing `stellar` until the row existed.

@@ -91,7 +91,7 @@ The suite is split into three tiers:
   reaching pokeapi.co, so `pnpm test` works offline and on a plane.
 - **Drift** (`tests/live`) — `pnpm test:live`. The only suite that talks to the real PokéAPI. It
   asserts the *shape* of one resource per section, so a failure means the upstream response changed
-  and `src/models` needs updating. It runs on a weekly schedule, never on a pull request.
+  and `src/models` needs updating. It runs on a daily schedule, never on a pull request.
 
 When you add a client method, add a row to the table in the matching `tests/clients/<section>.spec.ts`
 asserting the URL it requests. Payload shape is a compile-time concern and needs no fixture.

@@ -22,7 +22,7 @@ hero:
 features:
   - icon: 🧩
     title: Typed end to end
-    details: Every endpoint, every field, straight from the PokéAPI schema. A weekly job diffs those types against the live API and opens an issue when one drifts.
+    details: Every endpoint, every field, straight from the PokéAPI schema. A daily job diffs those types against the live API and opens an issue when one drifts.
     link: /guides/getting-started
     linkText: Get started
   - icon: 🔗
