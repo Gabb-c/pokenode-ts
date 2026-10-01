@@ -64,7 +64,7 @@ projects in `vitest.config.ts`:
 | Drift | `tests/live/*.live.spec.ts` | `pnpm test:live` (`live` project), weekly cron only | **live PokéAPI** |
 
 **`pnpm test` is hermetic and must stay that way.** `tests/helpers/setup.ts` starts MSW with *no*
-default handlers and `onUnhandledRequest: "error"`, so any request a test did not explicitly mock
+default handlers and `onUnhandledFrame: "error"`, so any request a test did not explicitly mock
 fails the run instead of leaking to pokeapi.co.
 
 Section clients are one-line delegations to `BaseClient`, so their tests assert **the URL a method

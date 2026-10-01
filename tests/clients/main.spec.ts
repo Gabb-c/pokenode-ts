@@ -1,6 +1,7 @@
 import { BASE_URL } from "@constants";
 import type { Berry, NamedAPIResource } from "@models";
-import { delay, HttpResponse, http } from "msw";
+import { HttpResponse, http } from "msw/http";
+import { delay } from "msw/utils/delay";
 
 import { MainClient } from "../../src/clients/main.client";
 import { MemoryCache } from "../../src/config/cache";

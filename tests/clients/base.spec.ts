@@ -1,5 +1,7 @@
 import { BASE_URL, type Endpoint } from "@constants";
-import { delay, HttpResponse, http, type JsonBodyType } from "msw";
+import type { JsonBodyType } from "msw";
+import { HttpResponse, http } from "msw/http";
+import { delay } from "msw/utils/delay";
 
 import { BaseClient, type RetryOptions } from "../../src/clients/base";
 import { type CacheStore, EtagStore, MemoryCache } from "../../src/config/cache";
@@ -929,10 +931,14 @@ describe("BaseClient scope", () => {
 
   it("should not hand an abandoned request's cancellation to a later caller", async () => {
     let calls = 0;
+    const { promise: reached, resolve: reach } = Promise.withResolvers<void>();
 
+    // A URL of its own: requests earlier tests left on the wire must not reach
+    // this handler and skew the count.
     server.use(
-      http.get(BERRY_URL, async () => {
+      http.get(`${BASE_URL.REST}/berry/abandoned`, async () => {
         calls += 1;
+        reach();
         await delay(50);
         return HttpResponse.json({ id: 1 });
       }),
@@ -940,15 +946,15 @@ describe("BaseClient scope", () => {
 
     const client = new TestClient({ cache: false });
     const controller = new AbortController();
-    const abandoned = client.with({ signal: controller.signal }).get("/berry", 1);
+    const abandoned = client.with({ signal: controller.signal }).get("/berry", "abandoned");
 
-    await settle();
+    await reached;
     controller.abort(new Error("caller left"));
 
     // Dispatched in the window between the abort and the round trip it cancels
     // settling: joining the dying request here inherits an abort it never asked
     // for.
-    const later = client.get("/berry", 1);
+    const later = client.get("/berry", "abandoned");
 
     await expect(abandoned).rejects.toThrow("caller left");
     await expect(later).resolves.toEqual({ id: 1 });

@@ -15,21 +15,22 @@ minimumReleaseAgeExclude:
   - lefthook-windows-arm64@2.1.12
   - lefthook-windows-x64@2.1.12
   - lefthook@2.1.12
-  - '@biomejs/biome@2.5.12'
-  - '@biomejs/cli-darwin-arm64@2.5.12'
-  - '@biomejs/cli-darwin-x64@2.5.12'
-  - '@biomejs/cli-linux-arm64-musl@2.5.12'
-  - '@biomejs/cli-linux-arm64@2.5.12'
-  - '@biomejs/cli-linux-x64-musl@2.5.12'
-  - '@biomejs/cli-linux-x64@2.5.12'
-  - '@biomejs/cli-win32-arm64@2.5.12'
-  - '@biomejs/cli-win32-x64@2.5.12'
-  - '@vitest/coverage-v8@5.0.0'
-  - '@vitest/mocker@5.0.0'
-  - '@vitest/pretty-format@5.0.0'
-  - '@vitest/spy@5.0.0'
-  - '@vitest/ui@5.0.0'
-  - '@vitest/utils@5.0.0'
-  - vitest@5.0.0
+  - '@biomejs/biome@2.5.12 || 2.5.15'
+  - '@biomejs/cli-darwin-arm64@2.5.12 || 2.5.15'
+  - '@biomejs/cli-darwin-x64@2.5.12 || 2.5.15'
+  - '@biomejs/cli-linux-arm64-musl@2.5.12 || 2.5.15'
+  - '@biomejs/cli-linux-arm64@2.5.12 || 2.5.15'
+  - '@biomejs/cli-linux-x64-musl@2.5.12 || 2.5.15'
+  - '@biomejs/cli-linux-x64@2.5.12 || 2.5.15'
+  - '@biomejs/cli-win32-arm64@2.5.12 || 2.5.15'
+  - '@biomejs/cli-win32-x64@2.5.12 || 2.5.15'
+  - '@vitest/coverage-v8@5.0.0 || 5.0.3'
+  - '@vitest/mocker@5.0.0 || 5.0.3'
+  - '@vitest/pretty-format@5.0.0 || 5.0.3'
+  - '@vitest/spy@5.0.0 || 5.0.3'
+  - '@vitest/ui@5.0.0 || 5.0.3'
+  - '@vitest/utils@5.0.0 || 5.0.3'
+  - vitest@5.0.0 || 5.0.3
   - rolldown-plugin-dts@0.28.5
   - tsdown@0.23.0
+  - msw@3.0.1
