@@ -1,4 +1,5 @@
 ---
+section: evolution
 description: "Fetch evolution chains, triggers and variables from the PokéAPI evolution section with the typed EvolutionClient."
 ---
 

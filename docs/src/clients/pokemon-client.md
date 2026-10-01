@@ -1,4 +1,5 @@
 ---
+section: pokemon
 description: "Fetch Pokémon, their species and forms, plus abilities, types, stats, and natures from the PokéAPI's largest section with the typed PokemonClient."
 ---
 

@@ -4,95 +4,94 @@ layout: home
 hero:
   name: Pokenode-ts
   text: A typed PokéAPI client with zero runtime dependencies
-  tagline: Built on native fetch, so it runs in Node, Deno, Bun, browsers, and edge runtimes.
-  image:
-    src: /site-logo.svg
-    alt: Pokenode-ts
+  tagline: Types checked against the live PokéAPI every day, so they say what the API actually sends.
   actions:
     - theme: brand
       text: Get Started
       link: /guides/getting-started
     - theme: alt
-      text: Migrating from 1.x
+      text: Upgrading to 3.0
       link: /guides/migration
     - theme: alt
       text: View on GitHub
       link: https://github.com/Gabb-c/pokenode-ts
 
 features:
-  - icon: 🧩
-    title: Typed end to end
-    details: Every endpoint, every field, straight from the PokéAPI schema. A daily job diffs those types against the live API and opens an issue when one drifts.
+  - icon: MainClient
+    title: Typed, and kept honest
+    details: Every endpoint and field is typed from the PokéAPI schema. A daily job diffs those types against the live API and opens an issue the moment one drifts.
     link: /guides/getting-started
     linkText: Get started
-  - icon: 🔗
-    title: Links, followed
-    details: PokéAPI answers with <code>{ name, url }</code> refs instead of data. <code>resolve(pokemon.species)</code> hands back the species, typed. <code>resolveAll()</code> takes the whole list, four requests at a time.
-    link: /clients/utility-client
-    linkText: Following links
-  - icon: 📖
-    title: Walk a whole section
-    details: <code>paginate('listPokemons')</code> iterates all 1,351 of them and keeps track of the offset. Break out of the loop and it stops fetching.
+  - icon: "resolve() · paginate()"
+    title: Links and pages, handled
+    details: <code>resolve(pokemon.species)</code> follows a <code>{ name, url }</code> ref and hands back the species, typed. <code>paginate('listPokemons')</code> walks a whole section and stops fetching when you break.
     link: /guides/pagination
     linkText: Pagination
-  - icon: 💾
-    title: Cached from the first call
-    details: The PokéAPI's fair-use policy asks you to cache. This does, in memory, out of the box. Swap in Redis, a KV namespace or localStorage, or switch it off.
+  - icon: CacheStore
+    title: Ready for production
+    details: Cached from the first call, as the PokéAPI's fair-use policy asks, with Redis or KV as drop-ins. Opt-in retries that honor <code>Retry-After</code>, timeouts and cancellation. Runs on Node, Deno, Bun, browsers and edge runtimes.
     link: /guides/cache
     linkText: Caching
-  - icon: 🌐
-    title: Runs anywhere
-    details: Node, Deno, Bun, browsers, Cloudflare Workers. Native fetch, zero dependencies, ~11 kB gzipped.
-    link: /guides/getting-started#requirements
-    linkText: Requirements
-  - icon: 🛡️
-    title: Survives a bad network
-    details: Opt-in retries with jittered backoff that honors <code>Retry-After</code>. Timeouts and cancellation through <code>with()</code>, where a shared request lives until its last caller gives up.
-    link: /guides/cancellation
-    linkText: Cancellation
 ---
 
-<script setup>
-import {
-  VPTeamPage,
-  VPTeamPageTitle,
-  VPTeamMembers
-} from 'vitepress/theme';
+## Install
 
-const members = [
- {
-    avatar: 'https://github.com/Gabb-c.png',
-    name: 'Gabriel (Gabb-c)',
-    title: 'Creator',
-    links: [
-      { icon: 'github', link: 'https://github.com/Gabb-c' },
-      { icon: 'linkedin', link: 'https://www.linkedin.com/in/gabriel-da-cunha/' }
-    ]
-  },
-  {
-    avatar: 'https://github.com/moyzlevi.png',
-    name: 'Moysés (moyzlevi)',
-    title: 'Creator',
-    links: [
-      { icon: 'github', link: 'https://github.com/moyzlevi' },
-      { icon: 'linkedin', link: 'https://www.linkedin.com/in/moyses-p-73b88b1a5/' },
-      { icon: 'x', link: 'https://twitter.com/moyzlevi1' }
-    ]
-  },
-]
-</script>
+::: code-group
 
-<VPTeamPage>
-  <VPTeamPageTitle>
-    <template #title>
-      Our Team
-    </template>
-    <template #lead>
-      The development of this project is guided by an international
-      team, some of whom have chosen to be featured below.
-    </template>
-  </VPTeamPageTitle>
-  <VPTeamMembers
-    :members="members"
-  />
-</VPTeamPage>
+```bash [npm]
+npm install pokenode-ts
+```
+
+```bash [pnpm]
+pnpm add pokenode-ts
+```
+
+```bash [yarn]
+yarn add pokenode-ts
+```
+
+```bash [bun]
+bun add pokenode-ts
+```
+
+:::
+
+## Why not just fetch?
+
+The same request, twice: once against the raw API, once through the client.
+
+::: code-group
+
+```ts [fetch]
+const res = await fetch('https://pokeapi.co/api/v2/pokemon/luxray');
+const pokemon = await res.json(); // any [!code warning]
+// a 404 resolves too: nothing here checks res.ok [!code warning]
+
+const speciesRes = await fetch(pokemon.specie.url); // typo compiles, throws at runtime [!code error]
+const species = await speciesRes.json(); // any, again [!code warning]
+
+console.log(species.flavor_text_entries[0].flavour_text); // undefined, no error [!code error]
+```
+
+```ts [pokenode-ts]
+import { MainClient } from 'pokenode-ts';
+
+const api = new MainClient();
+
+const pokemon = await api.pokemon.getPokemonByName('luxray'); // Pokemon
+const species = await api.resolve(pokemon.species); // PokemonSpecies
+
+console.log(species.flavor_text_entries[0].flavor_text);
+```
+
+:::
+
+`res.json()` hands back `any`, so every typo compiles and only shows up as `undefined` or a
+`TypeError` at runtime. `fetch` resolves on a 404, so a missing Pokémon reads as an empty object.
+And every run hits the API again, which its fair-use policy asks you not to do.
+
+The client types every response, rejects non-2xx with a
+[`PokenodeError`](/guides/errors), and caches from the first call. `resolve` needs no type
+annotation: the link carries the type of what it points at. Read the
+[getting started guide](/guides/getting-started) to pick a client, or browse them under
+**Clients** in the nav.

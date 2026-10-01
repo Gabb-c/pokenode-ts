@@ -1,4 +1,5 @@
 ---
+section: currencies
 description: "Fetch the currencies items are bought and sold with, from Pokémon Dollars to Battle Points, with the typed CurrencyClient."
 ---
 

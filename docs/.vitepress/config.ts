@@ -1,10 +1,12 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { defineConfig, type HeadConfig } from "vitepress";
 
 import { author, license, description as packageDescription } from "../../package.json";
 import { headConfig } from "./meta/head-config";
+import { OG_IMAGE, type OgCard, ogImagePath, renderOgImage } from "./meta/og-image";
 import { navbarItems, sidebarRoutes } from "./meta/routes";
+import { isSectionKey, sectionPaths } from "./meta/sections";
 import { SITE_TITLE, SITE_URL } from "./meta/site";
 import { SOCIAL_LINKS } from "./meta/social-links";
 
@@ -16,6 +18,9 @@ const readSvg = (fileName: string): string => readFileSync(join(ASSETS_DIR, file
 /** `cleanUrls` drops the extension, so `guides/cache.md` is served at `/guides/cache`. */
 const canonicalUrl = (relativePath: string): string =>
   `${SITE_URL}/${relativePath.replace(/(^|\/)index\.md$/, "$1").replace(/\.md$/, "")}`;
+
+/** Filled by `transformPageData`, rendered to PNGs by `buildEnd`, keyed by image path. */
+const ogCards = new Map<string, OgCard>();
 
 export default defineConfig({
   title: SITE_TITLE,
@@ -44,16 +49,42 @@ export default defineConfig({
     const description: string =
       pageData.frontmatter.description || pageData.description || packageDescription;
 
+    const imagePath = ogImagePath(pageData.relativePath);
+    const imageUrl = `${SITE_URL}${imagePath}`;
+    const section: unknown = pageData.frontmatter.section;
+    ogCards.set(imagePath, {
+      title: pageTitle || pageData.frontmatter.hero?.text || SITE_TITLE,
+      // the home description is the package one, which repeats the hero text used as its title
+      description: pageData.frontmatter.hero?.tagline || description,
+      label: url === `${SITE_URL}/` ? new URL(SITE_URL).host : new URL(url).pathname,
+      paths: isSectionKey(section) ? sectionPaths(section) : [],
+    });
+
     const pageHead: HeadConfig[] = [
       ["link", { rel: "canonical", href: url }],
       ["meta", { property: "og:url", content: url }],
       ["meta", { property: "og:title", content: title }],
       ["meta", { property: "og:description", content: description }],
+      ["meta", { property: "og:image", content: imageUrl }],
+      ["meta", { property: "og:image:width", content: String(OG_IMAGE.width) }],
+      ["meta", { property: "og:image:height", content: String(OG_IMAGE.height) }],
+      ["meta", { property: "og:image:alt", content: title }],
       ["meta", { name: "twitter:title", content: title }],
       ["meta", { name: "twitter:description", content: description }],
+      ["meta", { name: "twitter:image", content: imageUrl }],
+      ["meta", { name: "twitter:image:alt", content: title }],
     ];
 
     pageData.frontmatter.head = [...(pageData.frontmatter.head ?? []), ...pageHead];
+  },
+  async buildEnd({ outDir }) {
+    // an empty map means transformPageData never ran here, and every og:image would 404
+    if (ogCards.size === 0) throw new Error("No Open Graph cards were collected during the build");
+    for (const [imagePath, card] of ogCards) {
+      const file = join(outDir, imagePath);
+      mkdirSync(dirname(file), { recursive: true });
+      writeFileSync(file, await renderOgImage(card));
+    }
   },
   themeConfig: {
     nav: navbarItems,
@@ -63,7 +94,12 @@ export default defineConfig({
     externalLinkIcon: true,
     logo: { src: "/site-logo.svg", width: 24, height: 24 },
     footer: {
-      message: `Made with ❤️<br/>Released under the ${license} License`,
+      message: [
+        `Released under the ${license} License.`,
+        'Data from <a href="https://pokeapi.co">PokéAPI</a>.',
+        "Not affiliated with or endorsed by Nintendo, Creatures Inc., GAME FREAK inc. or The Pokémon Company.",
+        "Pokémon and Pokémon character names are trademarks of Nintendo.",
+      ].join("<br/>"),
       copyright: `Copyright © 2021-${new Date().getFullYear()} ${author.name}`,
     },
     socialLinks: [

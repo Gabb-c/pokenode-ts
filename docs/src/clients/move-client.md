@@ -1,4 +1,5 @@
 ---
+section: moves
 description: "Fetch moves and the ailments, categories, damage classes, learn methods, and targets that describe them, with the typed MoveClient."
 ---
 

@@ -14,7 +14,7 @@ const guides: Route[] = [
   { text: "Helpers", link: "/guides/helpers" },
   { text: "Type effectiveness", link: "/guides/type-chart" },
   { text: "Evolution chains", link: "/guides/evolution" },
-  { text: "Migrating to 2.0", link: "/guides/migration" },
+  { text: "Migrating", link: "/guides/migration" },
   { text: "Contributing", link: "/guides/contributing" },
 ];
 
@@ -42,4 +42,5 @@ export const sidebarRoutes: DefaultTheme.SidebarItem[] = [
 export const navbarItems: DefaultTheme.NavItem[] = [
   { text: "Guides", items: guides },
   { text: "Clients", items: clients },
+  { text: "About", link: "/about" },
 ];

@@ -1,4 +1,5 @@
 ---
+section: items
 description: "Fetch items and the categories, pockets, attributes, and fling effects that classify them from the PokéAPI with the typed ItemClient."
 ---
 
