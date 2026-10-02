@@ -4,17 +4,17 @@ allowBuilds:
   msw: true
   vue-demi: true
 minimumReleaseAgeExclude:
-  - lefthook-darwin-arm64@2.1.12
-  - lefthook-darwin-x64@2.1.12
-  - lefthook-freebsd-arm64@2.1.12
-  - lefthook-freebsd-x64@2.1.12
-  - lefthook-linux-arm64@2.1.12
-  - lefthook-linux-x64@2.1.12
-  - lefthook-openbsd-arm64@2.1.12
-  - lefthook-openbsd-x64@2.1.12
-  - lefthook-windows-arm64@2.1.12
-  - lefthook-windows-x64@2.1.12
-  - lefthook@2.1.12
+  - lefthook-darwin-arm64@2.1.12 || 2.1.16
+  - lefthook-darwin-x64@2.1.12 || 2.1.16
+  - lefthook-freebsd-arm64@2.1.12 || 2.1.16
+  - lefthook-freebsd-x64@2.1.12 || 2.1.16
+  - lefthook-linux-arm64@2.1.12 || 2.1.16
+  - lefthook-linux-x64@2.1.12 || 2.1.16
+  - lefthook-openbsd-arm64@2.1.12 || 2.1.16
+  - lefthook-openbsd-x64@2.1.12 || 2.1.16
+  - lefthook-windows-arm64@2.1.12 || 2.1.16
+  - lefthook-windows-x64@2.1.12 || 2.1.16
+  - lefthook@2.1.12 || 2.1.16
   - '@biomejs/biome@2.5.12 || 2.5.15'
   - '@biomejs/cli-darwin-arm64@2.5.12 || 2.5.15'
   - '@biomejs/cli-darwin-x64@2.5.12 || 2.5.15'
@@ -34,3 +34,6 @@ minimumReleaseAgeExclude:
   - rolldown-plugin-dts@0.28.5
   - tsdown@0.23.0
   - msw@3.0.1
+  - '@types/node@26.6.4'
+  - publint@0.3.25
+  - satori@0.35.0
