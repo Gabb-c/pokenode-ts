@@ -32,6 +32,11 @@ export interface Models {
   BerryFlavorMap: M.BerryFlavorMap;
   BlackWhite: M.BlackWhite;
   BrilliantDiamondShiningPearl: M.BrilliantDiamondShiningPearl;
+  BrilliantDiamondShiningPearlIcons: M.BrilliantDiamondShiningPearlIcons;
+  LegendsArceus: M.LegendsArceus;
+  LegendsArceusIcons: M.LegendsArceusIcons;
+  SwordShield: M.SwordShield;
+  SwordShieldIcons: M.SwordShieldIcons;
   ChainLink: M.ChainLink;
   Champions: M.Champions;
   Characteristic: M.Characteristic;
