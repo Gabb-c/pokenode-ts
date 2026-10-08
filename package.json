@@ -44,7 +44,7 @@
     "lib"
   ],
   "types": "lib/index.d.ts",
-  "packageManager": "pnpm@12.8.1",
+  "packageManager": "pnpm@12.10.1",
   "scripts": {
     "build": "tsdown",
     "docs:build": "vitepress build docs",
@@ -73,13 +73,13 @@
     "@types/node": "^26.6.4",
     "@vitest/coverage-v8": "^5.0.3",
     "@vitest/ui": "^5.0.3",
-    "lefthook": "^2.1.16",
+    "lefthook": "^2.2.1",
     "msw": "^3.0.2",
     "publint": "^0.3.25",
-    "satori": "0.35.0",
+    "satori": "0.42.0",
     "tsdown": "^0.23.0",
     "typescript": "^7.0.2",
-    "vite": "^8.3.2",
+    "vite": "^8.3.4",
     "vitepress": "1.6.4",
     "vitest": "^5.0.3",
     "vue": "^3.5.43"
