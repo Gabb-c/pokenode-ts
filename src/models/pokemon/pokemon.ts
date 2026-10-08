@@ -718,7 +718,7 @@ export interface GenerationVISprites {
   /** Menu icons of this Pokémon. */
   icons: GenerationVIIcons;
   /** Omegaruby-Alphasapphire sprites of this Pokémon. */
-  "omegaruby-alphasapphire": OmegarubyAlphasapphire;
+  "omega-ruby-alpha-sapphire": OmegarubyAlphasapphire;
   /** X-Y sprites of this Pokémon. */
   "x-y": XY;
 }
@@ -843,6 +843,10 @@ export interface GenerationVIIISprites {
   icons: GenerationViiiIcons;
   /** Brilliant Diamond and Shining Pearl sprites of this Pokémon. */
   "brilliant-diamond-shining-pearl": BrilliantDiamondShiningPearl;
+  /** Sword and Shield sprites of this Pokémon. */
+  "sword-shield": SwordShield;
+  /** Legends: Arceus sprites of this Pokémon. */
+  "legends-arceus": LegendsArceus;
 }
 
 /** Generation VIII icons. */
@@ -855,8 +859,94 @@ export interface GenerationViiiIcons {
 
 /** Brilliant Diamond and Shining Pearl sprites. */
 export interface BrilliantDiamondShiningPearl {
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The female depiction of this Pokémon from the back in battle. */
+  back_female: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle. */
+  back_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle. */
+  back_shiny_female: string | null;
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the front in battle. */
+  front_shiny_female: string | null;
+  /** Menu icons of this Pokémon. */
+  icons: BrilliantDiamondShiningPearlIcons;
+}
+
+/** Brilliant Diamond and Shining Pearl menu icons. */
+export interface BrilliantDiamondShiningPearlIcons {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+}
+
+/** Sword and Shield sprites. */
+export interface SwordShield {
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The female depiction of this Pokémon from the back in battle. */
+  back_female: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle. */
+  back_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle. */
+  back_shiny_female: string | null;
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the front in battle. */
+  front_shiny_female: string | null;
+  /** Menu icons of this Pokémon. */
+  icons: SwordShieldIcons;
+}
+
+/** Sword and Shield menu icons. */
+export interface SwordShieldIcons {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+}
+
+/** Legends: Arceus sprites. */
+export interface LegendsArceus {
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The female depiction of this Pokémon from the back in battle. */
+  back_female: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle. */
+  back_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle. */
+  back_shiny_female: string | null;
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the front in battle. */
+  front_shiny_female: string | null;
+  /** Menu icons of this Pokémon. */
+  icons: LegendsArceusIcons;
+}
+
+/** Legends: Arceus menu icons. */
+export interface LegendsArceusIcons {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the front in battle. */
+  front_shiny_female: string | null;
 }
 
 /** Generation-IX Sprites */

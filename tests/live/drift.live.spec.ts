@@ -473,7 +473,7 @@ const SPRITES: Case[] = [
   caseFor("GenerationVISprites", generationVISprites),
   caseFor(
     "OmegarubyAlphasapphire",
-    async () => (await generationVISprites())["omegaruby-alphasapphire"],
+    async () => (await generationVISprites())["omega-ruby-alpha-sapphire"],
   ),
   caseFor("XY", async () => (await generationVISprites())["x-y"]),
   caseFor("GenerationVIIcons", async () => (await generationVISprites()).icons),
@@ -487,6 +487,17 @@ const SPRITES: Case[] = [
   caseFor(
     "BrilliantDiamondShiningPearl",
     async () => (await generationVIIISprites())["brilliant-diamond-shining-pearl"],
+  ),
+  caseFor(
+    "BrilliantDiamondShiningPearlIcons",
+    async () => (await generationVIIISprites())["brilliant-diamond-shining-pearl"].icons,
+  ),
+  caseFor("SwordShield", async () => (await generationVIIISprites())["sword-shield"]),
+  caseFor("SwordShieldIcons", async () => (await generationVIIISprites())["sword-shield"].icons),
+  caseFor("LegendsArceus", async () => (await generationVIIISprites())["legends-arceus"]),
+  caseFor(
+    "LegendsArceusIcons",
+    async () => (await generationVIIISprites())["legends-arceus"].icons,
   ),
   caseFor("GenerationIXSprites", generationIXSprites),
   caseFor("Champions", async () => (await generationIXSprites()).champions),

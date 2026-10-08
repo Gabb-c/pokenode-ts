@@ -39,7 +39,10 @@ Variables carry a `source`: `pokemon` (`encryption-constant`, `personality-value
 
 ### Sprites
 
-- `BrilliantDiamondShiningPearl` drops `front_female`, which upstream no longer publishes.
+- `BrilliantDiamondShiningPearl` now carries the full front/back, shiny and female set plus `icons`.
+  `GenerationVIIISprites` gains `sword-shield` and `legends-arceus`, and the
+  `GenerationVISprites` key `omegaruby-alphasapphire` is now `omega-ruby-alpha-sapphire`, as
+  upstream sends it.
 - `PokemonFormSprites` now carries the whole tree, like `PokemonSprites`: `other` is new, and
   `versions` is a `VersionSprites`. `PokemonFormVersionSprites` and
   `PokemonFormGenerationVIIISprites` are removed — use `VersionSprites` and `GenerationVIIISprites`.
