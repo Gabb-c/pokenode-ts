@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/Gabb-c/pokenode-ts/compare/v3.0.0...v4.0.0) (2026-10-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* **models:** track generation VI key rename and generation VIII sprite sets ([#1418](https://github.com/Gabb-c/pokenode-ts/issues/1418))
+
+### Bug Fixes
+
+* **models:** track generation VI key rename and generation VIII sprite sets ([#1418](https://github.com/Gabb-c/pokenode-ts/issues/1418)) ([6d2fd4a](https://github.com/Gabb-c/pokenode-ts/commit/6d2fd4a50284d90f57981d0c8e5ab396463938bd))
+
 ## [3.0.0](https://github.com/Gabb-c/pokenode-ts/compare/v2.3.1...v3.0.0) (2026-09-27)
 
 
