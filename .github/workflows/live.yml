@@ -74,7 +74,7 @@ jobs:
       - name: Claude
         id: claude
         continue-on-error: true
-        uses: anthropics/claude-code-action@12dd8d74c712f5f3669365b2369b558c495b1104 # v1.0.238
+        uses: anthropics/claude-code-action@6fed3ca145920b639991cb756090506e1bcaf515 # v1.0.245
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # Edits under .github/ would run on the PR with this repository's secrets.
