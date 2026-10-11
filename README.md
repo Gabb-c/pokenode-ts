@@ -12,8 +12,7 @@
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Gabb-c_pokenode-ts&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Gabb-c_pokenode-ts)
 
 [**Documentation**](https://pokenode-ts.vercel.app/) ·
-[Getting started](https://pokenode-ts.vercel.app/guides/getting-started) ·
-[Migrating to 2.0](https://pokenode-ts.vercel.app/guides/migration)
+[**Getting started**](https://pokenode-ts.vercel.app/guides/getting-started)
 
 </div>
 
@@ -40,7 +39,7 @@ luxray.types.map((slot) => slot.type.name); // ["electric"]
 const ability = await api.resolve(luxray.abilities[0].ability); // typed Ability
 ```
 
-`MainClient` bundles all twelve section clients behind one object, sharing a single cache:
+`MainClient` bundles all twelve section clients:
 
 ```ts
 import { MainClient } from 'pokenode-ts';
@@ -49,13 +48,6 @@ const api = new MainClient();
 
 await api.pokemon.getPokemonByName('luxray');
 await api.berry.getBerryByName('cheri');
-```
-
-Non-2xx responses reject with `PokenodeError`. Match it with the static guard — `instanceof`
-breaks across the ESM/CJS boundary:
-
-```ts
-if (PokenodeError.isPokenodeError(err)) err.status; // 404
 ```
 
 ## Features
