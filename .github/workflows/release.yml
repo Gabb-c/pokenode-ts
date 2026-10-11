@@ -3,6 +3,13 @@ name: Release
 on:
   push:
     branches: [main]
+  # republishes an existing release whose publish failed; a re-run would reuse the broken workflow
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to publish, e.g. v3.1.0
+        required: true
+        type: string
 
 concurrency:
   group: release
@@ -14,6 +21,7 @@ permissions:
 jobs:
   release-please:
     name: Release PR
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -28,7 +36,8 @@ jobs:
   publish:
     name: Publish to npm
     needs: release-please
-    if: ${{ needs.release-please.outputs.release-created == 'true' }}
+    # !cancelled() lets a dispatch run past the skipped release-please job
+    if: ${{ !cancelled() && (inputs.tag != '' || needs.release-please.outputs.release-created == 'true') }}
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -36,7 +45,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
         with:
-          ref: ${{ needs.release-please.outputs.tag-name }}
+          ref: ${{ inputs.tag || needs.release-please.outputs.tag-name }}
 
       - uses: ./.github/actions/setup
 
@@ -48,7 +57,9 @@ jobs:
 
       # the tarball attached to the release is the one npm receives
       - name: Pack
-        run: npm pack --pack-destination "$RUNNER_TEMP/pkg"
+        run: |
+          mkdir -p "$RUNNER_TEMP/pkg"
+          npm pack --pack-destination "$RUNNER_TEMP/pkg"
 
       - name: Publish
         run: npm publish "$RUNNER_TEMP"/pkg/pokenode-ts-*.tgz
@@ -62,17 +73,18 @@ jobs:
   release-assets:
     name: Finalize GitHub release
     needs: [release-please, publish]
+    if: ${{ !cancelled() && needs.publish.result == 'success' }}
     runs-on: ubuntu-latest
     # separate from publish so the job running npm lifecycle scripts never holds a repo write token
     permissions:
       contents: write
     env:
       GH_TOKEN: ${{ github.token }}
-      TAG: ${{ needs.release-please.outputs.tag-name }}
+      TAG: ${{ inputs.tag || needs.release-please.outputs.tag-name }}
     steps:
       - uses: actions/checkout@v7.0.1
         with:
-          ref: ${{ needs.release-please.outputs.tag-name }}
+          ref: ${{ inputs.tag || needs.release-please.outputs.tag-name }}
 
       - uses: actions/download-artifact@v8.0.2
         with:
