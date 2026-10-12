@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.1](https://github.com/Gabb-c/pokenode-ts/compare/v4.0.0...v4.0.1) (2026-10-11)
+
+
+### 🐛 Bug Fixes
+
+* **ci:** create pack dir and add manual trigger ([ebfd5e8](https://github.com/Gabb-c/pokenode-ts/commit/ebfd5e87f8feb9354d1118e5626adba3ef45c96f))
+
 ## [4.0.0](https://github.com/Gabb-c/pokenode-ts/compare/v3.0.0...v4.0.0) (2026-10-11)
 
 
