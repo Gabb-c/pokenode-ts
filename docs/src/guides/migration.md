@@ -43,6 +43,8 @@ Variables carry a `source`: `pokemon` (`encryption-constant`, `personality-value
   `GenerationVIIISprites` gains `sword-shield` and `legends-arceus`, and the
   `GenerationVISprites` key `omegaruby-alphasapphire` is now `omega-ruby-alpha-sapphire`, as
   upstream sends it.
+- `GenerationIXSprites` gains `legends-za` (`LegendsZA`, with `LegendsZAIcons`), and `ScarletViolet`
+  now carries the full front/back, shiny and female set plus `icons` (`ScarletVioletIcons`).
 - `PokemonFormSprites` now carries the whole tree, like `PokemonSprites`: `other` is new, and
   `versions` is a `VersionSprites`. `PokemonFormVersionSprites` and
   `PokemonFormGenerationVIIISprites` are removed — use `VersionSprites` and `GenerationVIIISprites`.

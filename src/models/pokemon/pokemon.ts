@@ -955,6 +955,42 @@ export interface GenerationIXSprites {
   champions: Champions;
   /** Scarlet and Violet sprites of this Pokémon. */
   "scarlet-violet": ScarletViolet;
+  /** Pokémon Legends: Z-A sprites of this Pokémon. */
+  "legends-za": LegendsZA;
+}
+
+/** Pokémon Legends: Z-A sprites. */
+export interface LegendsZA {
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The female depiction of this Pokémon from the back in battle. */
+  back_female: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle. */
+  back_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle. */
+  back_shiny_female: string | null;
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the front in battle. */
+  front_shiny_female: string | null;
+  /** Menu icons of this Pokémon. */
+  icons: LegendsZAIcons;
+}
+
+/** Pokémon Legends: Z-A menu icons. */
+export interface LegendsZAIcons {
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the front in battle. */
+  front_shiny_female: string | null;
 }
 
 /** Pokémon Champions sprites. */
@@ -967,6 +1003,28 @@ export interface Champions {
 
 /** Scarlet and Violet sprites. */
 export interface ScarletViolet {
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The female depiction of this Pokémon from the back in battle. */
+  back_female: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle. */
+  back_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle. */
+  back_shiny_female: string | null;
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the front in battle. */
+  front_shiny_female: string | null;
+  /** Menu icons of this Pokémon. */
+  icons: ScarletVioletIcons;
+}
+
+/** Scarlet and Violet menu icons. */
+export interface ScarletVioletIcons {
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
   /** The female depiction of this Pokémon from the front in battle. */
