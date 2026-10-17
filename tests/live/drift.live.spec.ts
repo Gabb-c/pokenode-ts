@@ -483,7 +483,6 @@ const SPRITES: Case[] = [
   caseFor("LetsGoPikachuLetsGoEeveeIcons", async () => (await letsGo()).icons),
   caseFor("UltraSunUltraMoon", async () => (await generationVIISprites())["ultra-sun-ultra-moon"]),
   caseFor("GenerationVIIISprites", generationVIIISprites),
-  caseFor("GenerationViiiIcons", async () => (await generationVIIISprites()).icons),
   caseFor(
     "BrilliantDiamondShiningPearl",
     async () => (await generationVIIISprites())["brilliant-diamond-shining-pearl"],
@@ -501,6 +500,7 @@ const SPRITES: Case[] = [
   ),
   caseFor("GenerationIXSprites", generationIXSprites),
   caseFor("Champions", async () => (await generationIXSprites()).champions),
+  caseFor("ChampionsIcons", async () => (await generationIXSprites()).champions.icons),
   caseFor("ScarletViolet", async () => (await generationIXSprites())["scarlet-violet"]),
   caseFor("PokemonFormSprites", formSprites),
 ];
