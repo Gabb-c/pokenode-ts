@@ -41,6 +41,7 @@ export interface Models {
   SwordShieldIcons: M.SwordShieldIcons;
   ChainLink: M.ChainLink;
   Champions: M.Champions;
+  ChampionsIcons: M.ChampionsIcons;
   Characteristic: M.Characteristic;
   ContestComboDetail: M.ContestComboDetail;
   ContestComboSets: M.ContestComboSets;
@@ -99,7 +100,6 @@ export interface Models {
   GenerationVSprites: M.GenerationVSprites;
   GenerationVTypeSprites: M.GenerationVTypeSprites;
   GenerationViiIcons: M.GenerationViiIcons;
-  GenerationViiiIcons: M.GenerationViiiIcons;
   Genus: M.Genus;
   Gold: M.Gold;
   GrowthRate: M.GrowthRate;

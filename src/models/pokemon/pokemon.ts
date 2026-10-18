@@ -839,22 +839,12 @@ export interface UltraSunUltraMoon {
 
 /** Generation-VIII Sprites. */
 export interface GenerationVIIISprites {
-  /** Icon sprites of this Pokémon. */
-  icons: GenerationViiiIcons;
   /** Brilliant Diamond and Shining Pearl sprites of this Pokémon. */
   "brilliant-diamond-shining-pearl": BrilliantDiamondShiningPearl;
   /** Sword and Shield sprites of this Pokémon. */
   "sword-shield": SwordShield;
   /** Legends: Arceus sprites of this Pokémon. */
   "legends-arceus": LegendsArceus;
-}
-
-/** Generation VIII icons. */
-export interface GenerationViiiIcons {
-  /** The default depiction of this Pokémon from the front in battle. */
-  front_default: string | null;
-  /** The female depiction of this Pokémon from the front in battle. */
-  front_female: string | null;
 }
 
 /** Brilliant Diamond and Shining Pearl sprites. */
@@ -995,6 +985,28 @@ export interface LegendsZAIcons {
 
 /** Pokémon Champions sprites. */
 export interface Champions {
+  /** The default depiction of this Pokémon from the back in battle. */
+  back_default: string | null;
+  /** The female depiction of this Pokémon from the back in battle. */
+  back_female: string | null;
+  /** The shiny depiction of this Pokémon from the back in battle. */
+  back_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the back in battle. */
+  back_shiny_female: string | null;
+  /** The default depiction of this Pokémon from the front in battle. */
+  front_default: string | null;
+  /** The female depiction of this Pokémon from the front in battle. */
+  front_female: string | null;
+  /** The shiny depiction of this Pokémon from the front in battle. */
+  front_shiny: string | null;
+  /** The shiny female depiction of this Pokémon from the front in battle. */
+  front_shiny_female: string | null;
+  /** Menu icons of this Pokémon. */
+  icons: ChampionsIcons;
+}
+
+/** Pokémon Champions menu icons. */
+export interface ChampionsIcons {
   /** The default depiction of this Pokémon from the front in battle. */
   front_default: string | null;
   /** The shiny depiction of this Pokémon from the front in battle. */
