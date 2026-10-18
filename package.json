@@ -71,18 +71,18 @@
     "@fontsource/martian-mono": "5.3.0",
     "@resvg/resvg-js": "2.6.2",
     "@types/node": "^26.6.5",
-    "@vitest/coverage-v8": "^5.0.3",
-    "@vitest/ui": "^5.0.3",
-    "lefthook": "^2.2.1",
+    "@vitest/coverage-v8": "^5.0.5",
+    "@vitest/ui": "^5.0.5",
+    "lefthook": "^2.2.2",
     "msw": "^3.0.3",
     "publint": "^0.3.25",
-    "satori": "0.47.1",
+    "satori": "0.62.0",
     "tsdown": "^0.23.1",
     "typescript": "^7.0.2",
     "vite": "^8.3.4",
     "vitepress": "1.6.4",
-    "vitest": "^5.0.3",
-    "vue": "^3.5.43"
+    "vitest": "^5.0.5",
+    "vue": "^3.5.44"
   },
   "engines": {
     "node": ">=22"
