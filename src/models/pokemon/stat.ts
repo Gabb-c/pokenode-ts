@@ -21,7 +21,8 @@ export interface Stat {
     | "special-defense"
     | "speed"
     | "accuracy"
-    | "evasion";
+    | "evasion"
+    | "special";
   /** ID the games use for this stat. */
   game_index: number;
   /** Whether this stat only exists within a battle. */
@@ -54,7 +55,7 @@ export interface NatureStatAffectSets {
  */
 export interface MoveStatAffect {
   /** The maximum amount of change to the referenced stat. */
-  change: -1 | -2 | 1 | 2;
+  change: -1 | -2 | 1 | 2 | 3;
   /** The move causing the change. */
   move: NamedAPIResource<Move>;
 }

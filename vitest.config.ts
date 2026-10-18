@@ -17,7 +17,7 @@ export default defineConfig({
           globals: true,
           setupFiles: "tests/helpers/setup.ts",
           include: ["tests/**/*.spec.ts"],
-          exclude: ["tests/live/**"],
+          exclude: ["tests/**/*.live.spec.ts"],
         },
       },
       {

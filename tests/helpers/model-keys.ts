@@ -616,6 +616,22 @@ export const fieldOf = <K extends ModelName>(model: K, key: keyof Models[K] & st
   return field;
 };
 
+/** Every model `src/models` declares, for the check that each one has a drift case. */
+export const declaredModels = (): string[] => [...SHAPES.keys()];
+
+/**
+ * Every field declared as a union of literals, labelled `Model.key`.
+ *
+ * The field is the same object {@link fieldOf} hands out, so a coverage check
+ * can match rows by identity rather than trusting a row's free-text label.
+ */
+export const literalFields = (): { label: string; field: Field }[] =>
+  [...SHAPES].flatMap(([model, shape]) =>
+    shape.fields
+      .filter((field) => field.literals !== null)
+      .map((field) => ({ label: `${model}.${field.key}`, field })),
+  );
+
 /** One row of a drift table: the model, what to fetch, and the shape it declares. */
 export type Case = [model: string, fetchResource: () => Promise<object>, shape: Shape];
 

@@ -62,6 +62,7 @@ projects in `vitest.config.ts`:
 | Unit — endpoint mapping | `tests/clients/<section>.spec.ts` | `pnpm test` (`unit` project) | none, stubbed `fetch` |
 | Transport — cache, dedupe, errors, URL normalization | `tests/clients/base.spec.ts`, `tests/clients/main.spec.ts` | `pnpm test` (`unit` project) | none, MSW |
 | Drift | `tests/live/*.live.spec.ts` | `pnpm test:live` (`live` project), daily cron only | **live PokéAPI** |
+| Live coverage — every model has a drift case, every union a values row | `tests/live/coverage.spec.ts` | `pnpm test` (`unit` project) | none, reads the case tables |
 
 **`pnpm test` is hermetic and must stay that way.** `tests/helpers/setup.ts` starts MSW with *no*
 default handlers and `onUnhandledFrame: "error"`, so any request a test did not explicitly mock
@@ -87,9 +88,13 @@ first half of the diagnosis:
 | `constants.live.spec.ts` | every id→name map, `TypeName`, and `ENDPOINTS` against the API's own index | `src/constants` is out of date |
 | `contract.live.spec.ts` | behaviour the client relies on: 304s, page shape, sprite URLs | a feature has silently stopped working |
 
-`drift` rows are built by `caseFor` in `tests/helpers/model-keys.ts`, which infers the model from
-the fetch and makes the compiler prove the key list is exactly its `keyof`, so `pnpm typecheck`
-catches a list that has drifted from its type. `constants` reads ids off the list links with
+`drift` rows are built by `caseFor` in `tests/helpers/model-keys.ts`, which reads each model's
+declared keys and field kinds out of `src/models` at runtime — there is no key list to maintain —
+and makes the compiler prove the fetch returns the model named. The `drift` and `values` tables
+live in `tests/helpers/drift-cases.ts` and `tests/helpers/value-cases.ts` rather than in the specs,
+so `tests/live/coverage.spec.ts` can check them in the unit tier: a model under
+`src/models` with no drift case, or a literal union with no `VALUES` row and no `UNSWEPT` reason,
+fails `pnpm test` on the PR instead of drifting silently. `constants` reads ids off the list links with
 `resourceId` rather than resolving each resource, which is what keeps thirty-seven maps to one request
 per section. `.github/workflows/live.yml` runs the tier daily, skips the check when the PokéAPI
 itself is down, and on failure hands triage to Claude Code (`anthropics/claude-code-action`,
@@ -163,4 +168,5 @@ requests, so sample and cache rather than sweeping a section.
 **Pin what you validate.** A fact checked once decays. `tests/live/constants.live.spec.ts` compares
 whole id→name maps against the listable endpoints; `values.live.spec.ts` compares the values of the
 fields typed as literal unions; `drift.live.spec.ts` compares key sets and field kinds. Narrowing a type from live
-data means adding the live case that keeps it honest.
+data means adding the live case that keeps it honest — a `VALUES` row in `tests/helpers/value-cases.ts`
+for a union, a `caseFor` row in `tests/helpers/drift-cases.ts` for a new model.
