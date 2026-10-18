@@ -1,18 +1,14 @@
-import type { ListFn, PaginateOptions } from "../clients/base";
+import type { ListFn, PaginateOptions } from "../clients/types";
 import type { APIResource } from "../models/common/resource";
 import { DEFAULT_CONCURRENCY, mapWithConcurrency } from "./pool";
 
-/**
- * The PokéAPI's own default, and `Transport.list`'s, so a walk pages the way a
- * hand-written loop would.
- */
+/** The PokéAPI's own default. */
 export const DEFAULT_PAGE_SIZE = 20;
 
 /**
  * Walks every page of a list, yielding one entry at a time.
  *
- * `resolve` is passed in rather than a transport: this module would otherwise
- * have to import the one that imports it.
+ * Takes `resolve` rather than a transport, which would be an import cycle.
  */
 export async function* walk<T>(
   list: ListFn<APIResource<T>>,
@@ -31,8 +27,7 @@ export async function* walk<T>(
     }
 
     if (options?.resolve) {
-      // Resolved a page at a time: the order callers see stays the order the
-      // API listed, however the requests within a page happen to finish.
+      // a page at a time keeps listed order however requests finish
       const resources = await mapWithConcurrency(page.results, concurrency, resolve);
 
       yield* resources;
@@ -42,8 +37,7 @@ export async function* walk<T>(
 
     offset += page.results.length;
 
-    // A short page ends the walk on its own: `count` is upstream's word for how
-    // much there is, and the results are the client's own evidence.
+    // a short page ends the walk even if upstream's `count` says otherwise
     if (page.results.length < pageSize || offset >= page.count) {
       return;
     }

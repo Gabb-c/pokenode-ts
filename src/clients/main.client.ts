@@ -1,5 +1,5 @@
 import { Transport } from "../internal/transport";
-import { ClientFacade, type ClientOptions } from "./base";
+import { ClientFacade } from "./base";
 import { BerryClient } from "./berry.client";
 import { ContestClient } from "./contest.client";
 import { CurrencyClient } from "./currency.client";
@@ -11,6 +11,7 @@ import { LocationClient } from "./location.client";
 import { MachineClient } from "./machine.client";
 import { MoveClient } from "./move.client";
 import { PokemonClient } from "./pokemon.client";
+import type { ClientOptions } from "./types";
 import { UtilityClient } from "./utility.client";
 
 /**

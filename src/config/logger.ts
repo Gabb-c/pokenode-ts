@@ -134,6 +134,20 @@ export const logMessage = (text: string): { msg: string; message: string } => ({
   message: text,
 });
 
+type DebugPayload = Parameters<Logger["debug"]>[0];
+
+/** One line per `debug` event. Keyed by event, so a new one has to be given a line here. */
+const DEBUG_LINES: {
+  [E in DebugPayload["event"]]: (payload: Extract<DebugPayload, { event: E }>) => string;
+} = {
+  request: ({ method, url }) => `[ Request Config ] ${method} | ${url}`,
+  retry: ({ attempt, status, delayMs, url }) =>
+    `[ Retry ] ATTEMPT ${attempt} | STATUS ${status ?? "NONE"} | IN ${delayMs.toFixed(0)}ms | ${url}`,
+  cancelled: ({ url, durationMs }) => `[ Cancelled ] ${url} | AFTER ${durationMs.toFixed(1)}ms`,
+  response: ({ status, source, durationMs }) =>
+    `[ Response ] STATUS ${status} | ${source.toUpperCase()} | ${durationMs.toFixed(1)}ms`,
+};
+
 /**
  * A {@link Logger} that writes the request lifecycle to the console as one
  * formatted line per event.
@@ -143,26 +157,10 @@ export const logMessage = (text: string): { msg: string; message: string } => ({
  */
 export const consoleLogger: Logger = {
   debug(payload) {
-    if (payload.event === "request") {
-      console.log(`[ Request Config ] ${payload.method} | ${payload.url}`);
-      return;
-    }
+    // keyed by the union's discriminant, which a whole-table index cannot express
+    const line = DEBUG_LINES[payload.event] as (value: DebugPayload) => string;
 
-    if (payload.event === "retry") {
-      console.log(
-        `[ Retry ] ATTEMPT ${payload.attempt} | STATUS ${payload.status ?? "NONE"} | IN ${payload.delayMs.toFixed(0)}ms | ${payload.url}`,
-      );
-      return;
-    }
-
-    if (payload.event === "cancelled") {
-      console.log(`[ Cancelled ] ${payload.url} | AFTER ${payload.durationMs.toFixed(1)}ms`);
-      return;
-    }
-
-    console.log(
-      `[ Response ] STATUS ${payload.status} | ${payload.source.toUpperCase()} | ${payload.durationMs.toFixed(1)}ms`,
-    );
+    console.log(line(payload));
   },
 
   error({ url, err }) {

@@ -302,6 +302,19 @@ describe("WebStorageCache", () => {
     await expect(cache.clear()).resolves.toBeUndefined();
   });
 
+  it("should surface a storage that refuses an explicit delete", async () => {
+    const storage = new FakeStorage();
+    const cache = new WebStorageCache({ storage });
+
+    await cache.set("a", 1);
+    storage.removeItem = () => {
+      throw new Error("SecurityError");
+    };
+
+    await expect(cache.delete("a")).rejects.toThrow("SecurityError");
+    expect(await cache.get("a")).toBe(1);
+  });
+
   it("should treat a storage that refuses to be read as a miss", async () => {
     const storage = new FakeStorage();
     const cache = new WebStorageCache({ storage });

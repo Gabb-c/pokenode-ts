@@ -28,11 +28,11 @@ Match CI before opening a PR: `pnpm lint:ci && pnpm typecheck && pnpm test:cover
 
 **Layers.** `src/models/` (pure types mirroring PokéAPI schemas) → `src/constants/` (endpoint paths + name→ID enum maps) → `src/clients/` (one class per PokéAPI section) → `src/index.ts` (single public barrel). `src/utils/` holds public helpers; `src/internal/` holds helpers the barrel deliberately does not export.
 
-**`Transport` (`src/internal/transport.ts`) holds the request pipeline** — requests, caching, coalescing, revalidation and logging. The rules it works to live beside it, one concern per module: `src/internal/url.ts` (trimming, normalization, credential splitting, `toEndpointPath`), `src/internal/retry.ts` (attempt count, `Retry-After`, backoff, abort detection), `src/internal/paginate.ts` (`walk`), `src/internal/pool.ts` (`mapWithConcurrency`), `src/internal/inflight.ts` (`InFlight`, the coalescing of concurrent identical requests). `paginate.ts` takes a `resolve` callback rather than a transport, which is what keeps `transport.ts` ↔ `paginate.ts` from being a runtime cycle; `inflight.ts` takes a `start` callback for the same reason, and knows nothing about HTTP.
+**`Transport` (`src/internal/transport.ts`) holds the request pipeline** — requests, caching, coalescing, revalidation and logging. The rules it works to live beside it, one concern per module: `src/internal/url.ts` (trimming, normalization, credential splitting, `toEndpointPath`), `src/internal/retry.ts` (attempt count, `Retry-After`, backoff, abort detection), `src/internal/paginate.ts` (`walk`), `src/internal/pool.ts` (`mapWithConcurrency`), `src/internal/inflight.ts` (`InFlight`, the coalescing of concurrent identical requests), `src/internal/lru.ts` (`LruMap`, the eviction behind `MemoryCache` and `EtagStore`), `src/internal/options.ts` (`finiteOr`, the `NaN` guard every numeric option goes through). `paginate.ts` takes a `resolve` callback rather than a transport, which is what keeps `transport.ts` ↔ `paginate.ts` from being a runtime cycle; `inflight.ts` takes a `start` callback for the same reason, and knows nothing about HTTP.
 
-**Client classes** (`src/clients/base.ts`) — `ClientFacade` owns the transport and everything that is not an endpoint: `cache`, `with`, `clearCache`, `resolve`, `resolveAll`, the protected `getResource*` helpers and the protected `walk` bridge. `BaseClient extends ClientFacade` and adds only `paginate`; `MainClient extends ClientFacade` and adds only the twelve sections, so `mainClient instanceof BaseClient` stays `false` as 2.0 documented. Every section client is a thin `BaseClient` subclass whose methods just call `getResource(endpoint, id)`, `getResourceByURL(url)`, or `getListResource(endpoint, offset, limit)`. Adding an endpoint means: add the path to `src/constants/endpoints.ts`, the response type under `src/models/`, and a one-line method on the section client. Do not put fetch/cache/logging logic in a section client.
+**Client classes** (`src/clients/base.ts`, public types in `src/clients/types.ts`) — `ClientFacade` owns the transport and everything that is not an endpoint: `cache`, `with`, `clearCache`, `resolve`, `resolveAll`, the protected `getResource*` helpers and the protected `walk` bridge. `BaseClient extends ClientFacade` and adds only `paginate`; `MainClient extends ClientFacade` and adds only the twelve sections, so `mainClient instanceof BaseClient` stays `false` as 2.0 documented. Every section client is a thin `BaseClient` subclass whose methods just call `getResource(endpoint, id)`, `getResourceByURL(url)`, or `getListResource(endpoint, offset, limit)`. Adding an endpoint means: add the path to `src/constants/endpoints.ts`, the response type under `src/models/`, and a one-line method on the section client. Do not put fetch/cache/logging logic in a section client.
 
-**Keeping `Transport` out of the published types.** `base.ts` owns every public type and `transport.ts` imports them back with `import type` (erased, so the runtime graph stays one-directional). **Public types belong in `base.ts`, never in `src/internal/`** — that is where the barrel points, and `src/internal/` is by definition what the barrel does not export. Not exporting it is not enough on its own: a `protected` member keeps its type in the emitted `.d.ts`. Two things hold the line, and both must stay — `ClientFacade` stores the transport in a `#transport` private field (emitted as `#private;`), and the constructor that accepts one is a second overload tagged `@internal`, stripped by `"stripInternal": true` in `tsconfig.json`. A `build:done` hook in `tsdown.config.ts` enforces this: it strips comments from `lib/index.d.ts` and `lib/index.d.cts` and fails the build if `Transport` survives. TypeScript 7 warns on every build that some options may be unavailable, and `stripInternal` is one of them — the hook is what makes that a build failure rather than a silent leak into a release.
+**Keeping `Transport` out of the published types.** `src/clients/types.ts` owns every public type — it has no runtime code — and `base.ts`, `transport.ts` and the other internal modules import them with `import type` (erased, so the runtime graph stays one-directional). **Public types belong in `src/clients/types.ts`, never in `src/internal/`** — that is where the barrel points, and `src/internal/` is by definition what the barrel does not export. Not exporting it is not enough on its own: a `protected` member keeps its type in the emitted `.d.ts`. Two things hold the line, and both must stay — `ClientFacade` stores the transport in a `#transport` private field (emitted as `#private;`), and the constructor that accepts one is a second overload tagged `@internal`, stripped by `"stripInternal": true` in `tsconfig.json`. A `build:done` hook in `tsdown.config.ts` enforces this: it strips comments from `lib/index.d.ts` and `lib/index.d.cts` and fails the build if `Transport` survives. TypeScript 7 warns on every build that some options may be unavailable, and `stripInternal` is one of them — the hook is what makes that a build failure rather than a silent leak into a release.
 
 The request pipeline in `Transport.request` is: cache lookup → `InFlight.share` (concurrent identical URLs share one round trip) → `fetch`. Two invariants are load-bearing and documented inline:
 
@@ -40,7 +40,7 @@ The request pipeline in `Transport.request` is: cache lookup → `InFlight.share
 - **URL joining is string concatenation, not `new URL(path, base)`** — the base carries a `/api/v2` path that URL resolution would discard.
 - **`toEndpointPath`** re-resolves foreign absolute URLs against the client's own `baseURL` by parsed URL components (a raw-string version-marker search matches hosts like `api.v2.example.com`).
 
-**`MainClient`** builds **one `Transport`** and passes it to all twelve section clients, so a resource fetched through one is served from cache by the rest, and two of them asking for the same URL at once make one round trip. Anything that must be shared belongs on `TransportState` (cache, ETag store, in-flight map) — adding a per-client field is how cross-section sharing silently breaks.
+**`MainClient`** builds **one `Transport`** and passes it to all twelve section clients, so a resource fetched through one is served from cache by the rest, and two of them asking for the same URL at once make one round trip. Anything that must be shared belongs on `TransportState` (cache, ETag store, in-flight map, stats) — adding a per-client field is how cross-section sharing silently breaks.
 
 **Scoped clients** — `with(scope)` rebuilds through the constructor (`new Client(transport.with(scope))`), never by cloning an instance. A derived transport keeps the same `TransportState` by reference and replaces only the scope. Section clients therefore must not declare a constructor that takes anything other than the `ClientOptions | Transport` the facade expects. `MainClient` does declare one, and computes the transport before `super()` so it can hand the same object to all twelve sections — it cannot read `#transport` back off the facade.
 
@@ -50,7 +50,7 @@ The request pipeline in `Transport.request` is: cache lookup → `InFlight.share
 
 **Errors** (`src/config/errors.ts`) — non-2xx rejects with `PokenodeError`; transport failures propagate untouched. `PokenodeError` is matched via the static `isPokenodeError` guard on a `kind` brand, **not** `instanceof` — a tree loading both the ESM and CJS build has two distinct classes. Keep the guard in any new error-handling code and docs.
 
-**Path aliases** (`tsconfig.json`, resolved in tests by Vite's native `resolve.tsconfigPaths`): `@clients`, `@config/*`, `@constants`, `@models`, `@package`, `@utils`. That option is a boolean — it resolves aliases from the nearest file *named* `tsconfig.json` whose `include` matches, which is why the test config is `tests/tsconfig.json` and not a root-level `tsconfig.test.json`. Use the aliases in `src/` and `tests/`; `base.ts` and `main.client.ts` use relative imports to avoid cycles through the barrel.
+**Path aliases** (`tsconfig.json`, resolved in tests by Vite's native `resolve.tsconfigPaths`): `@clients`, `@clients/*`, `@config/*`, `@constants`, `@models`, `@package`, `@utils`. That option is a boolean — it resolves aliases from the nearest file *named* `tsconfig.json` whose `include` matches, which is why the test config is `tests/tsconfig.json` and not a root-level `tsconfig.test.json`. Use the aliases in `src/` and `tests/`; `base.ts` and `main.client.ts` use relative imports to avoid cycles through the barrel.
 
 ## Testing
 
@@ -60,7 +60,8 @@ projects in `vitest.config.ts`:
 | Tier | Where | Run by | Network |
 | --- | --- | --- | --- |
 | Unit — endpoint mapping | `tests/clients/<section>.spec.ts` | `pnpm test` (`unit` project) | none, stubbed `fetch` |
-| Transport — cache, dedupe, errors, URL normalization | `tests/clients/base.spec.ts`, `tests/clients/main.spec.ts` | `pnpm test` (`unit` project) | none, MSW |
+| Transport — cache, dedupe, errors, URL normalization | `tests/clients/transport/<concern>.spec.ts`, `tests/clients/main.spec.ts` | `pnpm test` (`unit` project) | none, MSW |
+| Internal rules — URL, retry, pool, in-flight, LRU | `tests/internal/<module>.spec.ts` | `pnpm test` (`unit` project) | none, pure |
 | Drift | `tests/live/*.live.spec.ts` | `pnpm test:live` (`live` project), daily cron only | **live PokéAPI** |
 | Live coverage — every model has a drift case, every union a values row | `tests/live/coverage.spec.ts` | `pnpm test` (`unit` project) | none, reads the case tables |
 
@@ -72,11 +73,14 @@ Section clients are one-line delegations to `BaseClient`, so their tests assert 
 builds**, not the payload — a stubbed `fetch` returns `{ id: 1 }` and the table checks where the
 request went. Adding a client method means adding an `[method, path, call]` row to the `it.each`
 table in the matching `tests/clients/<section>.spec.ts`, asserted by `expectEndpoint` from
-`tests/helpers/stub-fetch.ts`. The table drives `it.each` from the spec file itself so each file
+`tests/helpers/stub-fetch.ts`. Each file also runs `expectEveryMethodCovered` over its `CASES`
+table, so a `get*`/`list*` method with no row fails the run. The table drives `it.each` from the spec file itself so each file
 declares its own tests — a helper that registered them would leave Sonar (rule S2187) seeing an
 empty test file. Anything
-needing a real `Response` (status codes, abort signals, cache behavior) belongs in `base.spec.ts`
-with MSW instead.
+needing a real `Response` (status codes, abort signals, cache behavior) belongs in
+`tests/clients/transport/` with MSW instead, sharing the handlers in `tests/helpers/transport.ts`.
+A rule that can be tested without a client — a pure function in `src/internal/` — goes in
+`tests/internal/`.
 
 The live tier is split by **what a failure means**, not by section — the file that fails is the
 first half of the diagnosis:

@@ -22,6 +22,7 @@
     "isolatedModules": true,
     "paths": {
       "@clients": ["./src/clients/index.ts"],
+      "@clients/*": ["./src/clients/*"],
       "@config/*": ["./src/config/*"],
       "@constants": ["./src/constants/index.ts"],
       "@models": ["./src/models/index.ts"],

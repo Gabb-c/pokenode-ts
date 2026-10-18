@@ -1,3 +1,6 @@
+import { LruMap } from "../internal/lru";
+import { finiteOr } from "../internal/options";
+
 /** Five minutes. */
 const DEFAULT_TTL = 300_000;
 const DEFAULT_MAX_ENTRIES = 500;
@@ -20,16 +23,9 @@ export interface CacheStore {
 /** Default namespace for the keys {@link WebStorageCache} owns. */
 const DEFAULT_PREFIX = "pokenode:";
 
-/**
- * How many entries a bounded store keeps.
- *
- * A non-finite limit falls back to the default rather than being clamped:
- * `size >= NaN` is never true, and a bound that is never reached is not a bound
- * — `maxEntries` is exactly the sort of option that arrives as
- * `Number(process.env.CACHE_SIZE)`. Zero and below keep nothing.
- */
+/** How many entries a bounded store keeps. Zero and below keep nothing. */
 const entryLimit = (value: number | undefined, fallback: number): number =>
-  value !== undefined && Number.isFinite(value) ? Math.max(Math.floor(value), 0) : fallback;
+  Math.max(Math.floor(finiteOr(value, fallback)), 0);
 
 /**
  * ## Memory Cache Options
@@ -58,13 +54,12 @@ interface CacheEntry {
  * what later cache hits return, so treat responses as read-only.
  */
 export class MemoryCache implements CacheStore {
-  private readonly entries = new Map<string, CacheEntry>();
+  private readonly entries: LruMap<CacheEntry>;
   private readonly ttl: number;
-  private readonly maxEntries: number;
 
   constructor(options?: MemoryCacheOptions) {
     this.ttl = options?.ttl ?? DEFAULT_TTL;
-    this.maxEntries = entryLimit(options?.maxEntries, DEFAULT_MAX_ENTRIES);
+    this.entries = new LruMap(entryLimit(options?.maxEntries, DEFAULT_MAX_ENTRIES));
   }
 
   get(key: string): unknown {
@@ -79,30 +74,10 @@ export class MemoryCache implements CacheStore {
       return undefined;
     }
 
-    // Re-insert so `entries` stays ordered least- to most-recently used.
-    this.entries.delete(key);
-    this.entries.set(key, entry);
-
     return entry.value;
   }
 
   set(key: string, value: unknown): void {
-    // Delete first so an update moves the key to the most-recently-used end.
-    this.entries.delete(key);
-
-    // A store with no room keeps nothing, rather than the one entry an eviction
-    // that has nothing to evict would leave behind.
-    if (this.maxEntries === 0) {
-      return;
-    }
-
-    if (this.entries.size >= this.maxEntries) {
-      const oldest = this.entries.keys().next();
-      if (!oldest.done) {
-        this.entries.delete(oldest.value);
-      }
-    }
-
     this.entries.set(key, { value, expiresAt: Date.now() + this.ttl });
   }
 
@@ -157,42 +132,17 @@ export interface EtagStoreOptions {
  * the body beside it is, and the body is what would cost memory to keep.
  */
 export class EtagStore {
-  private readonly entries = new Map<string, EtagEntry>();
-  private readonly maxEntries: number;
+  private readonly entries: LruMap<EtagEntry>;
 
   constructor(options?: EtagStoreOptions) {
-    this.maxEntries = entryLimit(options?.maxEntries, DEFAULT_ETAG_ENTRIES);
+    this.entries = new LruMap(entryLimit(options?.maxEntries, DEFAULT_ETAG_ENTRIES));
   }
 
   get(url: string): EtagEntry | undefined {
-    const entry = this.entries.get(url);
-
-    if (!entry) {
-      return undefined;
-    }
-
-    // Re-insert so `entries` stays ordered least- to most-recently used.
-    this.entries.delete(url);
-    this.entries.set(url, entry);
-
-    return entry;
+    return this.entries.get(url);
   }
 
   set(url: string, entry: EtagEntry): void {
-    this.entries.delete(url);
-
-    if (this.maxEntries === 0) {
-      return;
-    }
-
-    if (this.entries.size >= this.maxEntries) {
-      const oldest = this.entries.keys().next();
-
-      if (!oldest.done) {
-        this.entries.delete(oldest.value);
-      }
-    }
-
     this.entries.set(url, entry);
   }
 
@@ -272,14 +222,14 @@ export class WebStorageCache implements CacheStore {
   }
 
   async get(key: string): Promise<unknown> {
-    const entry = await this.read(this.prefix + key);
+    const entry = await this.read(this.keyFor(key));
 
     if (!entry) {
       return undefined;
     }
 
     if (entry.expiresAt <= Date.now()) {
-      await this.remove(this.prefix + key);
+      await this.remove(this.keyFor(key));
       return undefined;
     }
 
@@ -290,7 +240,7 @@ export class WebStorageCache implements CacheStore {
     const entry = JSON.stringify({ value, expiresAt: Date.now() + this.ttl });
 
     try {
-      await this.storage.setItem(this.prefix + key, entry);
+      await this.storage.setItem(this.keyFor(key), entry);
     } catch {
       // Out of quota, most likely. Make room among this store's own keys and try
       // once more; a cache write that cannot land must not fail the request that
@@ -298,21 +248,26 @@ export class WebStorageCache implements CacheStore {
       await this.evict();
 
       try {
-        await this.storage.setItem(this.prefix + key, entry);
+        await this.storage.setItem(this.keyFor(key), entry);
       } catch {
         return;
       }
     }
   }
 
+  /** Unlike the tidy-up paths, a refusal throws: swallowed, the entry would stay live. */
   async delete(key: string): Promise<void> {
-    await this.storage.removeItem(this.prefix + key);
+    await this.storage.removeItem(this.keyFor(key));
   }
 
   async clear(): Promise<void> {
     for (const key of await this.ownKeys()) {
       await this.remove(key);
     }
+  }
+
+  private keyFor(key: string): string {
+    return this.prefix + key;
   }
 
   /** Reads a namespaced key, treating unreadable content as a miss. */

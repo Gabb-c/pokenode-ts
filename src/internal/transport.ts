@@ -7,7 +7,7 @@ import type {
   RequestScope,
   ResourceLink,
   RetryOptions,
-} from "../clients/base";
+} from "../clients/types";
 import { type CacheStore, type EtagEntry, EtagStore, MemoryCache } from "../config/cache";
 import { toPokenodeError } from "../config/errors";
 import { type Logger, type LogResponsePayload, logMessage } from "../config/logger";
@@ -19,15 +19,13 @@ import { DEFAULT_CONCURRENCY, mapWithConcurrency } from "./pool";
 import { attemptCount, backoff, isAbort, retryDelay } from "./retry";
 import { listPath, normalizeURL, splitCredentials, toEndpointPath, trimTrailingSlash } from "./url";
 
-/** A parsed response body and the status it arrived with. */
 interface FetchedResource {
   data: unknown;
   status: number;
-  /** Whether the body came from an {@link EtagStore} rather than off the wire. */
+  /** Served from the {@link EtagStore} after a 304. */
   revalidated?: boolean;
 }
 
-/** Where a resolution came from, as the response log reports it. */
 const responseSource = (
   joined: boolean,
   revalidated: boolean | undefined,
@@ -39,7 +37,6 @@ const responseSource = (
   return revalidated === true ? "revalidated" : "network";
 };
 
-/** Resolves the `revalidate` option to the store the client will keep, if any. */
 const toEtagStore = (revalidate: boolean | EtagStore | undefined): EtagStore | undefined => {
   if (!revalidate) {
     return undefined;
@@ -48,7 +45,6 @@ const toEtagStore = (revalidate: boolean | EtagStore | undefined): EtagStore | u
   return revalidate === true ? new EtagStore() : revalidate;
 };
 
-/** What a {@link Transport} was configured with, and never changes thereafter. */
 interface TransportConfig {
   baseURL: string;
   fetch: FetchLike;
@@ -56,38 +52,26 @@ interface TransportConfig {
   retry: RetryOptions | undefined;
 }
 
-/**
- * What a {@link Transport} shares with every transport derived from it.
- *
- * Held in one object and passed by reference, so a scoped transport joins the
- * cache, the validators and the requests already on the wire rather than
- * starting its own.
- */
+/** Passed by reference, so a derived transport joins the same cache, validators and requests. */
 interface TransportState {
   cache: CacheStore | undefined;
   etags: EtagStore | undefined;
-  /** Requests already on the wire, so concurrent callers share one round trip. */
   inFlight: InFlight<FetchedResource>;
-  /** One count per resolution, by where it came from. Shared for the same reason. */
-  counts: Record<LogResponsePayload["source"], number>;
-  /**
-   * Requests that left the process, counted where they are made rather than
-   * where they resolve: a resolution retried twice is one `network` and three of
-   * these, and only this number is what the API saw.
-   */
-  roundTrips: { count: number };
+  /** Mutated in place, so every derived transport counts into the same object. */
+  stats: ClientStats;
 }
+
+const SOURCE_STAT: Record<LogResponsePayload["source"], keyof ClientStats> = {
+  network: "network",
+  cache: "cache",
+  "in-flight": "inFlight",
+  revalidated: "revalidated",
+};
 
 /**
  * ## Transport
- * Everything a client does that is not naming an endpoint: requests, caching,
- * retries, revalidation and logging. The rules it works to live beside it, one
- * concern per module — `./url`, `./retry`, `./paginate`, and `./inflight` for
- * the coalescing of concurrent requests.
- *
- * Internal. One transport is built per `MainClient` and handed to all twelve of
- * its section clients, which is what makes a resource fetched through one of
- * them cached — and coalesced — for the rest.
+ * Requests, caching, coalescing, retries, revalidation and logging. One per
+ * `MainClient`, shared by all twelve sections.
  */
 export class Transport {
   constructor(
@@ -96,7 +80,6 @@ export class Transport {
     private readonly scope: RequestScope = {},
   ) {}
 
-  /** Builds a transport, and the state it will share, from public options. */
   static create(clientOptions?: ClientOptions): Transport {
     return new Transport(
       {
@@ -110,80 +93,47 @@ export class Transport {
           clientOptions?.cache === false ? undefined : (clientOptions?.cache ?? new MemoryCache()),
         etags: toEtagStore(clientOptions?.revalidate),
         inFlight: new InFlight(),
-        counts: { network: 0, cache: 0, "in-flight": 0, revalidated: 0 },
-        roundTrips: { count: 0 },
+        stats: { network: 0, cache: 0, inFlight: 0, revalidated: 0, roundTrips: 0 },
       },
     );
   }
 
-  /** The counts so far, as a snapshot: the state behind them keeps moving. */
+  /** A snapshot; the counts behind it keep moving. */
   get stats(): ClientStats {
-    const { network, cache, revalidated } = this.state.counts;
-
-    return {
-      network,
-      cache,
-      inFlight: this.state.counts["in-flight"],
-      revalidated,
-      roundTrips: this.state.roundTrips.count,
-    };
+    return { ...this.state.stats };
   }
 
-  /** The store backing this transport, or `undefined` when caching is disabled. */
   get cache(): CacheStore | undefined {
     return this.state.cache;
   }
 
-  /**
-   * Derives a transport whose requests carry a signal, a timeout, or both.
-   *
-   * The derived transport shares this one's state, so a scoped call still joins
-   * an identical unscoped one instead of repeating it.
-   */
   with(scope: RequestScope): Transport {
     return new Transport(this.config, this.state, { ...this.scope, ...scope });
   }
 
-  /**
-   * Drops every cached response, and the validators held for them: an
-   * {@link EtagStore} keeps the bodies it learned, so leaving it would answer
-   * the next request with the very body that was just dropped.
-   *
-   * A {@link CacheStore} that does not implement `clear` is left alone.
-   */
+  /** Validators go too, or the next 304 would answer with the body just dropped. */
   async clear(): Promise<void> {
     await this.state.cache?.clear?.();
     this.state.etags?.clear();
   }
 
-  /**
-   * Retrieves a single resource by its endpoint and identifier.
-   *
-   * Every segment is percent-encoded. A name reaches here as whatever the caller
-   * passed — `getBerryByName(req.query.name)` is the shape that call takes — and
-   * unencoded a `?` in it becomes a query, a `/` another endpoint, and a `#` a
-   * fragment that is dropped before the wire but not before the cache key. A
-   * path below the endpoint is given as separate segments for that reason.
-   */
+  /** Each segment is percent-encoded: an unencoded `?`, `/` or `#` would escape the endpoint. */
   async resource<T>(endpoint: Endpoint, ...segments: (string | number)[]): Promise<T> {
     const path = segments.map((segment) => encodeURIComponent(segment)).join("/");
 
     return this.request<T>(path === "" ? endpoint : `${endpoint}/${path}`);
   }
 
-  /** Retrieves a resource by its URL, or by a link taken from another response. */
   async byURL<T>(resource: ResourceLink<T>, baseURL = this.config.baseURL): Promise<T> {
     const url = typeof resource === "string" ? resource : resource.url;
 
     return this.request<T>(toEndpointPath(url, baseURL), baseURL);
   }
 
-  /** Retrieves one page of a list endpoint. */
   async list<T>(endpoint: Endpoint, offset = 0, limit = DEFAULT_PAGE_SIZE): Promise<T> {
     return this.request<T>(listPath(endpoint, offset, limit));
   }
 
-  /** Fetches what several links point at, in the order they were given. */
   async resolveAll<T>(
     resources: readonly ResourceLink<T>[],
     concurrency = DEFAULT_CONCURRENCY,
@@ -191,7 +141,6 @@ export class Transport {
     return mapWithConcurrency(resources, concurrency, (resource) => this.byURL<T>(resource));
   }
 
-  /** Walks every page of a list endpoint, yielding one entry at a time. */
   walk<T>(
     list: ListFn<APIResource<T>>,
     options?: PaginateOptions,
@@ -199,18 +148,12 @@ export class Transport {
     return walkPages(list, (link) => this.byURL(link), options);
   }
 
-  /**
-   * Resolves a resource through the cache, then through any identical request
-   * already in flight, and only then over the network.
-   *
-   * The URL is joined by concatenation: `new URL(path, base)` would discard the
-   * base's own `/api/v2` path.
-   */
+  /** Cache, then any identical request in flight, then the network. */
   private async request<T>(path: string, baseURL = this.config.baseURL): Promise<T> {
     const rooted = path.startsWith("/") ? path : `/${path}`;
 
-    // Credentials leave the URL before anything else sees it: `fetch` rejects a
-    // credentialed URL, and the cache key and log payload are built from this.
+    // concatenated: `new URL(path, base)` would drop the base's `/api/v2`.
+    // credentials split first: fetch rejects them, and the cache key and logs derive from this url
     const { url, authorization } = splitCredentials(
       normalizeURL(`${trimTrailingSlash(baseURL)}${rooted}`),
     );
@@ -227,9 +170,7 @@ export class Transport {
     const signal = this.requestSignal();
 
     try {
-      // Checked before anything else happens, and before the cache is consulted:
-      // a call made through a scope that has already aborted must not reach the
-      // network, and must not depend on what happens to be cached either.
+      // before the cache: an aborted scope must fail whatever happens to be cached
       if (signal?.aborted) {
         throw signal.reason;
       }
@@ -237,16 +178,10 @@ export class Transport {
       const cached = await this.state.cache?.get(url);
 
       if (cached !== undefined) {
-        // A hit is timed like any other resolution: the number is small, but a
-        // store on the far side of a network is not guaranteed to make it so.
         this.recordResponse(url, 200, "cache", startedAt);
         return cached as T;
       }
 
-      // Every caller reports its own outcome, including one that only joined a
-      // request someone else started: a `request` event with no `response` to
-      // close it would make concurrent traffic unreadable. `source` is what keeps
-      // the count of round trips honest when several callers share one.
       const { value, joined } = await this.state.inFlight.share(url, signal, (requestSignal) =>
         this.fetchResource(url, authorization, requestSignal),
       );
@@ -255,35 +190,12 @@ export class Transport {
 
       return value.data as T;
     } catch (error) {
-      // A cancelled request is not a failed one, by the same rule that stops the
-      // retry loop from attempting it again.
-      if (isAbort(error, signal)) {
-        this.config.logger?.debug({
-          event: "cancelled",
-          ...logMessage("pokeapi request cancelled"),
-          url,
-          reason: error,
-          durationMs: performance.now() - startedAt,
-        });
-        throw error;
-      }
-
-      this.config.logger?.error({
-        event: "error",
-        ...logMessage("pokeapi request failed"),
-        url,
-        err: error,
-        error,
-      });
+      this.logFailure(error, signal, url, startedAt);
       throw error;
     }
   }
 
-  /**
-   * The signal this scope puts on a request, or none when it has nothing to
-   * cancel with. A timeout is created per request, not per scope: a scope is
-   * derived once and used many times.
-   */
+  /** A timeout is created per request, not per scope: a scope is reused. */
   private requestSignal(): AbortSignal | undefined {
     const { signal, timeout } = this.scope;
 
@@ -301,8 +213,7 @@ export class Transport {
     authorization: string | undefined,
     signal: AbortSignal | undefined,
   ): Promise<FetchedResource> {
-    // Read once, before any attempt: an entry evicted while the request is in
-    // flight must not turn a 304 into a response with no body to go with it.
+    // read once: an eviction mid-flight must not leave a 304 with no body
     const known = this.state.etags?.get(url);
     const headers = {
       Accept: "application/json",
@@ -318,13 +229,10 @@ export class Transport {
       let response: Response;
 
       try {
-        // Counted before the call rather than after: an attempt that throws
-        // still left the process, and a retry loop nobody can see is what makes
-        // a client cost more than its caller thinks.
-        this.state.roundTrips.count += 1;
+        // counted before the call: an attempt that throws still left the process
+        this.state.stats.roundTrips += 1;
         response = await this.config.fetch(url, init);
       } catch (error) {
-        // A cancelled request is not a failed one, so no attempt follows it.
         if (isLast || isAbort(error, signal)) {
           throw error;
         }
@@ -349,46 +257,31 @@ export class Transport {
 
       const retryAfter = await retryDelay(response, isLast, retry);
 
-      // The body is going nowhere, and an undrained one holds its connection.
-      // Not awaited: an intercepted response may never settle the cancellation,
-      // and nothing here depends on it having finished.
+      // an undrained body holds its connection; not awaited, an intercepted one may never settle
       response.body?.cancel().catch(() => {});
       await backoff({ url, attempt, status: response.status, retryAfter, signal, retry, logger });
     }
   }
 
-  /**
-   * The resource a response carries, or nothing when it carries none and another
-   * attempt is the question.
-   */
+  /** The resource a response carries, or `undefined` when another attempt is the question. */
   private async resolveResponse(
     url: string,
     response: Response,
     known: EtagEntry | undefined,
   ): Promise<FetchedResource | undefined> {
-    // Checked before `ok`, which a 304 is not: nothing changed, so the body
-    // that was sent with the validator is still the answer.
+    // before `ok`, which a 304 is not
     if (response.status === 304) {
       if (known === undefined) {
-        // Nothing here asked for it, so nothing here can satisfy it — an
-        // intermediary added a validator of its own. Reported on its own terms
-        // rather than left to fall through as an unexplained failed status.
+        // an intermediary added its own validator; nothing here can satisfy it
         throw await toPokenodeError(
           response,
           `Request to ${response.url} was answered 304, but this client holds no response to reuse`,
         );
       }
 
-      // RFC 9110 lets a 304 carry a validator of its own, and a server that
-      // re-encodes an unchanged body rotates it. Keeping the one that was sent
-      // would spend the next revalidation on a full body.
+      // a 304 may rotate the validator (RFC 9110); keeping the old one wastes the next revalidation
       const refreshed = response.headers.get("ETag");
-
-      if (refreshed !== null && refreshed !== known.etag) {
-        this.state.etags?.set(url, { etag: refreshed, value: known.value });
-      }
-
-      await this.state.cache?.set(url, known.value);
+      await this.remember(url, known.value, refreshed === known.etag ? null : refreshed);
 
       return { data: known.value, status: response.status, revalidated: true };
     }
@@ -398,29 +291,28 @@ export class Transport {
     }
 
     const data: unknown = await response.json();
-    const etag = response.headers.get("ETag");
+    await this.remember(url, data, response.headers.get("ETag"));
 
+    return { data, status: response.status };
+  }
+
+  /** Caches a body, and learns its validator when one is given. */
+  private async remember(url: string, data: unknown, etag: string | null): Promise<void> {
     if (etag !== null) {
       this.state.etags?.set(url, { etag, value: data });
     }
 
     await this.state.cache?.set(url, data);
-
-    return { data, status: response.status };
   }
 
-  /**
-   * The one place a resolution is accounted for, however it was resolved — which
-   * is what keeps {@link Transport.stats} and the response log saying the same
-   * thing about the same request.
-   */
+  /** The one place a resolution is counted, so stats and logs agree. */
   private recordResponse(
     url: string,
     status: number,
     source: LogResponsePayload["source"],
     startedAt: number,
   ): void {
-    this.state.counts[source] += 1;
+    this.state.stats[SOURCE_STAT[source]] += 1;
 
     this.config.logger?.debug({
       event: "response",
@@ -429,6 +321,33 @@ export class Transport {
       status,
       source,
       durationMs: performance.now() - startedAt,
+    });
+  }
+
+  /** A cancellation is not a failure, so it goes to `debug`, not `error`. */
+  private logFailure(
+    error: unknown,
+    signal: AbortSignal | undefined,
+    url: string,
+    startedAt: number,
+  ): void {
+    if (isAbort(error, signal)) {
+      this.config.logger?.debug({
+        event: "cancelled",
+        ...logMessage("pokeapi request cancelled"),
+        url,
+        reason: error,
+        durationMs: performance.now() - startedAt,
+      });
+      return;
+    }
+
+    this.config.logger?.error({
+      event: "error",
+      ...logMessage("pokeapi request failed"),
+      url,
+      err: error,
+      error,
     });
   }
 }

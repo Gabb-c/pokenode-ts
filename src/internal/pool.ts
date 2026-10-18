@@ -1,20 +1,11 @@
-/**
- * How many requests the helpers that fetch many resources at once will run in
- * parallel. Kept low on purpose: see the PokéAPI fair-use policy.
- */
+import { finiteOr } from "./options";
+
+/** Low on purpose: the PokéAPI fair-use policy. */
 export const DEFAULT_CONCURRENCY = 4;
 
 /**
- * Runs `task` over `items` with at most `concurrency` of them in flight, and
- * returns the results in the order the items came in.
- *
- * Internal: the PokéAPI's fair-use policy asks clients not to flood it, so the
- * places that resolve many links at once go through here rather than
- * `Promise.all`.
- *
- * The first failure stops the pool — workers check before taking more work, so
- * a rejection does not leave a tail of requests running for a result nobody will
- * read.
+ * `Promise.all` capped at `concurrency`, results in input order. The first
+ * failure stops workers taking more items.
  */
 export const mapWithConcurrency = async <I, O>(
   items: readonly I[],
@@ -39,11 +30,7 @@ export const mapWithConcurrency = async <I, O>(
     }
   };
 
-  // A non-finite count falls back to the default rather than being clamped:
-  // `Math.max(NaN, 1)` is `NaN`, `Array.from({ length: NaN })` is empty, and a
-  // pool with no workers returns a hole per item instead of failing. This is
-  // exactly the sort of option that arrives as `Number(process.env.CONCURRENCY)`.
-  const requested = Number.isFinite(concurrency) ? concurrency : DEFAULT_CONCURRENCY;
+  const requested = Math.floor(finiteOr(concurrency, DEFAULT_CONCURRENCY));
   const workers = Array.from({ length: Math.min(Math.max(requested, 1), items.length) }, () =>
     worker(),
   );

@@ -217,9 +217,11 @@ export type ModelName = keyof Models;
 
 const MODELS_DIR = fileURLToPath(new URL("../../src/models", import.meta.url));
 
-/** `export interface Name {` or `export type Name = {`, and nothing else. */
+// these patterns read Biome-formatted source (2-space indent, one property per line)
+
 /**
- * A model declaration, with the type parameters of a generic one discarded:
+ * `export interface Name {` or `export type Name = {`, and nothing else, with the
+ * type parameters of a generic one discarded:
  * `NamedAPIResource<T = unknown>` is registered as `NamedAPIResource`, since the
  * argument says what a link points at and not what the response contains.
  */

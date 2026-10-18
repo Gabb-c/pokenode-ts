@@ -1,57 +1,28 @@
-import type { RetryOptions } from "../clients/base";
+import type { RetryOptions } from "../clients/types";
 import { toPokenodeError } from "../config/errors";
 import { type Logger, logMessage } from "../config/logger";
+import { finiteOr } from "./options";
 
 const DEFAULT_RETRY_ATTEMPTS = 3;
 const DEFAULT_INITIAL_DELAY = 300;
 const DEFAULT_MAX_DELAY = 5_000;
-/** Transient by definition: rate limiting, and the gateway failures around it. */
 const DEFAULT_RETRY_STATUSES = [429, 500, 502, 503, 504];
 
-/**
- * How many attempts a request gets, the first one included. A fractional count
- * is rounded down, so `2.5` is two attempts rather than the three that
- * `attempt >= attempts` would otherwise allow.
- *
- * A non-finite count falls back to the default rather than being clamped:
- * `Math.max(NaN, 1)` is `NaN`, and an attempt loop bounded by `NaN` never ends.
- * `attempts` is exactly the sort of option that arrives as
- * `Number(process.env.RETRIES)`.
- */
-export const attemptCount = (retry: RetryOptions | undefined): number => {
-  if (!retry) {
-    return 1;
-  }
+/** Attempts in total, the first included. A fraction rounds down: `2.5` is two. */
+export const attemptCount = (retry: RetryOptions | undefined): number =>
+  retry ? Math.max(Math.floor(finiteOr(retry.attempts, DEFAULT_RETRY_ATTEMPTS)), 1) : 1;
 
-  const requested = retry.attempts ?? DEFAULT_RETRY_ATTEMPTS;
-
-  return Number.isFinite(requested) ? Math.max(Math.floor(requested), 1) : DEFAULT_RETRY_ATTEMPTS;
-};
-
-/**
- * A configured wait, in milliseconds, or the default when it is not a number
- * this client can wait for.
- *
- * A non-finite value falls back for the reason given on {@link attemptCount}:
- * `setTimeout` reads a `NaN` delay as zero, and `x > NaN` is false, so an
- * unusable option spends every attempt at once — or accepts any `Retry-After`
- * it is sent.
- */
+/** A configured wait in milliseconds; `NaN` would read as zero to `setTimeout`. */
 const delayOption = (value: number | undefined, fallback: number): number =>
-  value !== undefined && Number.isFinite(value) ? Math.max(value, 0) : fallback;
+  Math.max(finiteOr(value, fallback), 0);
 
-/**
- * Reads `Retry-After`, which RFC 9110 allows to be either a number of seconds or
- * an HTTP date. Returns milliseconds, or nothing when the header is absent or
- * unparseable.
- */
+/** `Retry-After` in milliseconds; RFC 9110 allows seconds or an HTTP date. */
 const toRetryAfterMs = (header: string | null): number | undefined => {
   if (header === null) {
     return undefined;
   }
 
-  // `Number("")` is a finite 0, which would read a blank header as permission to
-  // retry immediately — the opposite of what the header is ever sent to say.
+  // `Number("")` is 0, which would read a blank header as "retry now"
   const value = header.trim();
 
   if (value === "") {
@@ -69,15 +40,11 @@ const toRetryAfterMs = (header: string | null): number | undefined => {
   return Number.isNaN(date) ? undefined : Math.max(date - Date.now(), 0);
 };
 
-/**
- * Whether an error is a request being cancelled rather than failing. A cancelled
- * request is never retried: someone asked for it to stop.
- */
+/** A cancelled request is never retried or reported as a failure. */
 export const isAbort = (error: unknown, signal: AbortSignal | undefined): boolean =>
   signal?.aborted === true ||
   (error instanceof Error && (error.name === "AbortError" || error.name === "TimeoutError"));
 
-/** Waits, unless the request is cancelled first. */
 const sleep = (ms: number, signal: AbortSignal | undefined): Promise<void> =>
   new Promise((resolve, reject) => {
     if (signal?.aborted) {
@@ -90,9 +57,7 @@ const sleep = (ms: number, signal: AbortSignal | undefined): Promise<void> =>
       resolve();
     }, ms);
 
-    // Node holds the event loop open for a pending timer, so a wait between
-    // attempts would keep a process that has nothing else to do alive for it.
-    // Optional because a browser's `setTimeout` returns a number.
+    // a pending timer would keep an otherwise idle Node process alive; browsers return a number
     timer.unref?.();
 
     const onAbort = (): void => {
@@ -104,10 +69,9 @@ const sleep = (ms: number, signal: AbortSignal | undefined): Promise<void> =>
   });
 
 /**
- * How long `Retry-After` asks this client to wait, or nothing when the wait is
- * {@link backoff}'s to calculate.
+ * The wait `Retry-After` asks for, or `undefined` to let {@link backoff} decide.
  *
- * @throws {PokenodeError} If the failure is not one this client attempts again.
+ * @throws {PokenodeError} If the failure is not one worth another attempt.
  */
 export const retryDelay = async (
   response: Response,
@@ -123,8 +87,7 @@ export const retryDelay = async (
 
   const retryAfter = toRetryAfterMs(response.headers.get("Retry-After"));
 
-  // Asked to wait longer than this client is willing to: waiting less is
-  // exactly what the header exists to prevent, so the attempt is the last.
+  // waiting less than asked is what the header forbids, so give up instead
   if (retryAfter !== undefined && retryAfter > maxDelay) {
     throw await toPokenodeError(response);
   }
@@ -132,13 +95,11 @@ export const retryDelay = async (
   return retryAfter;
 };
 
-/** What one wait between attempts needs to know. */
 export interface BackoffOptions {
   url: string;
   attempt: number;
-  /** Absent when the attempt failed before there was a response to read. */
+  /** Absent when the attempt failed before any response. */
   status: number | undefined;
-  /** What `Retry-After` asked for, when it asked for anything. */
   retryAfter: number | undefined;
   signal: AbortSignal | undefined;
   retry: RetryOptions | undefined;
@@ -146,11 +107,9 @@ export interface BackoffOptions {
 }
 
 /**
- * Waits before the next attempt, and says so through the logger.
- *
- * The wait is half of a doubling window plus jitter over the other half, so
- * clients that failed together do not come back together, and none of them
- * comes back immediately. `Retry-After` replaces the calculation outright.
+ * Waits before the next attempt: half a doubling window plus jitter over the
+ * other half, so clients that failed together do not return together.
+ * `Retry-After` overrides it.
  */
 export const backoff = async (options: BackoffOptions): Promise<void> => {
   const { url, attempt, status, retryAfter, signal, retry, logger } = options;

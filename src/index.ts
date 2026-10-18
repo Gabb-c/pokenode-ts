@@ -13,6 +13,22 @@ export {
   PokemonClient,
   UtilityClient,
 } from "@clients";
+export type {
+  ClientOptions,
+  ClientStats,
+  FetchLike,
+  Listed,
+  ListFn,
+  ListMethod,
+  ListMethodName,
+  ListPage,
+  PaginateOptions,
+  RequestScope,
+  ResolveOptions,
+  Resolves,
+  ResourceLink,
+  RetryOptions,
+} from "@clients/types";
 export {
   type CacheStore,
   type EtagEntry,
@@ -64,16 +80,3 @@ export {
   resourceId,
   type SpriteVariant,
 } from "@utils";
-export type {
-  ClientOptions,
-  ClientStats,
-  FetchLike,
-  ListFn,
-  ListMethodName,
-  ListPage,
-  PaginateOptions,
-  RequestScope,
-  ResolveOptions,
-  ResourceLink,
-  RetryOptions,
-} from "./clients/base";

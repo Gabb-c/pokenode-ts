@@ -1,6 +1,7 @@
 import { ENDPOINTS } from "@constants";
 import type { Language, NamedAPIResourceList } from "@models";
-import { BaseClient, type ResourceLink } from "./base";
+import { BaseClient } from "./base";
+import type { ResourceLink } from "./types";
 
 /**
  * ### Utility Client

@@ -1,5 +1,4 @@
-// Relative rather than through `@clients`, which does not export `base.ts`.
-import type { ResourceLink } from "../clients/base";
+import type { ResourceLink } from "@clients/types";
 
 /**
  * The trailing id of a PokéAPI resource URL, with or without the final slash.

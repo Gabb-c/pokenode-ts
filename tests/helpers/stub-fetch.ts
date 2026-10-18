@@ -1,6 +1,5 @@
+import type { ClientOptions } from "@clients/types";
 import { BASE_URL } from "@constants";
-
-import type { ClientOptions } from "../../src/clients/base";
 
 /**
  * Builds a client whose `fetch` records the URL and answers from memory.
@@ -53,4 +52,20 @@ export const expectEndpoint = async <T>(
   await call(client);
 
   expect(urls).toEqual([`${BASE_URL.REST}${path}`]);
+};
+
+/**
+ * Asserts an endpoint table names every `get*` and `list*` method the client
+ * declares, so a method added without a row fails instead of going untested.
+ */
+export const expectEveryMethodCovered = <T>(
+  Client: new (options?: ClientOptions) => T,
+  cases: readonly EndpointCase<T>[],
+): void => {
+  const declared = Object.getOwnPropertyNames(Client.prototype).filter((name) =>
+    /^(?:get|list)[A-Z]/.test(name),
+  );
+  const tested = new Set(cases.map(([method]) => method));
+
+  expect([...tested].sort()).toEqual(declared.sort());
 };
