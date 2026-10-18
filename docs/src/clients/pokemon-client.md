@@ -101,6 +101,7 @@ console.log(luxray.stats.map((stat) => `${stat.stat.name}: ${stat.base_stat}`));
 | Method | Returns |
 | --- | --- |
 | `getPokemonLocationAreaById(id)` | `LocationAreaEncounter[]` |
+| `getPokemonLocationAreaByName(name)` | `LocationAreaEncounter[]` |
 
 ::: info
 `getCharacteristicById` has no name counterpart — characteristics are unnamed upstream and are
@@ -128,7 +129,7 @@ species. Reach for `getPokemonSpeciesByName` when `getPokemonByName` doesn't hav
 
 ## Encounters
 
-`getPokemonLocationAreaById` is the odd one out — it returns an **array** rather than a single
+`getPokemonLocationAreaById` and `getPokemonLocationAreaByName` are the odd ones out — it returns an **array** rather than a single
 resource, because it answers "where is this found" rather than "give me this thing":
 
 ```ts
@@ -139,7 +140,12 @@ for (const encounter of encounters) {
 }
 ```
 
-It only takes an id, matching the underlying `/pokemon/{id}/encounters` route.
+The underlying `/pokemon/{id or name}/encounters` route takes either, so a name saves the
+`getPokemonByName` round trip you would otherwise spend reading `.id`:
+
+```ts
+const encounters = await api.getPokemonLocationAreaByName('pikachu');
+```
 
 ::: warning
 In 1.x this route was also reachable via `ENDPOINTS.POKEMON_LOCATION_AREA`. That constant is gone

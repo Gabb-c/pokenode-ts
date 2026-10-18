@@ -131,6 +131,14 @@ export class PokemonClient extends BaseClient {
     return this.getResource(ENDPOINTS.POKEMON, id, "encounters");
   }
 
+  /**
+   * Get the areas a Pokémon can be encountered in, by its name.
+   * @returns Every location area the Pokémon appears in, with its encounter details.
+   */
+  public async getPokemonLocationAreaByName(name: string): Promise<LocationAreaEncounter[]> {
+    return this.getResource(ENDPOINTS.POKEMON, name, "encounters");
+  }
+
   /** Get a Pokémon Color by its name. */
   public async getPokemonColorByName(name: string): Promise<PokemonColor> {
     return this.getResource(ENDPOINTS.POKEMON_COLOR, name);

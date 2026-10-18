@@ -59,6 +59,23 @@ describe("pagination", () => {
   });
 });
 
+describe("encounters", () => {
+  // `getPokemonLocationAreaByName` relies on the route below `/pokemon` taking a
+  // name as well as an id, which no other endpoint's behaviour implies.
+  it("should answer the same areas by name as by id", async () => {
+    const client = new PokemonClient();
+    const [byName, byId] = await Promise.all([
+      client.getPokemonLocationAreaByName("pikachu"),
+      client.getPokemonLocationAreaById(25),
+    ]);
+    const areas = (encounters: typeof byId) =>
+      encounters.map((encounter) => encounter.location_area.name);
+
+    expect(byName.length).toBeGreaterThan(0);
+    expect(areas(byName)).toEqual(areas(byId));
+  });
+});
+
 /**
  * The URLs {@link getPokemonSpriteUrl} builds are a contract with a repository
  * nobody here controls, and it is not even the API — a reorganisation there is

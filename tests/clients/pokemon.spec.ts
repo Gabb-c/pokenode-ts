@@ -45,6 +45,11 @@ describe("PokemonClient", () => {
       "/pokemon/25/encounters",
       (c) => c.getPokemonLocationAreaById(25),
     ],
+    [
+      "getPokemonLocationAreaByName",
+      "/pokemon/pikachu/encounters",
+      (c) => c.getPokemonLocationAreaByName("pikachu"),
+    ],
     ["getPokemonColorByName", "/pokemon-color/black", (c) => c.getPokemonColorByName("black")],
     ["getPokemonColorById", "/pokemon-color/1", (c) => c.getPokemonColorById(POKEMON_COLORS.BLACK)],
     ["getPokemonFormByName", "/pokemon-form/bulbasaur", (c) => c.getPokemonFormByName("bulbasaur")],
