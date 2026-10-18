@@ -35,6 +35,8 @@ export interface Models {
   BrilliantDiamondShiningPearlIcons: M.BrilliantDiamondShiningPearlIcons;
   LegendsArceus: M.LegendsArceus;
   LegendsArceusIcons: M.LegendsArceusIcons;
+  LegendsZA: M.LegendsZA;
+  LegendsZAIcons: M.LegendsZAIcons;
   SwordShield: M.SwordShield;
   SwordShieldIcons: M.SwordShieldIcons;
   ChainLink: M.ChainLink;
@@ -187,6 +189,7 @@ export interface Models {
   Region: M.Region;
   RubySapphire: M.RubySapphire;
   ScarletViolet: M.ScarletViolet;
+  ScarletVioletIcons: M.ScarletVioletIcons;
   Showdown: M.Showdown;
   Silver: M.Silver;
   Stat: M.Stat;

@@ -47,6 +47,8 @@ Variables carry a `source`: `pokemon` (`encryption-constant`, `personality-value
   the API stopped sending it. Use the `icons` inside each game's sprites (`sword-shield`,
   `brilliant-diamond-shining-pearl`, `legends-arceus`).
 - `Champions` now carries the full front/back, shiny and female set plus `icons: ChampionsIcons`.
+- `GenerationIXSprites` gains `legends-za` (`LegendsZA`, with `LegendsZAIcons`), and `ScarletViolet`
+  now carries the full front/back, shiny and female set plus `icons` (`ScarletVioletIcons`).
 - `PokemonFormSprites` now carries the whole tree, like `PokemonSprites`: `other` is new, and
   `versions` is a `VersionSprites`. `PokemonFormVersionSprites` and
   `PokemonFormGenerationVIIISprites` are removed — use `VersionSprites` and `GenerationVIIISprites`.
