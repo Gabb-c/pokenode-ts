@@ -1,5 +1,24 @@
 # Changelog
 
+## [5.0.0](https://github.com/Gabb-c/pokenode-ts/compare/v4.0.0...v5.0.0) (2026-10-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* **models:** drop GenerationVIIISprites icons and complete Champions sprites ([#1427](https://github.com/Gabb-c/pokenode-ts/issues/1427))
+
+### ✨ Features
+
+* **pokemon:** get location area by name method ([3586b62](https://github.com/Gabb-c/pokenode-ts/commit/3586b622c10d4391761c1c32a40c09eafba01c82))
+
+
+### 🐛 Bug Fixes
+
+* **ci:** create pack dir and add manual trigger ([ebfd5e8](https://github.com/Gabb-c/pokenode-ts/commit/ebfd5e87f8feb9354d1118e5626adba3ef45c96f))
+* **models:** add legends-za and complete ScarletViolet sprites ([#1424](https://github.com/Gabb-c/pokenode-ts/issues/1424)) ([aa2c92d](https://github.com/Gabb-c/pokenode-ts/commit/aa2c92d223f367ea7c56df1ca50c3b0135fe054b))
+* **models:** drop GenerationVIIISprites icons and complete Champions sprites ([#1427](https://github.com/Gabb-c/pokenode-ts/issues/1427)) ([4957822](https://github.com/Gabb-c/pokenode-ts/commit/4957822326304e32a7ac0da738011911b32a73c9))
+* **models:** pokemon state and MoveStatAffect ([d046664](https://github.com/Gabb-c/pokenode-ts/commit/d0466647f1349f00bde0fb93227853314e9df12e))
+
 ## [4.0.0](https://github.com/Gabb-c/pokenode-ts/compare/v3.0.0...v4.0.0) (2026-10-11)
 
 
