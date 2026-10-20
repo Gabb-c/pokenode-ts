@@ -1,5 +1,5 @@
 import type { Name, NamedAPIResource } from "../common";
-import type { PokemonSpecies } from "../pokemon/pokemon";
+import type { PokemonSpecies } from "../pokemon/pokemon-species";
 
 /**
  * ## Pal Park Area

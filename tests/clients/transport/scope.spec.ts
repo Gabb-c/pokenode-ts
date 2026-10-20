@@ -1,3 +1,4 @@
+import { BerryClient, MainClient, type PokemonClient } from "@clients";
 import { PokenodeError } from "@config/errors";
 import { BASE_URL } from "@constants";
 import { HttpResponse, http } from "msw/http";
@@ -231,5 +232,17 @@ describe("BaseClient scope", () => {
     await client.get("/berry", 1);
 
     expect(received?.signal).toBeUndefined();
+  });
+});
+
+describe("BaseClient.with types", () => {
+  it("should derive a client of the class it was called on", () => {
+    // Thunks, never invoked: `expectTypeOf` evaluates whatever it is handed.
+    const main = () => new MainClient().with({ timeout: 1 });
+    const berry = () => new BerryClient().with({ timeout: 1 });
+
+    expectTypeOf(main).returns.toEqualTypeOf<MainClient>();
+    expectTypeOf(main).returns.toHaveProperty("pokemon").toEqualTypeOf<PokemonClient>();
+    expectTypeOf(berry).returns.toEqualTypeOf<BerryClient>();
   });
 });

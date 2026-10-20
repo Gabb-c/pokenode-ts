@@ -11,10 +11,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | Command | What it does |
 | --- | --- |
 | `pnpm test` | Vitest, watch mode |
-| `pnpm test run tests/berry/berry.spec.ts` | Single file, single run (no `--`; pnpm swallows the filter after it) |
-| `pnpm test run tests/berry -t "list of berries"` | Single test by name |
+| `pnpm test run tests/clients/berry.spec.ts` | Single file, single run (no `--`; pnpm swallows the filter after it) |
+| `pnpm test run tests/clients/berry.spec.ts -t "should cover every endpoint method"` | Single test by name |
 | `pnpm test:run` | Vitest, unit project, single run |
-| `pnpm typecheck` | `tsc --noEmit` twice: root config (`src`, no Vitest globals) then `tests/tsconfig.json` |
+| `pnpm typecheck` | `tsc --noEmit` three times: root config (`src`, no Vitest globals), `tests/tsconfig.json`, then `docs/.vitepress` |
 | `pnpm test:live` | Drift check against the real PokéAPI — needs network, not part of CI on PRs |
 | `pnpm test:coverage` | Single run + lcov/html coverage |
 | `pnpm lint` | Biome check, writes fixes |
@@ -22,7 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | `pnpm build` | tsdown build; runs `publint` + `attw` as part of it |
 | `pnpm docs:dev` | VitePress docs site locally |
 
-Match CI before opening a PR: `pnpm lint:ci && pnpm typecheck && pnpm test:coverage && pnpm build`.
+Match CI before opening a PR: `pnpm lint:ci && pnpm typecheck && pnpm test:coverage && pnpm build && pnpm docs:build`.
 
 ## Architecture
 
@@ -62,6 +62,8 @@ projects in `vitest.config.ts`:
 | Unit — endpoint mapping | `tests/clients/<section>.spec.ts` | `pnpm test` (`unit` project) | none, stubbed `fetch` |
 | Transport — cache, dedupe, errors, URL normalization | `tests/clients/transport/<concern>.spec.ts`, `tests/clients/main.spec.ts` | `pnpm test` (`unit` project) | none, MSW |
 | Internal rules — URL, retry, pool, in-flight, LRU | `tests/internal/<module>.spec.ts` | `pnpm test` (`unit` project) | none, pure |
+| Public helpers — evolution, type chart, localize, sprites | `tests/utils/<helper>.spec.ts` | `pnpm test` (`unit` project) | none, pure |
+| Config — cache stores, errors, logger | `tests/config/<module>.spec.ts` | `pnpm test` (`unit` project) | none, pure |
 | Drift | `tests/live/*.live.spec.ts` | `pnpm test:live` (`live` project), daily cron only | **live PokéAPI** |
 | Live coverage — every model has a drift case, every union a values row | `tests/live/coverage.spec.ts` | `pnpm test` (`unit` project) | none, reads the case tables |
 
@@ -116,8 +118,9 @@ can go stale into 404s — which is what `TYPES` did, missing `stellar` until th
 - **Naming.** Directories and files under `src/` and `tests/` are lowercase kebab-case. Role suffixes
   are dotted, not hyphenated: `berry.client.ts`, `berry.spec.ts`, `drift.live.spec.ts`. A `src/models/`
   file is named after the resource it describes, singular, and holds that resource's satellite types
-  with it (`stat.ts` holds `Stat`, `NatureStatAffectSets`, `MoveStatAffect`). A `src/constants/` file
-  is named after the collection it contains, so those stay plural (`berries.ts`, `moves.ts`) — the
+  with it (`stat.ts` holds `Stat`, `NatureStatAffectSets`, `MoveStatAffect`). The one exception is
+  `pokemon-sprites.ts`, split off `pokemon.ts` for size: the sprite tree is most of the model. A
+  `src/constants/` file is named after the collection it contains, so those stay plural (`berries.ts`, `moves.ts`) — the
   section name is only singular where the file is not a plural set (`pokemon.ts`, `urls.ts`).
   `useFilenamingConvention` enforces the file half of this; **it does not check directory names**, so
   a PascalCase directory passes lint — that one is on review.
@@ -127,7 +130,7 @@ can go stale into 404s — which is what `TYPES` did, missing `stellar` until th
   deliberate edit rather than a side effect of exporting from a leaf file. `@models` and `@constants`
   keep `export *` — every symbol in them is public by construction.
 - Conventional Commits, enforced by commitlint on `commit-msg`. release-please reads the history to pick the version and write the changelog, so `feat:`/`fix:`/`!` choices are functional, not cosmetic.
-- lefthook runs biome + `tsc --noEmit` on staged files pre-commit.
+- lefthook runs biome + `tsc --noEmit` on staged files pre-commit, after guards that reject env files, foreign lockfiles, and dependency changes without `pnpm-lock.yaml`.
 - Behavior changes must update the matching page under `docs/src/` (guides + one page per client).
 - `main` is the only long-lived branch; branch `<type>/<kebab-description>` off it.
 

@@ -7,7 +7,7 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "html", "lcov"],
       include: ["src/**/*"],
-      exclude: ["src/models/*"],
+      exclude: ["src/models/**"],
     },
     projects: [
       {

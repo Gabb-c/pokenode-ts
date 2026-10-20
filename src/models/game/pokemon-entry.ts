@@ -1,5 +1,5 @@
 import type { NamedAPIResource } from "../common";
-import type { PokemonSpecies } from "../pokemon/pokemon";
+import type { PokemonSpecies } from "../pokemon/pokemon-species";
 
 /**
  * A Pokémon catalogued in a Pokédex.

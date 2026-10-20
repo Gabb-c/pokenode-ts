@@ -1,5 +1,5 @@
 import type { NamedAPIResource } from "../common";
-import type { PokemonSpecies } from "./pokemon";
+import type { PokemonSpecies } from "./pokemon-species";
 
 /**
  * ## Gender

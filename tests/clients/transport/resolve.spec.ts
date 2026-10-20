@@ -1,4 +1,6 @@
+import { BerryClient } from "@clients";
 import { BASE_URL } from "@constants";
+import type { Berry, BerryFirmness, Pokemon, Type } from "@models";
 import { HttpResponse, http } from "msw/http";
 import { delay } from "msw/utils/delay";
 import { server } from "../../helpers/setup";
@@ -77,5 +79,26 @@ describe("BaseClient.resolve", () => {
     await expect(new TestClient().with({ timeout: 20 }).resolve(`${BERRY_URL}/`)).rejects.toThrow(
       /abort|time/i,
     );
+  });
+});
+
+describe("BaseClient.resolve types", () => {
+  const api = new BerryClient();
+  // Thunks, never invoked: `expectTypeOf` evaluates whatever it is handed.
+  const follow = {
+    link: () => api.resolve({} as Berry["firmness"]),
+    links: () => api.resolveAll([] as Pokemon["types"][number]["type"][]),
+    named: () => api.resolve<Berry>("https://pokeapi.co/api/v2/berry/1/"),
+    bare: () => api.resolve("https://pokeapi.co/api/v2/berry/1/"),
+  };
+
+  it("should infer the resource a link resolves to", () => {
+    expectTypeOf(follow.link).returns.resolves.toEqualTypeOf<BerryFirmness>();
+    expectTypeOf(follow.links).returns.resolves.toEqualTypeOf<Type[]>();
+  });
+
+  it("should still take a bare url with the type named", () => {
+    expectTypeOf(follow.named).returns.resolves.toEqualTypeOf<Berry>();
+    expectTypeOf(follow.bare).returns.resolves.toEqualTypeOf<unknown>();
   });
 });

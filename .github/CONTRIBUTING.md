@@ -69,7 +69,7 @@ One logical change per commit. Squash noise locally before pushing.
 | --- | --- |
 | `pnpm test` | Run the test suite in watch mode |
 | `pnpm test:live` | Check the real PokéAPI for shape changes (needs network) |
-| `pnpm typecheck` | Type-check `src` and `tests` with `tsc --noEmit` |
+| `pnpm typecheck` | Type-check `src`, `tests` and the docs config with `tsc --noEmit` |
 | `pnpm test:coverage` | Single run with a coverage report |
 | `pnpm test:ui` | Vitest's browser UI |
 | `pnpm lint` | Biome check, writing fixes |
@@ -80,7 +80,7 @@ One logical change per commit. Squash noise locally before pushing.
 Before opening a pull request, the fastest way to match CI is:
 
 ```bash
-pnpm lint:ci && pnpm typecheck && pnpm test:coverage && pnpm build
+pnpm lint:ci && pnpm typecheck && pnpm test:coverage && pnpm build && pnpm docs:build
 ```
 
 The suite is split into three tiers:

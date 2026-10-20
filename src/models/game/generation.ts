@@ -2,7 +2,7 @@ import type { Name, NamedAPIResource } from "../common";
 import type { Region } from "../location/region";
 import type { Move } from "../move/move";
 import type { Ability } from "../pokemon/ability";
-import type { PokemonSpecies } from "../pokemon/pokemon";
+import type { PokemonSpecies } from "../pokemon/pokemon-species";
 import type { Type } from "../pokemon/type";
 import type { VersionGroup } from "./version";
 

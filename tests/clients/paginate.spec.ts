@@ -1,6 +1,13 @@
 import { BerryClient, MachineClient } from "@clients";
 import { BASE_URL } from "@constants";
-import type { APIResourceList, Berry, NamedAPIResource, NamedAPIResourceList } from "@models";
+import type {
+  APIResource,
+  APIResourceList,
+  Berry,
+  Machine,
+  NamedAPIResource,
+  NamedAPIResourceList,
+} from "@models";
 import { HttpResponse, http } from "msw/http";
 import { delay } from "msw/utils/delay";
 
@@ -270,5 +277,38 @@ describe("BaseClient.paginate", () => {
     controller.abort(new Error("caller went away"));
 
     await expect(walked).rejects.toThrow("caller went away");
+  });
+});
+
+describe("BaseClient.paginate types", () => {
+  const berries = new BerryClient();
+  const machines = new MachineClient();
+  // Thunks, never invoked: `expectTypeOf` evaluates whatever it is handed.
+  const walk = {
+    named: () => berries.paginate("listBerries"),
+    resolved: () => berries.paginate("listBerries", { resolve: true }),
+    unnamed: () => machines.paginate("listMachines"),
+    fn: () => berries.paginate((offset, limit) => berries.listBerries(offset, limit)),
+    resolvedFn: () =>
+      berries.paginate((offset, limit) => berries.listBerries(offset, limit), { resolve: true }),
+  };
+
+  it("should yield the links a named list method returns", () => {
+    expectTypeOf(walk.named).returns.toEqualTypeOf<AsyncGenerator<NamedAPIResource<Berry>>>();
+    expectTypeOf(walk.unnamed).returns.toEqualTypeOf<AsyncGenerator<APIResource<Machine>>>();
+  });
+
+  it("should yield resources when resolving", () => {
+    expectTypeOf(walk.resolved).returns.toEqualTypeOf<AsyncGenerator<Berry>>();
+    expectTypeOf(walk.resolvedFn).returns.toEqualTypeOf<AsyncGenerator<Berry>>();
+  });
+
+  it("should infer the entries of a list function", () => {
+    expectTypeOf(walk.fn).returns.toEqualTypeOf<AsyncGenerator<NamedAPIResource<Berry>>>();
+  });
+
+  it("should only accept the names of list methods", () => {
+    // @ts-expect-error -- `getBerryById` is not a list method.
+    expectTypeOf(() => berries.paginate("getBerryById")).toBeFunction();
   });
 });

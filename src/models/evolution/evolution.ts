@@ -5,7 +5,8 @@ import type { Location } from "../location/location";
 import type { Region } from "../location/region";
 import type { Move } from "../move/move";
 import type { Nature } from "../pokemon/nature";
-import type { PokemonForm, PokemonSpecies } from "../pokemon/pokemon";
+import type { PokemonForm } from "../pokemon/pokemon-form";
+import type { PokemonSpecies } from "../pokemon/pokemon-species";
 import type { Type } from "../pokemon/type";
 
 /**

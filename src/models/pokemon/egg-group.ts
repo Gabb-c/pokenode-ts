@@ -1,5 +1,5 @@
 import type { Name, NamedAPIResource } from "../common";
-import type { PokemonSpecies } from "./pokemon";
+import type { PokemonSpecies } from "./pokemon-species";
 
 /**
  * ## Egg Group

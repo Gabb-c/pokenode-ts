@@ -1,5 +1,5 @@
 import type { Description, NamedAPIResource } from "../common";
-import type { PokemonSpecies } from "./pokemon";
+import type { PokemonSpecies } from "./pokemon-species";
 
 /**
  * Levels and the amount of experience needed to attain them based on the given growth rate.
