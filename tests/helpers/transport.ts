@@ -37,7 +37,7 @@ export class RecordingStore implements CacheStore {
     this.async = options?.async ?? false;
   }
 
-  get(key: string): unknown | Promise<unknown> {
+  get(key: string): unknown {
     this.reads.push(key);
     const value = this.entries.get(key);
     return this.async ? Promise.resolve(value) : value;

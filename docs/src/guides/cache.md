@@ -40,7 +40,7 @@ return a promise, so remote backends work without an adapter:
 
 ```ts
 interface CacheStore {
-  get(key: string): unknown | Promise<unknown>;
+  get(key: string): unknown;
   set(key: string, value: unknown): void | Promise<void>;
   delete?(key: string): void | Promise<void>;
   clear?(): void | Promise<void>;

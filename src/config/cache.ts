@@ -14,7 +14,7 @@ const DEFAULT_MAX_ENTRIES = 500;
  * business.
  */
 export interface CacheStore {
-  get(key: string): unknown | Promise<unknown>;
+  get(key: string): unknown;
   set(key: string, value: unknown): void | Promise<void>;
   delete?(key: string): void | Promise<void>;
   clear?(): void | Promise<void>;
@@ -261,9 +261,8 @@ export class WebStorageCache implements CacheStore {
   }
 
   async clear(): Promise<void> {
-    for (const key of await this.ownKeys()) {
-      await this.remove(key);
-    }
+    const keys = await this.ownKeys();
+    await Promise.all(keys.map((key) => this.remove(key)));
   }
 
   private keyFor(key: string): string {
