@@ -308,19 +308,14 @@ export class WebStorageCache implements CacheStore {
     const now = Date.now();
     const expired = entries.filter(({ expiresAt }) => expiresAt === undefined || expiresAt <= now);
 
-    if (expired.length > 0) {
-      for (const { key } of expired) {
-        await this.remove(key);
-      }
+    let victims = expired;
 
-      return;
+    if (victims.length === 0) {
+      entries.sort((a, b) => (a.expiresAt ?? 0) - (b.expiresAt ?? 0));
+      victims = entries.slice(0, Math.ceil(entries.length / 4));
     }
 
-    const soonest = entries.sort((a, b) => (a.expiresAt ?? 0) - (b.expiresAt ?? 0));
-
-    for (const { key } of soonest.slice(0, Math.ceil(soonest.length / 4))) {
-      await this.remove(key);
-    }
+    await Promise.all(victims.map(({ key }) => this.remove(key)));
   }
 
   /**

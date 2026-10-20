@@ -67,5 +67,5 @@ export const expectEveryMethodCovered = <T>(
   );
   const tested = new Set(cases.map(([method]) => method));
 
-  expect([...tested].sort()).toEqual(declared.sort());
+  expect(tested).toEqual(new Set(declared));
 };

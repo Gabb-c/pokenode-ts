@@ -51,14 +51,14 @@ export class RecordingStore implements CacheStore {
 }
 
 /** Registers a handler for `url` and returns a counter of how often it ran. */
-export const countingHandler = (url: string, body: JsonBodyType = { id: 1 }) => {
+export const countingHandler = (url: string, body?: JsonBodyType) => {
   const calls = { count: 0, urls: [] as string[] };
 
   server.use(
     http.get(url, ({ request }) => {
       calls.count += 1;
       calls.urls.push(request.url);
-      return HttpResponse.json(body);
+      return HttpResponse.json(body ?? { id: 1 });
     }),
   );
 

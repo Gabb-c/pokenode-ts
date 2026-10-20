@@ -225,10 +225,11 @@ const MODELS_DIR = fileURLToPath(new URL("../../src/models", import.meta.url));
  * `NamedAPIResource<T = unknown>` is registered as `NamedAPIResource`, since the
  * argument says what a link points at and not what the response contains.
  */
-const DECLARATION = /^export (?:interface (\w+)(?:<[^>]*>)?\s*|type (\w+)(?:<[^>]*>)?\s*=\s*)\{$/;
+const INTERFACE_BODY = /^export interface (\w+)(?:<[^>]*>)? \{$/;
+const TYPE_BODY = /^export type (\w+)(?:<[^>]*>)? = \{$/;
 
 /** The start of a property at the top level of a declaration body. */
-const PROPERTY = /^ {2}"?([\w-]+)"?\??:\s*(.*)$/;
+const PROPERTY = /^ {2}"?([\w-]+)"?\??:(.*)$/;
 
 /**
  * A property whose type opens an object literal inline. The reader cannot tell
@@ -449,65 +450,81 @@ const declaredShapes = (): Map<string, Shape> => {
   const shapes = new Map<string, Shape>();
 
   for (const file of modelFiles(MODELS_DIR)) {
-    const lines = readFileSync(file, "utf8").split("\n");
-    let model: string | null = null;
-    let pending: { key: string; text: string } | null = null;
-
-    const finish = (): void => {
-      if (model === null || pending === null) return;
-
-      const shape = shapes.get(model);
-      const annotation = pending.text.replace(/;$/, "").trim();
-
-      shape?.keys.push(pending.key);
-      shape?.fields.push(parseAnnotation(model, pending.key, annotation));
-      pending = null;
-    };
-
-    for (const line of lines) {
-      const declaration = DECLARATION.exec(line);
-
-      if (declaration) {
-        model = declaration[1] ?? declaration[2] ?? null;
-
-        if (model !== null && shapes.has(model)) {
-          throw new Error(`Two models under src/models are both named ${model}`);
-        }
-
-        if (model !== null) shapes.set(model, { keys: [], fields: [] });
-        continue;
-      }
-
-      if (model === null) continue;
-
-      if (pending !== null) {
-        pending.text += ` ${line.trim()}`;
-        if (pending.text.endsWith(";")) finish();
-        continue;
-      }
-
-      if (line === "}") {
-        model = null;
-        continue;
-      }
-
-      if (INLINE_OBJECT.test(line)) {
-        throw new Error(
-          `${model} declares a property with an inline object type, which ` +
-            `tests/helpers/model-keys.ts cannot read. Give the type a name of its own.`,
-        );
-      }
-
-      const property = PROPERTY.exec(line);
-
-      if (property?.[1] === undefined) continue;
-
-      pending = { key: property[1], text: property[2] ?? "" };
-      if (pending.text.endsWith(";")) finish();
-    }
+    readShapes(readFileSync(file, "utf8"), shapes);
   }
 
   return shapes;
+};
+
+/** A property whose annotation has started but not yet reached its semicolon. */
+interface PendingField {
+  model: string;
+  key: string;
+  text: string;
+}
+
+/** Reads the declarations of one model file into `shapes`. */
+const readShapes = (source: string, shapes: Map<string, Shape>): void => {
+  let model: string | null = null;
+  let pending: PendingField | null = null;
+
+  for (const line of source.split("\n")) {
+    if (pending !== null) {
+      pending.text += ` ${line.trim()}`;
+    } else {
+      const declared = openModel(line, shapes);
+
+      if (declared !== null || line === "}") {
+        model = declared;
+      } else if (model !== null) {
+        pending = startField(model, line);
+      }
+    }
+
+    if (pending?.text.endsWith(";")) {
+      addField(shapes, pending);
+      pending = null;
+    }
+  }
+};
+
+/** Registers the model a line declares, or returns `null` when it declares none. */
+const openModel = (line: string, shapes: Map<string, Shape>): string | null => {
+  const model = (INTERFACE_BODY.exec(line) ?? TYPE_BODY.exec(line))?.[1];
+
+  if (model === undefined) return null;
+
+  if (shapes.has(model)) {
+    throw new Error(`Two models under src/models are both named ${model}`);
+  }
+
+  shapes.set(model, { keys: [], fields: [] });
+
+  return model;
+};
+
+/** The property a body line starts, or `null` when it starts none. */
+const startField = (model: string, line: string): PendingField | null => {
+  if (INLINE_OBJECT.test(line)) {
+    throw new Error(
+      `${model} declares a property with an inline object type, which ` +
+        `tests/helpers/model-keys.ts cannot read. Give the type a name of its own.`,
+    );
+  }
+
+  const property = PROPERTY.exec(line);
+
+  if (property?.[1] === undefined) return null;
+
+  return { model, key: property[1], text: property[2] ?? "" };
+};
+
+const addField = (shapes: Map<string, Shape>, { model, key, text }: PendingField): void => {
+  const shape = shapes.get(model);
+  const annotation = text.replace(/;$/, "").trim();
+
+  shape?.keys.push(key);
+  shape?.fields.push(parseAnnotation(model, key, annotation));
 };
 
 const SHAPES = declaredShapes();
