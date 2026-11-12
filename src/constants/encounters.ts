@@ -472,6 +472,8 @@ export const ENCOUNTER_CONDITION_VALUES = {
   TRADE_FORRETRESS: 359,
   TRADE_BONSLY: 360,
   TRADE_ANY_POKEMON: 361,
+  TRADE_BOLDORE: 362,
+  TRADE_CINCCINO: 363,
   /**
    * @deprecated Misspelled: the endpoint names this `other-snorlax-11-beat-league`.
    *   Use {@link ENCOUNTER_CONDITION_VALUES.OTHER_SNORLAX_11_BEAT_LEAGUE}. Removed in 3.0.
