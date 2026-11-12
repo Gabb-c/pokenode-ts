@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.1](https://github.com/Gabb-c/pokenode-ts/compare/v5.0.0...v5.0.1) (2026-11-12)
+
+
+### 🐛 Bug Fixes
+
+* **constants:** add trade-boldore and trade-cinccino encounter condition values ([#1438](https://github.com/Gabb-c/pokenode-ts/issues/1438)) ([9dbede1](https://github.com/Gabb-c/pokenode-ts/commit/9dbede180382bfa7ead67177c8d32ef48b8e99fa))
+
 ## [5.0.0](https://github.com/Gabb-c/pokenode-ts/compare/v4.0.0...v5.0.0) (2026-10-18)
 
 
