@@ -98,6 +98,7 @@ export interface GenerationVIIITypeSprites {
 
 /** Generation-IX type icons, by game. */
 export interface GenerationIXTypeSprites {
+  champions: TypeGameSprites;
   "scarlet-violet": TypeGameSprites;
 }
 
