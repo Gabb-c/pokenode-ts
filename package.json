@@ -1,6 +1,6 @@
 {
   "name": "pokenode-ts",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "private": false,
   "description": "A typed PokéAPI client with zero runtime dependencies.",
   "keywords": [
