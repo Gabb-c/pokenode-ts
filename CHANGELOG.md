@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.2](https://github.com/Gabb-c/pokenode-ts/compare/v5.0.1...v5.0.2) (2026-11-13)
+
+
+### 🐛 Bug Fixes
+
+* **models:** add champions to GenerationIXTypeSprites ([#1441](https://github.com/Gabb-c/pokenode-ts/issues/1441)) ([b716157](https://github.com/Gabb-c/pokenode-ts/commit/b716157e17dcdfea4348f7a7a8fcd89f7aded613))
+
 ## [5.0.1](https://github.com/Gabb-c/pokenode-ts/compare/v5.0.0...v5.0.1) (2026-11-12)
 
 
