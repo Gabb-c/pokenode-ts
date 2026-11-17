@@ -66,6 +66,7 @@ export const MOVE_LEARN_METHODS = {
   FORM_CHANGE: 10,
   ZYGARDE_CUBE: 11,
   TRAIN: 12,
+  REMINDER: 13,
 } as const;
 
 export const MOVE_TARGETS = {
