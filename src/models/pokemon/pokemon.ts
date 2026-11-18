@@ -172,6 +172,11 @@ export interface PokemonMoveVersion {
   /** The minimum level to learn the move. */
   level_learned_at: number;
   /**
+   * Enhancement level attached to the learn entry. `null` for most entries; a number on some
+   * Legends games (`legends-arceus`, `legends-za`) level-up entries.
+   */
+  enhancement_level: number | null;
+  /**
    * Order by which the Pokémon will learn the move. A newly learnt move replaces the move with
    * the lowest order.
    */
